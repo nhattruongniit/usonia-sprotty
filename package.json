@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "esbuild ./index.ts --bundle --sourcemap --outfile=./out/index.js"
+    "build": "esbuild ./src/index.ts --bundle --sourcemap --outfile=./build/index.js"
   },
   "keywords": [],
   "author": "",

@@ -3,8 +3,6 @@ import { svg } from 'sprotty/lib/lib/jsx';
 import { injectable } from 'inversify';
 import { VNode } from 'snabbdom';
 import { IView, RenderingContext } from 'sprotty';
-import { SNode } from "sprotty-protocol";
-import { TaskNode } from './models';
 
 @injectable()
 export class TaskNodeView implements IView {
