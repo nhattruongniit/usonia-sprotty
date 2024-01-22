@@ -1,5 +1,8 @@
 import { Container, ContainerModule } from 'inversify';
-import { configureModelElement, configureViewerOptions, loadDefaultModules, LocalModelSource, PolylineEdgeView, SEdgeImpl, SGraphImpl, SGraphView, SNodeImpl, TYPES } from 'sprotty';
+import { 
+    configureModelElement, configureViewerOptions, loadDefaultModules, LocalModelSource, 
+    PolylineEdgeView, SEdgeImpl, SGraphImpl, SGraphView, SNodeImpl, TYPES 
+} from 'sprotty';
 import { TaskNodeView } from './views';
 
 export const createContainer = (containerId: string) => {

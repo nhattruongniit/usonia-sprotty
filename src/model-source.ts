@@ -4,6 +4,10 @@ import { TaskNode } from "./models";
 export const graph: SGraph = {
     type: 'graph',
     id: 'graph',
+    layoutOptions: {
+        hGap: 50,
+        vGap: 50
+    },
     children: [
         <SNode & TaskNode>{
             type: 'task',
@@ -12,7 +16,8 @@ export const graph: SGraph = {
             isFinished: true,
             isRunning: false,
             position: { x: 0, y: 0 },
-            size: { width: 100, height: 100 }
+            size: { width: 100, height: 100 },
+           
         },
         <SNode & TaskNode>{
             type: 'task',
@@ -38,6 +43,14 @@ export const graph: SGraph = {
             sourceId: 'task01',
             targetId: 'task02',
             routerKind: 'manhattan',
+        },
+        <SEdge>{
+            type: 'edge',
+            id: 'edge02',
+            sourceId: 'task01',
+            targetId: 'task03',
+            routerKind: 'manhattan',
         }
-    ]
+    ],
+    
 };

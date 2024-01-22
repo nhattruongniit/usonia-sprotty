@@ -4,12 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "esbuild ./src/index.ts --bundle --sourcemap --outfile=./build/index.js"
+    "build": "esbuild ./src/index.ts --bundle --sourcemap --outfile=./build/index.js",
+    "build:classdiagram": "esbuild ./classdiagram/src/index.ts --bundle --sourcemap --outfile=./build/index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/node": "^20.11.5",
     "esbuild": "^0.19.11",
     "typescript": "^5.3.3"
   },
