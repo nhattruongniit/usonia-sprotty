@@ -8,8 +8,8 @@ import { IView, RenderingContext } from 'sprotty';
 export class TaskNodeView implements IView {
   render(node: any, context: RenderingContext): VNode {
     const position = 50;
-    console.log('context: ', context)
-    return <g>
+    return (
+      <g>
         <rect class-sprotty-node={true} class-task={true}
             class-running={node.isRunning}
             class-finished={node.isFinished}
@@ -17,7 +17,15 @@ export class TaskNodeView implements IView {
             height={node.size.height}
         >
         </rect>
-        <text x={position} y={position + 5}>{node.name}</text>
-    </g>;
+        <text x={position} y={position + 5}>
+          {node.name}
+        </text>
+        <text x={position} y={position + 25}>
+          ({node.position.x}, {node.position.y})
+        </text>
+
+        {context.renderChildren(node)}
+      </g>
+    )
   }
 }

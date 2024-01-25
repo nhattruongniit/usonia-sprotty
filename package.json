@@ -16,10 +16,12 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
+    "elkjs": "^0.9.1",
     "inversify": "^6.0.2",
     "reflect-metadata": "^0.2.1",
     "serve": "^14.2.1",
     "sprotty": "^1.1.0",
+    "sprotty-elk": "^1.1.0",
     "sprotty-protocol": "^1.1.0"
   }
 }
