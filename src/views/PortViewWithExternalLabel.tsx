@@ -9,7 +9,6 @@ import { ATTR_BBOX_ELEMENT, RenderingContext, setAttr, ShapeView, SPortImpl } fr
 @injectable()
 export class PortViewWithExternalLabel extends ShapeView {
     render(node: Readonly<SPortImpl>, context: RenderingContext): VNode | undefined {
-        console.log('PortViewWithExternalLabel: ', node)
         if (!this.isVisible(node, context)) {
             return undefined;
         }

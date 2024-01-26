@@ -1,12 +1,14 @@
 import { Container, ContainerModule } from 'inversify';
 import { 
     configureModelElement, configureViewerOptions, loadDefaultModules, LocalModelSource, 
-    SEdgeImpl, SGraphImpl, SGraphView, SNodeImpl, TYPES, SLabelView, SLabelImpl, SPortImpl, ConsoleLogger, LogLevel, UpdateModelCommand, edgeIntersectionModule, PolylineEdgeViewWithGapsOnIntersections
+    SEdgeImpl, SGraphImpl, SGraphView, SNodeImpl, TYPES, SLabelView, SLabelImpl, SPortImpl, ConsoleLogger, LogLevel,
+    edgeIntersectionModule,
+    selectFeature,
+    hoverFeedbackFeature
 } from 'sprotty';
 import ElkConstructor from 'elkjs/lib/elk.bundled';
 
-import {
-    DefaultLayoutConfigurator, ElkFactory, ElkLayoutEngine, elkLayoutModule, ILayoutConfigurator
+import { ElkFactory, ElkLayoutEngine, elkLayoutModule
 } from 'sprotty-elk/lib/inversify';
 
 // views
@@ -25,18 +27,18 @@ export const createContainer = (containerId: string) => {
         bind(TYPES.ModelSource).to(LocalModelSource).inSingletonScope();
         bind(TYPES.IModelLayoutEngine).toService(ElkLayoutEngine);
         bind(ElkFactory).toConstantValue(elkFactory);
-        // rebind(TYPES.ILogger).to(ConsoleLogger).inSingletonScope();
-        // rebind(TYPES.LogLevel).toConstantValue(LogLevel.log);
-        // rebind(UpdateModelCommand).to(TrackSelectedUpdateModelCommand);
 
         const context = { bind, unbind, isBound, rebind };
-        configureModelElement(container, 'graph', SGraphImpl, SGraphView);
-        configureModelElement(container, 'node', SNodeImpl, TaskNodeView);
-        configureModelElement(container, 'port', SPortImpl, PortViewWithExternalLabel);
-        configureModelElement(container, 'edge', SEdgeImpl, PolylineEdgeViewWithArrow);
+        configureModelElement(context, 'graph', SGraphImpl, SGraphView);
+        configureModelElement(context, 'node', SNodeImpl, TaskNodeView);
+        configureModelElement(context, 'port', SPortImpl, PortViewWithExternalLabel);
+        configureModelElement(context, 'edge', SEdgeImpl, PolylineEdgeViewWithArrow, {
+            enable: [selectFeature],
+            disable: [hoverFeedbackFeature]
+        });
 
-        configureModelElement(container, 'label:node', SLabelImpl, SLabelView);
-        configureModelElement(container, 'label:port', SLabelImpl, SLabelView);
+        configureModelElement(context, 'label:node', SLabelImpl, SLabelView);
+        configureModelElement(context, 'label:port', SLabelImpl, SLabelView);
 
         configureViewerOptions(context, {
             needsClientLayout: true,

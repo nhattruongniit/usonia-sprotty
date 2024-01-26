@@ -38,7 +38,7 @@ export const graph: any = {
             }
           ]
         },
-    ]
+      ]
     },
     {
       type: 'node',
@@ -51,26 +51,44 @@ export const graph: any = {
     },
     {
       type: 'node',
+      id: 'dummynode',
+      name: 'Dummy node',
+      isFinished: false,
+      isRunning: true,
+      position: { x: 0, y: 0 },
+      size: { width: 100, height: 100 }
+    },
+    {
+      type: 'node',
       id: 'node3',
       name: 'Node 3',
       isFinished: false,
       isRunning: false,
       position: { x: 150, y: 0 },
-      size: { width: 100, height: 100 }
+      size: { width: 100, height: 100 },
+      children: [
+        {
+          type: "port",
+          id: "port3-3",
+          size: {
+            width: 8,
+            height: 8
+          },
+          children: [
+            {
+              type: "label:port",
+              id: "port3-3-label",
+              text: "out3"
+            }
+          ]
+        },
+      ]
     },
     {
       type: 'edge',
       id: 'edge01',
       sourceId: 'port0-0',
-      targetId: 'port02',
-      routerKind: 'manhattan',
-    },
-    {
-      type: 'edge',
-      id: 'edge02',
-      sourceId: 'node1',
-      targetId: 'node3',
-      routerKind: 'manhattan',
+      targetId: 'port3-3',
     },
   ],
 };
