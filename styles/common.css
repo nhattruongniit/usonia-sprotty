@@ -1,3 +1,5 @@
+
+
 * {
   margin: 0;
   padding: 0;
@@ -5,12 +7,11 @@
 }
 
 body {
-  height: 99vh;
-  padding: 10px;
+  height: calc(100vh - 0px);
 }
 
 .sprotty {
-  height: 100%;
+  height: calc(100vh - 100px)
 }
 
 .sprotty-graph {
@@ -59,4 +60,27 @@ text {
 
 .sprotty-label.port {
   font-size: 0.8rem;
+}
+
+svg {
+  width: 100%;
+  height: 100%;
+}
+
+.loading {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: block;
+  border: 8px solid #ddf;
+  border-top: 8px solid #448;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
