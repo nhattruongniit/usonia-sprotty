@@ -4,7 +4,8 @@ import {
     SEdgeImpl, SGraphImpl, SGraphView, SNodeImpl, TYPES, SLabelView, SLabelImpl, SPortImpl, ConsoleLogger, LogLevel,
     edgeIntersectionModule,
     selectFeature,
-    hoverFeedbackFeature
+    hoverFeedbackFeature,
+    JumpingPolylineEdgeView
 } from 'sprotty';
 import ElkConstructor from 'elkjs/lib/elk.bundled';
 
@@ -32,10 +33,11 @@ export const createContainer = (containerId: string) => {
         configureModelElement(context, 'graph', SGraphImpl, SGraphView);
         configureModelElement(context, 'node', SNodeImpl, TaskNodeView);
         configureModelElement(context, 'port', SPortImpl, PortViewWithExternalLabel);
-        configureModelElement(context, 'edge', SEdgeImpl, PolylineEdgeViewWithArrow, {
-            enable: [selectFeature],
-            disable: [hoverFeedbackFeature]
-        });
+        // configureModelElement(context, 'edge', SEdgeImpl, PolylineEdgeViewWithArrow, {
+        //     enable: [selectFeature],
+        //     disable: [hoverFeedbackFeature]
+        // });
+        configureModelElement(context, 'edge:straight', SEdgeImpl, JumpingPolylineEdgeView);
 
         configureModelElement(context, 'label:node', SLabelImpl, SLabelView);
         configureModelElement(context, 'label:port', SLabelImpl, SLabelView);
