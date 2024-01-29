@@ -23,7 +23,8 @@ body {
   stroke: black;
   stroke-width: 1px;
 }
-.sprotty-node {
+
+/* .sprotty-node {
   fill: #c0e0fc;
   stroke: #444;
   stroke-width: 1;
@@ -35,7 +36,7 @@ body {
 
 .sprotty-node.finished {
   fill: #0f0;
-}
+} */
 
 text {
   stroke-width: 0;

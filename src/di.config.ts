@@ -25,8 +25,8 @@ export const createContainer = (containerId: string) => {
 
     const myModule = new ContainerModule((bind, unbind, isBound, rebind) => {
         bind(TYPES.ModelSource).to(LocalModelSource).inSingletonScope();
-        bind(TYPES.IModelLayoutEngine).toService(ElkLayoutEngine);
-        bind(ElkFactory).toConstantValue(elkFactory);
+        // bind(TYPES.IModelLayoutEngine).toService(ElkLayoutEngine);
+        // bind(ElkFactory).toConstantValue(elkFactory);
 
         const context = { bind, unbind, isBound, rebind };
         configureModelElement(context, 'graph', SGraphImpl, SGraphView);
@@ -48,9 +48,9 @@ export const createContainer = (containerId: string) => {
 
     const container = new Container();
     loadDefaultModules(container);
-    // container.load(myModule);
+    container.load(myModule);
 
-    container.load(edgeIntersectionModule);
-    container.load(elkLayoutModule, myModule);
+    // container.load(edgeIntersectionModule);
+    // container.load(elkLayoutModule, myModule);
     return container;
 };

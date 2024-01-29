@@ -10,16 +10,20 @@ export class TaskNodeView implements IView {
     const position = 50;
     return (
       <g>
-        <rect class-sprotty-node={true} class-task={true}
-            class-running={node.isRunning}
-            class-finished={node.isFinished}
-            width={node.size.width}
-            height={node.size.height}
-        >
-        </rect>
+        <rect 
+          class-sprotty-node={true} 
+          class-task={true}
+          // class-running={node.isRunning}
+          // class-finished={node.isFinished}
+          class-elknode={true}
+          width={node.size.width}
+          height={node.size.height}
+        />
+        
         <text x={position} y={position + 5}>
           {node.name}
         </text>
+
         <text x={position} y={position + 25}>
           ({node.position.x}, {node.position.y})
         </text>
