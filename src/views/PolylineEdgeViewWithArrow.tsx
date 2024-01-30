@@ -15,7 +15,6 @@ export class PolylineEdgeViewWithArrow extends PolylineEdgeView {
         console.log('PolylineEdgeViewWithArrow: ', edge)
       }
 
-
       return [
           <path class-arrowhead={true} 
             d="M 7,-3 L 0,0 L 7,3 Z"

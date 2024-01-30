@@ -10,19 +10,6 @@ body {
   height: calc(100vh - 0px);
 }
 
-.sprotty {
-  height: calc(100vh - 100px)
-}
-
-.sprotty-graph {
-  width: 100%;
-  height: 100%;
-}
-.sprotty-edge {
-  fill: none;
-  stroke: black;
-  stroke-width: 1px;
-}
 
 /* .sprotty-node {
   fill: #c0e0fc;
@@ -85,3 +72,4 @@ svg {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
