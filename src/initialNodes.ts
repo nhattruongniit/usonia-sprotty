@@ -19,7 +19,8 @@ export const initialNodes = [
     type: 'node', 
     name: 'Node Y',
     position: { x: 150, y: 0 }, 
-    size: { width: 100, height: 100 }
+    size: { width: 100, height: 100 },
+    children: []
   },
   // { 
   //   id: 'nodeZ', 

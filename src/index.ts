@@ -20,6 +20,7 @@ export default function run() {
   // variables
   let count: number = 2;
   let dummyCount: number = 1;
+  let dummyPortCount: number = 1;
 
   // elements
   const addNodeBtn = document.getElementById('add-node');
@@ -67,6 +68,7 @@ export default function run() {
       cssClasses: ["node"],
       position: { x: 0, y: 100 * (dummyCount - 1) },
       size: { width: 10, height: 10 },
+      children: [],
     }
     const newDummyEdge: any = {
       type: "edge:straight",
@@ -85,33 +87,39 @@ export default function run() {
     // how to detect which node is selected?
     const graph = modelSource.model;
     const selectedNode: any = await modelSource.getSelection();
+
+    if(!selectedNode[0]) return;
+
     const idPort = Math.floor(Math.random() * 100);
     const idNode = selectedNode[0].id;
 
     const newPort = {
-      id: `port-${idNode}-port${idPort}`,
+      id: `port-${idNode}-port${dummyPortCount}`,
       type: 'port:dummy',
-      position: { x: selectedNode[0].size.width + 10, y: selectedNode[0].size.height / 2},
+      // position: { x: selectedNode[0].size.width + 10, y: selectedNode[0].size.height / 2},
       size: { width: 10, height: 10   },
       cssClasses: ['port']
     }
+    dummyPortCount++;
 
-    const newEdge = {
-      type: "edge:straight",
-      id: `edge-${idNode}-port-${idNode}-port${idPort}`,
-      sourceId: 'portX',
-      targetId: `port-${idNode}-port${idPort}`,
-    }
+    // const newEdge = {
+    //   type: "edge:straight",
+    //   id: `edge-${idNode}-port-${idNode}-port${idPort}`,
+    //   sourceId: 'portX',
+    //   targetId: `port-${idNode}-port${idPort}`,
+    // }
     // modelSource.addElements([newPort]);
     const nodeItem = graph.children.find((item: any) => item.id === idNode);
     nodeItem.children.push(newPort);
 
-    graph.children.push(newEdge);
+    // graph.children.push(newEdge);
 
     // // how to update the model?
-    modelSource.setModel(graph);
-    // dispatcher.dispatch(SelectAction.create({ selectedElementsIDs: [newPort.id] }));
-    // focusGraph();
+    modelSource.updateModel(graph);
+    dispatcher.dispatch(SelectAction.create({ selectedElementsIDs: [newPort.id] }));
+    focusGraph();
+
+    console.log('addPortBtn graph: ', graph)
   })
 
   // show json

@@ -15,6 +15,7 @@ export function generateNodeItem(count: number): [INode] {
     cssClasses: ["node"],
     position: { x: 0, y: 100 * (count - 1) },
     size: { width: 100, height: 100 },
+    children: []
   }
   return [newNode];
 }

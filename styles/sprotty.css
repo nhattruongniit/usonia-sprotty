@@ -63,3 +63,7 @@
   stroke: black;
   stroke-width: 3px;
 }
+
+.dummy.selected {
+  stroke: #448;
+}

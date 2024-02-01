@@ -25,7 +25,7 @@ export class TaskNodeView implements IView {
         </text>
 
         <text x={position} y={position + 25}>
-          ({node.position.x}, {node.position.y})
+          ({Math.floor(node.position.x)}, {Math.floor(node.position.y)})
         </text>
 
         {context.renderChildren(node)}
