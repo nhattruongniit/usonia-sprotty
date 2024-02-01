@@ -1,131 +1,219 @@
 import "reflect-metadata";
-import { IActionDispatcher, LocalModelSource, TYPES } from 'sprotty';
-import { createContainer } from './di.config';
-// import { graph } from './model-source';
+import { LocalModelSource, TYPES } from "sprotty";
+import { createContainer } from "./di.config";
+import { graph } from "./model-source";
 
-// utils
-import { generateNodeItem } from "./utils/addNode";
-import { SGraph, SelectAction } from "sprotty-protocol";
-
-// mock data
-import { initialNodes } from "./initialNodes";
-
-function focusGraph(): void {
-  const graphElement = document.getElementById('graph');
-  if (graphElement !== null && typeof graphElement.focus === 'function')
-      graphElement.focus();
-}
-
+import addNode from "./util/addNode";
+import drawEdge from "./util/drawEdge";
 export default function run() {
-  // variables
-  let count: number = 2;
-  let dummyCount: number = 1;
-  let dummyPortCount: number = 1;
-
-  // elements
-  const addNodeBtn = document.getElementById('add-node');
-  const addPortBtn = document.getElementById('add-port');
-  const addDummyNodeBtn = document.getElementById('add-dummy-node');
-  const showJsonBtn = document.getElementById('show-json');
-  // const drawEdgeBtn = document.getElementById
+  const addNodeBtn = document.getElementById("add-node");
+  const drawEdgeBtn = document.getElementById("draw-edge");
+  const deleteEdgeBtn = document.getElementById("delete-edge");
+  const cancelBtn = document.getElementById("cancel");
+  const tipElement = document.querySelector(".tip-container");
 
   const container = createContainer("sprotty-container");
   const modelSource = container.get<LocalModelSource>(TYPES.ModelSource);
-  const dispatcher = container.get<IActionDispatcher>(TYPES.IActionDispatcher);
 
-  
-  const graph: SGraph = { 
-    id: 'graph',
-    type: 'graph', 
-    layoutOptions: { 'algorithm': 'layered' },
-    children: initialNodes,
-  };
-  
-  // Run
+  const defaultNodeWidth: number = 100;
+  const defaultNodeHeight: number = 100;
+
+  let dummyEdgeArray = [];
+  let dummyNodeArray = [];
+
+  let nodeNumber: number = 1;
+  let drawMode: boolean = false;
+  let dummyMode: boolean = false;
+
+  function cancelDrawMode() {
+    dummyMode = false;
+    addNodeBtn.removeAttribute("disabled");
+    drawEdgeBtn.classList.remove("btn-active");
+    deleteEdgeBtn.removeAttribute("disabled");
+    cancelBtn.classList.add("hide");
+    tipElement.classList.add("hide");
+    document.querySelectorAll(".sprotty-node").forEach((e) => {
+      (e as HTMLElement).removeAttribute("style");
+    });
+    modelSource.removeElements([
+      {
+        elementId: dummyNodeArray[0],
+        parentId: "graph",
+      },
+    ]);
+    modelSource.removeElements([
+      {
+        elementId: dummyEdgeArray[0],
+        parentId: "graph",
+      },
+    ]);
+    Array.from(document.getElementsByClassName("ready-draw")).forEach((e) => {
+      e.classList.remove("ready-draw");
+    });
+
+    dummyEdgeArray = [];
+    drawMode = false;
+  }
+
   modelSource.setModel(graph);
-
   // add node
-  addNodeBtn.addEventListener('click', function() {
-    const newElements = generateNodeItem(count);
-    count++;
+  addNodeBtn.addEventListener("click", () => {
+    addNode(modelSource, nodeNumber, defaultNodeWidth, defaultNodeHeight);
+    nodeNumber++;
+    setTimeout(() => {
+      document
+        .querySelectorAll(".node")
+        [nodeNumber - 2].addEventListener("click", (event) => {
+          if (drawMode && !dummyMode) {
+            if (event.target instanceof Element) {
+              dummyMode = true;
+              (event.target as HTMLElement).parentElement.classList.add(
+                "ready-draw"
+              );
+              const sourceId = event.target.parentElement.id.replace(
+                "sprotty-container_node-",
+                ""
+              );
 
-    console.log('addNodeBtn: ', newElements)
+              const transformAttribute =
+                event.target.parentElement.getAttribute("transform");
+              const coordinate = transformAttribute
+                ? transformAttribute
+                    .replace("translate(", "")
+                    .replace(")", "")
+                    .trim()
+                    .split(",")
+                : [0, 0];
 
-    modelSource.addElements(newElements);
-    dispatcher.dispatch(SelectAction.create({ selectedElementsIDs: newElements.map(e => e.id) }));
-    focusGraph();
-  })
+              if (dummyMode) {
+                addNode(
+                  modelSource,
+                  "dummy",
+                  10,
+                  10,
+                  Number(coordinate[0]) + defaultNodeWidth + 10,
+                  Number(coordinate[1]) + defaultNodeHeight / 2 - 5,
+                  "",
+                  ["nodes", "dummy"]
+                );
+                dummyNodeArray.push("node-dummy");
+                drawEdge(modelSource, sourceId, "dummy", ["dummy-edge"]);
+                dummyEdgeArray.push(
+                  `edge-between-node${sourceId}-to-nodedummy`
+                );
+              }
 
-  // add dummy node
-  addDummyNodeBtn.addEventListener('click', async () => {
-    const selectedNode: any = await modelSource.getSelection();
-    const idNodeSelected = selectedNode[0].id;
+              setTimeout(() => {
+                const dummyElement = document.getElementById(
+                  "sprotty-container_node-dummy"
+                );
 
-    const newDummyNode: any = {
-      type: "node:dummy",
-      id: `dummy-node${dummyCount}`,
-      selected: false,
-      cssClasses: ["node"],
-      position: { x: 0, y: 100 * (dummyCount - 1) },
-      size: { width: 10, height: 10 },
-      children: [],
+                dummyElement.addEventListener("mouseup", () => {
+                  const dummyCoordinate = dummyElement
+                    .getAttribute("transform")
+                    .replace("translate(", "")
+                    .replace(")", "")
+                    .trim()
+                    .split(",")
+                    .map((e) => {
+                      return Number(e);
+                    });
+
+                  const nodeElements = document.querySelectorAll(".node");
+                  let nodeElementsArr = [];
+                  nodeElements.forEach((node) => {
+                    nodeElementsArr.push({
+                      id: node.id,
+                      coordinate: node.getAttribute("transform")
+                        ? node
+                            .getAttribute("transform")
+                            .replace("translate(", "")
+                            .replace(")", "")
+                            .trim()
+                            .split(",")
+                            .map((e) => {
+                              return Number(e);
+                            })
+                        : [0, 0],
+                    });
+                  });
+
+                  const filteredNode = nodeElementsArr.filter((node) => {
+                    return (
+                      node.coordinate[0] <= dummyCoordinate[0] &&
+                      dummyCoordinate[0] <=
+                        node.coordinate[0] + defaultNodeWidth &&
+                      node.coordinate[1] <= dummyCoordinate[1] &&
+                      dummyCoordinate[1] <=
+                        node.coordinate[1] + defaultNodeHeight
+                    );
+                  });
+                  filteredNode.forEach((node) => {
+                    (
+                      document.getElementById(node.id) as HTMLElement
+                    ).classList.add("ready-draw");
+                    drawEdge(
+                      modelSource,
+                      sourceId,
+                      node.id.replace("sprotty-container_node-", "")
+                    );
+
+                    cancelDrawMode();
+                  });
+                });
+              }, 100);
+            } else {
+              return;
+            }
+            // if (drawModeCounter > 1) {
+            //   drawModeCounter = 0;
+            //   drawEdge(
+            //     modelSource,
+            //     drawModeSelectedArray[0],
+            //     drawModeSelectedArray[1]
+            //   );
+            //   document.querySelectorAll(".sprotty-node").forEach((e) => {
+            //     (e as HTMLElement).removeAttribute("style");
+            //   });
+            // }
+          }
+        });
+    }, 100);
+  });
+  // draw mode
+  drawEdgeBtn.addEventListener("click", () => {
+    if (drawMode === false) {
+      addNodeBtn.setAttribute("disabled", "");
+      drawEdgeBtn.classList.add("btn-active");
+      deleteEdgeBtn.setAttribute("disabled", "");
+      cancelBtn.classList.remove("hide");
+      drawMode = true;
+      tipElement.classList.remove("hide");
+    } else {
+      cancelDrawMode();
     }
-    const newDummyEdge: any = {
-      type: "edge:straight",
-      id: `edge-${idNodeSelected}-dummy-node${dummyCount}`,
-      sourceId: idNodeSelected,
-      targetId: `dummy-node${dummyCount}`,
+  });
+  // delete mode
+  deleteEdgeBtn.addEventListener("click", () => {
+    const edgeElements = document.querySelectorAll(".sprotty-edge");
+    const selectedEdgeElements = Array.from(edgeElements).filter((e) => {
+      return e.classList.contains("selected");
+    });
+    selectedEdgeElements.forEach((element) => {
+      modelSource.removeElements([
+        {
+          parentId: "graph",
+          elementId: element.id.replace("sprotty-container_", ""),
+        },
+      ]);
+    });
+  });
+  // cancel btn
+  cancelBtn.addEventListener("click", () => {
+    if (drawMode === true) {
+      cancelDrawMode();
     }
-    dummyCount++;
-
-    modelSource.addElements([newDummyNode, newDummyEdge]);
-    focusGraph();
-  })
-
-  // add port
-  addPortBtn.addEventListener('click', async function() {
-    // how to detect which node is selected?
-    const graph = modelSource.model;
-    const selectedNode: any = await modelSource.getSelection();
-
-    if(!selectedNode[0]) return;
-
-    const idPort = Math.floor(Math.random() * 100);
-    const idNode = selectedNode[0].id;
-
-    const newPort = {
-      id: `port-${idNode}-port${dummyPortCount}`,
-      type: 'port:dummy',
-      // position: { x: selectedNode[0].size.width + 10, y: selectedNode[0].size.height / 2},
-      size: { width: 10, height: 10   },
-      cssClasses: ['port']
-    }
-    dummyPortCount++;
-
-    // const newEdge = {
-    //   type: "edge:straight",
-    //   id: `edge-${idNode}-port-${idNode}-port${idPort}`,
-    //   sourceId: 'portX',
-    //   targetId: `port-${idNode}-port${idPort}`,
-    // }
-    // modelSource.addElements([newPort]);
-    const nodeItem = graph.children.find((item: any) => item.id === idNode);
-    nodeItem.children.push(newPort);
-
-    // graph.children.push(newEdge);
-
-    // // how to update the model?
-    modelSource.updateModel(graph);
-    dispatcher.dispatch(SelectAction.create({ selectedElementsIDs: [newPort.id] }));
-    focusGraph();
-
-    console.log('addPortBtn graph: ', graph)
-  })
-
-  // show json
-  showJsonBtn.addEventListener('click', function() {
-    console.log('showJsonBtn: ', modelSource.model)
-  })
+  });
 }
 
 document.addEventListener("DOMContentLoaded", () => run());

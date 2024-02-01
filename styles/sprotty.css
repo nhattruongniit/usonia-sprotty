@@ -1,20 +1,4 @@
-/********************************************************************************
- * Copyright (c) 2017-2018 TypeFox and others.
- *
- * This program and the accompanying materials are made available under the
- * terms of the Eclipse Public License v. 2.0 which is available at
- * http://www.eclipse.org/legal/epl-2.0.
- *
- * This Source Code may also be made available under the following Secondary
- * Licenses when the conditions for such availability set forth in the Eclipse
- * Public License v. 2.0 are satisfied: GNU General Public License, version 2
- * with the GNU Classpath Exception which is available at
- * https://www.gnu.org/software/classpath/license.html.
- *
- * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
- ********************************************************************************/
-
- .sprotty {
+.sprotty {
   padding: 0px;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
@@ -48,14 +32,23 @@
   fill: #000;
 }
 
-
 .sprotty {
-  height: calc(100vh - 100px)
+  height: calc(100vh - 100px);
 }
 
-.sprotty-graph {
-  width: 100%;
-  height: 100%;
+/* .sprotty-edge {
+  fill: none;
+  stroke: black;
+  stroke-width: 3px;
+} */
+
+.sprotty-graph,
+.sprotty {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  width: 80%;
+  height: 80vh;
 }
 
 .sprotty-edge {
@@ -64,6 +57,90 @@
   stroke-width: 3px;
 }
 
-.dummy.selected {
-  stroke: #448;
+.sprotty-edge.selected {
+  stroke: red;
+}
+
+.sprotty-node.task {
+  fill: #c0e0fc;
+  stroke: #444;
+  stroke-width: 1;
+}
+
+.dummy > .task {
+  fill: black;
+}
+
+.dummy-edge {
+  fill: none;
+  stroke: #333;
+  stroke-width: 2px;
+}
+
+.sprotty-node.task:hover {
+  opacity: 70%;
+}
+
+.ready-draw > .task {
+  fill: #0f0;
+}
+
+text {
+  stroke-width: 0;
+  stroke: #000;
+  fill: #000;
+  font-family: sans-serif;
+  font-size: 10pt;
+  text-anchor: middle;
+}
+
+.arrowhead {
+  fill: black;
+}
+
+.sprotty-port {
+  fill: #484;
+}
+
+.sprotty-label.node {
+  font-size: 1.2rem;
+}
+
+.sprotty-label.port {
+  font-size: 0.8rem;
+}
+
+svg {
+  width: 100%;
+  height: 100%;
+}
+
+.loading {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: block;
+  border: 8px solid #ddf;
+  border-top: 8px solid #448;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.mouseover {
+  stroke: #88f;
+}
+
+.selected > rect {
+  stroke-width: 3;
 }
