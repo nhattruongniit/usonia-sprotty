@@ -47,9 +47,11 @@
   display: flex;
   justify-content: center;
   margin: 0 auto;
-  width: 80%;
-  height: 80vh;
+  width: 100%;
+  height: calc(100vh - 100px);
 }
+
+
 
 .sprotty-edge {
   fill: none;
@@ -64,7 +66,6 @@
 .sprotty-node.task {
   fill: #c0e0fc;
   stroke: #444;
-  stroke-width: 1;
 }
 
 .dummy > .task {
@@ -143,4 +144,12 @@ svg {
 
 .selected > rect {
   stroke-width: 3;
+}
+
+.selected > rect {
+  stroke-width: 3;
+}
+
+.node.selected {
+  stroke: #448;
 }

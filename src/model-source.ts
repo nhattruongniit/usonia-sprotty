@@ -4,7 +4,7 @@ export const graph: any = {
   type: "graph",
   id: "graph",
   cssClasses: ["graph"],
-
+  layoutOptions: { 'algorithm': 'layered' },
   children: [
     { 
       id: 'node1', 
@@ -12,6 +12,7 @@ export const graph: any = {
       name: 'Node 1',
       position: { x: 0, y: 0 }, 
       size: { width: 100, height: 100 },
+      cssClasses: ['node'],
       children: [
         { 
           id: 'port1-node1', 
@@ -25,6 +26,7 @@ export const graph: any = {
       id: 'node2', 
       type: 'node', 
       name: 'Node 2',
+      cssClasses: ['node'],
       position: { x: 0, y: 100 }, 
       size: { width: 100, height: 100 },
       children: [
@@ -52,6 +54,7 @@ export const graph: any = {
       id: 'node3', 
       type: 'node', 
       name: 'Node 3',
+      cssClasses: ['node'],
       position: { x: 0, y: 200 }, 
       size: { width: 100, height: 100 },
       children: [
