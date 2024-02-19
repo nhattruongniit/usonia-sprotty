@@ -2,13 +2,13 @@
 import { svg } from "sprotty/lib/lib/jsx";
 import { injectable } from "inversify";
 import { VNode } from "snabbdom";
-import { IView, RenderingContext } from "sprotty";
+import { IView, RenderingContext, SNode } from "sprotty";
 
 import { TaskNode } from "../models";
 
 @injectable()
 export class TaskNodeView implements IView {
-  render(node:any, context: RenderingContext): VNode {
+  render(node: Readonly<SNode & TaskNode>, context: RenderingContext): VNode {
     const position = 50;
     return (
       <g>

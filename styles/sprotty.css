@@ -47,11 +47,9 @@
   display: flex;
   justify-content: center;
   margin: 0 auto;
-  width: 100%;
-  height: calc(100vh - 100px);
+  width: 80%;
+  height: 80vh;
 }
-
-
 
 .sprotty-edge {
   fill: none;
@@ -63,12 +61,13 @@
   stroke: red;
 }
 
-.sprotty-node.task {
+.sprotty-node {
   fill: #c0e0fc;
   stroke: #444;
+  stroke-width: 1;
 }
 
-.dummy > .task {
+.dummy .sprotty-node {
   fill: black;
 }
 
@@ -82,7 +81,7 @@
   opacity: 70%;
 }
 
-.ready-draw > .task {
+.ready-draw .sprotty-port {
   fill: #0f0;
 }
 
@@ -103,13 +102,13 @@ text {
   fill: #484;
 }
 
-.sprotty-label.node {
+/* .sprotty-label.node {
   font-size: 1.2rem;
-}
+} */
 
-.sprotty-label.port {
+/* .sprotty-label.port {
   font-size: 0.8rem;
-}
+} */
 
 svg {
   width: 100%;
@@ -144,12 +143,4 @@ svg {
 
 .selected > rect {
   stroke-width: 3;
-}
-
-.selected > rect {
-  stroke-width: 3;
-}
-
-.node.selected {
-  stroke: #448;
 }

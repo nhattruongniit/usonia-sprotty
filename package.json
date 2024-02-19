@@ -1,26 +1,13 @@
 {
-  "name": "usonia-sprotty",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
   "scripts": {
-    "build": "esbuild ./src/index.ts --bundle --sourcemap --outfile=./build/index.js"
+    "build": "esbuild ./index.ts --bundle --sourcemap --outfile=./out/index.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "devDependencies": {
-    "@types/node": "^20.11.5",
-    "esbuild": "^0.19.11",
-    "typescript": "^5.3.3"
+    "esbuild": "^0.17.8",
+    "typescript": "^4.9.5"
   },
   "dependencies": {
-    "elkjs": "^0.9.1",
-    "inversify": "^6.0.2",
-    "reflect-metadata": "^0.2.1",
-    "serve": "^14.2.1",
-    "sprotty": "^1.1.0",
-    "sprotty-elk": "^1.1.0",
-    "sprotty-protocol": "^1.1.0"
+    "reflect-metadata": "^0.1.13",
+    "sprotty": "^1.0.0"
   }
 }
