@@ -18,6 +18,7 @@ let addNode4Btn = null;
 let drawEdgeBtn = null;
 let cancelDrawEdgeBtn = null;
 let deleteBtn = null;
+let dummyNodeBtn = null;
 
 // count of nodes
 let node1Number = 1;
@@ -51,6 +52,7 @@ let drawMode = false;
 
 // source
 let sourceId = null;
+
 
 // cancel draw edge
 function cancelDrawEdge() {
@@ -156,6 +158,28 @@ export default function run() {
   drawEdgeBtn = document.getElementById('draw-edge');
   deleteBtn = document.getElementById('delete');
   cancelDrawEdgeBtn = document.getElementById('cancel-draw-edge');
+  dummyNodeBtn = document.getElementById('add-dummy-node');
+
+  dummyNodeBtn.addEventListener('addDummyNode', (e: any) => {
+    const x = e.detail.x;
+    const y = e.detail.y;
+    addNode({
+      source: modelSource,
+      nodeId: `dummy-${node1Number}`,
+      labelId: "dummy",
+      nodeWidth: 5,
+      nodeHeight: 5,
+      portWidth: 2,
+      portHeight: 2,
+      portQuantity: 1,
+      cssClasses: ["nodes", "dummy"],
+      name: '',
+      x: x,
+      y: y
+    });
+    node1Number++;
+    dummyNodeArray.push("node-dummy");
+  })
 
   // draw edge
   function drawLogic() {

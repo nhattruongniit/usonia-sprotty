@@ -20,6 +20,17 @@
     <button id="delete" class="btn btn-danger btn-sm">Delete</button>
     <button id="draw-edge" class="btn btn-info btn-sm">Draw Edge</button>
     <button id="cancel-draw-edge" class="btn btn-danger btn-sm hide">Cancel</button>
+    <button id="add-dummy-node" class="btn btn-primary btn-sm hide">Add Dummy Node</button>
+
+    <div draggable="true" style="height: 70px; width: 70px;">
+      <svg style="height: inherit; width:inherit">
+          <g transform="translate(2, 2)">
+              <circle class="sprotty-node" r="30" cx="30" cy="30"></circle>
+              <text x="30" y="37" class="sprotty-text">drag</text>
+          </g>
+      </svg>
+  </div>
+
   </div>
   <div class="tip-container hide">
     <!-- <div class="draw-tip">
@@ -31,4 +42,10 @@
   <div class="container-fluid px-2 py-2">
     <div id="sprotty-container"></div>
   </div>
+
+  <!-- <script type="text/javascript">
+      function dragstart(ev) {
+          ev.dataTransfer.setData("text/plain", ev.target.id);
+      }
+  </script> -->
 </body>

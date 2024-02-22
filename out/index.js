@@ -23245,7 +23245,9 @@
 
   // util/customEdge.ts
   var import_sprotty2 = __toESM(require_lib2());
+  var NodeCreator = Symbol("NodeCreator");
   var CustomMouseListener = class extends import_sprotty2.MouseListener {
+    // @inject(NodeCreator) nodeCreator: (point?: Point) => void;
     mouseUp(target, event) {
       if (target instanceof import_sprotty2.SRoutingHandleImpl) {
         if (!target.parent.targetId.includes("dummy")) {
@@ -23254,6 +23256,20 @@
           }, 100);
         }
       }
+      return [];
+    }
+    mouseDown(target, event) {
+      console.log("mouseDown", target);
+      return [];
+    }
+    dragOver(target, event) {
+      event.preventDefault();
+      return [];
+    }
+    drop(target, event) {
+      console.log("drop");
+      const customEvent = new CustomEvent("addDummyNode", { detail: { x: event.offsetX, y: event.offsetY } });
+      document.getElementById("add-dummy-node").dispatchEvent(customEvent);
       return [];
     }
   };
@@ -23428,6 +23444,7 @@
   var drawEdgeBtn = null;
   var cancelDrawEdgeBtn = null;
   var deleteBtn = null;
+  var dummyNodeBtn = null;
   var node1Number = 1;
   var node2Number = 1;
   var node3Number = 1;
@@ -23528,6 +23545,27 @@
     drawEdgeBtn = document.getElementById("draw-edge");
     deleteBtn = document.getElementById("delete");
     cancelDrawEdgeBtn = document.getElementById("cancel-draw-edge");
+    dummyNodeBtn = document.getElementById("add-dummy-node");
+    dummyNodeBtn.addEventListener("addDummyNode", (e) => {
+      const x = e.detail.x;
+      const y = e.detail.y;
+      addNode({
+        source: modelSource,
+        nodeId: `dummy-${node1Number}`,
+        labelId: "dummy",
+        nodeWidth: 5,
+        nodeHeight: 5,
+        portWidth: 2,
+        portHeight: 2,
+        portQuantity: 1,
+        cssClasses: ["nodes", "dummy"],
+        name: "",
+        x,
+        y
+      });
+      node1Number++;
+      dummyNodeArray.push("node-dummy");
+    });
     function drawLogic() {
       setTimeout(() => {
         document.querySelectorAll(".port").forEach((port) => {
