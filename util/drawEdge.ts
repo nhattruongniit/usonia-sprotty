@@ -1,12 +1,20 @@
 import { SEdge } from "sprotty-protocol";
 
-export default function drawEdge(
+type IProps = {
+  source: any;
+  edgeId: number;
+  sourceNumb: number;
+  targetNumb: string;
+  cssClasses?: string[];
+}
+
+export default function drawEdge({
   source,
   edgeId,
   sourceNumb,
   targetNumb,
   cssClasses = []
-) {
+}: IProps) {
   source.addElements([
     {
       parentId: "graph",

@@ -1,34 +1,15 @@
-import { Container, ContainerModule } from "inversify";
-import { CustomMouseListener } from "./util/customEdge";
+import { Container, ContainerModule } from 'inversify';
+import { BezierCurveEdgeView, configureModelElement, configureViewerOptions, loadDefaultModules, LocalModelSource, PolylineEdgeView, RectangularNodeView, SBezierControlHandleView, SBezierCreateHandleView, SEdgeImpl, SGraphImpl, SGraphView, SLabelImpl, SLabelView, SNodeImpl, SPortImpl, SRoutingHandleImpl, SRoutingHandleView, TYPES } from 'sprotty';
 
-import {
-  configureModelElement,
-  configureViewerOptions,
-  loadDefaultModules,
-  LocalModelSource,
-  PolylineEdgeView,
-  RectangularNodeView,
-  SEdgeImpl,
-  SGraphImpl,
-  SGraphView,
-  SNodeImpl,
-  TYPES,
-  SLabelView,
-  SRoutingHandleImpl,
-  SRoutingHandleView,
-  BezierCurveEdgeView,
-  SBezierControlHandleView,
-  SBezierCreateHandleView,
-  SPortImpl,
-  SLabelImpl,
-} from "sprotty";
-
-import { PortViewWithExternalLabel } from "./view/portView";
+import { PortViewWithExternalLabel } from './views/PortViewWithExternalLabel';
+import { CustomMouseListener } from './util/customEdge';
 
 export const createContainer = (containerId: string) => {
   const myModule = new ContainerModule((bind, unbind, isBound, rebind) => {
+    // mouse event
     bind(CustomMouseListener).toSelf().inSingletonScope();
     bind(TYPES.MouseListener).toService(CustomMouseListener);
+    
     bind(TYPES.ModelSource).to(LocalModelSource).inSingletonScope();
 
     const context = { bind, unbind, isBound, rebind };
@@ -87,7 +68,7 @@ export const createContainer = (containerId: string) => {
 
     configureViewerOptions(context, {
       needsClientLayout: false,
-      baseDiv: containerId,
+      baseDiv: containerId
     });
   });
 

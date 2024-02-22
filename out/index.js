@@ -5,15 +5,8 @@
   var __getOwnPropNames = Object.getOwnPropertyNames;
   var __getProtoOf = Object.getPrototypeOf;
   var __hasOwnProp = Object.prototype.hasOwnProperty;
-  var __esm = (fn, res) => function __init() {
-    return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
-  };
   var __commonJS = (cb, mod) => function __require() {
     return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
-  };
-  var __export = (target, all) => {
-    for (var name in all)
-      __defProp(target, name, { get: all[name], enumerable: true });
   };
   var __copyProps = (to, from, except, desc) => {
     if (from && typeof from === "object" || typeof from === "function") {
@@ -31,7 +24,6 @@
     isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
     mod
   ));
-  var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
   var __decorateClass = (decorators, target, key, kind) => {
     var result = kind > 1 ? void 0 : kind ? __getOwnPropDesc(target, key) : target;
     for (var i = decorators.length - 1, decorator; i >= 0; i--)
@@ -793,9 +785,9 @@
               keys[key] = true;
               return key;
             }
-            function GetOrCreateWeakMapTable(target, create2) {
+            function GetOrCreateWeakMapTable(target, create) {
               if (!hasOwn.call(target, rootKey)) {
-                if (!create2)
+                if (!create)
                   return void 0;
                 Object.defineProperty(target, rootKey, { value: HashMap.create() });
               }
@@ -4503,9 +4495,9 @@
       "use strict";
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.getFirstArrayDuplicate = void 0;
-      function getFirstArrayDuplicate(array2) {
+      function getFirstArrayDuplicate(array) {
         var seenValues = /* @__PURE__ */ new Set();
-        for (var _i = 0, array_1 = array2; _i < array_1.length; _i++) {
+        for (var _i = 0, array_1 = array; _i < array_1.length; _i++) {
           var entry = array_1[_i];
           if (seenValues.has(entry)) {
             return entry;
@@ -5352,7 +5344,7 @@
       var RejectAction;
       (function(RejectAction2) {
         RejectAction2.KIND = "rejectRequest";
-        function create2(options) {
+        function create(options) {
           return {
             kind: RejectAction2.KIND,
             message: options.message,
@@ -5360,36 +5352,36 @@
             responseId: options.requestId
           };
         }
-        RejectAction2.create = create2;
+        RejectAction2.create = create;
       })(RejectAction || (exports.RejectAction = RejectAction = {}));
       var RequestModelAction;
       (function(RequestModelAction2) {
         RequestModelAction2.KIND = "requestModel";
-        function create2(options) {
+        function create(options) {
           return {
             kind: RequestModelAction2.KIND,
             options,
             requestId: generateRequestId()
           };
         }
-        RequestModelAction2.create = create2;
+        RequestModelAction2.create = create;
       })(RequestModelAction || (exports.RequestModelAction = RequestModelAction = {}));
       var SetModelAction;
       (function(SetModelAction2) {
         SetModelAction2.KIND = "setModel";
-        function create2(newRoot, requestId = "") {
+        function create(newRoot, requestId = "") {
           return {
             kind: SetModelAction2.KIND,
             newRoot,
             responseId: requestId
           };
         }
-        SetModelAction2.create = create2;
+        SetModelAction2.create = create;
       })(SetModelAction || (exports.SetModelAction = SetModelAction = {}));
       var UpdateModelAction;
       (function(UpdateModelAction2) {
         UpdateModelAction2.KIND = "updateModel";
-        function create2(input, options = {}) {
+        function create(input, options = {}) {
           if (Array.isArray(input)) {
             return {
               kind: UpdateModelAction2.KIND,
@@ -5406,12 +5398,12 @@
             };
           }
         }
-        UpdateModelAction2.create = create2;
+        UpdateModelAction2.create = create;
       })(UpdateModelAction || (exports.UpdateModelAction = UpdateModelAction = {}));
       var RequestPopupModelAction;
       (function(RequestPopupModelAction2) {
         RequestPopupModelAction2.KIND = "requestPopupModel";
-        function create2(options) {
+        function create(options) {
           return {
             kind: RequestPopupModelAction2.KIND,
             elementId: options.elementId,
@@ -5419,47 +5411,47 @@
             requestId: generateRequestId()
           };
         }
-        RequestPopupModelAction2.create = create2;
+        RequestPopupModelAction2.create = create;
       })(RequestPopupModelAction || (exports.RequestPopupModelAction = RequestPopupModelAction = {}));
       var SetPopupModelAction;
       (function(SetPopupModelAction2) {
         SetPopupModelAction2.KIND = "setPopupModel";
-        function create2(newRoot, requestId = "") {
+        function create(newRoot, requestId = "") {
           return {
             kind: SetPopupModelAction2.KIND,
             newRoot,
             responseId: requestId
           };
         }
-        SetPopupModelAction2.create = create2;
+        SetPopupModelAction2.create = create;
       })(SetPopupModelAction || (exports.SetPopupModelAction = SetPopupModelAction = {}));
       var SetBoundsAction;
       (function(SetBoundsAction2) {
         SetBoundsAction2.KIND = "setBounds";
-        function create2(bounds) {
+        function create(bounds) {
           return {
             kind: SetBoundsAction2.KIND,
             bounds
           };
         }
-        SetBoundsAction2.create = create2;
+        SetBoundsAction2.create = create;
       })(SetBoundsAction || (exports.SetBoundsAction = SetBoundsAction = {}));
       var RequestBoundsAction;
       (function(RequestBoundsAction2) {
         RequestBoundsAction2.KIND = "requestBounds";
-        function create2(newRoot) {
+        function create(newRoot) {
           return {
             kind: RequestBoundsAction2.KIND,
             newRoot,
             requestId: generateRequestId()
           };
         }
-        RequestBoundsAction2.create = create2;
+        RequestBoundsAction2.create = create;
       })(RequestBoundsAction || (exports.RequestBoundsAction = RequestBoundsAction = {}));
       var ComputedBoundsAction;
       (function(ComputedBoundsAction2) {
         ComputedBoundsAction2.KIND = "computedBounds";
-        function create2(bounds, options = {}) {
+        function create(bounds, options = {}) {
           var _a;
           return {
             kind: ComputedBoundsAction2.KIND,
@@ -5469,20 +5461,20 @@
             responseId: (_a = options.requestId) !== null && _a !== void 0 ? _a : ""
           };
         }
-        ComputedBoundsAction2.create = create2;
+        ComputedBoundsAction2.create = create;
       })(ComputedBoundsAction || (exports.ComputedBoundsAction = ComputedBoundsAction = {}));
       var LoggingAction;
       (function(LoggingAction2) {
         LoggingAction2.KIND = "logging";
-        function create2(options) {
+        function create(options) {
           return Object.assign({ kind: LoggingAction2.KIND }, options);
         }
-        LoggingAction2.create = create2;
+        LoggingAction2.create = create;
       })(LoggingAction || (exports.LoggingAction = LoggingAction = {}));
       var SelectAction;
       (function(SelectAction2) {
         SelectAction2.KIND = "elementSelected";
-        function create2(options) {
+        function create(options) {
           var _a, _b;
           return {
             kind: SelectAction2.KIND,
@@ -5490,47 +5482,47 @@
             deselectedElementsIDs: (_b = options.deselectedElementsIDs) !== null && _b !== void 0 ? _b : []
           };
         }
-        SelectAction2.create = create2;
+        SelectAction2.create = create;
       })(SelectAction || (exports.SelectAction = SelectAction = {}));
       var SelectAllAction;
       (function(SelectAllAction2) {
         SelectAllAction2.KIND = "allSelected";
-        function create2(options = {}) {
+        function create(options = {}) {
           var _a;
           return {
             kind: SelectAllAction2.KIND,
             select: (_a = options.select) !== null && _a !== void 0 ? _a : true
           };
         }
-        SelectAllAction2.create = create2;
+        SelectAllAction2.create = create;
       })(SelectAllAction || (exports.SelectAllAction = SelectAllAction = {}));
       var GetSelectionAction;
       (function(GetSelectionAction2) {
         GetSelectionAction2.KIND = "getSelection";
-        function create2() {
+        function create() {
           return {
             kind: GetSelectionAction2.KIND,
             requestId: generateRequestId()
           };
         }
-        GetSelectionAction2.create = create2;
+        GetSelectionAction2.create = create;
       })(GetSelectionAction || (exports.GetSelectionAction = GetSelectionAction = {}));
       var SelectionResult;
       (function(SelectionResult2) {
         SelectionResult2.KIND = "selectionResult";
-        function create2(selectedElementsIDs, requestId) {
+        function create(selectedElementsIDs, requestId) {
           return {
             kind: SelectionResult2.KIND,
             selectedElementsIDs,
             responseId: requestId
           };
         }
-        SelectionResult2.create = create2;
+        SelectionResult2.create = create;
       })(SelectionResult || (exports.SelectionResult = SelectionResult = {}));
       var CollapseExpandAction;
       (function(CollapseExpandAction2) {
         CollapseExpandAction2.KIND = "collapseExpand";
-        function create2(options) {
+        function create(options) {
           var _a, _b;
           return {
             kind: CollapseExpandAction2.KIND,
@@ -5538,47 +5530,47 @@
             collapseIds: (_b = options.collapseIds) !== null && _b !== void 0 ? _b : []
           };
         }
-        CollapseExpandAction2.create = create2;
+        CollapseExpandAction2.create = create;
       })(CollapseExpandAction || (exports.CollapseExpandAction = CollapseExpandAction = {}));
       var CollapseExpandAllAction;
       (function(CollapseExpandAllAction2) {
         CollapseExpandAllAction2.KIND = "collapseExpandAll";
-        function create2(options = {}) {
+        function create(options = {}) {
           var _a;
           return {
             kind: CollapseExpandAllAction2.KIND,
             expand: (_a = options.expand) !== null && _a !== void 0 ? _a : true
           };
         }
-        CollapseExpandAllAction2.create = create2;
+        CollapseExpandAllAction2.create = create;
       })(CollapseExpandAllAction || (exports.CollapseExpandAllAction = CollapseExpandAllAction = {}));
       var OpenAction;
       (function(OpenAction2) {
         OpenAction2.KIND = "open";
-        function create2(elementId) {
+        function create(elementId) {
           return {
             kind: OpenAction2.KIND,
             elementId
           };
         }
-        OpenAction2.create = create2;
+        OpenAction2.create = create;
       })(OpenAction || (exports.OpenAction = OpenAction = {}));
       var LayoutAction;
       (function(LayoutAction2) {
         LayoutAction2.KIND = "layout";
-        function create2(options = {}) {
+        function create(options = {}) {
           return {
             kind: LayoutAction2.KIND,
             layoutType: options.layoutType,
             elementIds: options.elementIds
           };
         }
-        LayoutAction2.create = create2;
+        LayoutAction2.create = create;
       })(LayoutAction || (exports.LayoutAction = LayoutAction = {}));
       var CenterAction;
       (function(CenterAction2) {
         CenterAction2.KIND = "center";
-        function create2(elementIds, options = {}) {
+        function create(elementIds, options = {}) {
           var _a, _b;
           return {
             kind: CenterAction2.KIND,
@@ -5588,12 +5580,12 @@
             zoomScale: options.zoomScale
           };
         }
-        CenterAction2.create = create2;
+        CenterAction2.create = create;
       })(CenterAction || (exports.CenterAction = CenterAction = {}));
       var FitToScreenAction;
       (function(FitToScreenAction2) {
         FitToScreenAction2.KIND = "fit";
-        function create2(elementIds, options = {}) {
+        function create(elementIds, options = {}) {
           var _a;
           return {
             kind: FitToScreenAction2.KIND,
@@ -5603,12 +5595,12 @@
             animate: (_a = options.animate) !== null && _a !== void 0 ? _a : true
           };
         }
-        FitToScreenAction2.create = create2;
+        FitToScreenAction2.create = create;
       })(FitToScreenAction || (exports.FitToScreenAction = FitToScreenAction = {}));
       var SetViewportAction;
       (function(SetViewportAction2) {
         SetViewportAction2.KIND = "viewport";
-        function create2(elementId, newViewport, options = {}) {
+        function create(elementId, newViewport, options = {}) {
           var _a;
           return {
             kind: SetViewportAction2.KIND,
@@ -5617,23 +5609,23 @@
             animate: (_a = options.animate) !== null && _a !== void 0 ? _a : true
           };
         }
-        SetViewportAction2.create = create2;
+        SetViewportAction2.create = create;
       })(SetViewportAction || (exports.SetViewportAction = SetViewportAction = {}));
       var GetViewportAction;
       (function(GetViewportAction2) {
         GetViewportAction2.KIND = "getViewport";
-        function create2() {
+        function create() {
           return {
             kind: GetViewportAction2.KIND,
             requestId: generateRequestId()
           };
         }
-        GetViewportAction2.create = create2;
+        GetViewportAction2.create = create;
       })(GetViewportAction || (exports.GetViewportAction = GetViewportAction = {}));
       var ViewportResult;
       (function(ViewportResult2) {
         ViewportResult2.KIND = "viewportResult";
-        function create2(viewport, canvasBounds, requestId) {
+        function create(viewport, canvasBounds, requestId) {
           return {
             kind: ViewportResult2.KIND,
             viewport,
@@ -5641,43 +5633,43 @@
             responseId: requestId
           };
         }
-        ViewportResult2.create = create2;
+        ViewportResult2.create = create;
       })(ViewportResult || (exports.ViewportResult = ViewportResult = {}));
       var BringToFrontAction;
       (function(BringToFrontAction2) {
         BringToFrontAction2.KIND = "bringToFront";
-        function create2(elementIDs) {
+        function create(elementIDs) {
           return {
             kind: BringToFrontAction2.KIND,
             elementIDs
           };
         }
-        BringToFrontAction2.create = create2;
+        BringToFrontAction2.create = create;
       })(BringToFrontAction || (exports.BringToFrontAction = BringToFrontAction = {}));
       var UndoAction;
       (function(UndoAction2) {
         UndoAction2.KIND = "undo";
-        function create2() {
+        function create() {
           return {
             kind: UndoAction2.KIND
           };
         }
-        UndoAction2.create = create2;
+        UndoAction2.create = create;
       })(UndoAction || (exports.UndoAction = UndoAction = {}));
       var RedoAction;
       (function(RedoAction2) {
         RedoAction2.KIND = "redo";
-        function create2() {
+        function create() {
           return {
             kind: RedoAction2.KIND
           };
         }
-        RedoAction2.create = create2;
+        RedoAction2.create = create;
       })(RedoAction || (exports.RedoAction = RedoAction = {}));
       var MoveAction;
       (function(MoveAction2) {
         MoveAction2.KIND = "move";
-        function create2(moves, options = {}) {
+        function create(moves, options = {}) {
           var _a, _b;
           return {
             kind: MoveAction2.KIND,
@@ -5686,59 +5678,59 @@
             finished: (_b = options.finished) !== null && _b !== void 0 ? _b : false
           };
         }
-        MoveAction2.create = create2;
+        MoveAction2.create = create;
       })(MoveAction || (exports.MoveAction = MoveAction = {}));
       var HoverFeedbackAction;
       (function(HoverFeedbackAction2) {
         HoverFeedbackAction2.KIND = "hoverFeedback";
-        function create2(options) {
+        function create(options) {
           return {
             kind: HoverFeedbackAction2.KIND,
             mouseoverElement: options.mouseoverElement,
             mouseIsOver: options.mouseIsOver
           };
         }
-        HoverFeedbackAction2.create = create2;
+        HoverFeedbackAction2.create = create;
       })(HoverFeedbackAction || (exports.HoverFeedbackAction = HoverFeedbackAction = {}));
       var CreateElementAction;
       (function(CreateElementAction2) {
         CreateElementAction2.KIND = "createElement";
-        function create2(elementSchema, options) {
+        function create(elementSchema, options) {
           return {
             kind: CreateElementAction2.KIND,
             elementSchema,
             containerId: options.containerId
           };
         }
-        CreateElementAction2.create = create2;
+        CreateElementAction2.create = create;
       })(CreateElementAction || (exports.CreateElementAction = CreateElementAction = {}));
       var DeleteElementAction;
       (function(DeleteElementAction2) {
         DeleteElementAction2.KIND = "delete";
-        function create2(elementIds) {
+        function create(elementIds) {
           return {
             kind: DeleteElementAction2.KIND,
             elementIds
           };
         }
-        DeleteElementAction2.create = create2;
+        DeleteElementAction2.create = create;
       })(DeleteElementAction || (exports.DeleteElementAction = DeleteElementAction = {}));
       var ApplyLabelEditAction;
       (function(ApplyLabelEditAction2) {
         ApplyLabelEditAction2.KIND = "applyLabelEdit";
-        function create2(labelId, text) {
+        function create(labelId, text) {
           return {
             kind: ApplyLabelEditAction2.KIND,
             labelId,
             text
           };
         }
-        ApplyLabelEditAction2.create = create2;
+        ApplyLabelEditAction2.create = create;
       })(ApplyLabelEditAction || (exports.ApplyLabelEditAction = ApplyLabelEditAction = {}));
       var ReconnectAction;
       (function(ReconnectAction2) {
         ReconnectAction2.KIND = "reconnect";
-        function create2(options) {
+        function create(options) {
           return {
             kind: ReconnectAction2.KIND,
             routableId: options.routableId,
@@ -5746,7 +5738,7 @@
             newTargetId: options.newTargetId
           };
         }
-        ReconnectAction2.create = create2;
+        ReconnectAction2.create = create;
       })(ReconnectAction || (exports.ReconnectAction = ReconnectAction = {}));
     }
   });
@@ -6281,8 +6273,8 @@
         return { next: () => exports.DONE_RESULT };
       }
       var ArrayIterator = class {
-        constructor(array2) {
-          this.array = array2;
+        constructor(array) {
+          this.array = array;
           this.index = 0;
         }
         next() {
@@ -7889,9 +7881,9 @@
           if (handlers && handlers.length === 1) {
             return (_b = handlers[0](action, this.state, this)) !== null && _b !== void 0 ? _b : Promise.resolve();
           } else if (handlers && handlers.length > 1) {
-            return Promise.all(handlers.map((h2) => {
+            return Promise.all(handlers.map((h) => {
               var _a2;
-              return (_a2 = h2(action, this.state, this)) !== null && _a2 !== void 0 ? _a2 : Promise.resolve();
+              return (_a2 = h(action, this.state, this)) !== null && _a2 !== void 0 ? _a2 : Promise.resolve();
             }));
           }
           switch (action.kind) {
@@ -8142,11 +8134,11 @@
       var command_1 = require_command();
       var browser_1 = require_browser();
       var CanvasBoundsInitializer = class CanvasBoundsInitializer {
-        decorate(vnode2, element) {
+        decorate(vnode, element) {
           if (element instanceof smodel_1.SModelRootImpl && !geometry_1.Dimension.isValid(element.canvasBounds)) {
-            this.rootAndVnode = [element, vnode2];
+            this.rootAndVnode = [element, vnode];
           }
-          return vnode2;
+          return vnode;
         }
         postUpdate() {
           if (this.rootAndVnode !== void 0) {
@@ -8182,13 +8174,13 @@
       var InitializeCanvasBoundsAction;
       (function(InitializeCanvasBoundsAction2) {
         InitializeCanvasBoundsAction2.KIND = "initializeCanvasBounds";
-        function create2(newCanvasBounds) {
+        function create(newCanvasBounds) {
           return {
             kind: InitializeCanvasBoundsAction2.KIND,
             newCanvasBounds
           };
         }
-        InitializeCanvasBoundsAction2.create = create2;
+        InitializeCanvasBoundsAction2.create = create;
       })(InitializeCanvasBoundsAction || (exports.InitializeCanvasBoundsAction = InitializeCanvasBoundsAction = {}));
       var InitializeCanvasBoundsCommand = class InitializeCanvasBoundsCommand extends command_1.SystemCommand {
         constructor(action) {
@@ -8414,7 +8406,7 @@
       var SetUIExtensionVisibilityAction;
       (function(SetUIExtensionVisibilityAction2) {
         SetUIExtensionVisibilityAction2.KIND = "setUIExtensionVisibility";
-        function create2(options) {
+        function create(options) {
           var _a;
           return {
             kind: SetUIExtensionVisibilityAction2.KIND,
@@ -8423,7 +8415,7 @@
             contextElementsId: (_a = options.contextElementsId) !== null && _a !== void 0 ? _a : []
           };
         }
-        SetUIExtensionVisibilityAction2.create = create2;
+        SetUIExtensionVisibilityAction2.create = create;
       })(SetUIExtensionVisibilityAction || (exports.SetUIExtensionVisibilityAction = SetUIExtensionVisibilityAction = {}));
       var SetUIExtensionVisibilityCommand = class SetUIExtensionVisibilityCommand extends command_1.SystemCommand {
         constructor(action) {
@@ -8570,12 +8562,12 @@
       "use strict";
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.getAttrs = exports.on = exports.mergeStyle = exports.copyClassesFromElement = exports.copyClassesFromVNode = exports.setNamespace = exports.setClass = exports.setAttr = void 0;
-      function setAttr2(vnode2, name, value) {
-        getAttrs(vnode2)[name] = value;
+      function setAttr2(vnode, name, value) {
+        getAttrs(vnode)[name] = value;
       }
       exports.setAttr = setAttr2;
-      function setClass(vnode2, name, value) {
-        getClass(vnode2)[name] = value;
+      function setClass(vnode, name, value) {
+        getClass(vnode)[name] = value;
       }
       exports.setClass = setClass;
       function setNamespace(node, ns) {
@@ -8606,38 +8598,38 @@
         }
       }
       exports.copyClassesFromElement = copyClassesFromElement;
-      function mergeStyle(vnode2, style) {
-        getData(vnode2).style = Object.assign(Object.assign({}, getData(vnode2).style || {}), style);
+      function mergeStyle(vnode, style) {
+        getData(vnode).style = Object.assign(Object.assign({}, getData(vnode).style || {}), style);
       }
       exports.mergeStyle = mergeStyle;
-      function on(vnode2, event, listener) {
-        const val = getOn(vnode2);
+      function on(vnode, event, listener) {
+        const val = getOn(vnode);
         if (val[event]) {
           throw new Error("EventListener for " + event + " already registered on VNode");
         }
         val[event] = listener;
       }
       exports.on = on;
-      function getAttrs(vnode2) {
-        const data = getData(vnode2);
+      function getAttrs(vnode) {
+        const data = getData(vnode);
         if (!data.attrs)
           data.attrs = {};
         return data.attrs;
       }
       exports.getAttrs = getAttrs;
-      function getData(vnode2) {
-        if (!vnode2.data)
-          vnode2.data = {};
-        return vnode2.data;
+      function getData(vnode) {
+        if (!vnode.data)
+          vnode.data = {};
+        return vnode.data;
       }
-      function getClass(vnode2) {
-        const data = getData(vnode2);
+      function getClass(vnode) {
+        const data = getData(vnode);
         if (!data.class)
           data.class = {};
         return data.class;
       }
-      function getOn(vnode2) {
-        const data = getData(vnode2);
+      function getOn(vnode) {
+        const data = getData(vnode);
         if (!data.on)
           data.on = {};
         return data.on;
@@ -8701,13 +8693,13 @@
         }
         focus() {
         }
-        decorate(vnode2, element) {
+        decorate(vnode, element) {
           if (element instanceof smodel_1.SModelRootImpl) {
-            (0, vnode_utils_1.on)(vnode2, "focus", this.focus.bind(this, element));
-            (0, vnode_utils_1.on)(vnode2, "keydown", this.keyDown.bind(this, element));
-            (0, vnode_utils_1.on)(vnode2, "keyup", this.keyUp.bind(this, element));
+            (0, vnode_utils_1.on)(vnode, "focus", this.focus.bind(this, element));
+            (0, vnode_utils_1.on)(vnode, "keydown", this.keyDown.bind(this, element));
+            (0, vnode_utils_1.on)(vnode, "keyup", this.keyUp.bind(this, element));
           }
-          return vnode2;
+          return vnode;
         }
         postUpdate() {
         }
@@ -8896,23 +8888,23 @@
         doubleClick(model, event) {
           this.handleEvent("doubleClick", model, event);
         }
-        decorate(vnode2, element) {
+        decorate(vnode, element) {
           if (element instanceof smodel_1.SModelRootImpl) {
-            (0, vnode_utils_1.on)(vnode2, "mouseover", this.mouseOver.bind(this, element));
-            (0, vnode_utils_1.on)(vnode2, "mouseout", this.mouseOut.bind(this, element));
-            (0, vnode_utils_1.on)(vnode2, "mouseenter", this.mouseEnter.bind(this, element));
-            (0, vnode_utils_1.on)(vnode2, "mouseleave", this.mouseLeave.bind(this, element));
-            (0, vnode_utils_1.on)(vnode2, "mousedown", this.mouseDown.bind(this, element));
-            (0, vnode_utils_1.on)(vnode2, "mouseup", this.mouseUp.bind(this, element));
-            (0, vnode_utils_1.on)(vnode2, "mousemove", this.mouseMove.bind(this, element));
-            (0, vnode_utils_1.on)(vnode2, "wheel", this.wheel.bind(this, element));
-            (0, vnode_utils_1.on)(vnode2, "contextmenu", this.contextMenu.bind(this, element));
-            (0, vnode_utils_1.on)(vnode2, "dblclick", this.doubleClick.bind(this, element));
-            (0, vnode_utils_1.on)(vnode2, "dragover", (event) => this.handleEvent("dragOver", element, event));
-            (0, vnode_utils_1.on)(vnode2, "drop", (event) => this.handleEvent("drop", element, event));
+            (0, vnode_utils_1.on)(vnode, "mouseover", this.mouseOver.bind(this, element));
+            (0, vnode_utils_1.on)(vnode, "mouseout", this.mouseOut.bind(this, element));
+            (0, vnode_utils_1.on)(vnode, "mouseenter", this.mouseEnter.bind(this, element));
+            (0, vnode_utils_1.on)(vnode, "mouseleave", this.mouseLeave.bind(this, element));
+            (0, vnode_utils_1.on)(vnode, "mousedown", this.mouseDown.bind(this, element));
+            (0, vnode_utils_1.on)(vnode, "mouseup", this.mouseUp.bind(this, element));
+            (0, vnode_utils_1.on)(vnode, "mousemove", this.mouseMove.bind(this, element));
+            (0, vnode_utils_1.on)(vnode, "wheel", this.wheel.bind(this, element));
+            (0, vnode_utils_1.on)(vnode, "contextmenu", this.contextMenu.bind(this, element));
+            (0, vnode_utils_1.on)(vnode, "dblclick", this.doubleClick.bind(this, element));
+            (0, vnode_utils_1.on)(vnode, "dragover", (event) => this.handleEvent("dragOver", element, event));
+            (0, vnode_utils_1.on)(vnode, "drop", (event) => this.handleEvent("drop", element, event));
           }
-          vnode2 = this.mouseListeners.reduce((n, listener) => listener.decorate(n, element), vnode2);
-          return vnode2;
+          vnode = this.mouseListeners.reduce((n, listener) => listener.decorate(n, element), vnode);
+          return vnode;
         }
         postUpdate() {
         }
@@ -8982,8 +8974,8 @@
         drop(target, event) {
           return [];
         }
-        decorate(vnode2, element) {
-          return vnode2;
+        decorate(vnode, element) {
+          return vnode;
         }
       };
       exports.MouseListener = MouseListener2;
@@ -9010,105 +9002,106 @@
     }
   });
 
-  // node_modules/snabbdom/build/htmldomapi.js
-  function createElement(tagName2, options) {
-    return document.createElement(tagName2, options);
-  }
-  function createElementNS(namespaceURI, qualifiedName, options) {
-    return document.createElementNS(namespaceURI, qualifiedName, options);
-  }
-  function createDocumentFragment() {
-    return parseFragment(document.createDocumentFragment());
-  }
-  function createTextNode(text) {
-    return document.createTextNode(text);
-  }
-  function createComment(text) {
-    return document.createComment(text);
-  }
-  function insertBefore(parentNode2, newNode, referenceNode) {
-    if (isDocumentFragment(parentNode2)) {
-      let node = parentNode2;
-      while (node && isDocumentFragment(node)) {
-        const fragment2 = parseFragment(node);
-        node = fragment2.parent;
+  // node_modules/snabbdom/build/snabbdom.cjs.js
+  var require_snabbdom_cjs = __commonJS({
+    "node_modules/snabbdom/build/snabbdom.cjs.js"(exports) {
+      "use strict";
+      Object.defineProperty(exports, "__esModule", { value: true });
+      function createElement(tagName2, options) {
+        return document.createElement(tagName2, options);
       }
-      parentNode2 = node !== null && node !== void 0 ? node : parentNode2;
-    }
-    if (isDocumentFragment(newNode)) {
-      newNode = parseFragment(newNode, parentNode2);
-    }
-    if (referenceNode && isDocumentFragment(referenceNode)) {
-      referenceNode = parseFragment(referenceNode).firstChildNode;
-    }
-    parentNode2.insertBefore(newNode, referenceNode);
-  }
-  function removeChild(node, child) {
-    node.removeChild(child);
-  }
-  function appendChild(node, child) {
-    if (isDocumentFragment(child)) {
-      child = parseFragment(child, node);
-    }
-    node.appendChild(child);
-  }
-  function parentNode(node) {
-    if (isDocumentFragment(node)) {
-      while (node && isDocumentFragment(node)) {
-        const fragment2 = parseFragment(node);
-        node = fragment2.parent;
+      function createElementNS(namespaceURI, qualifiedName, options) {
+        return document.createElementNS(namespaceURI, qualifiedName, options);
       }
-      return node !== null && node !== void 0 ? node : null;
-    }
-    return node.parentNode;
-  }
-  function nextSibling(node) {
-    var _a;
-    if (isDocumentFragment(node)) {
-      const fragment2 = parseFragment(node);
-      const parent = parentNode(fragment2);
-      if (parent && fragment2.lastChildNode) {
-        const children = Array.from(parent.childNodes);
-        const index = children.indexOf(fragment2.lastChildNode);
-        return (_a = children[index + 1]) !== null && _a !== void 0 ? _a : null;
+      function createDocumentFragment() {
+        return parseFragment(document.createDocumentFragment());
       }
-      return null;
-    }
-    return node.nextSibling;
-  }
-  function tagName(elm) {
-    return elm.tagName;
-  }
-  function setTextContent(node, text) {
-    node.textContent = text;
-  }
-  function getTextContent(node) {
-    return node.textContent;
-  }
-  function isElement(node) {
-    return node.nodeType === 1;
-  }
-  function isText(node) {
-    return node.nodeType === 3;
-  }
-  function isComment(node) {
-    return node.nodeType === 8;
-  }
-  function isDocumentFragment(node) {
-    return node.nodeType === 11;
-  }
-  function parseFragment(fragmentNode, parentNode2) {
-    var _a, _b, _c;
-    const fragment2 = fragmentNode;
-    (_a = fragment2.parent) !== null && _a !== void 0 ? _a : fragment2.parent = parentNode2 !== null && parentNode2 !== void 0 ? parentNode2 : null;
-    (_b = fragment2.firstChildNode) !== null && _b !== void 0 ? _b : fragment2.firstChildNode = fragmentNode.firstChild;
-    (_c = fragment2.lastChildNode) !== null && _c !== void 0 ? _c : fragment2.lastChildNode = fragmentNode.lastChild;
-    return fragment2;
-  }
-  var htmlDomApi;
-  var init_htmldomapi = __esm({
-    "node_modules/snabbdom/build/htmldomapi.js"() {
-      htmlDomApi = {
+      function createTextNode(text) {
+        return document.createTextNode(text);
+      }
+      function createComment(text) {
+        return document.createComment(text);
+      }
+      function insertBefore(parentNode2, newNode, referenceNode) {
+        if (isDocumentFragment$1(parentNode2)) {
+          let node = parentNode2;
+          while (node && isDocumentFragment$1(node)) {
+            const fragment2 = parseFragment(node);
+            node = fragment2.parent;
+          }
+          parentNode2 = node !== null && node !== void 0 ? node : parentNode2;
+        }
+        if (isDocumentFragment$1(newNode)) {
+          newNode = parseFragment(newNode, parentNode2);
+        }
+        if (referenceNode && isDocumentFragment$1(referenceNode)) {
+          referenceNode = parseFragment(referenceNode).firstChildNode;
+        }
+        parentNode2.insertBefore(newNode, referenceNode);
+      }
+      function removeChild(node, child) {
+        node.removeChild(child);
+      }
+      function appendChild(node, child) {
+        if (isDocumentFragment$1(child)) {
+          child = parseFragment(child, node);
+        }
+        node.appendChild(child);
+      }
+      function parentNode(node) {
+        if (isDocumentFragment$1(node)) {
+          while (node && isDocumentFragment$1(node)) {
+            const fragment2 = parseFragment(node);
+            node = fragment2.parent;
+          }
+          return node !== null && node !== void 0 ? node : null;
+        }
+        return node.parentNode;
+      }
+      function nextSibling(node) {
+        var _a;
+        if (isDocumentFragment$1(node)) {
+          const fragment2 = parseFragment(node);
+          const parent = parentNode(fragment2);
+          if (parent && fragment2.lastChildNode) {
+            const children = Array.from(parent.childNodes);
+            const index = children.indexOf(fragment2.lastChildNode);
+            return (_a = children[index + 1]) !== null && _a !== void 0 ? _a : null;
+          }
+          return null;
+        }
+        return node.nextSibling;
+      }
+      function tagName(elm) {
+        return elm.tagName;
+      }
+      function setTextContent(node, text) {
+        node.textContent = text;
+      }
+      function getTextContent(node) {
+        return node.textContent;
+      }
+      function isElement$1(node) {
+        return node.nodeType === 1;
+      }
+      function isText(node) {
+        return node.nodeType === 3;
+      }
+      function isComment(node) {
+        return node.nodeType === 8;
+      }
+      function isDocumentFragment$1(node) {
+        return node.nodeType === 11;
+      }
+      function parseFragment(fragmentNode, parentNode2) {
+        var _a, _b, _c;
+        const fragment2 = fragmentNode;
+        (_a = fragment2.parent) !== null && _a !== void 0 ? _a : fragment2.parent = parentNode2 !== null && parentNode2 !== void 0 ? parentNode2 : null;
+        (_b = fragment2.firstChildNode) !== null && _b !== void 0 ? _b : fragment2.firstChildNode = fragmentNode.firstChild;
+        (_c = fragment2.lastChildNode) !== null && _c !== void 0 ? _c : fragment2.lastChildNode = fragmentNode.lastChild;
+        return fragment2;
+      }
+      var htmlDomApi = {
         createElement,
         createElementNS,
         createTextNode,
@@ -9122,368 +9115,55 @@
         tagName,
         setTextContent,
         getTextContent,
-        isElement,
+        isElement: isElement$1,
         isText,
         isComment,
-        isDocumentFragment
+        isDocumentFragment: isDocumentFragment$1
       };
-    }
-  });
-
-  // node_modules/snabbdom/build/vnode.js
-  function vnode(sel, data, children, text, elm) {
-    const key = data === void 0 ? void 0 : data.key;
-    return { sel, data, children, text, elm, key };
-  }
-  var init_vnode = __esm({
-    "node_modules/snabbdom/build/vnode.js"() {
-    }
-  });
-
-  // node_modules/snabbdom/build/is.js
-  function primitive(s) {
-    return typeof s === "string" || typeof s === "number" || s instanceof String || s instanceof Number;
-  }
-  var array;
-  var init_is = __esm({
-    "node_modules/snabbdom/build/is.js"() {
-      array = Array.isArray;
-    }
-  });
-
-  // node_modules/snabbdom/build/init.js
-  function isUndef(s) {
-    return s === void 0;
-  }
-  function isDef(s) {
-    return s !== void 0;
-  }
-  function sameVnode(vnode1, vnode2) {
-    var _a, _b;
-    const isSameKey = vnode1.key === vnode2.key;
-    const isSameIs = ((_a = vnode1.data) === null || _a === void 0 ? void 0 : _a.is) === ((_b = vnode2.data) === null || _b === void 0 ? void 0 : _b.is);
-    const isSameSel = vnode1.sel === vnode2.sel;
-    const isSameTextOrFragment = !vnode1.sel && vnode1.sel === vnode2.sel ? typeof vnode1.text === typeof vnode2.text : true;
-    return isSameSel && isSameKey && isSameIs && isSameTextOrFragment;
-  }
-  function documentFragmentIsNotSupported() {
-    throw new Error("The document fragment is not supported on this platform.");
-  }
-  function isElement2(api, vnode2) {
-    return api.isElement(vnode2);
-  }
-  function isDocumentFragment2(api, vnode2) {
-    return api.isDocumentFragment(vnode2);
-  }
-  function createKeyToOldIdx(children, beginIdx, endIdx) {
-    var _a;
-    const map = {};
-    for (let i = beginIdx; i <= endIdx; ++i) {
-      const key = (_a = children[i]) === null || _a === void 0 ? void 0 : _a.key;
-      if (key !== void 0) {
-        map[key] = i;
+      function vnode(sel, data, children, text, elm) {
+        const key = data === void 0 ? void 0 : data.key;
+        return { sel, data, children, text, elm, key };
       }
-    }
-    return map;
-  }
-  function init(modules, domApi, options) {
-    const cbs = {
-      create: [],
-      update: [],
-      remove: [],
-      destroy: [],
-      pre: [],
-      post: []
-    };
-    const api = domApi !== void 0 ? domApi : htmlDomApi;
-    for (const hook of hooks) {
-      for (const module of modules) {
-        const currentHook = module[hook];
-        if (currentHook !== void 0) {
-          cbs[hook].push(currentHook);
-        }
+      var array = Array.isArray;
+      function primitive(s) {
+        return typeof s === "string" || typeof s === "number" || s instanceof String || s instanceof Number;
       }
-    }
-    function emptyNodeAt(elm) {
-      const id = elm.id ? "#" + elm.id : "";
-      const classes = elm.getAttribute("class");
-      const c = classes ? "." + classes.split(" ").join(".") : "";
-      return vnode(api.tagName(elm).toLowerCase() + id + c, {}, [], void 0, elm);
-    }
-    function emptyDocumentFragmentAt(frag) {
-      return vnode(void 0, {}, [], void 0, frag);
-    }
-    function createRmCb(childElm, listeners) {
-      return function rmCb() {
-        if (--listeners === 0) {
-          const parent = api.parentNode(childElm);
-          if (parent !== null) {
-            api.removeChild(parent, childElm);
+      function isUndef(s) {
+        return s === void 0;
+      }
+      function isDef(s) {
+        return s !== void 0;
+      }
+      var emptyNode = vnode("", {}, [], void 0, void 0);
+      function sameVnode(vnode1, vnode2) {
+        var _a, _b;
+        const isSameKey = vnode1.key === vnode2.key;
+        const isSameIs = ((_a = vnode1.data) === null || _a === void 0 ? void 0 : _a.is) === ((_b = vnode2.data) === null || _b === void 0 ? void 0 : _b.is);
+        const isSameSel = vnode1.sel === vnode2.sel;
+        const isSameTextOrFragment = !vnode1.sel && vnode1.sel === vnode2.sel ? typeof vnode1.text === typeof vnode2.text : true;
+        return isSameSel && isSameKey && isSameIs && isSameTextOrFragment;
+      }
+      function documentFragmentIsNotSupported() {
+        throw new Error("The document fragment is not supported on this platform.");
+      }
+      function isElement(api, vnode2) {
+        return api.isElement(vnode2);
+      }
+      function isDocumentFragment(api, vnode2) {
+        return api.isDocumentFragment(vnode2);
+      }
+      function createKeyToOldIdx(children, beginIdx, endIdx) {
+        var _a;
+        const map = {};
+        for (let i = beginIdx; i <= endIdx; ++i) {
+          const key = (_a = children[i]) === null || _a === void 0 ? void 0 : _a.key;
+          if (key !== void 0) {
+            map[key] = i;
           }
         }
-      };
-    }
-    function createElm(vnode2, insertedVnodeQueue) {
-      var _a, _b, _c, _d;
-      let i;
-      let data = vnode2.data;
-      if (data !== void 0) {
-        const init3 = (_a = data.hook) === null || _a === void 0 ? void 0 : _a.init;
-        if (isDef(init3)) {
-          init3(vnode2);
-          data = vnode2.data;
-        }
+        return map;
       }
-      const children = vnode2.children;
-      const sel = vnode2.sel;
-      if (sel === "!") {
-        if (isUndef(vnode2.text)) {
-          vnode2.text = "";
-        }
-        vnode2.elm = api.createComment(vnode2.text);
-      } else if (sel === "") {
-        vnode2.elm = api.createTextNode(vnode2.text);
-      } else if (sel !== void 0) {
-        const hashIdx = sel.indexOf("#");
-        const dotIdx = sel.indexOf(".", hashIdx);
-        const hash = hashIdx > 0 ? hashIdx : sel.length;
-        const dot = dotIdx > 0 ? dotIdx : sel.length;
-        const tag = hashIdx !== -1 || dotIdx !== -1 ? sel.slice(0, Math.min(hash, dot)) : sel;
-        const elm = vnode2.elm = isDef(data) && isDef(i = data.ns) ? api.createElementNS(i, tag, data) : api.createElement(tag, data);
-        if (hash < dot)
-          elm.setAttribute("id", sel.slice(hash + 1, dot));
-        if (dotIdx > 0)
-          elm.setAttribute("class", sel.slice(dot + 1).replace(/\./g, " "));
-        for (i = 0; i < cbs.create.length; ++i)
-          cbs.create[i](emptyNode, vnode2);
-        if (primitive(vnode2.text) && (!array(children) || children.length === 0)) {
-          api.appendChild(elm, api.createTextNode(vnode2.text));
-        }
-        if (array(children)) {
-          for (i = 0; i < children.length; ++i) {
-            const ch = children[i];
-            if (ch != null) {
-              api.appendChild(elm, createElm(ch, insertedVnodeQueue));
-            }
-          }
-        }
-        const hook = vnode2.data.hook;
-        if (isDef(hook)) {
-          (_b = hook.create) === null || _b === void 0 ? void 0 : _b.call(hook, emptyNode, vnode2);
-          if (hook.insert) {
-            insertedVnodeQueue.push(vnode2);
-          }
-        }
-      } else if (((_c = options === null || options === void 0 ? void 0 : options.experimental) === null || _c === void 0 ? void 0 : _c.fragments) && vnode2.children) {
-        vnode2.elm = ((_d = api.createDocumentFragment) !== null && _d !== void 0 ? _d : documentFragmentIsNotSupported)();
-        for (i = 0; i < cbs.create.length; ++i)
-          cbs.create[i](emptyNode, vnode2);
-        for (i = 0; i < vnode2.children.length; ++i) {
-          const ch = vnode2.children[i];
-          if (ch != null) {
-            api.appendChild(vnode2.elm, createElm(ch, insertedVnodeQueue));
-          }
-        }
-      } else {
-        vnode2.elm = api.createTextNode(vnode2.text);
-      }
-      return vnode2.elm;
-    }
-    function addVnodes(parentElm, before, vnodes, startIdx, endIdx, insertedVnodeQueue) {
-      for (; startIdx <= endIdx; ++startIdx) {
-        const ch = vnodes[startIdx];
-        if (ch != null) {
-          api.insertBefore(parentElm, createElm(ch, insertedVnodeQueue), before);
-        }
-      }
-    }
-    function invokeDestroyHook(vnode2) {
-      var _a, _b;
-      const data = vnode2.data;
-      if (data !== void 0) {
-        (_b = (_a = data === null || data === void 0 ? void 0 : data.hook) === null || _a === void 0 ? void 0 : _a.destroy) === null || _b === void 0 ? void 0 : _b.call(_a, vnode2);
-        for (let i = 0; i < cbs.destroy.length; ++i)
-          cbs.destroy[i](vnode2);
-        if (vnode2.children !== void 0) {
-          for (let j = 0; j < vnode2.children.length; ++j) {
-            const child = vnode2.children[j];
-            if (child != null && typeof child !== "string") {
-              invokeDestroyHook(child);
-            }
-          }
-        }
-      }
-    }
-    function removeVnodes(parentElm, vnodes, startIdx, endIdx) {
-      var _a, _b;
-      for (; startIdx <= endIdx; ++startIdx) {
-        let listeners;
-        let rm;
-        const ch = vnodes[startIdx];
-        if (ch != null) {
-          if (isDef(ch.sel)) {
-            invokeDestroyHook(ch);
-            listeners = cbs.remove.length + 1;
-            rm = createRmCb(ch.elm, listeners);
-            for (let i = 0; i < cbs.remove.length; ++i)
-              cbs.remove[i](ch, rm);
-            const removeHook = (_b = (_a = ch === null || ch === void 0 ? void 0 : ch.data) === null || _a === void 0 ? void 0 : _a.hook) === null || _b === void 0 ? void 0 : _b.remove;
-            if (isDef(removeHook)) {
-              removeHook(ch, rm);
-            } else {
-              rm();
-            }
-          } else if (ch.children) {
-            invokeDestroyHook(ch);
-            removeVnodes(parentElm, ch.children, 0, ch.children.length - 1);
-          } else {
-            api.removeChild(parentElm, ch.elm);
-          }
-        }
-      }
-    }
-    function updateChildren(parentElm, oldCh, newCh, insertedVnodeQueue) {
-      let oldStartIdx = 0;
-      let newStartIdx = 0;
-      let oldEndIdx = oldCh.length - 1;
-      let oldStartVnode = oldCh[0];
-      let oldEndVnode = oldCh[oldEndIdx];
-      let newEndIdx = newCh.length - 1;
-      let newStartVnode = newCh[0];
-      let newEndVnode = newCh[newEndIdx];
-      let oldKeyToIdx;
-      let idxInOld;
-      let elmToMove;
-      let before;
-      while (oldStartIdx <= oldEndIdx && newStartIdx <= newEndIdx) {
-        if (oldStartVnode == null) {
-          oldStartVnode = oldCh[++oldStartIdx];
-        } else if (oldEndVnode == null) {
-          oldEndVnode = oldCh[--oldEndIdx];
-        } else if (newStartVnode == null) {
-          newStartVnode = newCh[++newStartIdx];
-        } else if (newEndVnode == null) {
-          newEndVnode = newCh[--newEndIdx];
-        } else if (sameVnode(oldStartVnode, newStartVnode)) {
-          patchVnode(oldStartVnode, newStartVnode, insertedVnodeQueue);
-          oldStartVnode = oldCh[++oldStartIdx];
-          newStartVnode = newCh[++newStartIdx];
-        } else if (sameVnode(oldEndVnode, newEndVnode)) {
-          patchVnode(oldEndVnode, newEndVnode, insertedVnodeQueue);
-          oldEndVnode = oldCh[--oldEndIdx];
-          newEndVnode = newCh[--newEndIdx];
-        } else if (sameVnode(oldStartVnode, newEndVnode)) {
-          patchVnode(oldStartVnode, newEndVnode, insertedVnodeQueue);
-          api.insertBefore(parentElm, oldStartVnode.elm, api.nextSibling(oldEndVnode.elm));
-          oldStartVnode = oldCh[++oldStartIdx];
-          newEndVnode = newCh[--newEndIdx];
-        } else if (sameVnode(oldEndVnode, newStartVnode)) {
-          patchVnode(oldEndVnode, newStartVnode, insertedVnodeQueue);
-          api.insertBefore(parentElm, oldEndVnode.elm, oldStartVnode.elm);
-          oldEndVnode = oldCh[--oldEndIdx];
-          newStartVnode = newCh[++newStartIdx];
-        } else {
-          if (oldKeyToIdx === void 0) {
-            oldKeyToIdx = createKeyToOldIdx(oldCh, oldStartIdx, oldEndIdx);
-          }
-          idxInOld = oldKeyToIdx[newStartVnode.key];
-          if (isUndef(idxInOld)) {
-            api.insertBefore(parentElm, createElm(newStartVnode, insertedVnodeQueue), oldStartVnode.elm);
-          } else {
-            elmToMove = oldCh[idxInOld];
-            if (elmToMove.sel !== newStartVnode.sel) {
-              api.insertBefore(parentElm, createElm(newStartVnode, insertedVnodeQueue), oldStartVnode.elm);
-            } else {
-              patchVnode(elmToMove, newStartVnode, insertedVnodeQueue);
-              oldCh[idxInOld] = void 0;
-              api.insertBefore(parentElm, elmToMove.elm, oldStartVnode.elm);
-            }
-          }
-          newStartVnode = newCh[++newStartIdx];
-        }
-      }
-      if (newStartIdx <= newEndIdx) {
-        before = newCh[newEndIdx + 1] == null ? null : newCh[newEndIdx + 1].elm;
-        addVnodes(parentElm, before, newCh, newStartIdx, newEndIdx, insertedVnodeQueue);
-      }
-      if (oldStartIdx <= oldEndIdx) {
-        removeVnodes(parentElm, oldCh, oldStartIdx, oldEndIdx);
-      }
-    }
-    function patchVnode(oldVnode, vnode2, insertedVnodeQueue) {
-      var _a, _b, _c, _d, _e, _f, _g, _h;
-      const hook = (_a = vnode2.data) === null || _a === void 0 ? void 0 : _a.hook;
-      (_b = hook === null || hook === void 0 ? void 0 : hook.prepatch) === null || _b === void 0 ? void 0 : _b.call(hook, oldVnode, vnode2);
-      const elm = vnode2.elm = oldVnode.elm;
-      if (oldVnode === vnode2)
-        return;
-      if (vnode2.data !== void 0 || isDef(vnode2.text) && vnode2.text !== oldVnode.text) {
-        (_c = vnode2.data) !== null && _c !== void 0 ? _c : vnode2.data = {};
-        (_d = oldVnode.data) !== null && _d !== void 0 ? _d : oldVnode.data = {};
-        for (let i = 0; i < cbs.update.length; ++i)
-          cbs.update[i](oldVnode, vnode2);
-        (_g = (_f = (_e = vnode2.data) === null || _e === void 0 ? void 0 : _e.hook) === null || _f === void 0 ? void 0 : _f.update) === null || _g === void 0 ? void 0 : _g.call(_f, oldVnode, vnode2);
-      }
-      const oldCh = oldVnode.children;
-      const ch = vnode2.children;
-      if (isUndef(vnode2.text)) {
-        if (isDef(oldCh) && isDef(ch)) {
-          if (oldCh !== ch)
-            updateChildren(elm, oldCh, ch, insertedVnodeQueue);
-        } else if (isDef(ch)) {
-          if (isDef(oldVnode.text))
-            api.setTextContent(elm, "");
-          addVnodes(elm, null, ch, 0, ch.length - 1, insertedVnodeQueue);
-        } else if (isDef(oldCh)) {
-          removeVnodes(elm, oldCh, 0, oldCh.length - 1);
-        } else if (isDef(oldVnode.text)) {
-          api.setTextContent(elm, "");
-        }
-      } else if (oldVnode.text !== vnode2.text) {
-        if (isDef(oldCh)) {
-          removeVnodes(elm, oldCh, 0, oldCh.length - 1);
-        }
-        api.setTextContent(elm, vnode2.text);
-      }
-      (_h = hook === null || hook === void 0 ? void 0 : hook.postpatch) === null || _h === void 0 ? void 0 : _h.call(hook, oldVnode, vnode2);
-    }
-    return function patch(oldVnode, vnode2) {
-      let i, elm, parent;
-      const insertedVnodeQueue = [];
-      for (i = 0; i < cbs.pre.length; ++i)
-        cbs.pre[i]();
-      if (isElement2(api, oldVnode)) {
-        oldVnode = emptyNodeAt(oldVnode);
-      } else if (isDocumentFragment2(api, oldVnode)) {
-        oldVnode = emptyDocumentFragmentAt(oldVnode);
-      }
-      if (sameVnode(oldVnode, vnode2)) {
-        patchVnode(oldVnode, vnode2, insertedVnodeQueue);
-      } else {
-        elm = oldVnode.elm;
-        parent = api.parentNode(elm);
-        createElm(vnode2, insertedVnodeQueue);
-        if (parent !== null) {
-          api.insertBefore(parent, vnode2.elm, api.nextSibling(elm));
-          removeVnodes(parent, [oldVnode], 0, 0);
-        }
-      }
-      for (i = 0; i < insertedVnodeQueue.length; ++i) {
-        insertedVnodeQueue[i].data.hook.insert(insertedVnodeQueue[i]);
-      }
-      for (i = 0; i < cbs.post.length; ++i)
-        cbs.post[i]();
-      return vnode2;
-    };
-  }
-  var emptyNode, hooks;
-  var init_init = __esm({
-    "node_modules/snabbdom/build/init.js"() {
-      init_vnode();
-      init_is();
-      init_htmldomapi();
-      emptyNode = vnode("", {}, [], void 0, void 0);
-      hooks = [
+      var hooks = [
         "create",
         "update",
         "remove",
@@ -9491,128 +9171,397 @@
         "pre",
         "post"
       ];
-    }
-  });
-
-  // node_modules/snabbdom/build/h.js
-  function addNS(data, children, sel) {
-    data.ns = "http://www.w3.org/2000/svg";
-    if (sel !== "foreignObject" && children !== void 0) {
-      for (let i = 0; i < children.length; ++i) {
-        const child = children[i];
-        if (typeof child === "string")
-          continue;
-        const childData = child.data;
-        if (childData !== void 0) {
-          addNS(childData, child.children, child.sel);
+      function init$1(modules, domApi, options) {
+        const cbs = {
+          create: [],
+          update: [],
+          remove: [],
+          destroy: [],
+          pre: [],
+          post: []
+        };
+        const api = domApi !== void 0 ? domApi : htmlDomApi;
+        for (const hook of hooks) {
+          for (const module2 of modules) {
+            const currentHook = module2[hook];
+            if (currentHook !== void 0) {
+              cbs[hook].push(currentHook);
+            }
+          }
+        }
+        function emptyNodeAt(elm) {
+          const id = elm.id ? "#" + elm.id : "";
+          const classes = elm.getAttribute("class");
+          const c = classes ? "." + classes.split(" ").join(".") : "";
+          return vnode(api.tagName(elm).toLowerCase() + id + c, {}, [], void 0, elm);
+        }
+        function emptyDocumentFragmentAt(frag) {
+          return vnode(void 0, {}, [], void 0, frag);
+        }
+        function createRmCb(childElm, listeners) {
+          return function rmCb() {
+            if (--listeners === 0) {
+              const parent = api.parentNode(childElm);
+              api.removeChild(parent, childElm);
+            }
+          };
+        }
+        function createElm(vnode2, insertedVnodeQueue) {
+          var _a, _b, _c, _d;
+          let i;
+          let data = vnode2.data;
+          if (data !== void 0) {
+            const init2 = (_a = data.hook) === null || _a === void 0 ? void 0 : _a.init;
+            if (isDef(init2)) {
+              init2(vnode2);
+              data = vnode2.data;
+            }
+          }
+          const children = vnode2.children;
+          const sel = vnode2.sel;
+          if (sel === "!") {
+            if (isUndef(vnode2.text)) {
+              vnode2.text = "";
+            }
+            vnode2.elm = api.createComment(vnode2.text);
+          } else if (sel !== void 0) {
+            const hashIdx = sel.indexOf("#");
+            const dotIdx = sel.indexOf(".", hashIdx);
+            const hash = hashIdx > 0 ? hashIdx : sel.length;
+            const dot = dotIdx > 0 ? dotIdx : sel.length;
+            const tag = hashIdx !== -1 || dotIdx !== -1 ? sel.slice(0, Math.min(hash, dot)) : sel;
+            const elm = vnode2.elm = isDef(data) && isDef(i = data.ns) ? api.createElementNS(i, tag, data) : api.createElement(tag, data);
+            if (hash < dot)
+              elm.setAttribute("id", sel.slice(hash + 1, dot));
+            if (dotIdx > 0)
+              elm.setAttribute("class", sel.slice(dot + 1).replace(/\./g, " "));
+            for (i = 0; i < cbs.create.length; ++i)
+              cbs.create[i](emptyNode, vnode2);
+            if (array(children)) {
+              for (i = 0; i < children.length; ++i) {
+                const ch = children[i];
+                if (ch != null) {
+                  api.appendChild(elm, createElm(ch, insertedVnodeQueue));
+                }
+              }
+            } else if (primitive(vnode2.text)) {
+              api.appendChild(elm, api.createTextNode(vnode2.text));
+            }
+            const hook = vnode2.data.hook;
+            if (isDef(hook)) {
+              (_b = hook.create) === null || _b === void 0 ? void 0 : _b.call(hook, emptyNode, vnode2);
+              if (hook.insert) {
+                insertedVnodeQueue.push(vnode2);
+              }
+            }
+          } else if (((_c = options === null || options === void 0 ? void 0 : options.experimental) === null || _c === void 0 ? void 0 : _c.fragments) && vnode2.children) {
+            vnode2.elm = ((_d = api.createDocumentFragment) !== null && _d !== void 0 ? _d : documentFragmentIsNotSupported)();
+            for (i = 0; i < cbs.create.length; ++i)
+              cbs.create[i](emptyNode, vnode2);
+            for (i = 0; i < vnode2.children.length; ++i) {
+              const ch = vnode2.children[i];
+              if (ch != null) {
+                api.appendChild(vnode2.elm, createElm(ch, insertedVnodeQueue));
+              }
+            }
+          } else {
+            vnode2.elm = api.createTextNode(vnode2.text);
+          }
+          return vnode2.elm;
+        }
+        function addVnodes(parentElm, before, vnodes, startIdx, endIdx, insertedVnodeQueue) {
+          for (; startIdx <= endIdx; ++startIdx) {
+            const ch = vnodes[startIdx];
+            if (ch != null) {
+              api.insertBefore(parentElm, createElm(ch, insertedVnodeQueue), before);
+            }
+          }
+        }
+        function invokeDestroyHook(vnode2) {
+          var _a, _b;
+          const data = vnode2.data;
+          if (data !== void 0) {
+            (_b = (_a = data === null || data === void 0 ? void 0 : data.hook) === null || _a === void 0 ? void 0 : _a.destroy) === null || _b === void 0 ? void 0 : _b.call(_a, vnode2);
+            for (let i = 0; i < cbs.destroy.length; ++i)
+              cbs.destroy[i](vnode2);
+            if (vnode2.children !== void 0) {
+              for (let j = 0; j < vnode2.children.length; ++j) {
+                const child = vnode2.children[j];
+                if (child != null && typeof child !== "string") {
+                  invokeDestroyHook(child);
+                }
+              }
+            }
+          }
+        }
+        function removeVnodes(parentElm, vnodes, startIdx, endIdx) {
+          var _a, _b;
+          for (; startIdx <= endIdx; ++startIdx) {
+            let listeners;
+            let rm;
+            const ch = vnodes[startIdx];
+            if (ch != null) {
+              if (isDef(ch.sel)) {
+                invokeDestroyHook(ch);
+                listeners = cbs.remove.length + 1;
+                rm = createRmCb(ch.elm, listeners);
+                for (let i = 0; i < cbs.remove.length; ++i)
+                  cbs.remove[i](ch, rm);
+                const removeHook = (_b = (_a = ch === null || ch === void 0 ? void 0 : ch.data) === null || _a === void 0 ? void 0 : _a.hook) === null || _b === void 0 ? void 0 : _b.remove;
+                if (isDef(removeHook)) {
+                  removeHook(ch, rm);
+                } else {
+                  rm();
+                }
+              } else if (ch.children) {
+                invokeDestroyHook(ch);
+                removeVnodes(parentElm, ch.children, 0, ch.children.length - 1);
+              } else {
+                api.removeChild(parentElm, ch.elm);
+              }
+            }
+          }
+        }
+        function updateChildren(parentElm, oldCh, newCh, insertedVnodeQueue) {
+          let oldStartIdx = 0;
+          let newStartIdx = 0;
+          let oldEndIdx = oldCh.length - 1;
+          let oldStartVnode = oldCh[0];
+          let oldEndVnode = oldCh[oldEndIdx];
+          let newEndIdx = newCh.length - 1;
+          let newStartVnode = newCh[0];
+          let newEndVnode = newCh[newEndIdx];
+          let oldKeyToIdx;
+          let idxInOld;
+          let elmToMove;
+          let before;
+          while (oldStartIdx <= oldEndIdx && newStartIdx <= newEndIdx) {
+            if (oldStartVnode == null) {
+              oldStartVnode = oldCh[++oldStartIdx];
+            } else if (oldEndVnode == null) {
+              oldEndVnode = oldCh[--oldEndIdx];
+            } else if (newStartVnode == null) {
+              newStartVnode = newCh[++newStartIdx];
+            } else if (newEndVnode == null) {
+              newEndVnode = newCh[--newEndIdx];
+            } else if (sameVnode(oldStartVnode, newStartVnode)) {
+              patchVnode(oldStartVnode, newStartVnode, insertedVnodeQueue);
+              oldStartVnode = oldCh[++oldStartIdx];
+              newStartVnode = newCh[++newStartIdx];
+            } else if (sameVnode(oldEndVnode, newEndVnode)) {
+              patchVnode(oldEndVnode, newEndVnode, insertedVnodeQueue);
+              oldEndVnode = oldCh[--oldEndIdx];
+              newEndVnode = newCh[--newEndIdx];
+            } else if (sameVnode(oldStartVnode, newEndVnode)) {
+              patchVnode(oldStartVnode, newEndVnode, insertedVnodeQueue);
+              api.insertBefore(parentElm, oldStartVnode.elm, api.nextSibling(oldEndVnode.elm));
+              oldStartVnode = oldCh[++oldStartIdx];
+              newEndVnode = newCh[--newEndIdx];
+            } else if (sameVnode(oldEndVnode, newStartVnode)) {
+              patchVnode(oldEndVnode, newStartVnode, insertedVnodeQueue);
+              api.insertBefore(parentElm, oldEndVnode.elm, oldStartVnode.elm);
+              oldEndVnode = oldCh[--oldEndIdx];
+              newStartVnode = newCh[++newStartIdx];
+            } else {
+              if (oldKeyToIdx === void 0) {
+                oldKeyToIdx = createKeyToOldIdx(oldCh, oldStartIdx, oldEndIdx);
+              }
+              idxInOld = oldKeyToIdx[newStartVnode.key];
+              if (isUndef(idxInOld)) {
+                api.insertBefore(parentElm, createElm(newStartVnode, insertedVnodeQueue), oldStartVnode.elm);
+              } else {
+                elmToMove = oldCh[idxInOld];
+                if (elmToMove.sel !== newStartVnode.sel) {
+                  api.insertBefore(parentElm, createElm(newStartVnode, insertedVnodeQueue), oldStartVnode.elm);
+                } else {
+                  patchVnode(elmToMove, newStartVnode, insertedVnodeQueue);
+                  oldCh[idxInOld] = void 0;
+                  api.insertBefore(parentElm, elmToMove.elm, oldStartVnode.elm);
+                }
+              }
+              newStartVnode = newCh[++newStartIdx];
+            }
+          }
+          if (newStartIdx <= newEndIdx) {
+            before = newCh[newEndIdx + 1] == null ? null : newCh[newEndIdx + 1].elm;
+            addVnodes(parentElm, before, newCh, newStartIdx, newEndIdx, insertedVnodeQueue);
+          }
+          if (oldStartIdx <= oldEndIdx) {
+            removeVnodes(parentElm, oldCh, oldStartIdx, oldEndIdx);
+          }
+        }
+        function patchVnode(oldVnode, vnode2, insertedVnodeQueue) {
+          var _a, _b, _c, _d, _e, _f, _g, _h;
+          const hook = (_a = vnode2.data) === null || _a === void 0 ? void 0 : _a.hook;
+          (_b = hook === null || hook === void 0 ? void 0 : hook.prepatch) === null || _b === void 0 ? void 0 : _b.call(hook, oldVnode, vnode2);
+          const elm = vnode2.elm = oldVnode.elm;
+          if (oldVnode === vnode2)
+            return;
+          if (vnode2.data !== void 0 || isDef(vnode2.text) && vnode2.text !== oldVnode.text) {
+            (_c = vnode2.data) !== null && _c !== void 0 ? _c : vnode2.data = {};
+            (_d = oldVnode.data) !== null && _d !== void 0 ? _d : oldVnode.data = {};
+            for (let i = 0; i < cbs.update.length; ++i)
+              cbs.update[i](oldVnode, vnode2);
+            (_g = (_f = (_e = vnode2.data) === null || _e === void 0 ? void 0 : _e.hook) === null || _f === void 0 ? void 0 : _f.update) === null || _g === void 0 ? void 0 : _g.call(_f, oldVnode, vnode2);
+          }
+          const oldCh = oldVnode.children;
+          const ch = vnode2.children;
+          if (isUndef(vnode2.text)) {
+            if (isDef(oldCh) && isDef(ch)) {
+              if (oldCh !== ch)
+                updateChildren(elm, oldCh, ch, insertedVnodeQueue);
+            } else if (isDef(ch)) {
+              if (isDef(oldVnode.text))
+                api.setTextContent(elm, "");
+              addVnodes(elm, null, ch, 0, ch.length - 1, insertedVnodeQueue);
+            } else if (isDef(oldCh)) {
+              removeVnodes(elm, oldCh, 0, oldCh.length - 1);
+            } else if (isDef(oldVnode.text)) {
+              api.setTextContent(elm, "");
+            }
+          } else if (oldVnode.text !== vnode2.text) {
+            if (isDef(oldCh)) {
+              removeVnodes(elm, oldCh, 0, oldCh.length - 1);
+            }
+            api.setTextContent(elm, vnode2.text);
+          }
+          (_h = hook === null || hook === void 0 ? void 0 : hook.postpatch) === null || _h === void 0 ? void 0 : _h.call(hook, oldVnode, vnode2);
+        }
+        return function patch(oldVnode, vnode2) {
+          let i, elm, parent;
+          const insertedVnodeQueue = [];
+          for (i = 0; i < cbs.pre.length; ++i)
+            cbs.pre[i]();
+          if (isElement(api, oldVnode)) {
+            oldVnode = emptyNodeAt(oldVnode);
+          } else if (isDocumentFragment(api, oldVnode)) {
+            oldVnode = emptyDocumentFragmentAt(oldVnode);
+          }
+          if (sameVnode(oldVnode, vnode2)) {
+            patchVnode(oldVnode, vnode2, insertedVnodeQueue);
+          } else {
+            elm = oldVnode.elm;
+            parent = api.parentNode(elm);
+            createElm(vnode2, insertedVnodeQueue);
+            if (parent !== null) {
+              api.insertBefore(parent, vnode2.elm, api.nextSibling(elm));
+              removeVnodes(parent, [oldVnode], 0, 0);
+            }
+          }
+          for (i = 0; i < insertedVnodeQueue.length; ++i) {
+            insertedVnodeQueue[i].data.hook.insert(insertedVnodeQueue[i]);
+          }
+          for (i = 0; i < cbs.post.length; ++i)
+            cbs.post[i]();
+          return vnode2;
+        };
+      }
+      function addNS(data, children, sel) {
+        data.ns = "http://www.w3.org/2000/svg";
+        if (sel !== "foreignObject" && children !== void 0) {
+          for (let i = 0; i < children.length; ++i) {
+            const child = children[i];
+            if (typeof child === "string")
+              continue;
+            const childData = child.data;
+            if (childData !== void 0) {
+              addNS(childData, child.children, child.sel);
+            }
+          }
         }
       }
-    }
-  }
-  function h(sel, b, c) {
-    let data = {};
-    let children;
-    let text;
-    let i;
-    if (c !== void 0) {
-      if (b !== null) {
-        data = b;
+      function h(sel, b, c) {
+        let data = {};
+        let children;
+        let text;
+        let i;
+        if (c !== void 0) {
+          if (b !== null) {
+            data = b;
+          }
+          if (array(c)) {
+            children = c;
+          } else if (primitive(c)) {
+            text = c.toString();
+          } else if (c && c.sel) {
+            children = [c];
+          }
+        } else if (b !== void 0 && b !== null) {
+          if (array(b)) {
+            children = b;
+          } else if (primitive(b)) {
+            text = b.toString();
+          } else if (b && b.sel) {
+            children = [b];
+          } else {
+            data = b;
+          }
+        }
+        if (children !== void 0) {
+          for (i = 0; i < children.length; ++i) {
+            if (primitive(children[i]))
+              children[i] = vnode(void 0, void 0, void 0, children[i], void 0);
+          }
+        }
+        if (sel[0] === "s" && sel[1] === "v" && sel[2] === "g" && (sel.length === 3 || sel[3] === "." || sel[3] === "#")) {
+          addNS(data, children, sel);
+        }
+        return vnode(sel, data, children, text, void 0);
       }
-      if (array(c)) {
-        children = c;
-      } else if (primitive(c)) {
-        text = c.toString();
-      } else if (c && c.sel) {
-        children = [c];
+      function fragment(children) {
+        let c;
+        let text;
+        if (array(children)) {
+          c = children;
+        } else if (primitive(c)) {
+          text = children;
+        } else if (c && c.sel) {
+          c = [children];
+        }
+        if (c !== void 0) {
+          for (let i = 0; i < c.length; ++i) {
+            if (primitive(c[i]))
+              c[i] = vnode(void 0, void 0, void 0, c[i], void 0);
+          }
+        }
+        return vnode(void 0, {}, c, text, void 0);
       }
-    } else if (b !== void 0 && b !== null) {
-      if (array(b)) {
-        children = b;
-      } else if (primitive(b)) {
-        text = b.toString();
-      } else if (b && b.sel) {
-        children = [b];
-      } else {
-        data = b;
+      function copyToThunk(vnode2, thunk2) {
+        var _a;
+        const ns = (_a = thunk2.data) === null || _a === void 0 ? void 0 : _a.ns;
+        vnode2.data.fn = thunk2.data.fn;
+        vnode2.data.args = thunk2.data.args;
+        thunk2.data = vnode2.data;
+        thunk2.children = vnode2.children;
+        thunk2.text = vnode2.text;
+        thunk2.elm = vnode2.elm;
+        if (ns)
+          addNS(thunk2.data, thunk2.children, thunk2.sel);
       }
-    }
-    if (children !== void 0) {
-      for (i = 0; i < children.length; ++i) {
-        if (primitive(children[i]))
-          children[i] = vnode(void 0, void 0, void 0, children[i], void 0);
+      function init(thunk2) {
+        const cur = thunk2.data;
+        const vnode2 = cur.fn(...cur.args);
+        copyToThunk(vnode2, thunk2);
       }
-    }
-    if (sel.startsWith("svg") && (sel.length === 3 || sel[3] === "." || sel[3] === "#")) {
-      addNS(data, children, sel);
-    }
-    return vnode(sel, data, children, text, void 0);
-  }
-  function fragment(children) {
-    let c;
-    let text;
-    if (array(children)) {
-      c = children;
-    } else if (primitive(c)) {
-      text = children;
-    } else if (c && c.sel) {
-      c = [children];
-    }
-    if (c !== void 0) {
-      for (let i = 0; i < c.length; ++i) {
-        if (primitive(c[i]))
-          c[i] = vnode(void 0, void 0, void 0, c[i], void 0);
+      function prepatch(oldVnode, thunk2) {
+        let i;
+        const old = oldVnode.data;
+        const cur = thunk2.data;
+        const oldArgs = old.args;
+        const args = cur.args;
+        if (old.fn !== cur.fn || oldArgs.length !== args.length) {
+          copyToThunk(cur.fn(...args), thunk2);
+          return;
+        }
+        for (i = 0; i < args.length; ++i) {
+          if (oldArgs[i] !== args[i]) {
+            copyToThunk(cur.fn(...args), thunk2);
+            return;
+          }
+        }
+        copyToThunk(oldVnode, thunk2);
       }
-    }
-    return vnode(void 0, {}, c, text, void 0);
-  }
-  var init_h = __esm({
-    "node_modules/snabbdom/build/h.js"() {
-      init_vnode();
-      init_is();
-    }
-  });
-
-  // node_modules/snabbdom/build/thunk.js
-  function copyToThunk(vnode2, thunk3) {
-    var _a;
-    const ns = (_a = thunk3.data) === null || _a === void 0 ? void 0 : _a.ns;
-    vnode2.data.fn = thunk3.data.fn;
-    vnode2.data.args = thunk3.data.args;
-    thunk3.data = vnode2.data;
-    thunk3.children = vnode2.children;
-    thunk3.text = vnode2.text;
-    thunk3.elm = vnode2.elm;
-    if (ns)
-      addNS(thunk3.data, thunk3.children, thunk3.sel);
-  }
-  function init2(thunk3) {
-    const cur = thunk3.data;
-    const vnode2 = cur.fn(...cur.args);
-    copyToThunk(vnode2, thunk3);
-  }
-  function prepatch(oldVnode, thunk3) {
-    let i;
-    const old = oldVnode.data;
-    const cur = thunk3.data;
-    const oldArgs = old.args;
-    const args = cur.args;
-    if (old.fn !== cur.fn || oldArgs.length !== args.length) {
-      copyToThunk(cur.fn(...args), thunk3);
-      return;
-    }
-    for (i = 0; i < args.length; ++i) {
-      if (oldArgs[i] !== args[i]) {
-        copyToThunk(cur.fn(...args), thunk3);
-        return;
-      }
-    }
-    copyToThunk(oldVnode, thunk3);
-  }
-  var thunk;
-  var init_thunk = __esm({
-    "node_modules/snabbdom/build/thunk.js"() {
-      init_h();
-      thunk = function thunk2(sel, key, fn, args) {
+      var thunk = function thunk2(sel, key, fn, args) {
         if (args === void 0) {
           args = fn;
           fn = key;
@@ -9620,546 +9569,450 @@
         }
         return h(sel, {
           key,
-          hook: { init: init2, prepatch },
+          hook: { init, prepatch },
           fn,
           args
         });
       };
-    }
-  });
-
-  // node_modules/snabbdom/build/helpers/attachto.js
-  function pre(vnode2, newVnode) {
-    const attachData = vnode2.data.attachData;
-    newVnode.data.attachData.placeholder = attachData.placeholder;
-    newVnode.data.attachData.real = attachData.real;
-    vnode2.elm = vnode2.data.attachData.real;
-  }
-  function post(_, vnode2) {
-    vnode2.elm = vnode2.data.attachData.placeholder;
-  }
-  function destroy(vnode2) {
-    if (vnode2.elm !== void 0) {
-      vnode2.elm.parentNode.removeChild(vnode2.elm);
-    }
-    vnode2.elm = vnode2.data.attachData.real;
-  }
-  function create(_, vnode2) {
-    const real = vnode2.elm;
-    const attachData = vnode2.data.attachData;
-    const placeholder = document.createElement("span");
-    vnode2.elm = placeholder;
-    attachData.target.appendChild(real);
-    attachData.real = real;
-    attachData.placeholder = placeholder;
-  }
-  function attachTo(target, vnode2) {
-    if (vnode2.data === void 0)
-      vnode2.data = {};
-    if (vnode2.data.hook === void 0)
-      vnode2.data.hook = {};
-    const data = vnode2.data;
-    const hook = vnode2.data.hook;
-    data.attachData = { target, placeholder: void 0, real: void 0 };
-    hook.create = create;
-    hook.prepatch = pre;
-    hook.postpatch = post;
-    hook.destroy = destroy;
-    return vnode2;
-  }
-  var init_attachto = __esm({
-    "node_modules/snabbdom/build/helpers/attachto.js"() {
-    }
-  });
-
-  // node_modules/snabbdom/build/tovnode.js
-  function toVNode(node, domApi) {
-    const api = domApi !== void 0 ? domApi : htmlDomApi;
-    let text;
-    if (api.isElement(node)) {
-      const id = node.id ? "#" + node.id : "";
-      const cn = node.getAttribute("class");
-      const c = cn ? "." + cn.split(" ").join(".") : "";
-      const sel = api.tagName(node).toLowerCase() + id + c;
-      const attrs = {};
-      const dataset = {};
-      const data = {};
-      const children = [];
-      let name;
-      let i, n;
-      const elmAttrs = node.attributes;
-      const elmChildren = node.childNodes;
-      for (i = 0, n = elmAttrs.length; i < n; i++) {
-        name = elmAttrs[i].nodeName;
-        if (name.startsWith("data-")) {
-          dataset[name.slice(5)] = elmAttrs[i].nodeValue || "";
-        } else if (name !== "id" && name !== "class") {
-          attrs[name] = elmAttrs[i].nodeValue;
+      function pre(vnode2, newVnode) {
+        const attachData = vnode2.data.attachData;
+        newVnode.data.attachData.placeholder = attachData.placeholder;
+        newVnode.data.attachData.real = attachData.real;
+        vnode2.elm = vnode2.data.attachData.real;
+      }
+      function post(_, vnode2) {
+        vnode2.elm = vnode2.data.attachData.placeholder;
+      }
+      function destroy(vnode2) {
+        if (vnode2.elm !== void 0) {
+          vnode2.elm.parentNode.removeChild(vnode2.elm);
+        }
+        vnode2.elm = vnode2.data.attachData.real;
+      }
+      function create(_, vnode2) {
+        const real = vnode2.elm;
+        const attachData = vnode2.data.attachData;
+        const placeholder = document.createElement("span");
+        vnode2.elm = placeholder;
+        attachData.target.appendChild(real);
+        attachData.real = real;
+        attachData.placeholder = placeholder;
+      }
+      function attachTo(target, vnode2) {
+        if (vnode2.data === void 0)
+          vnode2.data = {};
+        if (vnode2.data.hook === void 0)
+          vnode2.data.hook = {};
+        const data = vnode2.data;
+        const hook = vnode2.data.hook;
+        data.attachData = { target, placeholder: void 0, real: void 0 };
+        hook.create = create;
+        hook.prepatch = pre;
+        hook.postpatch = post;
+        hook.destroy = destroy;
+        return vnode2;
+      }
+      function toVNode(node, domApi) {
+        const api = domApi !== void 0 ? domApi : htmlDomApi;
+        let text;
+        if (api.isElement(node)) {
+          const id = node.id ? "#" + node.id : "";
+          const cn = node.getAttribute("class");
+          const c = cn ? "." + cn.split(" ").join(".") : "";
+          const sel = api.tagName(node).toLowerCase() + id + c;
+          const attrs = {};
+          const dataset = {};
+          const data = {};
+          const children = [];
+          let name;
+          let i, n;
+          const elmAttrs = node.attributes;
+          const elmChildren = node.childNodes;
+          for (i = 0, n = elmAttrs.length; i < n; i++) {
+            name = elmAttrs[i].nodeName;
+            if (name[0] === "d" && name[1] === "a" && name[2] === "t" && name[3] === "a" && name[4] === "-") {
+              dataset[name.slice(5)] = elmAttrs[i].nodeValue || "";
+            } else if (name !== "id" && name !== "class") {
+              attrs[name] = elmAttrs[i].nodeValue;
+            }
+          }
+          for (i = 0, n = elmChildren.length; i < n; i++) {
+            children.push(toVNode(elmChildren[i], domApi));
+          }
+          if (Object.keys(attrs).length > 0)
+            data.attrs = attrs;
+          if (Object.keys(dataset).length > 0)
+            data.dataset = dataset;
+          if (sel[0] === "s" && sel[1] === "v" && sel[2] === "g" && (sel.length === 3 || sel[3] === "." || sel[3] === "#")) {
+            addNS(data, children, sel);
+          }
+          return vnode(sel, data, children, void 0, node);
+        } else if (api.isText(node)) {
+          text = api.getTextContent(node);
+          return vnode(void 0, void 0, void 0, text, node);
+        } else if (api.isComment(node)) {
+          text = api.getTextContent(node);
+          return vnode("!", {}, [], text, node);
+        } else {
+          return vnode("", {}, [], void 0, node);
         }
       }
-      for (i = 0, n = elmChildren.length; i < n; i++) {
-        children.push(toVNode(elmChildren[i], domApi));
-      }
-      if (Object.keys(attrs).length > 0)
-        data.attrs = attrs;
-      if (Object.keys(dataset).length > 0)
-        data.dataset = dataset;
-      if (sel.startsWith("svg") && (sel.length === 3 || sel[3] === "." || sel[3] === "#")) {
-        addNS(data, children, sel);
-      }
-      return vnode(sel, data, children, void 0, node);
-    } else if (api.isText(node)) {
-      text = api.getTextContent(node);
-      return vnode(void 0, void 0, void 0, text, node);
-    } else if (api.isComment(node)) {
-      text = api.getTextContent(node);
-      return vnode("!", {}, [], text, node);
-    } else {
-      return vnode("", {}, [], void 0, node);
-    }
-  }
-  var init_tovnode = __esm({
-    "node_modules/snabbdom/build/tovnode.js"() {
-      init_h();
-      init_vnode();
-      init_htmldomapi();
-    }
-  });
-
-  // node_modules/snabbdom/build/hooks.js
-  var init_hooks = __esm({
-    "node_modules/snabbdom/build/hooks.js"() {
-    }
-  });
-
-  // node_modules/snabbdom/build/modules/attributes.js
-  function updateAttrs(oldVnode, vnode2) {
-    let key;
-    const elm = vnode2.elm;
-    let oldAttrs = oldVnode.data.attrs;
-    let attrs = vnode2.data.attrs;
-    if (!oldAttrs && !attrs)
-      return;
-    if (oldAttrs === attrs)
-      return;
-    oldAttrs = oldAttrs || {};
-    attrs = attrs || {};
-    for (key in attrs) {
-      const cur = attrs[key];
-      const old = oldAttrs[key];
-      if (old !== cur) {
-        if (cur === true) {
-          elm.setAttribute(key, "");
-        } else if (cur === false) {
-          elm.removeAttribute(key);
-        } else {
-          if (key.charCodeAt(0) !== xChar) {
-            elm.setAttribute(key, cur);
-          } else if (key.charCodeAt(3) === colonChar) {
-            elm.setAttributeNS(xmlNS, key, cur);
-          } else if (key.charCodeAt(5) === colonChar) {
-            key.charCodeAt(1) === mChar ? elm.setAttributeNS(xmlnsNS, key, cur) : elm.setAttributeNS(xlinkNS, key, cur);
-          } else {
-            elm.setAttribute(key, cur);
+      var xlinkNS = "http://www.w3.org/1999/xlink";
+      var xmlNS = "http://www.w3.org/XML/1998/namespace";
+      var colonChar = 58;
+      var xChar = 120;
+      function updateAttrs(oldVnode, vnode2) {
+        let key;
+        const elm = vnode2.elm;
+        let oldAttrs = oldVnode.data.attrs;
+        let attrs = vnode2.data.attrs;
+        if (!oldAttrs && !attrs)
+          return;
+        if (oldAttrs === attrs)
+          return;
+        oldAttrs = oldAttrs || {};
+        attrs = attrs || {};
+        for (key in attrs) {
+          const cur = attrs[key];
+          const old = oldAttrs[key];
+          if (old !== cur) {
+            if (cur === true) {
+              elm.setAttribute(key, "");
+            } else if (cur === false) {
+              elm.removeAttribute(key);
+            } else {
+              if (key.charCodeAt(0) !== xChar) {
+                elm.setAttribute(key, cur);
+              } else if (key.charCodeAt(3) === colonChar) {
+                elm.setAttributeNS(xmlNS, key, cur);
+              } else if (key.charCodeAt(5) === colonChar) {
+                elm.setAttributeNS(xlinkNS, key, cur);
+              } else {
+                elm.setAttribute(key, cur);
+              }
+            }
+          }
+        }
+        for (key in oldAttrs) {
+          if (!(key in attrs)) {
+            elm.removeAttribute(key);
           }
         }
       }
-    }
-    for (key in oldAttrs) {
-      if (!(key in attrs)) {
-        elm.removeAttribute(key);
-      }
-    }
-  }
-  var xlinkNS, xmlnsNS, xmlNS, colonChar, xChar, mChar, attributesModule;
-  var init_attributes = __esm({
-    "node_modules/snabbdom/build/modules/attributes.js"() {
-      xlinkNS = "http://www.w3.org/1999/xlink";
-      xmlnsNS = "http://www.w3.org/2000/xmlns/";
-      xmlNS = "http://www.w3.org/XML/1998/namespace";
-      colonChar = 58;
-      xChar = 120;
-      mChar = 109;
-      attributesModule = {
+      var attributesModule = {
         create: updateAttrs,
         update: updateAttrs
       };
-    }
-  });
-
-  // node_modules/snabbdom/build/modules/class.js
-  function updateClass(oldVnode, vnode2) {
-    let cur;
-    let name;
-    const elm = vnode2.elm;
-    let oldClass = oldVnode.data.class;
-    let klass = vnode2.data.class;
-    if (!oldClass && !klass)
-      return;
-    if (oldClass === klass)
-      return;
-    oldClass = oldClass || {};
-    klass = klass || {};
-    for (name in oldClass) {
-      if (oldClass[name] && !Object.prototype.hasOwnProperty.call(klass, name)) {
-        elm.classList.remove(name);
-      }
-    }
-    for (name in klass) {
-      cur = klass[name];
-      if (cur !== oldClass[name]) {
-        elm.classList[cur ? "add" : "remove"](name);
-      }
-    }
-  }
-  var classModule;
-  var init_class = __esm({
-    "node_modules/snabbdom/build/modules/class.js"() {
-      classModule = { create: updateClass, update: updateClass };
-    }
-  });
-
-  // node_modules/snabbdom/build/modules/dataset.js
-  function updateDataset(oldVnode, vnode2) {
-    const elm = vnode2.elm;
-    let oldDataset = oldVnode.data.dataset;
-    let dataset = vnode2.data.dataset;
-    let key;
-    if (!oldDataset && !dataset)
-      return;
-    if (oldDataset === dataset)
-      return;
-    oldDataset = oldDataset || {};
-    dataset = dataset || {};
-    const d = elm.dataset;
-    for (key in oldDataset) {
-      if (!(key in dataset)) {
-        if (d) {
-          if (key in d) {
-            delete d[key];
+      function updateClass(oldVnode, vnode2) {
+        let cur;
+        let name;
+        const elm = vnode2.elm;
+        let oldClass = oldVnode.data.class;
+        let klass = vnode2.data.class;
+        if (!oldClass && !klass)
+          return;
+        if (oldClass === klass)
+          return;
+        oldClass = oldClass || {};
+        klass = klass || {};
+        for (name in oldClass) {
+          if (oldClass[name] && !Object.prototype.hasOwnProperty.call(klass, name)) {
+            elm.classList.remove(name);
           }
-        } else {
-          elm.removeAttribute("data-" + key.replace(CAPS_REGEX, "-$&").toLowerCase());
+        }
+        for (name in klass) {
+          cur = klass[name];
+          if (cur !== oldClass[name]) {
+            elm.classList[cur ? "add" : "remove"](name);
+          }
         }
       }
-    }
-    for (key in dataset) {
-      if (oldDataset[key] !== dataset[key]) {
-        if (d) {
-          d[key] = dataset[key];
-        } else {
-          elm.setAttribute("data-" + key.replace(CAPS_REGEX, "-$&").toLowerCase(), dataset[key]);
+      var classModule = { create: updateClass, update: updateClass };
+      var CAPS_REGEX = /[A-Z]/g;
+      function updateDataset(oldVnode, vnode2) {
+        const elm = vnode2.elm;
+        let oldDataset = oldVnode.data.dataset;
+        let dataset = vnode2.data.dataset;
+        let key;
+        if (!oldDataset && !dataset)
+          return;
+        if (oldDataset === dataset)
+          return;
+        oldDataset = oldDataset || {};
+        dataset = dataset || {};
+        const d = elm.dataset;
+        for (key in oldDataset) {
+          if (!dataset[key]) {
+            if (d) {
+              if (key in d) {
+                delete d[key];
+              }
+            } else {
+              elm.removeAttribute("data-" + key.replace(CAPS_REGEX, "-$&").toLowerCase());
+            }
+          }
+        }
+        for (key in dataset) {
+          if (oldDataset[key] !== dataset[key]) {
+            if (d) {
+              d[key] = dataset[key];
+            } else {
+              elm.setAttribute("data-" + key.replace(CAPS_REGEX, "-$&").toLowerCase(), dataset[key]);
+            }
+          }
         }
       }
-    }
-  }
-  var CAPS_REGEX, datasetModule;
-  var init_dataset = __esm({
-    "node_modules/snabbdom/build/modules/dataset.js"() {
-      CAPS_REGEX = /[A-Z]/g;
-      datasetModule = {
+      var datasetModule = {
         create: updateDataset,
         update: updateDataset
       };
-    }
-  });
-
-  // node_modules/snabbdom/build/modules/eventlisteners.js
-  function invokeHandler(handler, vnode2, event) {
-    if (typeof handler === "function") {
-      handler.call(vnode2, event, vnode2);
-    } else if (typeof handler === "object") {
-      for (let i = 0; i < handler.length; i++) {
-        invokeHandler(handler[i], vnode2, event);
-      }
-    }
-  }
-  function handleEvent(event, vnode2) {
-    const name = event.type;
-    const on = vnode2.data.on;
-    if (on && on[name]) {
-      invokeHandler(on[name], vnode2, event);
-    }
-  }
-  function createListener() {
-    return function handler(event) {
-      handleEvent(event, handler.vnode);
-    };
-  }
-  function updateEventListeners(oldVnode, vnode2) {
-    const oldOn = oldVnode.data.on;
-    const oldListener = oldVnode.listener;
-    const oldElm = oldVnode.elm;
-    const on = vnode2 && vnode2.data.on;
-    const elm = vnode2 && vnode2.elm;
-    let name;
-    if (oldOn === on) {
-      return;
-    }
-    if (oldOn && oldListener) {
-      if (!on) {
-        for (name in oldOn) {
-          oldElm.removeEventListener(name, oldListener, false);
-        }
-      } else {
-        for (name in oldOn) {
-          if (!on[name]) {
-            oldElm.removeEventListener(name, oldListener, false);
+      function invokeHandler(handler, vnode2, event) {
+        if (typeof handler === "function") {
+          handler.call(vnode2, event, vnode2);
+        } else if (typeof handler === "object") {
+          for (let i = 0; i < handler.length; i++) {
+            invokeHandler(handler[i], vnode2, event);
           }
         }
       }
-    }
-    if (on) {
-      const listener = vnode2.listener = oldVnode.listener || createListener();
-      listener.vnode = vnode2;
-      if (!oldOn) {
-        for (name in on) {
-          elm.addEventListener(name, listener, false);
+      function handleEvent(event, vnode2) {
+        const name = event.type;
+        const on = vnode2.data.on;
+        if (on && on[name]) {
+          invokeHandler(on[name], vnode2, event);
         }
-      } else {
-        for (name in on) {
-          if (!oldOn[name]) {
-            elm.addEventListener(name, listener, false);
+      }
+      function createListener() {
+        return function handler(event) {
+          handleEvent(event, handler.vnode);
+        };
+      }
+      function updateEventListeners(oldVnode, vnode2) {
+        const oldOn = oldVnode.data.on;
+        const oldListener = oldVnode.listener;
+        const oldElm = oldVnode.elm;
+        const on = vnode2 && vnode2.data.on;
+        const elm = vnode2 && vnode2.elm;
+        let name;
+        if (oldOn === on) {
+          return;
+        }
+        if (oldOn && oldListener) {
+          if (!on) {
+            for (name in oldOn) {
+              oldElm.removeEventListener(name, oldListener, false);
+            }
+          } else {
+            for (name in oldOn) {
+              if (!on[name]) {
+                oldElm.removeEventListener(name, oldListener, false);
+              }
+            }
+          }
+        }
+        if (on) {
+          const listener = vnode2.listener = oldVnode.listener || createListener();
+          listener.vnode = vnode2;
+          if (!oldOn) {
+            for (name in on) {
+              elm.addEventListener(name, listener, false);
+            }
+          } else {
+            for (name in on) {
+              if (!oldOn[name]) {
+                elm.addEventListener(name, listener, false);
+              }
+            }
           }
         }
       }
-    }
-  }
-  var eventListenersModule;
-  var init_eventlisteners = __esm({
-    "node_modules/snabbdom/build/modules/eventlisteners.js"() {
-      eventListenersModule = {
+      var eventListenersModule = {
         create: updateEventListeners,
         update: updateEventListeners,
         destroy: updateEventListeners
       };
-    }
-  });
-
-  // node_modules/snabbdom/build/modules/props.js
-  function updateProps(oldVnode, vnode2) {
-    let key;
-    let cur;
-    let old;
-    const elm = vnode2.elm;
-    let oldProps = oldVnode.data.props;
-    let props = vnode2.data.props;
-    if (!oldProps && !props)
-      return;
-    if (oldProps === props)
-      return;
-    oldProps = oldProps || {};
-    props = props || {};
-    for (key in props) {
-      cur = props[key];
-      old = oldProps[key];
-      if (old !== cur && (key !== "value" || elm[key] !== cur)) {
-        elm[key] = cur;
-      }
-    }
-  }
-  var propsModule;
-  var init_props = __esm({
-    "node_modules/snabbdom/build/modules/props.js"() {
-      propsModule = { create: updateProps, update: updateProps };
-    }
-  });
-
-  // node_modules/snabbdom/build/modules/style.js
-  function setNextFrame(obj, prop, val) {
-    nextFrame(function() {
-      obj[prop] = val;
-    });
-  }
-  function updateStyle(oldVnode, vnode2) {
-    let cur;
-    let name;
-    const elm = vnode2.elm;
-    let oldStyle = oldVnode.data.style;
-    let style = vnode2.data.style;
-    if (!oldStyle && !style)
-      return;
-    if (oldStyle === style)
-      return;
-    oldStyle = oldStyle || {};
-    style = style || {};
-    const oldHasDel = "delayed" in oldStyle;
-    for (name in oldStyle) {
-      if (!(name in style)) {
-        if (name[0] === "-" && name[1] === "-") {
-          elm.style.removeProperty(name);
-        } else {
-          elm.style[name] = "";
-        }
-      }
-    }
-    for (name in style) {
-      cur = style[name];
-      if (name === "delayed" && style.delayed) {
-        for (const name2 in style.delayed) {
-          cur = style.delayed[name2];
-          if (!oldHasDel || cur !== oldStyle.delayed[name2]) {
-            setNextFrame(elm.style, name2, cur);
+      function updateProps(oldVnode, vnode2) {
+        let key;
+        let cur;
+        let old;
+        const elm = vnode2.elm;
+        let oldProps = oldVnode.data.props;
+        let props = vnode2.data.props;
+        if (!oldProps && !props)
+          return;
+        if (oldProps === props)
+          return;
+        oldProps = oldProps || {};
+        props = props || {};
+        for (key in props) {
+          cur = props[key];
+          old = oldProps[key];
+          if (old !== cur && (key !== "value" || elm[key] !== cur)) {
+            elm[key] = cur;
           }
         }
-      } else if (name !== "remove" && cur !== oldStyle[name]) {
-        if (name[0] === "-" && name[1] === "-") {
-          elm.style.setProperty(name, cur);
-        } else {
-          elm.style[name] = cur;
-        }
       }
-    }
-  }
-  function applyDestroyStyle(vnode2) {
-    let style;
-    let name;
-    const elm = vnode2.elm;
-    const s = vnode2.data.style;
-    if (!s || !(style = s.destroy))
-      return;
-    for (name in style) {
-      elm.style[name] = style[name];
-    }
-  }
-  function applyRemoveStyle(vnode2, rm) {
-    const s = vnode2.data.style;
-    if (!s || !s.remove) {
-      rm();
-      return;
-    }
-    if (!reflowForced) {
-      vnode2.elm.offsetLeft;
-      reflowForced = true;
-    }
-    let name;
-    const elm = vnode2.elm;
-    let i = 0;
-    const style = s.remove;
-    let amount = 0;
-    const applied = [];
-    for (name in style) {
-      applied.push(name);
-      elm.style[name] = style[name];
-    }
-    const compStyle = getComputedStyle(elm);
-    const props = compStyle["transition-property"].split(", ");
-    for (; i < props.length; ++i) {
-      if (applied.indexOf(props[i]) !== -1)
-        amount++;
-    }
-    elm.addEventListener("transitionend", function(ev) {
-      if (ev.target === elm)
-        --amount;
-      if (amount === 0)
-        rm();
-    });
-  }
-  function forceReflow() {
-    reflowForced = false;
-  }
-  var raf, nextFrame, reflowForced, styleModule;
-  var init_style = __esm({
-    "node_modules/snabbdom/build/modules/style.js"() {
-      raf = typeof (window === null || window === void 0 ? void 0 : window.requestAnimationFrame) === "function" ? window.requestAnimationFrame.bind(window) : setTimeout;
-      nextFrame = function(fn) {
+      var propsModule = { create: updateProps, update: updateProps };
+      var raf = typeof window !== "undefined" && window.requestAnimationFrame.bind(window) || setTimeout;
+      var nextFrame = function(fn) {
         raf(function() {
           raf(fn);
         });
       };
-      reflowForced = false;
-      styleModule = {
+      var reflowForced = false;
+      function setNextFrame(obj, prop, val) {
+        nextFrame(function() {
+          obj[prop] = val;
+        });
+      }
+      function updateStyle(oldVnode, vnode2) {
+        let cur;
+        let name;
+        const elm = vnode2.elm;
+        let oldStyle = oldVnode.data.style;
+        let style = vnode2.data.style;
+        if (!oldStyle && !style)
+          return;
+        if (oldStyle === style)
+          return;
+        oldStyle = oldStyle || {};
+        style = style || {};
+        const oldHasDel = "delayed" in oldStyle;
+        for (name in oldStyle) {
+          if (!style[name]) {
+            if (name[0] === "-" && name[1] === "-") {
+              elm.style.removeProperty(name);
+            } else {
+              elm.style[name] = "";
+            }
+          }
+        }
+        for (name in style) {
+          cur = style[name];
+          if (name === "delayed" && style.delayed) {
+            for (const name2 in style.delayed) {
+              cur = style.delayed[name2];
+              if (!oldHasDel || cur !== oldStyle.delayed[name2]) {
+                setNextFrame(elm.style, name2, cur);
+              }
+            }
+          } else if (name !== "remove" && cur !== oldStyle[name]) {
+            if (name[0] === "-" && name[1] === "-") {
+              elm.style.setProperty(name, cur);
+            } else {
+              elm.style[name] = cur;
+            }
+          }
+        }
+      }
+      function applyDestroyStyle(vnode2) {
+        let style;
+        let name;
+        const elm = vnode2.elm;
+        const s = vnode2.data.style;
+        if (!s || !(style = s.destroy))
+          return;
+        for (name in style) {
+          elm.style[name] = style[name];
+        }
+      }
+      function applyRemoveStyle(vnode2, rm) {
+        const s = vnode2.data.style;
+        if (!s || !s.remove) {
+          rm();
+          return;
+        }
+        if (!reflowForced) {
+          vnode2.elm.offsetLeft;
+          reflowForced = true;
+        }
+        let name;
+        const elm = vnode2.elm;
+        let i = 0;
+        const style = s.remove;
+        let amount = 0;
+        const applied = [];
+        for (name in style) {
+          applied.push(name);
+          elm.style[name] = style[name];
+        }
+        const compStyle = getComputedStyle(elm);
+        const props = compStyle["transition-property"].split(", ");
+        for (; i < props.length; ++i) {
+          if (applied.indexOf(props[i]) !== -1)
+            amount++;
+        }
+        elm.addEventListener("transitionend", function(ev) {
+          if (ev.target === elm)
+            --amount;
+          if (amount === 0)
+            rm();
+        });
+      }
+      function forceReflow() {
+        reflowForced = false;
+      }
+      var styleModule = {
         pre: forceReflow,
         create: updateStyle,
         update: updateStyle,
         destroy: applyDestroyStyle,
         remove: applyRemoveStyle
       };
-    }
-  });
-
-  // node_modules/snabbdom/build/jsx.js
-  function Fragment(data, ...children) {
-    const flatChildren = flattenAndFilter(children, []);
-    if (flatChildren.length === 1 && !flatChildren[0].sel && flatChildren[0].text) {
-      return vnode(void 0, void 0, void 0, flatChildren[0].text, void 0);
-    } else {
-      return vnode(void 0, data !== null && data !== void 0 ? data : {}, flatChildren, void 0, void 0);
-    }
-  }
-  function flattenAndFilter(children, flattened) {
-    for (const child of children) {
-      if (child !== void 0 && child !== null && child !== false && child !== "") {
-        if (Array.isArray(child)) {
-          flattenAndFilter(child, flattened);
-        } else if (typeof child === "string" || typeof child === "number" || typeof child === "boolean") {
-          flattened.push(vnode(void 0, void 0, void 0, String(child), void 0));
+      function Fragment(data, ...children) {
+        const flatChildren = flattenAndFilter(children, []);
+        if (flatChildren.length === 1 && !flatChildren[0].sel && flatChildren[0].text) {
+          return vnode(void 0, void 0, void 0, flatChildren[0].text, void 0);
         } else {
-          flattened.push(child);
+          return vnode(void 0, data !== null && data !== void 0 ? data : {}, flatChildren, void 0, void 0);
         }
       }
-    }
-    return flattened;
-  }
-  function jsx(tag, data, ...children) {
-    const flatChildren = flattenAndFilter(children, []);
-    if (typeof tag === "function") {
-      return tag(data, flatChildren);
-    } else {
-      if (flatChildren.length === 1 && !flatChildren[0].sel && flatChildren[0].text) {
-        return h(tag, data, flatChildren[0].text);
-      } else {
-        return h(tag, data, flatChildren);
+      function flattenAndFilter(children, flattened) {
+        for (const child of children) {
+          if (child !== void 0 && child !== null && child !== false && child !== "") {
+            if (Array.isArray(child)) {
+              flattenAndFilter(child, flattened);
+            } else if (typeof child === "string" || typeof child === "number" || typeof child === "boolean") {
+              flattened.push(vnode(void 0, void 0, void 0, String(child), void 0));
+            } else {
+              flattened.push(child);
+            }
+          }
+        }
+        return flattened;
       }
-    }
-  }
-  var init_jsx = __esm({
-    "node_modules/snabbdom/build/jsx.js"() {
-      init_vnode();
-      init_h();
-    }
-  });
-
-  // node_modules/snabbdom/build/index.js
-  var build_exports = {};
-  __export(build_exports, {
-    Fragment: () => Fragment,
-    array: () => array,
-    attachTo: () => attachTo,
-    attributesModule: () => attributesModule,
-    classModule: () => classModule,
-    datasetModule: () => datasetModule,
-    eventListenersModule: () => eventListenersModule,
-    fragment: () => fragment,
-    h: () => h,
-    htmlDomApi: () => htmlDomApi,
-    init: () => init,
-    jsx: () => jsx,
-    primitive: () => primitive,
-    propsModule: () => propsModule,
-    styleModule: () => styleModule,
-    thunk: () => thunk,
-    toVNode: () => toVNode,
-    vnode: () => vnode
-  });
-  var init_build = __esm({
-    "node_modules/snabbdom/build/index.js"() {
-      init_htmldomapi();
-      init_init();
-      init_thunk();
-      init_vnode();
-      init_attachto();
-      init_is();
-      init_tovnode();
-      init_h();
-      init_hooks();
-      init_attributes();
-      init_class();
-      init_dataset();
-      init_eventlisteners();
-      init_props();
-      init_style();
-      init_jsx();
+      function jsx(tag, data, ...children) {
+        const flatChildren = flattenAndFilter(children, []);
+        if (typeof tag === "function") {
+          return tag(data, flatChildren);
+        } else {
+          if (flatChildren.length === 1 && !flatChildren[0].sel && flatChildren[0].text) {
+            return h(tag, data, flatChildren[0].text);
+          } else {
+            return h(tag, data, flatChildren);
+          }
+        }
+      }
+      (function(jsx2) {
+      })(jsx || (jsx = {}));
+      exports.Fragment = Fragment;
+      exports.array = array;
+      exports.attachTo = attachTo;
+      exports.attributesModule = attributesModule;
+      exports.classModule = classModule;
+      exports.datasetModule = datasetModule;
+      exports.eventListenersModule = eventListenersModule;
+      exports.fragment = fragment;
+      exports.h = h;
+      exports.htmlDomApi = htmlDomApi;
+      exports.init = init$1;
+      exports.jsx = jsx;
+      exports.primitive = primitive;
+      exports.propsModule = propsModule;
+      exports.styleModule = styleModule;
+      exports.thunk = thunk;
+      exports.toVNode = toVNode;
+      exports.vnode = vnode;
     }
   });
 
@@ -10179,7 +10032,7 @@
       };
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.isThunk = exports.ThunkView = void 0;
-      var snabbdom_1 = (init_build(), __toCommonJS(build_exports));
+      var snabbdom_1 = require_snabbdom_cjs();
       var inversify_1 = require_inversify();
       var ThunkView = class ThunkView {
         render(model, context) {
@@ -10195,30 +10048,30 @@
           });
         }
         renderAndDecorate(model, context) {
-          const vnode2 = this.doRender(model, context);
-          context.decorate(vnode2, model);
-          return vnode2;
+          const vnode = this.doRender(model, context);
+          context.decorate(vnode, model);
+          return vnode;
         }
-        copyToThunk(vnode2, thunk3) {
-          thunk3.elm = vnode2.elm;
-          vnode2.data.fn = thunk3.data.fn;
-          vnode2.data.args = thunk3.data.args;
-          thunk3.data = vnode2.data;
-          thunk3.children = vnode2.children;
-          thunk3.text = vnode2.text;
-          thunk3.elm = vnode2.elm;
+        copyToThunk(vnode, thunk) {
+          thunk.elm = vnode.elm;
+          vnode.data.fn = thunk.data.fn;
+          vnode.data.args = thunk.data.args;
+          thunk.data = vnode.data;
+          thunk.children = vnode.children;
+          thunk.text = vnode.text;
+          thunk.elm = vnode.elm;
         }
-        init(thunk3) {
-          const cur = thunk3.data;
-          const vnode2 = cur.fn.apply(void 0, cur.args);
-          this.copyToThunk(vnode2, thunk3);
+        init(thunk) {
+          const cur = thunk.data;
+          const vnode = cur.fn.apply(void 0, cur.args);
+          this.copyToThunk(vnode, thunk);
         }
-        prepatch(oldVnode, thunk3) {
-          const old = oldVnode.data, cur = thunk3.data;
+        prepatch(oldVnode, thunk) {
+          const old = oldVnode.data, cur = thunk.data;
           if (!this.equals(old.args, cur.args))
-            this.copyToThunk(cur.fn.apply(void 0, cur.args), thunk3);
+            this.copyToThunk(cur.fn.apply(void 0, cur.args), thunk);
           else
-            this.copyToThunk(oldVnode, thunk3);
+            this.copyToThunk(oldVnode, thunk);
         }
         equals(oldArg, newArg) {
           if (Array.isArray(oldArg) && Array.isArray(newArg)) {
@@ -10245,8 +10098,8 @@
       exports.ThunkView = ThunkView = __decorate([
         (0, inversify_1.injectable)()
       ], ThunkView);
-      function isThunk(vnode2) {
-        return "thunk" in vnode2;
+      function isThunk(vnode) {
+        return "thunk" in vnode;
       }
       exports.isThunk = isThunk;
     }
@@ -10258,7 +10111,7 @@
       "use strict";
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.JSX = exports.svg = exports.html = void 0;
-      var snabbdom_1 = (init_build(), __toCommonJS(build_exports));
+      var snabbdom_1 = require_snabbdom_cjs();
       var modulesNS = ["hook", "on", "style", "class", "props", "attrs", "dataset"];
       var SVGNS = "http://www.w3.org/2000/svg";
       function normalizeAttrs(source, defNS, namespace) {
@@ -10552,7 +10405,7 @@
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.PopupModelViewer = exports.HiddenModelViewer = exports.ModelViewer = exports.PatcherProvider = exports.ModelRenderer = void 0;
       var inversify_1 = require_inversify();
-      var snabbdom_1 = (init_build(), __toCommonJS(build_exports));
+      var snabbdom_1 = require_snabbdom_cjs();
       var jsx_1 = require_jsx();
       var browser_1 = require_browser();
       var initialize_canvas_1 = require_initialize_canvas();
@@ -10567,24 +10420,24 @@
           this.postprocessors = postprocessors;
           this.args = args;
         }
-        decorate(vnode2, element) {
-          if ((0, thunk_view_1.isThunk)(vnode2)) {
-            return vnode2;
+        decorate(vnode, element) {
+          if ((0, thunk_view_1.isThunk)(vnode)) {
+            return vnode;
           }
-          return this.postprocessors.reduce((n, processor) => processor.decorate(n, element), vnode2);
+          return this.postprocessors.reduce((n, processor) => processor.decorate(n, element), vnode);
         }
         renderElement(element) {
           const view = this.viewRegistry.get(element.type);
-          const vnode2 = view.render(element, this, this.args);
-          if (vnode2) {
-            return this.decorate(vnode2, element);
+          const vnode = view.render(element, this, this.args);
+          if (vnode) {
+            return this.decorate(vnode, element);
           } else {
             return void 0;
           }
         }
         renderChildren(element, args) {
           const context = args ? new ModelRenderer(this.viewRegistry, this.targetKind, this.postprocessors, Object.assign(Object.assign({}, args), { parentArgs: this.args })) : this;
-          return element.children.map((child) => context.renderElement(child)).filter((vnode2) => vnode2 !== void 0);
+          return element.children.map((child) => context.renderElement(child)).filter((vnode) => vnode !== void 0);
         }
         postUpdate(cause) {
           this.postprocessors.forEach((processor) => processor.postUpdate(cause));
@@ -10829,10 +10682,10 @@
       var inversify_1 = require_inversify();
       var vnode_utils_1 = require_vnode_utils();
       var FocusFixPostprocessor = class FocusFixPostprocessor {
-        decorate(vnode2, element) {
-          if (vnode2.sel && vnode2.sel.startsWith("svg"))
-            (0, vnode_utils_1.setAttr)(vnode2, "tabindex", 0);
-          return vnode2;
+        decorate(vnode, element) {
+          if (vnode.sel && vnode.sel.startsWith("svg"))
+            (0, vnode_utils_1.setAttr)(vnode, "tabindex", 0);
+          return vnode;
         }
         postUpdate() {
         }
@@ -10974,14 +10827,14 @@
       var dom_helper_1 = require_dom_helper();
       var vnode_utils_1 = require_vnode_utils();
       var IdPostprocessor = class IdPostprocessor {
-        decorate(vnode2, element) {
-          const attrs = (0, vnode_utils_1.getAttrs)(vnode2);
+        decorate(vnode, element) {
+          const attrs = (0, vnode_utils_1.getAttrs)(vnode);
           if (attrs.id !== void 0)
-            this.logger.warn(vnode2, "Overriding id of vnode (" + attrs.id + "). Make sure not to set it manually in view.");
+            this.logger.warn(vnode, "Overriding id of vnode (" + attrs.id + "). Make sure not to set it manually in view.");
           attrs.id = this.domHelper.createUniqueDOMElementId(element);
-          if (!vnode2.key)
-            vnode2.key = element.id;
-          return vnode2;
+          if (!vnode.key)
+            vnode.key = element.id;
+          return vnode;
         }
         postUpdate() {
         }
@@ -11021,16 +10874,16 @@
       var vnode_utils_1 = require_vnode_utils();
       var inversify_1 = require_inversify();
       var CssClassPostprocessor = class CssClassPostprocessor {
-        decorate(vnode2, element) {
+        decorate(vnode, element) {
           if (element.cssClasses) {
             for (const cssClass of element.cssClasses)
-              (0, vnode_utils_1.setClass)(vnode2, cssClass, true);
+              (0, vnode_utils_1.setClass)(vnode, cssClass, true);
           }
           const subType = (0, model_utils_1.getSubType)(element);
           if (subType && subType !== element.type) {
-            (0, vnode_utils_1.setClass)(vnode2, subType, true);
+            (0, vnode_utils_1.setClass)(vnode, subType, true);
           }
-          return vnode2;
+          return vnode;
         }
         postUpdate() {
         }
@@ -11594,10 +11447,10 @@
         constructor() {
           this.element2boundsData = /* @__PURE__ */ new Map();
         }
-        decorate(vnode2, element) {
+        decorate(vnode, element) {
           if ((0, model_1.isSizeable)(element) || (0, model_1.isLayoutContainer)(element)) {
             this.element2boundsData.set(element, {
-              vnode: vnode2,
+              vnode,
               bounds: element.bounds,
               boundsChanged: false,
               alignmentChanged: false
@@ -11606,7 +11459,7 @@
           if (element instanceof smodel_1.SModelRootImpl) {
             this.root = element;
           }
-          return vnode2;
+          return vnode;
         }
         postUpdate(cause) {
           if (cause === void 0 || cause.kind !== actions_1.RequestBoundsAction.KIND) {
@@ -11648,9 +11501,9 @@
         getBoundsFromDOM() {
           this.element2boundsData.forEach((boundsData, element) => {
             if (boundsData.bounds && (0, model_1.isSizeable)(element)) {
-              const vnode2 = boundsData.vnode;
-              if (vnode2 && vnode2.elm) {
-                const boundingBox = this.getBounds(vnode2.elm, element);
+              const vnode = boundsData.vnode;
+              if (vnode && vnode.elm) {
+                const boundingBox = this.getBounds(vnode.elm, element);
                 if ((0, model_1.isAlignable)(element) && !((0, geometry_1.almostEquals)(boundingBox.x, 0) && (0, geometry_1.almostEquals)(boundingBox.y, 0))) {
                   boundsData.alignment = {
                     x: -boundingBox.x,
@@ -12660,7 +12513,7 @@
             if (settings.renderGroup) {
               renderGroup = settings.renderGroup;
             }
-            var fragment2 = doc.createDocumentFragment();
+            var fragment = doc.createDocumentFragment();
             var prevGroup = uid();
             items.forEach(function(item, index) {
               if (item.group && item.group !== prevGroup) {
@@ -12668,7 +12521,7 @@
                 var groupDiv = renderGroup(item.group, inputValue);
                 if (groupDiv) {
                   groupDiv.className += " group";
-                  fragment2.appendChild(groupDiv);
+                  fragment.appendChild(groupDiv);
                 }
               }
               var div = render(item, inputValue, index);
@@ -12691,10 +12544,10 @@
                   div.setAttribute("aria-selected", "true");
                   input.setAttribute("aria-activedescendant", div.id);
                 }
-                fragment2.appendChild(div);
+                fragment.appendChild(div);
               }
             });
-            container2.appendChild(fragment2);
+            container2.appendChild(fragment);
             if (items.length < 1) {
               if (settings.emptyMsg) {
                 var empty = doc.createElement("div");
@@ -12912,7 +12765,7 @@
             return input.focus();
           });
           detach();
-          function destroy2() {
+          function destroy() {
             input.removeEventListener("focus", focusEventHandler);
             input.removeEventListener("keyup", keyupEventHandler);
             input.removeEventListener("click", clickEventHandler);
@@ -12941,7 +12794,7 @@
           window.addEventListener("resize", resizeEventHandler);
           doc.addEventListener("scroll", scrollEventHandler, true);
           return {
-            destroy: destroy2,
+            destroy,
             fetch: manualFetch
           };
         }
@@ -13337,8 +13190,8 @@
               const fragments = menuItem.parentId.split(".");
               let matchingParent = void 0;
               let nextParents = menuItems;
-              for (const fragment2 of fragments) {
-                matchingParent = nextParents.find((item) => fragment2 === item.id);
+              for (const fragment of fragments) {
+                matchingParent = nextParents.find((item) => fragment === item.id);
                 if (matchingParent && matchingParent.children)
                   nextParents = matchingParent.children;
               }
@@ -15034,7 +14887,7 @@
          * @param element - The SModelElementImpl to decorate.
          * @returns The decorated vnode.
          */
-        decorate(vnode2, element) {
+        decorate(vnode, element) {
           var _a, _b;
           if ((0, model_2.isEdgeLayoutable)(element) && element.parent instanceof sgraph_1.SEdgeImpl) {
             if (element.bounds !== geometry_1.Bounds.EMPTY) {
@@ -15086,10 +14939,10 @@
               } else {
                 transform += freeTransform;
               }
-              (0, vnode_utils_1.setAttr)(vnode2, "transform", transform);
+              (0, vnode_utils_1.setAttr)(vnode, "transform", transform);
             }
           }
-          return vnode2;
+          return vnode;
         }
         getRotatedAlignment(element, placement, flip) {
           let x = (0, model_1.isAlignable)(element) ? element.alignment.x : 0;
@@ -15485,13 +15338,13 @@
       var EditLabelAction;
       (function(EditLabelAction2) {
         EditLabelAction2.KIND = "EditLabel";
-        function create2(labelId) {
+        function create(labelId) {
           return {
             kind: EditLabelAction2.KIND,
             labelId
           };
         }
-        EditLabelAction2.create = create2;
+        EditLabelAction2.create = create;
       })(EditLabelAction || (exports.EditLabelAction = EditLabelAction = {}));
       function isEditLabelAction(element) {
         return (0, actions_1.isAction)(element) && element.kind === EditLabelAction.KIND && "labelId" in element;
@@ -15599,14 +15452,14 @@
       var ExportSvgAction;
       (function(ExportSvgAction2) {
         ExportSvgAction2.KIND = "exportSvg";
-        function create2(svg2, requestId) {
+        function create(svg2, requestId) {
           return {
             kind: ExportSvgAction2.KIND,
             svg: svg2,
             responseId: requestId
           };
         }
-        ExportSvgAction2.create = create2;
+        ExportSvgAction2.create = create;
       })(ExportSvgAction || (exports.ExportSvgAction = ExportSvgAction = {}));
       var SvgExporter = class SvgExporter {
         export(root, request) {
@@ -15808,12 +15661,12 @@
       var CommitModelAction;
       (function(CommitModelAction2) {
         CommitModelAction2.KIND = "commitModel";
-        function create2() {
+        function create() {
           return {
             kind: CommitModelAction2.KIND
           };
         }
-        CommitModelAction2.create = create2;
+        CommitModelAction2.create = create;
       })(CommitModelAction || (exports.CommitModelAction = CommitModelAction = {}));
       var CommitModelCommand = class CommitModelCommand extends command_1.SystemCommand {
         constructor(action) {
@@ -16266,7 +16119,7 @@
       var SwitchEditModeAction;
       (function(SwitchEditModeAction2) {
         SwitchEditModeAction2.KIND = "switchEditMode";
-        function create2(options) {
+        function create(options) {
           var _a, _b;
           return {
             kind: SwitchEditModeAction2.KIND,
@@ -16274,7 +16127,7 @@
             elementsToDeactivate: (_b = options.elementsToDeactivate) !== null && _b !== void 0 ? _b : []
           };
         }
-        SwitchEditModeAction2.create = create2;
+        SwitchEditModeAction2.create = create;
       })(SwitchEditModeAction || (exports.SwitchEditModeAction = SwitchEditModeAction = {}));
       var SwitchEditModeCommand = class SwitchEditModeCommand extends command_1.Command {
         constructor(action) {
@@ -16652,13 +16505,13 @@
       var RequestExportSvgAction;
       (function(RequestExportSvgAction2) {
         RequestExportSvgAction2.KIND = "requestExportSvg";
-        function create2() {
+        function create() {
           return {
             kind: RequestExportSvgAction2.KIND,
             requestId: (0, actions_1.generateRequestId)()
           };
         }
-        RequestExportSvgAction2.create = create2;
+        RequestExportSvgAction2.create = create;
       })(RequestExportSvgAction || (exports.RequestExportSvgAction = RequestExportSvgAction = {}));
       var ExportSvgCommand = class ExportSvgCommand extends command_1.HiddenCommand {
         constructor(action) {
@@ -16699,10 +16552,10 @@
         __metadata("design:paramtypes", [Object])
       ], ExportSvgCommand);
       var ExportSvgPostprocessor = class ExportSvgPostprocessor {
-        decorate(vnode2, element) {
+        decorate(vnode, element) {
           if (element instanceof smodel_1.SModelRootImpl)
             this.root = element;
-          return vnode2;
+          return vnode;
         }
         postUpdate(cause) {
           if (this.root && cause !== void 0 && cause.kind === RequestExportSvgAction.KIND) {
@@ -16766,11 +16619,11 @@
       };
       exports.FadeAnimation = FadeAnimation;
       var ElementFader = class ElementFader {
-        decorate(vnode2, element) {
+        decorate(vnode, element) {
           if ((0, model_1.isFadeable)(element) && element.opacity !== 1) {
-            (0, vnode_utils_1.setAttr)(vnode2, "opacity", element.opacity);
+            (0, vnode_utils_1.setAttr)(vnode, "opacity", element.opacity);
           }
-          return vnode2;
+          return vnode;
         }
         postUpdate() {
         }
@@ -17191,13 +17044,13 @@
       var routing_1 = require_routing();
       var sprotty_protocol_1 = require_lib();
       var DecorationPlacer = class DecorationPlacer {
-        decorate(vnode2, element) {
+        decorate(vnode, element) {
           if ((0, model_1.isDecoration)(element)) {
             const position = this.getPosition(element);
             const translate = "translate(" + position.x + ", " + position.y + ")";
-            (0, vnode_utils_1.setAttr)(vnode2, "transform", translate);
+            (0, vnode_utils_1.setAttr)(vnode, "transform", translate);
           }
-          return vnode2;
+          return vnode;
         }
         getPosition(element) {
           if (element instanceof smodel_1.SChildElementImpl && element.parent instanceof model_3.SRoutableElementImpl) {
@@ -18076,8 +17929,8 @@
           });
           return actions_1.DeleteElementAction.create(deleteIds);
         }
-        decorate(vnode2, element) {
-          return vnode2;
+        decorate(vnode, element) {
+          return vnode;
         }
       };
       exports.MoveMouseListener = MoveMouseListener;
@@ -18092,9 +17945,9 @@
         __metadata("design:type", Object)
       ], MoveMouseListener.prototype, "snapper", void 0);
       var LocationPostprocessor = class LocationPostprocessor {
-        decorate(vnode2, element) {
+        decorate(vnode, element) {
           if ((0, model_3.isEdgeLayoutable)(element) && element.parent instanceof sgraph_1.SEdgeImpl) {
-            return vnode2;
+            return vnode;
           }
           let translate = "";
           if ((0, model_6.isLocateable)(element) && element instanceof smodel_1.SChildElementImpl && element.parent !== void 0) {
@@ -18113,9 +17966,9 @@
             }
           }
           if (translate.length > 0) {
-            (0, vnode_utils_1.setAttr)(vnode2, "transform", translate);
+            (0, vnode_utils_1.setAttr)(vnode, "transform", translate);
           }
-          return vnode2;
+          return vnode;
         }
         postUpdate() {
         }
@@ -18330,7 +18183,7 @@
       exports.ProjectedViewportView = void 0;
       var jsx_1 = require_jsx();
       var inversify_1 = require_inversify();
-      var snabbdom_1 = (init_build(), __toCommonJS(build_exports));
+      var snabbdom_1 = require_snabbdom_cjs();
       var vnode_utils_1 = require_vnode_utils();
       var model_1 = require_model17();
       var ProjectedViewportView = class ProjectedViewportView {
@@ -18862,14 +18715,14 @@
       var AddRemoveBezierSegmentAction;
       (function(AddRemoveBezierSegmentAction2) {
         AddRemoveBezierSegmentAction2.KIND = "addRemoveBezierSegment";
-        function create2(actionTask, targetId) {
+        function create(actionTask, targetId) {
           return {
             kind: AddRemoveBezierSegmentAction2.KIND,
             actionTask,
             targetId
           };
         }
-        AddRemoveBezierSegmentAction2.create = create2;
+        AddRemoveBezierSegmentAction2.create = create;
       })(AddRemoveBezierSegmentAction || (exports.AddRemoveBezierSegmentAction = AddRemoveBezierSegmentAction = {}));
       var AddRemoveBezierSegmentCommand = class AddRemoveBezierSegmentCommand extends command_1.Command {
         constructor(action, edgeRouterRegistry) {
@@ -20135,12 +19988,12 @@
           this.hasDragged = false;
           return [];
         }
-        decorate(vnode2, element) {
+        decorate(vnode, element) {
           const selectableTarget = (0, smodel_utils_1.findParentByFeature)(element, model_4.isSelectable);
           if (selectableTarget !== void 0) {
-            (0, vnode_utils_1.setClass)(vnode2, "selected", selectableTarget.selected);
+            (0, vnode_utils_1.setClass)(vnode, "selected", selectableTarget.selected);
           }
-          return vnode2;
+          return vnode;
         }
       };
       exports.SelectMouseListener = SelectMouseListener;
@@ -21267,8 +21120,8 @@
       var inversify_1 = require_inversify();
       var types_1 = require_types();
       var PopupPositionUpdater = class PopupPositionUpdater {
-        decorate(vnode2, element) {
-          return vnode2;
+        decorate(vnode, element) {
+          return vnode;
         }
         postUpdate() {
           const popupDiv = document.getElementById(this.options.popupDiv);
@@ -21865,12 +21718,12 @@
           if (!(0, model_1.isEdgeLayoutable)(label) && !this.isVisible(label, context)) {
             return void 0;
           }
-          const vnode2 = (0, jsx_1.svg)("text", { "class-sprotty-label": true }, label.text);
+          const vnode = (0, jsx_1.svg)("text", { "class-sprotty-label": true }, label.text);
           const subType = (0, model_utils_1.getSubType)(label);
           if (subType) {
-            (0, vnode_utils_1.setAttr)(vnode2, "class", subType);
+            (0, vnode_utils_1.setAttr)(vnode, "class", subType);
           }
-          return vnode2;
+          return vnode;
         }
       };
       exports.SLabelView = SLabelView2;
@@ -21880,11 +21733,11 @@
       var SCompartmentView = class SCompartmentView {
         render(compartment, context, args) {
           const translate = `translate(${compartment.bounds.x}, ${compartment.bounds.y})`;
-          const vnode2 = (0, jsx_1.svg)("g", { transform: translate, "class-sprotty-comp": "{true}" }, context.renderChildren(compartment));
+          const vnode = (0, jsx_1.svg)("g", { transform: translate, "class-sprotty-comp": "{true}" }, context.renderChildren(compartment));
           const subType = (0, model_utils_1.getSubType)(compartment);
           if (subType)
-            (0, vnode_utils_1.setAttr)(vnode2, "class", subType);
-          return vnode2;
+            (0, vnode_utils_1.setAttr)(vnode, "class", subType);
+          return vnode;
         }
       };
       exports.SCompartmentView = SCompartmentView;
@@ -22068,7 +21921,7 @@
     "node_modules/sprotty/lib/lib/virtualize.js"(exports) {
       "use strict";
       Object.defineProperty(exports, "__esModule", { value: true });
-      var snabbdom_1 = (init_build(), __toCommonJS(build_exports));
+      var snabbdom_1 = require_snabbdom_cjs();
       function buildVNodeData(attrs) {
         const data = {};
         const addData = (memo, name) => {
@@ -22178,7 +22031,7 @@
       var vdom = null;
       var vnodeMap = /* @__PURE__ */ new Map();
       var delimited = false;
-      function toVNode2(node, parent) {
+      function toVNode(node, parent) {
         let current;
         if (parent !== null) {
           current = vnodeMap.get(parent);
@@ -22250,7 +22103,7 @@
         }
         delimited = false;
         vdom = null;
-        recurse(doc, toVNode2);
+        recurse(doc, toVNode);
         if (vdom === null)
           return null;
         return stripVNode(vdom);
@@ -22514,18 +22367,18 @@
           }
         }
         var f = "object" == typeof window && window.window === window ? window : "object" == typeof self && self.self === self ? self : "object" == typeof global && global.global === global ? global : void 0, a = f.navigator && /Macintosh/.test(navigator.userAgent) && /AppleWebKit/.test(navigator.userAgent) && !/Safari/.test(navigator.userAgent), g = f.saveAs || ("object" != typeof window || window !== f ? function() {
-        } : "download" in HTMLAnchorElement.prototype && !a ? function(b2, g2, h2) {
+        } : "download" in HTMLAnchorElement.prototype && !a ? function(b2, g2, h) {
           var i = f.URL || f.webkitURL, j = document.createElement("a");
-          g2 = g2 || b2.name || "download", j.download = g2, j.rel = "noopener", "string" == typeof b2 ? (j.href = b2, j.origin === location.origin ? e(j) : d(j.href) ? c(b2, g2, h2) : e(j, j.target = "_blank")) : (j.href = i.createObjectURL(b2), setTimeout(function() {
+          g2 = g2 || b2.name || "download", j.download = g2, j.rel = "noopener", "string" == typeof b2 ? (j.href = b2, j.origin === location.origin ? e(j) : d(j.href) ? c(b2, g2, h) : e(j, j.target = "_blank")) : (j.href = i.createObjectURL(b2), setTimeout(function() {
             i.revokeObjectURL(j.href);
           }, 4e4), setTimeout(function() {
             e(j);
           }, 0));
-        } : "msSaveOrOpenBlob" in navigator ? function(f2, g2, h2) {
+        } : "msSaveOrOpenBlob" in navigator ? function(f2, g2, h) {
           if (g2 = g2 || f2.name || "download", "string" != typeof f2)
-            navigator.msSaveOrOpenBlob(b(f2, h2), g2);
+            navigator.msSaveOrOpenBlob(b(f2, h), g2);
           else if (d(f2))
-            c(f2, g2, h2);
+            c(f2, g2, h);
           else {
             var i = document.createElement("a");
             i.href = f2, i.target = "_blank", setTimeout(function() {
@@ -22535,8 +22388,8 @@
         } : function(b2, d2, e2, g2) {
           if (g2 = g2 || open("", "_blank"), g2 && (g2.document.title = g2.document.body.innerText = "downloading..."), "string" == typeof b2)
             return c(b2, d2, e2);
-          var h2 = "application/octet-stream" === b2.type, i = /constructor/i.test(f.HTMLElement) || f.safari, j = /CriOS\/[\d]+/.test(navigator.userAgent);
-          if ((j || h2 && i || a) && "undefined" != typeof FileReader) {
+          var h = "application/octet-stream" === b2.type, i = /constructor/i.test(f.HTMLElement) || f.safari, j = /CriOS\/[\d]+/.test(navigator.userAgent);
+          if ((j || h && i || a) && "undefined" != typeof FileReader) {
             var k = new FileReader();
             k.onloadend = function() {
               var a2 = k.result;
@@ -23359,35 +23212,18 @@
 
   // di.config.ts
   var import_inversify2 = __toESM(require_inversify());
-
-  // util/customEdge.ts
-  var import_sprotty = __toESM(require_lib2());
-  var CustomMouseListener = class extends import_sprotty.MouseListener {
-    mouseUp(target, event) {
-      if (target instanceof import_sprotty.SRoutingHandleImpl) {
-        if (!target.parent.targetId.includes("dummy")) {
-          setTimeout(() => {
-            document.getElementById("cancel").click();
-          }, 100);
-        }
-      }
-      return [];
-    }
-  };
-
-  // di.config.ts
   var import_sprotty3 = __toESM(require_lib2());
 
-  // view/portView.tsx
-  var import_jsx2 = __toESM(require_jsx());
+  // views/PortViewWithExternalLabel.tsx
+  var import_jsx = __toESM(require_jsx());
   var import_inversify = __toESM(require_inversify());
-  var import_sprotty2 = __toESM(require_lib2());
-  var PortViewWithExternalLabel = class extends import_sprotty2.ShapeView {
+  var import_sprotty = __toESM(require_lib2());
+  var PortViewWithExternalLabel = class extends import_sprotty.ShapeView {
     render(node, context) {
       if (!this.isVisible(node, context)) {
         return void 0;
       }
-      const bboxElement = /* @__PURE__ */ (0, import_jsx2.svg)(
+      const bboxElement = /* @__PURE__ */ (0, import_jsx.svg)(
         "rect",
         {
           "class-sprotty-port": true,
@@ -23399,13 +23235,28 @@
           height: Math.max(node.size.height, 0)
         }
       );
-      (0, import_sprotty2.setAttr)(bboxElement, import_sprotty2.ATTR_BBOX_ELEMENT, true);
-      return /* @__PURE__ */ (0, import_jsx2.svg)("g", null, bboxElement, context.renderChildren(node));
+      (0, import_sprotty.setAttr)(bboxElement, import_sprotty.ATTR_BBOX_ELEMENT, true);
+      return /* @__PURE__ */ (0, import_jsx.svg)("g", null, bboxElement, context.renderChildren(node));
     }
   };
   PortViewWithExternalLabel = __decorateClass([
     (0, import_inversify.injectable)()
   ], PortViewWithExternalLabel);
+
+  // util/customEdge.ts
+  var import_sprotty2 = __toESM(require_lib2());
+  var CustomMouseListener = class extends import_sprotty2.MouseListener {
+    mouseUp(target, event) {
+      if (target instanceof import_sprotty2.SRoutingHandleImpl) {
+        if (!target.parent.targetId.includes("dummy")) {
+          setTimeout(() => {
+            document.getElementById("cancel-draw-edge").click();
+          }, 100);
+        }
+      }
+      return [];
+    }
+  };
 
   // di.config.ts
   var createContainer = (containerId) => {
@@ -23481,53 +23332,25 @@
   var graph = {
     type: "graph",
     id: "graph",
-    children: [
-      // <SNode>{
-      //   type: "node",
-      //   id: "node-1",
-      //   name: "node-1",
-      //   position: { x: nx, y: ny },
-      //   size: { width: nw, height: nh },
-      //   children: [
-      //     <SLabel>{
-      //       type: "label:node",
-      //       id: "label-1",
-      //       text: "abc",
-      //       position: { x: nx / 2, y: nw / 2 },
-      //     },
-      //     <SPort>{
-      //       type: "port",
-      //       id: "port-1",
-      //       size: { width: pw, height: ph },
-      //       position: { x: nw, y: nh / 2 - ph / 2 },
-      //     },
-      //     <SPort>{
-      //       type: "port",
-      //       id: "port-2",
-      //       size: { width: pw, height: ph },
-      //       position: { x: nw / 2 - pw / 2, y: nh },
-      //     },
-      //     <SPort>{
-      //       type: "port",
-      //       id: "port-3",
-      //       size: { width: pw, height: ph },
-      //       position: { x: 0 - pw, y: nh / 2 - ph / 2 },
-      //     },
-      //     <SPort>{
-      //       type: "port",
-      //       id: "port-4",
-      //       size: { width: pw, height: ph },
-      //       position: { x: nw / 2 - pw / 2, y: 0 - ph },
-      //     },
-      //   ],
-      // },
-    ]
+    children: []
   };
 
   // util/addNode.ts
-  function addNode(source, nodeId, nodeWidth, nodeHeight, labelId, portQuantity, portWidth, portHeight, cssClasses = ["node"], name = `node-${nodeId}`, x = Math.floor(Math.random() * 500), y = Math.floor(Math.random() * 500)) {
-    let portArr = [];
-    let positionPortArr = [
+  function addNode({
+    source,
+    nodeId,
+    labelId,
+    portQuantity,
+    nodeWidth,
+    nodeHeight,
+    portWidth,
+    portHeight,
+    cssClasses = ["node"],
+    name = `node-${nodeId}`,
+    x = Math.floor(Math.random() * 500),
+    y = Math.floor(Math.random() * 500)
+  }) {
+    const positionPorts = [
       { x: nodeWidth, y: nodeHeight / 2 - portHeight / 2 },
       { x: nodeWidth / 2 - portWidth / 2, y: nodeHeight },
       { x: 0 - portWidth, y: nodeHeight / 2 - portHeight / 2 },
@@ -23540,11 +23363,11 @@
           type: "node",
           id: `node-${nodeId}`,
           cssClasses,
-          position: {
-            x,
-            y
+          position: { x, y },
+          size: {
+            width: nodeWidth,
+            height: nodeHeight
           },
-          size: { width: nodeWidth, height: nodeHeight },
           children: [
             {
               type: "label:node",
@@ -23564,7 +23387,7 @@
             type: "port",
             id: `port-${nodeId}-${i + 1}`,
             size: { width: portWidth, height: portHeight },
-            position: positionPortArr[i],
+            position: positionPorts[i],
             cssClasses: ["port"]
           }
         }
@@ -23573,7 +23396,13 @@
   }
 
   // util/drawEdge.ts
-  function drawEdge(source, edgeId, sourceNumb, targetNumb, cssClasses = []) {
+  function drawEdge({
+    source,
+    edgeId,
+    sourceNumb,
+    targetNumb,
+    cssClasses = []
+  }) {
     source.addElements([
       {
         parentId: "graph",
@@ -23590,42 +23419,42 @@
   }
 
   // index.ts
-  var addNode1Btn;
-  var addNode2Btn;
-  var addNode3Btn;
-  var addNode4Btn;
-  var drawEdgeBtn;
-  var deleteEdgeBtn;
-  var cancelBtn;
   var container = createContainer("sprotty-container");
   var modelSource = container.get(import_sprotty4.TYPES.ModelSource);
+  var addNode1Btn = null;
+  var addNode2Btn = null;
+  var addNode3Btn = null;
+  var addNode4Btn = null;
+  var drawEdgeBtn = null;
+  var cancelDrawEdgeBtn = null;
+  var deleteBtn = null;
+  var node1Number = 1;
+  var node2Number = 1;
+  var node3Number = 1;
+  var node4Number = 1;
+  var label1Number = 1;
+  var label2Number = 1;
+  var label3Number = 1;
+  var label4Number = 1;
+  var edgeNumber = 1;
+  var dummyNodeArray = [];
+  var edgeIdArray = [];
   var defaultNodeWidth = 100;
   var defaultNodeHeight = 100;
   var defaultPortWidth = 20;
   var defaultPortHeight = 20;
   var defaultDummyWidth = 1;
   var defaultDummyHeight = 1;
-  var dummyNodeArray = [];
-  var sourceId;
-  var edgeNumber = 1;
-  var node1Number = 1;
-  var node2Number = 1;
-  var node3Number = 1;
-  var node4Number = 1;
-  var label1Id = 1;
-  var label2Id = 1;
-  var label3Id = 1;
-  var label4Id = 1;
   var drawMode = false;
-  var dummyMode = false;
-  function cancelDrawMode() {
+  var sourceId = null;
+  function cancelDrawEdge() {
     addNode1Btn.removeAttribute("disabled");
     addNode2Btn.removeAttribute("disabled");
     addNode3Btn.removeAttribute("disabled");
     addNode4Btn.removeAttribute("disabled");
+    deleteBtn.removeAttribute("disabled");
     drawEdgeBtn.classList.remove("btn-active");
-    deleteEdgeBtn.removeAttribute("disabled");
-    cancelBtn.classList.add("hide");
+    cancelDrawEdgeBtn.classList.add("hide");
     document.querySelectorAll(".sprotty-node").forEach((e) => {
       e.removeAttribute("style");
     });
@@ -23638,13 +23467,57 @@
         parentId: "graph"
       }
     ]);
+    const coordinateCircleArr = [];
+    const cirlceEl = document.querySelectorAll(".sprotty-routing-handle");
+    cirlceEl.forEach((e) => {
+      coordinateCircleArr.push({
+        x: e.getAttribute("cx"),
+        y: e.getAttribute("cy")
+      });
+    });
+    const dummyNodeEl = document.getElementById("sprotty-container_node-dummy");
+    if (dummyNodeEl) {
+      const dummyCoordinate = dummyNodeEl.getAttribute("transform").replace("translate(", "").replace(")", "").trim().split(",").map((e) => {
+        return Number(e);
+      });
+      if (coordinateCircleArr.length === 0) {
+        modelSource.removeElements([
+          {
+            elementId: edgeIdArray[edgeIdArray.length - 1],
+            parentId: "graph"
+          }
+        ]);
+        edgeIdArray = [];
+      } else {
+        if (Math.sqrt(
+          Math.pow(
+            Number(
+              dummyCoordinate[0] - Number(coordinateCircleArr[coordinateCircleArr.length - 1].x)
+            ),
+            2
+          ) + Math.pow(
+            Number(
+              dummyCoordinate[1] - Number(coordinateCircleArr[coordinateCircleArr.length - 1].y)
+            ),
+            2
+          )
+        ) < 7) {
+          modelSource.removeElements([
+            {
+              elementId: edgeIdArray[edgeIdArray.length - 1],
+              parentId: "graph"
+            }
+          ]);
+          edgeIdArray = [];
+        }
+      }
+    }
     Array.from(document.getElementsByClassName("ready-draw")).forEach((e) => {
       e.classList.remove("ready-draw");
     });
     dummyNodeArray = [];
     sourceId = "";
     drawMode = false;
-    dummyMode = false;
   }
   function run() {
     modelSource.setModel(graph);
@@ -23653,133 +23526,130 @@
     addNode3Btn = document.getElementById("add-node-3");
     addNode4Btn = document.getElementById("add-node-4");
     drawEdgeBtn = document.getElementById("draw-edge");
-    deleteEdgeBtn = document.getElementById("delete-edge");
-    cancelBtn = document.getElementById("cancel");
-    cancelBtn.addEventListener("click", () => {
-      if (drawMode === true) {
-        console.log("click");
-        cancelDrawMode();
-      }
-    });
-    const drawLogic = () => {
+    deleteBtn = document.getElementById("delete");
+    cancelDrawEdgeBtn = document.getElementById("cancel-draw-edge");
+    function drawLogic() {
       setTimeout(() => {
         document.querySelectorAll(".port").forEach((port) => {
-          port.addEventListener("click", () => {
-            if (drawMode && !dummyMode) {
-              dummyMode = true;
+          port.addEventListener("click", (e) => {
+            if (drawMode) {
               port.classList.add("ready-draw");
               sourceId = port.id.replace("sprotty-container_port-", "");
               const transformAttribute = port.parentElement.getAttribute("transform");
               const coordinate = transformAttribute ? transformAttribute.replace("translate(", "").replace(")", "").trim().split(",") : [0, 0];
-              if (dummyNodeArray.length === 0) {
-                addNode(
-                  modelSource,
-                  "dummy",
-                  defaultDummyWidth,
-                  defaultDummyHeight,
-                  "dummy",
-                  1,
-                  2,
-                  2,
-                  ["nodes", "dummy"],
-                  "",
-                  Number(coordinate[0]) + 2 * defaultNodeWidth,
-                  Number(coordinate[1])
-                );
+              if (dummyNodeArray.length == 0) {
+                addNode({
+                  source: modelSource,
+                  nodeId: "dummy",
+                  labelId: "dummy",
+                  nodeWidth: defaultDummyWidth,
+                  nodeHeight: defaultDummyHeight,
+                  portWidth: 2,
+                  portHeight: 2,
+                  portQuantity: 1,
+                  cssClasses: ["nodes", "dummy"],
+                  name: "",
+                  x: Number(coordinate[0]) + 2 * defaultNodeWidth,
+                  y: Number(coordinate[1])
+                });
                 dummyNodeArray.push("node-dummy");
-                drawEdge(modelSource, edgeNumber, sourceId, "dummy-1", [
-                  "dummy-edge"
-                ]);
+                drawEdge({
+                  source: modelSource,
+                  edgeId: edgeNumber,
+                  sourceNumb: sourceId,
+                  targetNumb: "dummy-1",
+                  cssClasses: ["dummy-edge"]
+                });
+                edgeIdArray.push(`edge-${edgeNumber}`);
                 edgeNumber++;
-                dummyMode = false;
-                console.log(modelSource);
               }
             }
           });
         });
       }, 100);
-    };
+    }
     addNode1Btn.addEventListener("click", () => {
-      addNode(
-        modelSource,
-        `type-1-${node1Number}`,
-        defaultNodeWidth,
-        defaultNodeHeight,
-        label1Id,
-        1,
-        defaultPortWidth,
-        defaultPortHeight
-      );
+      addNode({
+        source: modelSource,
+        nodeId: `type-1-${node1Number}`,
+        labelId: label1Number,
+        nodeWidth: defaultNodeWidth,
+        nodeHeight: defaultNodeHeight,
+        portWidth: defaultPortWidth,
+        portHeight: defaultPortHeight,
+        portQuantity: 1
+      });
       node1Number++;
-      label1Id++;
+      label1Number++;
       drawLogic();
     });
     addNode2Btn.addEventListener("click", () => {
-      addNode(
-        modelSource,
-        `type-2-${node2Number}`,
-        defaultNodeWidth,
-        defaultNodeHeight,
-        label2Id,
-        2,
-        defaultPortWidth,
-        defaultPortHeight
-      );
+      addNode({
+        source: modelSource,
+        nodeId: `type-2-${node2Number}`,
+        labelId: label2Number,
+        nodeWidth: defaultNodeWidth,
+        nodeHeight: defaultNodeHeight,
+        portWidth: defaultPortWidth,
+        portHeight: defaultPortHeight,
+        portQuantity: 2
+      });
       node2Number++;
-      label2Id++;
+      label2Number++;
       drawLogic();
     });
     addNode3Btn.addEventListener("click", () => {
-      console.log(graph.children);
-      addNode(
-        modelSource,
-        `type-3-${node3Number}`,
-        defaultNodeWidth,
-        defaultNodeHeight,
-        label3Id,
-        3,
-        defaultPortWidth,
-        defaultPortHeight
-      );
+      addNode({
+        source: modelSource,
+        nodeId: `type-3-${node3Number}`,
+        labelId: label3Number,
+        nodeWidth: defaultNodeWidth,
+        nodeHeight: defaultNodeHeight,
+        portWidth: defaultPortWidth,
+        portHeight: defaultPortHeight,
+        portQuantity: 3
+      });
       node3Number++;
-      label3Id++;
+      label3Number++;
       drawLogic();
     });
     addNode4Btn.addEventListener("click", () => {
-      addNode(
-        modelSource,
-        `type-4-${node4Number}`,
-        defaultNodeWidth,
-        defaultNodeHeight,
-        label4Id,
-        4,
-        defaultPortWidth,
-        defaultPortHeight
-      );
+      addNode({
+        source: modelSource,
+        nodeId: `type-4-${node4Number}`,
+        labelId: label4Number,
+        nodeWidth: defaultNodeWidth,
+        nodeHeight: defaultNodeHeight,
+        portWidth: defaultPortWidth,
+        portHeight: defaultPortHeight,
+        portQuantity: 4
+      });
       node4Number++;
-      label4Id++;
+      label4Number++;
       drawLogic();
     });
-    drawEdgeBtn.addEventListener("click", () => {
-      if (drawMode === false) {
-        addNode1Btn.setAttribute("disabled", "");
-        addNode2Btn.setAttribute("disabled", "");
-        addNode3Btn.setAttribute("disabled", "");
-        addNode4Btn.setAttribute("disabled", "");
-        drawEdgeBtn.classList.add("btn-active");
-        deleteEdgeBtn.setAttribute("disabled", "");
-        cancelBtn.classList.remove("hide");
-        drawMode = true;
-      } else {
-        cancelDrawMode();
+    cancelDrawEdgeBtn.addEventListener("click", () => {
+      if (drawMode) {
+        cancelDrawEdge();
       }
     });
-    deleteEdgeBtn.addEventListener("click", () => {
-      const edgeElements = document.querySelectorAll(".sprotty-edge");
-      const selectedEdgeElements = Array.from(edgeElements).filter((e) => {
-        return e.classList.contains("selected");
-      });
-      selectedEdgeElements.forEach((element) => {
+    drawEdgeBtn.addEventListener("click", () => {
+      if (!drawMode) {
+        addNode1Btn.setAttribute("disabled", "true");
+        addNode2Btn.setAttribute("disabled", "true");
+        addNode3Btn.setAttribute("disabled", "true");
+        addNode4Btn.setAttribute("disabled", "true");
+        deleteBtn.setAttribute("disabled", "true");
+        drawEdgeBtn.classList.add("btn-active");
+        cancelDrawEdgeBtn.classList.remove("hide");
+        drawMode = true;
+      } else {
+        cancelDrawEdge();
+      }
+    });
+    deleteBtn.addEventListener("click", () => {
+      const selectedElements = document.querySelectorAll(".selected");
+      selectedElements.forEach((element) => {
         modelSource.removeElements([
           {
             parentId: "graph",
