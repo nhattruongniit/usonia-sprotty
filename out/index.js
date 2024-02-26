@@ -23259,7 +23259,6 @@
       return [];
     }
     mouseDown(target, event) {
-      console.log("mouseDown", target);
       return [];
     }
     dragOver(target, event) {
@@ -23267,7 +23266,6 @@
       return [];
     }
     drop(target, event) {
-      console.log("drop");
       const customEvent = new CustomEvent("addDummyNode", { detail: { x: event.offsetX, y: event.offsetY } });
       document.getElementById("add-dummy-node").dispatchEvent(customEvent);
       return [];

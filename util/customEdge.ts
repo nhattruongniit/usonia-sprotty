@@ -19,14 +19,6 @@ export class CustomMouseListener extends MouseListener {
     return [];
   }
   mouseDown(target: any, event: MouseEvent): (Action | Promise<Action>)[] {
-    // create dummy node when click anywhere screen
-    console.log('mouseDown', target)
-
-    // if(!target.parent) {
-    //   const customEvent = new CustomEvent('addDummyNode', { detail: { x: event.offsetX, y: event.offsetY } });
-    //   document.getElementById("add-dummy-node").dispatchEvent(customEvent);
-    // }
-   
     return [];
   }
 
@@ -36,7 +28,6 @@ export class CustomMouseListener extends MouseListener {
   }
 
   override drop(target: SModelElementImpl, event: MouseEvent): (Action | Promise<Action>)[] {
-    console.log("drop")
     const customEvent = new CustomEvent('addDummyNode', { detail: { x: event.offsetX, y: event.offsetY } });
     document.getElementById("add-dummy-node").dispatchEvent(customEvent);
     return [];
