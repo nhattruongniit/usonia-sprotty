@@ -23491,11 +23491,6 @@
       const dummyCoordinate = dummyNodeEl.getAttribute("transform").replace("translate(", "").replace(")", "").trim().split(",").map((e) => {
         return Number(e);
       });
-      console.log("dummyNodeEl: ", {
-        dummyNodeEl,
-        edgeArr,
-        coordinateCircleArr
-      });
       if (coordinateCircleArr.length === 0) {
         modelSource.removeElements([
           {
@@ -23577,8 +23572,14 @@
             if (drawMode) {
               port.classList.add("ready-draw");
               sourceId = port.id.replace("sprotty-container_port-", "");
+              const portTranslateAttribute = port.getAttribute("transform");
+              const portCoordinate = portTranslateAttribute ? portTranslateAttribute.replace("translate(", "").replace(")", "").trim().split(",") : [0, 0];
               const transformAttribute = port.parentElement.getAttribute("transform");
               const coordinate = transformAttribute ? transformAttribute.replace("translate(", "").replace(")", "").trim().split(",") : [0, 0];
+              console.log("coordinate: ", {
+                coordinate,
+                portCoordinate
+              });
               if (dummyNodeArray.length == 0) {
                 addNode({
                   source: modelSource,
@@ -23591,8 +23592,10 @@
                   portQuantity: 1,
                   cssClasses: ["nodes", "dummy"],
                   name: "",
-                  x: Number(coordinate[0]) + 2 * defaultNodeWidth,
-                  y: Number(coordinate[1])
+                  // x: Number(coordinate[0]) + 2 * defaultNodeWidth,
+                  // y: Number(coordinate[1])
+                  x: Number(coordinate[0]) + Number(portCoordinate[0]) + 5,
+                  y: Number(coordinate[1]) + Number(portCoordinate[1]) + 5
                 });
                 dummyNodeArray.push("node-dummy");
                 drawEdge({
