@@ -23208,11 +23208,11 @@
 
   // index.ts
   var import_reflect_metadata = __toESM(require_Reflect());
-  var import_sprotty4 = __toESM(require_lib2());
+  var import_sprotty3 = __toESM(require_lib2());
 
   // di.config.ts
   var import_inversify2 = __toESM(require_inversify());
-  var import_sprotty3 = __toESM(require_lib2());
+  var import_sprotty2 = __toESM(require_lib2());
 
   // views/PortViewWithExternalLabel.tsx
   var import_jsx = __toESM(require_jsx());
@@ -23243,101 +23243,72 @@
     (0, import_inversify.injectable)()
   ], PortViewWithExternalLabel);
 
-  // util/customEdge.ts
-  var import_sprotty2 = __toESM(require_lib2());
-  var NodeCreator = Symbol("NodeCreator");
-  var CustomMouseListener = class extends import_sprotty2.MouseListener {
-    // @inject(NodeCreator) nodeCreator: (point?: Point) => void;
-    mouseUp(target, event) {
-      if (target instanceof import_sprotty2.SRoutingHandleImpl) {
-        if (!target.parent.targetId.includes("dummy")) {
-          setTimeout(() => {
-            document.getElementById("cancel-draw-edge").click();
-          }, 100);
-        }
-      }
-      return [];
-    }
-    mouseDown(target, event) {
-      return [];
-    }
-    dragOver(target, event) {
-      event.preventDefault();
-      return [];
-    }
-    drop(target, event) {
-      const customEvent = new CustomEvent("addDummyNode", { detail: { x: event.offsetX, y: event.offsetY } });
-      document.getElementById("add-dummy-node").dispatchEvent(customEvent);
-      return [];
-    }
-  };
-
   // di.config.ts
   var createContainer = (containerId) => {
     const myModule = new import_inversify2.ContainerModule((bind, unbind, isBound, rebind) => {
       bind(CustomMouseListener).toSelf().inSingletonScope();
-      bind(import_sprotty3.TYPES.MouseListener).toService(CustomMouseListener);
-      bind(import_sprotty3.TYPES.ModelSource).to(import_sprotty3.LocalModelSource).inSingletonScope();
+      bind(import_sprotty2.TYPES.MouseListener).toService(CustomMouseListener);
+      bind(import_sprotty2.TYPES.ModelSource).to(import_sprotty2.LocalModelSource).inSingletonScope();
       const context = { bind, unbind, isBound, rebind };
-      (0, import_sprotty3.configureModelElement)(context, "graph", import_sprotty3.SGraphImpl, import_sprotty3.SGraphView);
-      (0, import_sprotty3.configureModelElement)(
+      (0, import_sprotty2.configureModelElement)(context, "graph", import_sprotty2.SGraphImpl, import_sprotty2.SGraphView);
+      (0, import_sprotty2.configureModelElement)(
         context,
         "port",
-        import_sprotty3.SPortImpl,
+        import_sprotty2.SPortImpl,
         PortViewWithExternalLabel
       );
-      (0, import_sprotty3.configureModelElement)(container2, "label:port", import_sprotty3.SLabelImpl, import_sprotty3.SLabelView);
-      (0, import_sprotty3.configureModelElement)(container2, "label:node", import_sprotty3.SLabelImpl, import_sprotty3.SLabelView);
-      (0, import_sprotty3.configureModelElement)(context, "node", import_sprotty3.SNodeImpl, import_sprotty3.RectangularNodeView);
-      (0, import_sprotty3.configureModelElement)(
+      (0, import_sprotty2.configureModelElement)(container2, "label:port", import_sprotty2.SLabelImpl, import_sprotty2.SLabelView);
+      (0, import_sprotty2.configureModelElement)(container2, "label:node", import_sprotty2.SLabelImpl, import_sprotty2.SLabelView);
+      (0, import_sprotty2.configureModelElement)(context, "node", import_sprotty2.SNodeImpl, import_sprotty2.RectangularNodeView);
+      (0, import_sprotty2.configureModelElement)(
         context,
         "edge:straight",
-        import_sprotty3.SEdgeImpl,
-        import_sprotty3.PolylineEdgeView
+        import_sprotty2.SEdgeImpl,
+        import_sprotty2.PolylineEdgeView
       );
-      (0, import_sprotty3.configureModelElement)(
+      (0, import_sprotty2.configureModelElement)(
         context,
         "edge:bezier",
-        import_sprotty3.SEdgeImpl,
-        import_sprotty3.BezierCurveEdgeView
+        import_sprotty2.SEdgeImpl,
+        import_sprotty2.BezierCurveEdgeView
       );
-      (0, import_sprotty3.configureModelElement)(
+      (0, import_sprotty2.configureModelElement)(
         context,
         "routing-point",
-        import_sprotty3.SRoutingHandleImpl,
-        import_sprotty3.SRoutingHandleView
+        import_sprotty2.SRoutingHandleImpl,
+        import_sprotty2.SRoutingHandleView
       );
-      (0, import_sprotty3.configureModelElement)(
+      (0, import_sprotty2.configureModelElement)(
         context,
         "volatile-routing-point",
-        import_sprotty3.SRoutingHandleImpl,
-        import_sprotty3.SRoutingHandleView
+        import_sprotty2.SRoutingHandleImpl,
+        import_sprotty2.SRoutingHandleView
       );
-      (0, import_sprotty3.configureModelElement)(
+      (0, import_sprotty2.configureModelElement)(
         context,
         "bezier-create-routing-point",
-        import_sprotty3.SRoutingHandleImpl,
-        import_sprotty3.SBezierCreateHandleView
+        import_sprotty2.SRoutingHandleImpl,
+        import_sprotty2.SBezierCreateHandleView
       );
-      (0, import_sprotty3.configureModelElement)(
+      (0, import_sprotty2.configureModelElement)(
         context,
         "bezier-remove-routing-point",
-        import_sprotty3.SRoutingHandleImpl,
-        import_sprotty3.SBezierCreateHandleView
+        import_sprotty2.SRoutingHandleImpl,
+        import_sprotty2.SBezierCreateHandleView
       );
-      (0, import_sprotty3.configureModelElement)(
+      (0, import_sprotty2.configureModelElement)(
         context,
         "bezier-routing-point",
-        import_sprotty3.SRoutingHandleImpl,
-        import_sprotty3.SBezierControlHandleView
+        import_sprotty2.SRoutingHandleImpl,
+        import_sprotty2.SBezierControlHandleView
       );
-      (0, import_sprotty3.configureViewerOptions)(context, {
+      (0, import_sprotty2.configureViewerOptions)(context, {
         needsClientLayout: false,
         baseDiv: containerId
       });
     });
     const container2 = new import_inversify2.Container();
-    (0, import_sprotty3.loadDefaultModules)(container2);
+    (0, import_sprotty2.loadDefaultModules)(container2);
     container2.load(myModule);
     return container2;
   };
@@ -23433,8 +23404,6 @@
   }
 
   // index.ts
-  var container = createContainer("sprotty-container");
-  var modelSource = container.get(import_sprotty4.TYPES.ModelSource);
   var addNode1Btn = null;
   var addNode2Btn = null;
   var addNode3Btn = null;
@@ -23452,16 +23421,38 @@
   var label3Number = 1;
   var label4Number = 1;
   var edgeNumber = 1;
+  var edgeArr = [];
   var dummyNodeArray = [];
-  var edgeIdArray = [];
   var defaultNodeWidth = 100;
   var defaultNodeHeight = 100;
   var defaultPortWidth = 20;
   var defaultPortHeight = 20;
-  var defaultDummyWidth = 1;
-  var defaultDummyHeight = 1;
+  var defaultDummyWidth = 10;
+  var defaultDummyHeight = 10;
   var drawMode = false;
   var sourceId = null;
+  var CustomMouseListener = class extends import_sprotty3.MouseListener {
+    mouseUp(target, event) {
+      if (target instanceof import_sprotty3.SRoutingHandleImpl) {
+        const targetParentEl = target.parent;
+        if (!targetParentEl.targetId.includes("dummy")) {
+          setTimeout(() => {
+            document.getElementById("cancel-draw-edge").click();
+            const indexEdge = edgeArr.findIndex((edge) => {
+              return edge.id === targetParentEl.id;
+            });
+            if (indexEdge !== -1) {
+              edgeArr[indexEdge].sourceId = targetParentEl.sourceId;
+              edgeArr[indexEdge].targetId = targetParentEl.targetId;
+            }
+          }, 100);
+        }
+      }
+      return [];
+    }
+  };
+  var container = createContainer("sprotty-container");
+  var modelSource = container.get(import_sprotty3.TYPES.ModelSource);
   function cancelDrawEdge() {
     addNode1Btn.removeAttribute("disabled");
     addNode2Btn.removeAttribute("disabled");
@@ -23491,6 +23482,7 @@
       });
     });
     const dummyNodeEl = document.getElementById("sprotty-container_node-dummy");
+    console.log("cancelDrawEdge: ");
     if (dummyNodeEl) {
       const dummyCoordinate = dummyNodeEl.getAttribute("transform").replace("translate(", "").replace(")", "").trim().split(",").map((e) => {
         return Number(e);
@@ -23498,11 +23490,11 @@
       if (coordinateCircleArr.length === 0) {
         modelSource.removeElements([
           {
-            elementId: edgeIdArray[edgeIdArray.length - 1],
+            elementId: edgeArr[edgeArr.length - 1].id,
             parentId: "graph"
           }
         ]);
-        edgeIdArray = [];
+        edgeArr.pop();
       } else {
         if (Math.sqrt(
           Math.pow(
@@ -23519,11 +23511,11 @@
         ) < 7) {
           modelSource.removeElements([
             {
-              elementId: edgeIdArray[edgeIdArray.length - 1],
+              elementId: edgeArr[edgeArr.length - 1].id,
               parentId: "graph"
             }
           ]);
-          edgeIdArray = [];
+          edgeArr.pop();
         }
       }
     }
@@ -23568,37 +23560,42 @@
       setTimeout(() => {
         document.querySelectorAll(".port").forEach((port) => {
           port.addEventListener("click", (e) => {
-            if (drawMode) {
-              port.classList.add("ready-draw");
-              sourceId = port.id.replace("sprotty-container_port-", "");
-              const transformAttribute = port.parentElement.getAttribute("transform");
-              const coordinate = transformAttribute ? transformAttribute.replace("translate(", "").replace(")", "").trim().split(",") : [0, 0];
-              if (dummyNodeArray.length == 0) {
-                addNode({
-                  source: modelSource,
-                  nodeId: "dummy",
-                  labelId: "dummy",
-                  nodeWidth: defaultDummyWidth,
-                  nodeHeight: defaultDummyHeight,
-                  portWidth: 2,
-                  portHeight: 2,
-                  portQuantity: 1,
-                  cssClasses: ["nodes", "dummy"],
-                  name: "",
-                  x: Number(coordinate[0]) + 2 * defaultNodeWidth,
-                  y: Number(coordinate[1])
-                });
-                dummyNodeArray.push("node-dummy");
-                drawEdge({
-                  source: modelSource,
-                  edgeId: edgeNumber,
-                  sourceNumb: sourceId,
-                  targetNumb: "dummy-1",
-                  cssClasses: ["dummy-edge"]
-                });
-                edgeIdArray.push(`edge-${edgeNumber}`);
-                edgeNumber++;
-              }
+            drawMode = true;
+            port.classList.add("ready-draw");
+            sourceId = port.id.replace("sprotty-container_port-", "");
+            const transformAttribute = port.parentElement.getAttribute("transform");
+            const coordinate = transformAttribute ? transformAttribute.replace("translate(", "").replace(")", "").trim().split(",") : [0, 0];
+            if (dummyNodeArray.length == 0) {
+              addNode({
+                source: modelSource,
+                nodeId: "dummy",
+                labelId: "dummy",
+                nodeWidth: defaultDummyWidth,
+                nodeHeight: defaultDummyHeight,
+                portWidth: 2,
+                portHeight: 2,
+                portQuantity: 1,
+                cssClasses: ["nodes", "dummy"],
+                name: "",
+                x: Number(coordinate[0]) + 2 * defaultNodeWidth,
+                y: Number(coordinate[1])
+              });
+              dummyNodeArray.push("node-dummy");
+              drawEdge({
+                source: modelSource,
+                edgeId: edgeNumber,
+                sourceNumb: sourceId,
+                targetNumb: "dummy-1",
+                cssClasses: ["dummy-edge"]
+              });
+              setTimeout(() => {
+              }, 100);
+              edgeArr.push({
+                id: `edge-${edgeNumber}`,
+                sourceId: `port-${sourceId}`,
+                targetId: "dummy-1"
+              });
+              edgeNumber++;
             }
           });
         });
@@ -23686,12 +23683,35 @@
     deleteBtn.addEventListener("click", () => {
       const selectedElements = document.querySelectorAll(".selected");
       selectedElements.forEach((element) => {
+        if (element.id.includes("label") || element.id === "") {
+          return;
+        }
         modelSource.removeElements([
           {
             parentId: "graph",
             elementId: element.id.replace("sprotty-container_", "")
           }
         ]);
+        const idNodeCompare = element.id.replace(
+          "sprotty-container_node-type-",
+          ""
+        );
+        edgeArr.forEach((edge) => {
+          const edgeSourceIdCompare = edge.sourceId.replace("port-type-", "");
+          const edgeTargetIdCompare = edge.targetId.replace("port-type-", "");
+          if (edgeSourceIdCompare.includes(idNodeCompare) || edgeTargetIdCompare.includes(idNodeCompare)) {
+            modelSource.removeElements([
+              {
+                parentId: "graph",
+                elementId: edge.id
+              }
+            ]);
+            const edgeIndex = edgeArr.findIndex((e) => {
+              return e.id === edge.id;
+            });
+            edgeArr.splice(edgeIndex, 1);
+          }
+        });
       });
     });
   }

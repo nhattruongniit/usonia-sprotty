@@ -2,7 +2,7 @@ import { Container, ContainerModule } from 'inversify';
 import { BezierCurveEdgeView, configureModelElement, configureViewerOptions, loadDefaultModules, LocalModelSource, PolylineEdgeView, RectangularNodeView, SBezierControlHandleView, SBezierCreateHandleView, SEdgeImpl, SGraphImpl, SGraphView, SLabelImpl, SLabelView, SNodeImpl, SPortImpl, SRoutingHandleImpl, SRoutingHandleView, TYPES } from 'sprotty';
 
 import { PortViewWithExternalLabel } from './views/PortViewWithExternalLabel';
-import { CustomMouseListener } from './util/customEdge';
+import { CustomMouseListener } from './index';
 
 export const createContainer = (containerId: string) => {
   const myModule = new ContainerModule((bind, unbind, isBound, rebind) => {

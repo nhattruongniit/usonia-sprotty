@@ -1,5 +1,6 @@
 import "reflect-metadata";
-import { LocalModelSource, TYPES } from 'sprotty';
+import { LocalModelSource, MouseListener, SEdgeImpl, SModelElementImpl, SRoutingHandleImpl, TYPES } from 'sprotty';
+import { Action } from "sprotty-protocol";
 import { createContainer } from './di.config';
 import { graph } from './model-source';
 
@@ -7,8 +8,6 @@ import { graph } from './model-source';
 import addNode from "./util/addNode";
 import drawEdge from "./util/drawEdge";
 
-const container = createContainer("sprotty-container");
-const modelSource = container.get<LocalModelSource>(TYPES.ModelSource);
 
 // elements dom
 let addNode1Btn = null;
@@ -36,16 +35,16 @@ let label4Number = 1;
 let edgeNumber = 1;
 
 // dummy
+let edgeArr = [];
 let dummyNodeArray = [];
-let edgeIdArray = [];
 
 // size nodes & ports
 const defaultNodeWidth = 100;
 const defaultNodeHeight = 100;
 const defaultPortWidth = 20;
 const defaultPortHeight = 20;
-const defaultDummyWidth = 1;
-const defaultDummyHeight = 1;
+const defaultDummyWidth = 10;
+const defaultDummyHeight = 10;
 
 // state of draw edge
 let drawMode = false;
@@ -53,6 +52,32 @@ let drawMode = false;
 // source
 let sourceId = null;
 
+export class CustomMouseListener extends MouseListener {
+  mouseUp(
+    target: SModelElementImpl,
+    event: MouseEvent
+  ): (Action | Promise<Action>)[] {
+    if (target instanceof SRoutingHandleImpl) {
+      const targetParentEl = target.parent as SEdgeImpl;
+      if (!targetParentEl.targetId.includes("dummy")) {
+        setTimeout(() => {
+          document.getElementById("cancel-draw-edge").click();
+          const indexEdge = edgeArr.findIndex((edge) => {
+            return edge.id === targetParentEl.id;
+          });
+          if (indexEdge !== -1) {
+            edgeArr[indexEdge].sourceId = targetParentEl.sourceId;
+            edgeArr[indexEdge].targetId = targetParentEl.targetId;
+          }
+        }, 100);
+      }
+    }
+    return [];
+  }
+}
+
+const container = createContainer("sprotty-container");
+const modelSource = container.get<LocalModelSource>(TYPES.ModelSource);
 
 // cancel draw edge
 function cancelDrawEdge() {
@@ -90,6 +115,8 @@ function cancelDrawEdge() {
   });
 
   const dummyNodeEl = document.getElementById("sprotty-container_node-dummy");
+
+  console.log('cancelDrawEdge: ')
   if (dummyNodeEl) {
     const dummyCoordinate = dummyNodeEl
       .getAttribute("transform")
@@ -103,11 +130,11 @@ function cancelDrawEdge() {
     if (coordinateCircleArr.length === 0) {
       modelSource.removeElements([
         {
-          elementId: edgeIdArray[edgeIdArray.length - 1],
+          elementId: edgeArr[edgeArr.length - 1].id,
           parentId: "graph",
         },
       ]);
-      edgeIdArray = [];
+      edgeArr.pop();
     } else {
       if (
         Math.sqrt(
@@ -129,11 +156,11 @@ function cancelDrawEdge() {
       ) {
         modelSource.removeElements([
           {
-            elementId: edgeIdArray[edgeIdArray.length - 1],
+            elementId: edgeArr[edgeArr.length - 1].id,
             parentId: "graph",
           },
         ]);
-        edgeIdArray = [];
+        edgeArr.pop();
       }
     }
   }
@@ -141,8 +168,8 @@ function cancelDrawEdge() {
   Array.from(document.getElementsByClassName("ready-draw")).forEach((e) => {
     e.classList.remove("ready-draw");
   });
-  dummyNodeArray = [];
 
+  dummyNodeArray = [];
   sourceId = "";
   drawMode = false;
 }
@@ -186,46 +213,52 @@ export default function run() {
     setTimeout(() => {
       document.querySelectorAll('.port').forEach((port) => {
         port.addEventListener('click', (e) => {
-          if(drawMode) {
-            port.classList.add("ready-draw");
-            sourceId = port.id.replace("sprotty-container_port-", "");
+          drawMode = true;
 
-            const transformAttribute = port.parentElement.getAttribute("transform");
-            const coordinate = transformAttribute
-            ? transformAttribute
-              .replace("translate(", "")
-              .replace(")", "")
-              .trim()
-              .split(",")
-            : [0, 0];
+          port.classList.add("ready-draw");
+          sourceId = port.id.replace("sprotty-container_port-", "");
 
-            // add dummy node
-            if(dummyNodeArray.length == 0) {
-              addNode({
-                source: modelSource,
-                nodeId: "dummy",
-                labelId: "dummy",
-                nodeWidth: defaultDummyWidth,
-                nodeHeight: defaultDummyHeight,
-                portWidth: 2,
-                portHeight: 2,
-                portQuantity: 1,
-                cssClasses: ["nodes", "dummy"],
-                name: '',
-                x: Number(coordinate[0]) + 2 * defaultNodeWidth,
-                y: Number(coordinate[1])
-              });
-              dummyNodeArray.push("node-dummy");
-              drawEdge({
-                source: modelSource,
-                edgeId: edgeNumber,
-                sourceNumb: sourceId,
-                targetNumb: "dummy-1",
-                cssClasses: ['dummy-edge']
-              })
-              edgeIdArray.push(`edge-${edgeNumber}`);
-              edgeNumber++;
-            }
+          const transformAttribute = port.parentElement.getAttribute("transform");
+          const coordinate = transformAttribute
+          ? transformAttribute
+            .replace("translate(", "")
+            .replace(")", "")
+            .trim()
+            .split(",")
+          : [0, 0];
+
+          // add dummy node
+          if(dummyNodeArray.length == 0) {
+            addNode({
+              source: modelSource,
+              nodeId: "dummy",
+              labelId: "dummy",
+              nodeWidth: defaultDummyWidth,
+              nodeHeight: defaultDummyHeight,
+              portWidth: 2,
+              portHeight: 2,
+              portQuantity: 1,
+              cssClasses: ["nodes", "dummy"],
+              name: '',
+              x: Number(coordinate[0]) + 2 * defaultNodeWidth,
+              y: Number(coordinate[1])
+            });
+            dummyNodeArray.push("node-dummy");
+            drawEdge({
+              source: modelSource,
+              edgeId: edgeNumber,
+              sourceNumb: sourceId,
+              targetNumb: "dummy-1",
+              cssClasses: ['dummy-edge']
+            })
+            // edgeIdArray.push(`edge-${edgeNumber}`);
+            setTimeout(() => {}, 100);
+            edgeArr.push({
+              id: `edge-${edgeNumber}`,
+              sourceId: `port-${sourceId}`,
+              targetId: "dummy-1",
+            });
+            edgeNumber++;
           }
         })
       })
@@ -336,31 +369,41 @@ export default function run() {
     }
   })
 
-  // delete edge
-  // deletetn.addEventListener('click', () => {
-  //   const edgeElements = document.querySelectorAll(".sprotty-edge");
-  //   const selectedEdgeElements = Array.from(edgeElements).filter((e) => {
-  //     return e.classList.contains("selected");
-  //   });
-  //   selectedEdgeElements.forEach((element) => {
-  //     modelSource.removeElements([
-  //       {
-  //         parentId: "graph",
-  //         elementId: element.id.replace("sprotty-container_", ""),
-  //       },
-  //     ]);
-  //   });
-  // })
-
   deleteBtn.addEventListener("click", () => {
     const selectedElements = document.querySelectorAll(".selected");
     selectedElements.forEach((element) => {
+      if (element.id.includes("label") || element.id === "") {
+        return;
+      }
       modelSource.removeElements([
         {
           parentId: "graph",
           elementId: element.id.replace("sprotty-container_", ""),
         },
       ]);
+      const idNodeCompare = element.id.replace(
+        "sprotty-container_node-type-",
+        ""
+      );
+      edgeArr.forEach((edge) => {
+        const edgeSourceIdCompare = edge.sourceId.replace("port-type-", "");
+        const edgeTargetIdCompare = edge.targetId.replace("port-type-", "");
+        if (
+          edgeSourceIdCompare.includes(idNodeCompare) ||
+          edgeTargetIdCompare.includes(idNodeCompare)
+        ) {
+          modelSource.removeElements([
+            {
+              parentId: "graph",
+              elementId: edge.id,
+            },
+          ]);
+          const edgeIndex = edgeArr.findIndex((e) => {
+            return e.id === edge.id;
+          });
+          edgeArr.splice(edgeIndex, 1);
+        }
+      });
     });
   });
 }
