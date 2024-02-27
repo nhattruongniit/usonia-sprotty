@@ -23433,6 +23433,10 @@
   var sourceId = null;
   var CustomMouseListener = class extends import_sprotty3.MouseListener {
     mouseUp(target, event) {
+      console.log("mouseUp: ", {
+        target,
+        event
+      });
       if (target instanceof import_sprotty3.SRoutingHandleImpl) {
         const targetParentEl = target.parent;
         if (!targetParentEl.targetId.includes("dummy")) {
@@ -23576,10 +23580,6 @@
               const portCoordinate = portTranslateAttribute ? portTranslateAttribute.replace("translate(", "").replace(")", "").trim().split(",") : [0, 0];
               const transformAttribute = port.parentElement.getAttribute("transform");
               const coordinate = transformAttribute ? transformAttribute.replace("translate(", "").replace(")", "").trim().split(",") : [0, 0];
-              console.log("coordinate: ", {
-                coordinate,
-                portCoordinate
-              });
               if (dummyNodeArray.length == 0) {
                 addNode({
                   source: modelSource,

@@ -57,8 +57,14 @@ export class CustomMouseListener extends MouseListener {
     target: SModelElementImpl,
     event: MouseEvent
   ): (Action | Promise<Action>)[] {
+    console.log('mouseUp: ', {
+      target,
+      event
+    })
+
     if (target instanceof SRoutingHandleImpl) {
       const targetParentEl = target.parent as SEdgeImpl;
+
       if (!targetParentEl.targetId.includes("dummy")) {
         setTimeout(() => {
           document.getElementById("cancel-draw-edge").click();
@@ -250,11 +256,6 @@ export default function run() {
               .trim()
               .split(",")
             : [0, 0];
-            
-            console.log('coordinate: ',  {
-              coordinate,
-              portCoordinate
-            })
 
             // add dummy node
             if(dummyNodeArray.length == 0) {
