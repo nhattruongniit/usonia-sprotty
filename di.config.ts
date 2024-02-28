@@ -9,7 +9,7 @@ export const createContainer = (containerId: string) => {
     // mouse event
     bind(CustomMouseListener).toSelf().inSingletonScope();
     bind(TYPES.MouseListener).toService(CustomMouseListener);
-    
+
     bind(TYPES.ModelSource).to(LocalModelSource).inSingletonScope();
 
     const context = { bind, unbind, isBound, rebind };

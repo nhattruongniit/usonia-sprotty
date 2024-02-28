@@ -13911,7 +13911,7 @@
         }
       };
       exports.SGraphImpl = SGraphImpl2;
-      var SNodeImpl2 = class extends model_7.SConnectableElementImpl {
+      var SNodeImpl3 = class extends model_7.SConnectableElementImpl {
         constructor() {
           super(...arguments);
           this.selected = false;
@@ -13938,8 +13938,8 @@
           return allEdges.filter((e) => e.sourceId === this.id);
         }
       };
-      exports.SNodeImpl = SNodeImpl2;
-      SNodeImpl2.DEFAULT_FEATURES = [
+      exports.SNodeImpl = SNodeImpl3;
+      SNodeImpl3.DEFAULT_FEATURES = [
         model_7.connectableFeature,
         delete_1.deletableFeature,
         model_8.selectFeature,
@@ -19889,7 +19889,7 @@
         __param(0, (0, inversify_1.inject)(types_1.TYPES.Action)),
         __metadata("design:paramtypes", [Object])
       ], SelectAllCommand);
-      var SelectMouseListener = class extends mouse_tool_1.MouseListener {
+      var SelectMouseListener2 = class extends mouse_tool_1.MouseListener {
         constructor() {
           super(...arguments);
           this.wasSelected = false;
@@ -19996,12 +19996,12 @@
           return vnode;
         }
       };
-      exports.SelectMouseListener = SelectMouseListener;
+      exports.SelectMouseListener = SelectMouseListener2;
       __decorate([
         (0, inversify_1.inject)(button_handler_1.ButtonHandlerRegistry),
         (0, inversify_1.optional)(),
         __metadata("design:type", button_handler_1.ButtonHandlerRegistry)
-      ], SelectMouseListener.prototype, "buttonHandlerRegistry", void 0);
+      ], SelectMouseListener2.prototype, "buttonHandlerRegistry", void 0);
       var GetSelectionCommand = class GetSelectionCommand extends request_command_1.ModelRequestCommand {
         constructor(action) {
           super();
@@ -23433,10 +23433,6 @@
   var sourceId = null;
   var CustomMouseListener = class extends import_sprotty3.MouseListener {
     mouseUp(target, event) {
-      console.log("mouseUp: ", {
-        target,
-        event
-      });
       if (target instanceof import_sprotty3.SRoutingHandleImpl) {
         const targetParentEl = target.parent;
         if (!targetParentEl.targetId.includes("dummy")) {
@@ -23451,6 +23447,28 @@
             }
           }, 100);
         }
+      }
+      if (target.id === "node-dummy") {
+        const coordinateDummyNodeX = target.position.x;
+        const coordinateDummyNodeY = target.position.y;
+        const nodesChildren = target.parent.children;
+        console.log("mouseUp: ", {
+          target,
+          coordinateDummyNodeX,
+          coordinateDummyNodeY,
+          nodesChildren
+        });
+        let isMatch = false;
+        nodesChildren.forEach((node) => {
+          if (node.id.includes("type")) {
+            const portsChildren = node.children;
+            portsChildren.forEach((port) => {
+              console.log("ports: ", {
+                port
+              });
+            });
+          }
+        });
       }
       return [];
     }
