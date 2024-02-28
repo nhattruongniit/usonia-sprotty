@@ -23473,7 +23473,9 @@
       return [];
     }
     drop(target, event) {
-      const customEvent = new CustomEvent("addDummyNode", { detail: { x: event.offsetX, y: event.offsetY } });
+      const customEvent = new CustomEvent("addDummyNode", {
+        detail: { x: event.offsetX, y: event.offsetY }
+      });
       document.getElementById("add-dummy-node").dispatchEvent(customEvent);
       return [];
     }
@@ -23635,6 +23637,42 @@
         });
       }, 100);
     }
+    const deleteLogic = () => {
+      const selectedElements = document.querySelectorAll(".selected");
+      selectedElements.forEach((element) => {
+        if (element.id.includes("label") || element.id === "") {
+          return;
+        }
+        const idNodeCompare = element.id.replace(
+          "sprotty-container_node-type-",
+          ""
+        );
+        edgeArr.forEach((edge) => {
+          const edgeSourceIdCompare = edge.sourceId.replace("port-type-", "");
+          const edgeTargetIdCompare = edge.targetId.replace("port-type-", "");
+          setTimeout(() => {
+            if (edgeSourceIdCompare.includes(idNodeCompare) || edgeTargetIdCompare.includes(idNodeCompare)) {
+              modelSource.removeElements([
+                {
+                  parentId: "graph",
+                  elementId: edge.id
+                }
+              ]);
+              const edgeIndex = edgeArr.findIndex((e) => {
+                return e.id === edge.id;
+              });
+              edgeArr.splice(edgeIndex, 1);
+            }
+          }, 100);
+        });
+        modelSource.removeElements([
+          {
+            parentId: "graph",
+            elementId: element.id.replace("sprotty-container_", "")
+          }
+        ]);
+      });
+    };
     addNode1Btn.addEventListener("click", () => {
       addNode({
         source: modelSource,
@@ -23710,38 +23748,12 @@
       }
     });
     deleteBtn.addEventListener("click", () => {
-      const selectedElements = document.querySelectorAll(".selected");
-      selectedElements.forEach((element) => {
-        if (element.id.includes("label") || element.id === "") {
-          return;
-        }
-        modelSource.removeElements([
-          {
-            parentId: "graph",
-            elementId: element.id.replace("sprotty-container_", "")
-          }
-        ]);
-        const idNodeCompare = element.id.replace(
-          "sprotty-container_node-type-",
-          ""
-        );
-        edgeArr.forEach((edge) => {
-          const edgeSourceIdCompare = edge.sourceId.replace("port-type-", "");
-          const edgeTargetIdCompare = edge.targetId.replace("port-type-", "");
-          if (edgeSourceIdCompare.includes(idNodeCompare) || edgeTargetIdCompare.includes(idNodeCompare)) {
-            modelSource.removeElements([
-              {
-                parentId: "graph",
-                elementId: edge.id
-              }
-            ]);
-            const edgeIndex = edgeArr.findIndex((e) => {
-              return e.id === edge.id;
-            });
-            edgeArr.splice(edgeIndex, 1);
-          }
-        });
-      });
+      deleteLogic();
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Delete") {
+        deleteLogic();
+      }
     });
   }
   document.addEventListener("DOMContentLoaded", () => run());
