@@ -1,0 +1,318 @@
+{
+  "canvasBounds": {
+    "x": 7.998046875,
+    "y": 54.23828125,
+    "width": 1055.25390625,
+    "height": 695.99609375
+  },
+  "scroll": {
+    "x": -1.7746036830316427,
+    "y": 132.30687046304755
+  },
+  "zoom": 1.422409318608215,
+  "position": {
+    "x": 0,
+    "y": 0
+  },
+  "size": {
+    "width": -1,
+    "height": -1
+  },
+  "features": {},
+  "type": "graph",
+  "id": "graph",
+  "children": [
+    {
+      "position": {
+        "x": 107,
+        "y": 358
+      },
+      "size": {
+        "width": 100,
+        "height": 100
+      },
+      "strokeWidth": 0,
+      "selected": false,
+      "hoverFeedback": false,
+      "opacity": 1,
+      "features": {},
+      "type": "node",
+      "id": "node-type-3-2",
+      "cssClasses": [
+        "node"
+      ],
+      "children": [
+        {
+          "position": {
+            "x": 50,
+            "y": 50
+          },
+          "size": {
+            "width": -1,
+            "height": -1
+          },
+          "selected": false,
+          "alignment": {
+            "x": 0,
+            "y": 0
+          },
+          "opacity": 1,
+          "features": {},
+          "type": "label:node",
+          "id": "label-type-3-2-2",
+          "text": "node-type-3-2",
+          "children": []
+        },
+        {
+          "position": {
+            "x": 100,
+            "y": 40
+          },
+          "size": {
+            "width": 20,
+            "height": 20
+          },
+          "strokeWidth": 0,
+          "selected": false,
+          "hoverFeedback": false,
+          "opacity": 1,
+          "features": {},
+          "type": "port",
+          "id": "port-type-3-2-1",
+          "cssClasses": [
+            "port"
+          ],
+          "children": []
+        },
+        {
+          "position": {
+            "x": 40,
+            "y": 100
+          },
+          "size": {
+            "width": 20,
+            "height": 20
+          },
+          "strokeWidth": 0,
+          "selected": false,
+          "hoverFeedback": false,
+          "opacity": 1,
+          "features": {},
+          "type": "port",
+          "id": "port-type-3-2-2",
+          "cssClasses": [
+            "port"
+          ],
+          "children": []
+        },
+        {
+          "position": {
+            "x": -20,
+            "y": 40
+          },
+          "size": {
+            "width": 20,
+            "height": 20
+          },
+          "strokeWidth": 0,
+          "selected": false,
+          "hoverFeedback": false,
+          "opacity": 1,
+          "features": {},
+          "type": "port",
+          "id": "port-type-3-2-3",
+          "cssClasses": [
+            "port"
+          ],
+          "children": []
+        }
+      ]
+    },
+    {
+      "position": {
+        "x": 440,
+        "y": 141
+      },
+      "size": {
+        "width": 100,
+        "height": 100
+      },
+      "strokeWidth": 0,
+      "selected": false,
+      "hoverFeedback": false,
+      "opacity": 1,
+      "features": {},
+      "type": "node",
+      "id": "node-type-3-1",
+      "cssClasses": [
+        "node"
+      ],
+      "children": [
+        {
+          "position": {
+            "x": 50,
+            "y": 50
+          },
+          "size": {
+            "width": -1,
+            "height": -1
+          },
+          "selected": false,
+          "alignment": {
+            "x": 0,
+            "y": 0
+          },
+          "opacity": 1,
+          "features": {},
+          "type": "label:node",
+          "id": "label-type-3-1-1",
+          "text": "node-type-3-1",
+          "children": []
+        },
+        {
+          "position": {
+            "x": 100,
+            "y": 40
+          },
+          "size": {
+            "width": 20,
+            "height": 20
+          },
+          "strokeWidth": 0,
+          "selected": false,
+          "hoverFeedback": false,
+          "opacity": 1,
+          "features": {},
+          "type": "port",
+          "id": "port-type-3-1-1",
+          "cssClasses": [
+            "port"
+          ],
+          "children": []
+        },
+        {
+          "position": {
+            "x": 40,
+            "y": 100
+          },
+          "size": {
+            "width": 20,
+            "height": 20
+          },
+          "strokeWidth": 0,
+          "selected": false,
+          "hoverFeedback": false,
+          "opacity": 1,
+          "features": {},
+          "type": "port",
+          "id": "port-type-3-1-2",
+          "cssClasses": [
+            "port"
+          ],
+          "children": []
+        },
+        {
+          "position": {
+            "x": -20,
+            "y": 40
+          },
+          "size": {
+            "width": 20,
+            "height": 20
+          },
+          "strokeWidth": 0,
+          "selected": false,
+          "hoverFeedback": false,
+          "opacity": 1,
+          "features": {},
+          "type": "port",
+          "id": "port-type-3-1-3",
+          "cssClasses": [
+            "port"
+          ],
+          "children": []
+        }
+      ]
+    },
+    {
+      "position": {
+        "x": 322,
+        "y": 271
+      },
+      "size": {
+        "width": 100,
+        "height": 100
+      },
+      "strokeWidth": 0,
+      "selected": false,
+      "hoverFeedback": false,
+      "opacity": 1,
+      "features": {},
+      "type": "node",
+      "id": "node-type-1-1",
+      "cssClasses": [
+        "node"
+      ],
+      "children": [
+        {
+          "position": {
+            "x": 50,
+            "y": 50
+          },
+          "size": {
+            "width": -1,
+            "height": -1
+          },
+          "selected": false,
+          "alignment": {
+            "x": 0,
+            "y": 0
+          },
+          "opacity": 1,
+          "features": {},
+          "type": "label:node",
+          "id": "label-type-1-1-1",
+          "text": "node-type-1-1",
+          "children": []
+        },
+        {
+          "position": {
+            "x": 100,
+            "y": 40
+          },
+          "size": {
+            "width": 20,
+            "height": 20
+          },
+          "strokeWidth": 0,
+          "selected": false,
+          "hoverFeedback": false,
+          "opacity": 1,
+          "features": {},
+          "type": "port",
+          "id": "port-type-1-1-1",
+          "cssClasses": [
+            "port"
+          ],
+          "children": []
+        }
+      ]
+    },
+    {
+      "routingPoints": [],
+      "selected": false,
+      "hoverFeedback": false,
+      "opacity": 1,
+      "features": {},
+      "type": "edge:straight",
+      "id": "edge-1",
+      "sourceId": "port-type-1-1-1",
+      "targetId": "port-type-3-1-2",
+      "cssClasses": [
+        "dummy-edge"
+      ],
+      "routerKind": "manhattan",
+      "children": []
+    }
+  ]
+}

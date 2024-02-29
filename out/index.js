@@ -23413,6 +23413,8 @@
   var cancelDrawEdgeBtn = null;
   var deleteBtn = null;
   var dummyNodeBtn = null;
+  var showJsonBtn = null;
+  var exportJsonBtn = null;
   var node1Number = 1;
   var node2Number = 1;
   var node3Number = 1;
@@ -23596,6 +23598,14 @@
     drawEdgeBtn = document.getElementById("draw-edge");
     deleteBtn = document.getElementById("delete");
     cancelDrawEdgeBtn = document.getElementById("cancel-draw-edge");
+    showJsonBtn = document.getElementById("show-json");
+    exportJsonBtn = document.getElementById("export-json");
+    showJsonBtn.addEventListener("click", () => {
+      console.log(JSON.stringify(modelSource.model, null, 2));
+    });
+    exportJsonBtn.addEventListener("click", () => {
+      console.log("exportJsonBtn: ", modelSource.model);
+    });
     dummyNodeBtn = document.getElementById("add-dummy-node");
     dummyNodeBtn.addEventListener("addDummyNode", (e) => {
       const x = e.detail.x;
@@ -23644,10 +23654,10 @@
                   portQuantity: 1,
                   cssClasses: ["nodes", "dummy"],
                   name: "",
-                  x: Number(coordinate[0]) + 2 * defaultNodeWidth,
-                  y: Number(coordinate[1])
-                  // x: Number(coordinate[0]) + Number(portCoordinate[0]) + 5,
-                  // y: Number(coordinate[1]) + Number(portCoordinate[1]) + 5,
+                  // x: Number(coordinate[0]) + 2 * defaultNodeWidth,
+                  // y: Number(coordinate[1]),
+                  x: Number(coordinate[0]) + Number(portCoordinate[0]) + 5,
+                  y: Number(coordinate[1]) + Number(portCoordinate[1]) + 5
                 });
                 dummyNodeArray.push("node-dummy");
                 drawEdge({
