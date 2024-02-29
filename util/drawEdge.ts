@@ -28,4 +28,5 @@ export default function drawEdge({
       }) as SEdge,
     },
   ]);
+  console.log("draw")
 }

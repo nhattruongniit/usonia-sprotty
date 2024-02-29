@@ -23401,6 +23401,7 @@
         }
       }
     ]);
+    console.log("draw");
   }
 
   // index.ts
@@ -23423,10 +23424,11 @@
   var edgeNumber = 1;
   var edgeArr = [];
   var dummyNodeArray = [];
+  var dummyEdgeId = null;
   var defaultNodeWidth = 100;
   var defaultNodeHeight = 100;
-  var defaultPortWidth = 20;
-  var defaultPortHeight = 20;
+  var defaultPortWidth = 30;
+  var defaultPortHeight = 30;
   var defaultDummyWidth = 10;
   var defaultDummyHeight = 10;
   var drawMode = true;
@@ -23434,21 +23436,6 @@
   var targetId = null;
   var CustomMouseListener = class extends import_sprotty3.MouseListener {
     mouseUp(target, event) {
-      if (target instanceof import_sprotty3.SRoutingHandleImpl) {
-        const targetParentEl = target.parent;
-        if (!targetParentEl.targetId.includes("dummy")) {
-          setTimeout(() => {
-            document.getElementById("cancel-draw-edge").click();
-            const indexEdge = edgeArr.findIndex((edge) => {
-              return edge.id === targetParentEl.id;
-            });
-            if (indexEdge !== -1) {
-              edgeArr[indexEdge].sourceId = targetParentEl.sourceId;
-              edgeArr[indexEdge].targetId = targetParentEl.targetId;
-            }
-          }, 100);
-        }
-      }
       if (target.id === "node-dummy") {
         const coordinateDummyNodeX = target.position.x;
         const coordinateDummyNodeY = target.position.y;
@@ -23459,20 +23446,64 @@
             const nodeChildArr = child.children;
             nodeChildArr.forEach((nodeChild) => {
               if (nodeChild.type === "port") {
-                portCompareCoordinateArr.push({ x: nodeChild.position.x, y: nodeChild.position.y, id: nodeChild.id });
+                let portType = null;
+                const portX = nodeChild.position.x;
+                const portY = nodeChild.position.y;
+                if (portX === defaultNodeWidth && portY === (defaultNodeHeight - defaultPortHeight) / 2) {
+                  portType = 1;
+                } else if (portX === (defaultNodeWidth - defaultPortWidth) / 2 && portY === defaultNodeHeight) {
+                  portType = 2;
+                } else if (portX === 0 - defaultPortWidth && portY === (defaultNodeHeight - defaultPortHeight) / 2) {
+                  portType = 3;
+                } else if (portX === (defaultNodeWidth - defaultPortWidth) / 2 && portY === 0 - defaultPortHeight) {
+                  portType = 4;
+                }
+                portCompareCoordinateArr.push({ x: portX, y: portY, id: nodeChild.id, nodeX: nodeChild.parent.position.x, nodeY: nodeChild.parent.position.y, type: portType });
               }
             });
           }
         });
         portCompareCoordinateArr.forEach((portCoordinate) => {
-          console.log("x cua dummy" + coordinateDummyNodeX, "y cua dummy" + coordinateDummyNodeY);
-          console.log("x cua port" + portCoordinate.x, "y cua port" + portCoordinate.y);
-          if (coordinateDummyNodeX + defaultDummyWidth <= portCoordinate.x + defaultPortWidth && portCoordinate.x <= coordinateDummyNodeX && coordinateDummyNodeY + defaultDummyHeight <= portCoordinate.y + defaultPortHeight && portCoordinate.y <= coordinateDummyNodeY) {
+          console.log("dummy X : " + coordinateDummyNodeX, "dummy Y : " + coordinateDummyNodeY);
+          let portCompareX;
+          let portCompareY;
+          if (portCoordinate.type === 1) {
+            portCompareX = portCoordinate.nodeX + portCoordinate.x;
+            portCompareY = portCoordinate.nodeY + (defaultNodeHeight - defaultPortHeight) / 2;
+            console.log("x : " + portCompareX, "y : " + portCompareY, "type 1");
+          } else if (portCoordinate.type === 2) {
+            portCompareX = portCoordinate.nodeX + (defaultNodeWidth - defaultPortWidth) / 2;
+            portCompareY = portCoordinate.nodeY + portCoordinate.y;
+            console.log("x : " + portCompareX, "y : " + portCompareY, "type 2");
+          } else if (portCoordinate.type === 3) {
+            portCompareX = portCoordinate.nodeX + portCoordinate.x;
+            portCompareY = portCoordinate.nodeY + (defaultNodeHeight - defaultPortHeight) / 2;
+            console.log("x : " + portCompareX, "y : " + portCompareY, "type 3");
+          } else if (portCoordinate.type === 4) {
+            portCompareX = portCoordinate.nodeX + (defaultNodeWidth - defaultPortWidth) / 2;
+            portCompareY = portCoordinate.nodeY + portCoordinate.y;
+            console.log("x : " + portCompareX, "y : " + portCompareY, "type 4");
+          } else {
+            return;
+          }
+          if (coordinateDummyNodeX + defaultDummyWidth <= portCompareX + defaultPortWidth && portCompareX <= coordinateDummyNodeX && coordinateDummyNodeY + defaultDummyHeight <= portCompareY + defaultPortHeight && portCompareY <= coordinateDummyNodeY) {
             targetId = portCoordinate.id;
+            drawEdge({
+              source: modelSource,
+              edgeId: edgeNumber,
+              sourceNumb: sourceId,
+              targetNumb: targetId.replace("port-", ""),
+              cssClasses: ["dummy-edge"]
+            });
+            edgeArr.push({
+              id: `edge-${edgeNumber}`,
+              sourceId: `port-${sourceId}`,
+              targetId
+            });
+            edgeNumber++;
+            cancelDrawEdge();
           }
         });
-        console.log(targetId);
-        let isMatch = false;
       }
       return [];
     }
@@ -23506,51 +23537,11 @@
         parentId: "graph"
       }
     ]);
-    const coordinateCircleArr = [];
-    const cirlceEl = document.querySelectorAll(".sprotty-routing-handle");
-    cirlceEl.forEach((e) => {
-      coordinateCircleArr.push({
-        x: e.getAttribute("cx"),
-        y: e.getAttribute("cy")
-      });
-    });
-    const dummyNodeEl = document.getElementById("sprotty-container_node-dummy");
-    if (dummyNodeEl) {
-      const dummyCoordinate = dummyNodeEl.getAttribute("transform").replace("translate(", "").replace(")", "").trim().split(",").map((e) => {
-        return Number(e);
-      });
-      if (coordinateCircleArr.length === 0) {
-        modelSource.removeElements([
-          {
-            elementId: edgeArr[edgeArr.length - 1].id,
-            parentId: "graph"
-          }
-        ]);
-        edgeArr.pop();
-      } else {
-        if (Math.sqrt(
-          Math.pow(
-            Number(
-              dummyCoordinate[0] - Number(coordinateCircleArr[coordinateCircleArr.length - 1].x)
-            ),
-            2
-          ) + Math.pow(
-            Number(
-              dummyCoordinate[1] - Number(coordinateCircleArr[coordinateCircleArr.length - 1].y)
-            ),
-            2
-          )
-        ) < 13) {
-          modelSource.removeElements([
-            {
-              elementId: edgeArr[edgeArr.length - 1].id,
-              parentId: "graph"
-            }
-          ]);
-          edgeArr.pop();
-        }
-      }
-    }
+    modelSource.removeElements([{
+      elementId: dummyEdgeId,
+      parentId: "graph"
+    }]);
+    dummyEdgeId = null;
     Array.from(document.getElementsByClassName("ready-draw")).forEach((e) => {
       e.classList.remove("ready-draw");
     });
@@ -23558,6 +23549,42 @@
     sourceId = "";
     drawMode = true;
   }
+  var deleteLogic = () => {
+    const selectedElements = document.querySelectorAll(".selected");
+    selectedElements.forEach((element) => {
+      if (element.id.includes("label") || element.id === "") {
+        return;
+      }
+      const idNodeCompare = element.id.replace(
+        "sprotty-container_node-type-",
+        ""
+      );
+      edgeArr.forEach((edge) => {
+        const edgeSourceIdCompare = edge.sourceId.replace("port-type-", "");
+        const edgeTargetIdCompare = edge.targetId.replace("port-type-", "");
+        setTimeout(() => {
+          if (edgeSourceIdCompare.includes(idNodeCompare) || edgeTargetIdCompare.includes(idNodeCompare)) {
+            modelSource.removeElements([
+              {
+                parentId: "graph",
+                elementId: edge.id
+              }
+            ]);
+            const edgeIndex = edgeArr.findIndex((e) => {
+              return e.id === edge.id;
+            });
+            edgeArr.splice(edgeIndex, 1);
+          }
+        }, 100);
+      });
+      modelSource.removeElements([
+        {
+          parentId: "graph",
+          elementId: element.id.replace("sprotty-container_", "")
+        }
+      ]);
+    });
+  };
   function run() {
     modelSource.setModel(graph);
     addNode1Btn = document.getElementById("add-node-1");
@@ -23616,15 +23643,15 @@
                   portQuantity: 1,
                   cssClasses: ["nodes", "dummy"],
                   name: "",
-                  // x: Number(coordinate[0]) + 2 * defaultNodeWidth,
-                  // y: Number(coordinate[1])
-                  x: Number(coordinate[0]) + Number(portCoordinate[0]) + 5,
-                  y: Number(coordinate[1]) + Number(portCoordinate[1]) + 5
+                  x: Number(coordinate[0]) + 2 * defaultNodeWidth,
+                  y: Number(coordinate[1])
+                  // x: Number(coordinate[0]) + Number(portCoordinate[0]) + 5,
+                  // y: Number(coordinate[1]) + Number(portCoordinate[1]) + 5,
                 });
                 dummyNodeArray.push("node-dummy");
                 drawEdge({
                   source: modelSource,
-                  edgeId: edgeNumber,
+                  edgeId: "dummy",
                   sourceNumb: sourceId,
                   targetNumb: "dummy-1",
                   cssClasses: ["dummy-edge"]
@@ -23634,49 +23661,13 @@
                   sourceId: `port-${sourceId}`,
                   targetId: "dummy-1"
                 });
-                edgeNumber++;
+                dummyEdgeId = "edge-dummy";
               }
             }
           });
         });
       }, 100);
     }
-    const deleteLogic = () => {
-      const selectedElements = document.querySelectorAll(".selected");
-      selectedElements.forEach((element) => {
-        if (element.id.includes("label") || element.id === "") {
-          return;
-        }
-        const idNodeCompare = element.id.replace(
-          "sprotty-container_node-type-",
-          ""
-        );
-        edgeArr.forEach((edge) => {
-          const edgeSourceIdCompare = edge.sourceId.replace("port-type-", "");
-          const edgeTargetIdCompare = edge.targetId.replace("port-type-", "");
-          setTimeout(() => {
-            if (edgeSourceIdCompare.includes(idNodeCompare) || edgeTargetIdCompare.includes(idNodeCompare)) {
-              modelSource.removeElements([
-                {
-                  parentId: "graph",
-                  elementId: edge.id
-                }
-              ]);
-              const edgeIndex = edgeArr.findIndex((e) => {
-                return e.id === edge.id;
-              });
-              edgeArr.splice(edgeIndex, 1);
-            }
-          }, 100);
-        });
-        modelSource.removeElements([
-          {
-            parentId: "graph",
-            elementId: element.id.replace("sprotty-container_", "")
-          }
-        ]);
-      });
-    };
     addNode1Btn.addEventListener("click", () => {
       addNode({
         source: modelSource,
