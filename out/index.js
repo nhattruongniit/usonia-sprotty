@@ -23431,7 +23431,8 @@
   var defaultPortHeight = 20;
   var defaultDummyWidth = 10;
   var defaultDummyHeight = 10;
-  var drawMode = true;
+  var drawMode = false;
+  var dummyMode = false;
   var sourceId = null;
   var targetId = null;
   var CustomMouseListener = class extends import_sprotty3.MouseListener {
@@ -23547,7 +23548,8 @@
     });
     dummyNodeArray = [];
     sourceId = "";
-    drawMode = true;
+    drawMode = false;
+    dummyMode = false;
   }
   var deleteLogic = () => {
     const selectedElements = document.querySelectorAll(".selected");
@@ -23616,15 +23618,14 @@
       dummyNodeArray.push("node-dummy");
     });
     cancelDrawEdgeBtn.addEventListener("click", () => {
-      if (drawMode) {
-        cancelDrawEdge();
-      }
+      cancelDrawEdge();
     });
     function drawLogic() {
       setTimeout(() => {
         document.querySelectorAll(".port").forEach((port) => {
           port.addEventListener("click", (e) => {
-            if (drawMode) {
+            if (!dummyMode) {
+              cancelDrawEdgeBtn.classList.remove("hide");
               port.classList.add("ready-draw");
               sourceId = port.id.replace("sprotty-container_port-", "");
               const portTranslateAttribute = port.getAttribute("transform");
@@ -23663,6 +23664,7 @@
                 });
                 dummyEdgeId = "edge-dummy";
               }
+              dummyMode = true;
             }
           });
         });

@@ -56,7 +56,8 @@ const defaultDummyWidth = 10;
 const defaultDummyHeight = 10;
 
 // state of draw edge
-let drawMode = true;
+let drawMode = false;
+let dummyMode = false
 
 // source
 let sourceId = null;
@@ -277,7 +278,8 @@ function cancelDrawEdge() {
 
   dummyNodeArray = [];
   sourceId = "";
-  drawMode = true;
+  drawMode = false;
+  dummyMode = false
 }
 
 const deleteLogic = () => {
@@ -359,17 +361,19 @@ export default function run() {
 
   // cancel draw edge
   cancelDrawEdgeBtn.addEventListener("click", () => {
-    if (drawMode) {
+    
       cancelDrawEdge();
-    }
+    
   });
 
   // draw edge
   function drawLogic() {
     setTimeout(() => {
       document.querySelectorAll(".port").forEach((port) => {
+        
         port.addEventListener("click", (e) => {
-          if (drawMode) {
+          if ( !dummyMode) {
+            cancelDrawEdgeBtn.classList.remove("hide");
             port.classList.add("ready-draw");
             sourceId = port.id.replace("sprotty-container_port-", "");
 
@@ -425,6 +429,7 @@ export default function run() {
               });
               dummyEdgeId = "edge-dummy";
             }
+            dummyMode = true
           }
         });
       });
