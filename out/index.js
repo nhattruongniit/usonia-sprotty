@@ -18715,11 +18715,11 @@
       var AddRemoveBezierSegmentAction;
       (function(AddRemoveBezierSegmentAction2) {
         AddRemoveBezierSegmentAction2.KIND = "addRemoveBezierSegment";
-        function create(actionTask, targetId) {
+        function create(actionTask, targetId2) {
           return {
             kind: AddRemoveBezierSegmentAction2.KIND,
             actionTask,
-            targetId
+            targetId: targetId2
           };
         }
         AddRemoveBezierSegmentAction2.create = create;
@@ -23431,6 +23431,7 @@
   var defaultDummyHeight = 10;
   var drawMode = true;
   var sourceId = null;
+  var targetId = null;
   var CustomMouseListener = class extends import_sprotty3.MouseListener {
     mouseUp(target, event) {
       if (target instanceof import_sprotty3.SRoutingHandleImpl) {
@@ -23451,17 +23452,26 @@
       if (target.id === "node-dummy") {
         const coordinateDummyNodeX = target.position.x;
         const coordinateDummyNodeY = target.position.y;
+        let portCompareCoordinateArr = [];
         const gragphChildrenArr = target.parent.children;
         gragphChildrenArr.forEach((child) => {
           if (child.type === "node" && child.id !== "node-dummy") {
             const nodeChildArr = child.children;
             nodeChildArr.forEach((nodeChild) => {
               if (nodeChild.type === "port") {
-                console.log(nodeChild);
+                portCompareCoordinateArr.push({ x: nodeChild.position.x, y: nodeChild.position.y, id: nodeChild.id });
               }
             });
           }
         });
+        portCompareCoordinateArr.forEach((portCoordinate) => {
+          console.log("x cua dummy" + coordinateDummyNodeX, "y cua dummy" + coordinateDummyNodeY);
+          console.log("x cua port" + portCoordinate.x, "y cua port" + portCoordinate.y);
+          if (coordinateDummyNodeX + defaultDummyWidth <= portCoordinate.x + defaultPortWidth && portCoordinate.x <= coordinateDummyNodeX && coordinateDummyNodeY + defaultDummyHeight <= portCoordinate.y + defaultPortHeight && portCoordinate.y <= coordinateDummyNodeY) {
+            targetId = portCoordinate.id;
+          }
+        });
+        console.log(targetId);
         let isMatch = false;
       }
       return [];

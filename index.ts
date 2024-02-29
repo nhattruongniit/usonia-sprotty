@@ -59,6 +59,7 @@ let drawMode = true;
 
 // source
 let sourceId = null;
+let targetId = null
 
 export class CustomMouseListener extends MouseListener {
   mouseUp(target: any, event: MouseEvent): (Action | Promise<Action>)[] {
@@ -84,6 +85,7 @@ export class CustomMouseListener extends MouseListener {
     if (target.id === "node-dummy") {
       const coordinateDummyNodeX = target.position.x;
       const coordinateDummyNodeY = target.position.y;
+      let portCompareCoordinateArr = []
 
       const gragphChildrenArr = target.parent.children;
       gragphChildrenArr.forEach((child: any) => {
@@ -91,12 +93,22 @@ export class CustomMouseListener extends MouseListener {
           const nodeChildArr = child.children;
           nodeChildArr.forEach((nodeChild: any) => {
             if (nodeChild.type === "port") {
-              console.log(nodeChild);
-              // LOgic : filter ra port
+              portCompareCoordinateArr.push({ x: nodeChild.position.x, y: nodeChild.position.y, id: nodeChild.id })
             }
           });
         }
       });
+      portCompareCoordinateArr.forEach(portCoordinate => {
+        console.log("x cua dummy" + coordinateDummyNodeX, "y cua dummy" + coordinateDummyNodeY)
+        console.log("x cua port" + portCoordinate.x, "y cua port" + portCoordinate.y)
+        if (coordinateDummyNodeX + defaultDummyWidth <= portCoordinate.x + defaultPortWidth &&
+          portCoordinate.x <= coordinateDummyNodeX &&
+          coordinateDummyNodeY + defaultDummyHeight <= portCoordinate.y + defaultPortHeight &&
+          portCoordinate.y <= coordinateDummyNodeY) {
+          targetId = portCoordinate.id
+        }
+      })
+      console.log(targetId)
 
       // console.log("mouseUp: ", {
       //   target,
@@ -286,17 +298,17 @@ function cancelDrawEdge() {
           Math.pow(
             Number(
               dummyCoordinate[0] -
-                Number(coordinateCircleArr[coordinateCircleArr.length - 1].x)
+              Number(coordinateCircleArr[coordinateCircleArr.length - 1].x)
             ),
             2
           ) +
-            Math.pow(
-              Number(
-                dummyCoordinate[1] -
-                  Number(coordinateCircleArr[coordinateCircleArr.length - 1].y)
-              ),
-              2
-            )
+          Math.pow(
+            Number(
+              dummyCoordinate[1] -
+              Number(coordinateCircleArr[coordinateCircleArr.length - 1].y)
+            ),
+            2
+          )
         ) < 13
       ) {
         modelSource.removeElements([
@@ -373,20 +385,20 @@ export default function run() {
             const portTranslateAttribute = port.getAttribute("transform");
             const portCoordinate = portTranslateAttribute
               ? portTranslateAttribute
-                  .replace("translate(", "")
-                  .replace(")", "")
-                  .trim()
-                  .split(",")
+                .replace("translate(", "")
+                .replace(")", "")
+                .trim()
+                .split(",")
               : [0, 0];
 
             const transformAttribute =
               port.parentElement.getAttribute("transform");
             const coordinate = transformAttribute
               ? transformAttribute
-                  .replace("translate(", "")
-                  .replace(")", "")
-                  .trim()
-                  .split(",")
+                .replace("translate(", "")
+                .replace(")", "")
+                .trim()
+                .split(",")
               : [0, 0];
 
             // add dummy node
