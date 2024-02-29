@@ -50,8 +50,8 @@ let dummyEdgeId = null
 // size nodes & ports
 const defaultNodeWidth = 100;
 const defaultNodeHeight = 100;
-const defaultPortWidth = 30;
-const defaultPortHeight = 30;
+const defaultPortWidth = 20;
+const defaultPortHeight = 20;
 const defaultDummyWidth = 10;
 const defaultDummyHeight = 10;
 
@@ -84,8 +84,8 @@ export class CustomMouseListener extends MouseListener {
 
     // code connect by dummy node
     if (target.id === "node-dummy") {
-      const coordinateDummyNodeX = target.position.x;
-      const coordinateDummyNodeY = target.position.y;
+      const coordinateDummyNodeX = target.position.x + (defaultDummyWidth) / 2;
+      const coordinateDummyNodeY = target.position.y + (defaultDummyHeight) / 2;
       let portCompareCoordinateArr = []
 
       const gragphChildrenArr = target.parent.children;
@@ -138,9 +138,9 @@ export class CustomMouseListener extends MouseListener {
         else {
           return;
         }
-        if (coordinateDummyNodeX + defaultDummyWidth <= portCompareX + defaultPortWidth &&
+        if (coordinateDummyNodeX  <= portCompareX + defaultPortWidth &&
           portCompareX <= coordinateDummyNodeX &&
-          coordinateDummyNodeY + defaultDummyHeight <= portCompareY + defaultPortHeight &&
+          coordinateDummyNodeY  <= portCompareY + defaultPortHeight &&
           portCompareY <= coordinateDummyNodeY) {
           targetId = portCoordinate.id
           drawEdge({

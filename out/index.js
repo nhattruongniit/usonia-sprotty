@@ -23427,8 +23427,8 @@
   var dummyEdgeId = null;
   var defaultNodeWidth = 100;
   var defaultNodeHeight = 100;
-  var defaultPortWidth = 30;
-  var defaultPortHeight = 30;
+  var defaultPortWidth = 20;
+  var defaultPortHeight = 20;
   var defaultDummyWidth = 10;
   var defaultDummyHeight = 10;
   var drawMode = true;
@@ -23437,8 +23437,8 @@
   var CustomMouseListener = class extends import_sprotty3.MouseListener {
     mouseUp(target, event) {
       if (target.id === "node-dummy") {
-        const coordinateDummyNodeX = target.position.x;
-        const coordinateDummyNodeY = target.position.y;
+        const coordinateDummyNodeX = target.position.x + defaultDummyWidth / 2;
+        const coordinateDummyNodeY = target.position.y + defaultDummyHeight / 2;
         let portCompareCoordinateArr = [];
         const gragphChildrenArr = target.parent.children;
         gragphChildrenArr.forEach((child) => {
@@ -23486,7 +23486,7 @@
           } else {
             return;
           }
-          if (coordinateDummyNodeX + defaultDummyWidth <= portCompareX + defaultPortWidth && portCompareX <= coordinateDummyNodeX && coordinateDummyNodeY + defaultDummyHeight <= portCompareY + defaultPortHeight && portCompareY <= coordinateDummyNodeY) {
+          if (coordinateDummyNodeX <= portCompareX + defaultPortWidth && portCompareX <= coordinateDummyNodeX && coordinateDummyNodeY <= portCompareY + defaultPortHeight && portCompareY <= coordinateDummyNodeY) {
             targetId = portCoordinate.id;
             drawEdge({
               source: modelSource,
