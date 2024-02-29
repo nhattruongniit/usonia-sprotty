@@ -23451,24 +23451,18 @@
       if (target.id === "node-dummy") {
         const coordinateDummyNodeX = target.position.x;
         const coordinateDummyNodeY = target.position.y;
-        const nodesChildren = target.parent.children;
-        console.log("mouseUp: ", {
-          target,
-          coordinateDummyNodeX,
-          coordinateDummyNodeY,
-          nodesChildren
-        });
-        let isMatch = false;
-        nodesChildren.forEach((node) => {
-          if (node.id.includes("type")) {
-            const portsChildren = node.children;
-            portsChildren.forEach((port) => {
-              console.log("ports: ", {
-                port
-              });
+        const gragphChildrenArr = target.parent.children;
+        gragphChildrenArr.forEach((child) => {
+          if (child.type === "node" && child.id !== "node-dummy") {
+            const nodeChildArr = child.children;
+            nodeChildArr.forEach((nodeChild) => {
+              if (nodeChild.type === "port") {
+                console.log(nodeChild);
+              }
             });
           }
         });
+        let isMatch = false;
       }
       return [];
     }

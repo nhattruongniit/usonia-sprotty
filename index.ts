@@ -85,118 +85,125 @@ export class CustomMouseListener extends MouseListener {
       const coordinateDummyNodeX = target.position.x;
       const coordinateDummyNodeY = target.position.y;
 
-      const nodesChildren = target.parent.children;
-
-      console.log("mouseUp: ", {
-        target,
-        coordinateDummyNodeX,
-        coordinateDummyNodeY,
-        nodesChildren,
-      });
-      let isMatch = false;
-      nodesChildren.forEach((node: any) => {
-        if (node.id.includes("type")) {
-          const portsChildren = node.children;
-          portsChildren.forEach((port: any) => {
-            // const portTranslateAttribute = port.getAttribute("transform");
-
-            console.log("ports: ", {
-              port,
-            });
-            // const portCoordinate = portTranslateAttribute
-            // ? portTranslateAttribute
-            //   .replace("translate(", "")
-            //   .replace(")", "")
-            //   .trim()
-            //   .split(",")
-            // : [0, 0];
-
-            // const transformAttribute = port.parentElement.getAttribute("transform");
-            // const coordinate = transformAttribute
-            // ? transformAttribute
-            //   .replace("translate(", "")
-            //   .replace(")", "")
-            //   .trim()
-            //   .split(",")
-            // : [0, 0];
-
-            // const portCoordinateX = Number(coordinate[0]) + Number(portCoordinate[0]);
-            // const portCoordinateY = Number(coordinate[1]) + Number(portCoordinate[1]);
-
-            // if (
-            //   coordinateDummyNodeX < portCoordinateX + defaultPortWidth &&
-            //   coordinateDummyNodeX + defaultDummyWidth > portCoordinateX &&
-            //   coordinateDummyNodeY < portCoordinateY + defaultPortHeight &&
-            //   coordinateDummyNodeY + defaultDummyHeight > portCoordinateY
-            // ) {
-            //   isMatch = true;
-            //   drawEdge({
-            //     source: modelSource,
-            //     edgeId: edgeNumber,
-            //     sourceNumb: 1,
-            //     targetNumb: port.id.replace("port-", ""),
-            //     cssClasses: ['dummy-edge']
-            //   })
-            //   edgeArr.push({
-            //     id: `edge-${edgeNumber}`,
-            //     sourceId: "dummy-1",
-            //     targetId: port.id.replace("port-", ""),
-            //   });
-            //   edgeNumber++;
-            // }
+      const gragphChildrenArr = target.parent.children;
+      gragphChildrenArr.forEach((child: any) => {
+        if (child.type === "node" && child.id !== "node-dummy") {
+          const nodeChildArr = child.children;
+          nodeChildArr.forEach((nodeChild: any) => {
+            if (nodeChild.type === "port") {
+              console.log(nodeChild);
+              // LOgic : filter ra port
+            }
           });
         }
       });
-      // if (targetParentEl.targetId.includes("dummy")) {
-      //   const targetPortEl = document.getElementById(
-      //     `sprotty-container_port-${targetParentEl.targetId.replace("dummy-", "")}`
-      //   );
-      //   const targetPortTranslateAttribute = targetPortEl.getAttribute("transform");
-      //   const targetPortCoordinate = targetPortTranslateAttribute
-      //     ? targetPortTranslateAttribute
-      //       .replace("translate(", "")
-      //       .replace(")", "")
-      //       .trim()
-      //       .split(",")
-      //     : [0, 0];
 
-      //   const targetParentElTranslateAttribute = targetParentEl.getAttribute("transform");
-
-      //   const targetParentElCoordinate = targetParentElTranslateAttribute
-      //     ? targetParentElTranslateAttribute
-      //       .replace("translate(", "")
-      //       .replace(")", "")
-      //       .trim()
-      //       .split(",")
-      //     : [0, 0];
-
-      //   const targetParentElCoordinateX = Number(targetParentElCoordinate[0]);
-      //   const targetParentElCoordinateY = Number(targetParentElCoordinate[1]);
-
-      //   const targetPortCoordinateX = Number(targetPortCoordinate[0]);
-      //   const targetPortCoordinateY = Number(targetPortCoordinate[1]);
-
-      //   const targetParentElWidth = targetParentEl.bounds.width;
-      //   const targetParentElHeight = targetParentEl.bounds.height;
-
-      //   const targetPortElWidth = 20;
-      //   const targetPortElHeight = 20;
-
-      //   const targetParentElX = targetParentElCoordinateX - targetParentElWidth / 2;
-      //   const targetParentElY = targetParentElCoordinateY - targetParentElHeight / 2;
-
-      //   const targetPortElX = targetPortCoordinateX - targetPortElWidth / 2;
-      //   const targetPortElY = targetPortCoordinateY - targetPortElHeight / 2;
-
-      //   if (
-      //     targetParentElX < targetPortElX + targetPortElWidth &&
-      //     targetParentElX + targetParentElWidth > targetPortElX &&
-      //     targetParentElY < targetPortElY + targetPortElHeight &&
-      //     targetParentElY + targetParentElHeight > targetPortElY
-      //   ) {
-      //     return [];
+      // console.log("mouseUp: ", {
+      //   target,
+      //   coordinateDummyNodeX,
+      //   coordinateDummyNodeY,
+      //   nodesChildren,
+      // });
+      let isMatch = false;
+      // nodesChildren.forEach((node: any) => {
+      //   if (node.id.includes("type")) {
+      //     const portsChildren = node.children;
+      //     portsChildren.forEach((port: any) => {
+      //       // const portTranslateAttribute = port.getAttribute("transform");
+      //       // console.log("ports: ", {
+      //       //   port,
+      //       // });
+      //       // const portCoordinate = portTranslateAttribute
+      //       // ? portTranslateAttribute
+      //       //   .replace("translate(", "")
+      //       //   .replace(")", "")
+      //       //   .trim()
+      //       //   .split(",")
+      //       // : [0, 0];
+      //       // const transformAttribute = port.parentElement.getAttribute("transform");
+      //       // const coordinate = transformAttribute
+      //       // ? transformAttribute
+      //       //   .replace("translate(", "")
+      //       //   .replace(")", "")
+      //       //   .trim()
+      //       //   .split(",")
+      //       // : [0, 0];
+      //       // const portCoordinateX = Number(coordinate[0]) + Number(portCoordinate[0]);
+      //       // const portCoordinateY = Number(coordinate[1]) + Number(portCoordinate[1]);
+      //       // if (
+      //       //   coordinateDummyNodeX < portCoordinateX + defaultPortWidth &&
+      //       //   coordinateDummyNodeX + defaultDummyWidth > portCoordinateX &&
+      //       //   coordinateDummyNodeY < portCoordinateY + defaultPortHeight &&
+      //       //   coordinateDummyNodeY + defaultDummyHeight > portCoordinateY
+      //       // ) {
+      //       //   isMatch = true;
+      //       //   drawEdge({
+      //       //     source: modelSource,
+      //       //     edgeId: edgeNumber,
+      //       //     sourceNumb: 1,
+      //       //     targetNumb: port.id.replace("port-", ""),
+      //       //     cssClasses: ['dummy-edge']
+      //       //   })
+      //       //   edgeArr.push({
+      //       //     id: `edge-${edgeNumber}`,
+      //       //     sourceId: "dummy-1",
+      //       //     targetId: port.id.replace("port-", ""),
+      //       //   });
+      //       //   edgeNumber++;
+      //       // }
+      //     });
       //   }
-      // }
+      // });
+      // // if (targetParentEl.targetId.includes("dummy")) {
+      // //   const targetPortEl = document.getElementById(
+      // //     `sprotty-container_port-${targetParentEl.targetId.replace("dummy-", "")}`
+      // //   );
+      // //   const targetPortTranslateAttribute = targetPortEl.getAttribute("transform");
+      // //   const targetPortCoordinate = targetPortTranslateAttribute
+      // //     ? targetPortTranslateAttribute
+      // //       .replace("translate(", "")
+      // //       .replace(")", "")
+      // //       .trim()
+      // //       .split(",")
+      // //     : [0, 0];
+
+      // //   const targetParentElTranslateAttribute = targetParentEl.getAttribute("transform");
+
+      // //   const targetParentElCoordinate = targetParentElTranslateAttribute
+      // //     ? targetParentElTranslateAttribute
+      // //       .replace("translate(", "")
+      // //       .replace(")", "")
+      // //       .trim()
+      // //       .split(",")
+      // //     : [0, 0];
+
+      // //   const targetParentElCoordinateX = Number(targetParentElCoordinate[0]);
+      // //   const targetParentElCoordinateY = Number(targetParentElCoordinate[1]);
+
+      // //   const targetPortCoordinateX = Number(targetPortCoordinate[0]);
+      // //   const targetPortCoordinateY = Number(targetPortCoordinate[1]);
+
+      // //   const targetParentElWidth = targetParentEl.bounds.width;
+      // //   const targetParentElHeight = targetParentEl.bounds.height;
+
+      // //   const targetPortElWidth = 20;
+      // //   const targetPortElHeight = 20;
+
+      // //   const targetParentElX = targetParentElCoordinateX - targetParentElWidth / 2;
+      // //   const targetParentElY = targetParentElCoordinateY - targetParentElHeight / 2;
+
+      // //   const targetPortElX = targetPortCoordinateX - targetPortElWidth / 2;
+      // //   const targetPortElY = targetPortCoordinateY - targetPortElHeight / 2;
+
+      // //   if (
+      // //     targetParentElX < targetPortElX + targetPortElWidth &&
+      // //     targetParentElX + targetParentElWidth > targetPortElX &&
+      // //     targetParentElY < targetPortElY + targetPortElHeight &&
+      // //     targetParentElY + targetParentElHeight > targetPortElY
+      // //   ) {
+      // //     return [];
+      // //   }
+      // // }
 
       // code Khanh ...
     }
