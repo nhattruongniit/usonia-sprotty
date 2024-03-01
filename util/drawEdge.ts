@@ -19,7 +19,7 @@ export default function drawEdge({
     {
       parentId: "graph",
       element: (<SEdge>{
-        type: "edge:straight",
+        type: "edge",
         id: `edge-${edgeId}`,
         sourceId: `port-${sourceNumb}`,
         targetId: `port-${targetNumb}`,
@@ -28,5 +28,5 @@ export default function drawEdge({
       }) as SEdge,
     },
   ]);
-  console.log("draw");
+ 
 }

@@ -86,12 +86,14 @@ export class CustomMouseListener extends MouseListener {
     // }
 
     // code connect by dummy node
+    let isDrawable = false
     if (target.id === "node-dummy") {
       const coordinateDummyNodeX = target.position.x + (defaultDummyWidth) / 2;
       const coordinateDummyNodeY = target.position.y + (defaultDummyHeight) / 2;
       let portCompareCoordinateArr = []
 
       const gragphChildrenArr = target.parent.children;
+
       gragphChildrenArr.forEach((child: any) => {
         if (child.type === "node" && child.id !== "node-dummy") {
           const nodeChildArr = child.children;
@@ -114,8 +116,9 @@ export class CustomMouseListener extends MouseListener {
           });
         }
       });
+
       portCompareCoordinateArr.forEach(portCoordinate => {
-        console.log("dummy X : " + coordinateDummyNodeX, "dummy Y : " + coordinateDummyNodeY)
+
         let portCompareX: number;
         let portCompareY: number
         if (portCoordinate.type === 1) {
@@ -141,27 +144,32 @@ export class CustomMouseListener extends MouseListener {
         else {
           return;
         }
-        if (coordinateDummyNodeX  <= portCompareX + defaultPortWidth &&
+        if (coordinateDummyNodeX <= portCompareX + defaultPortWidth &&
           portCompareX <= coordinateDummyNodeX &&
-          coordinateDummyNodeY  <= portCompareY + defaultPortHeight &&
+          coordinateDummyNodeY <= portCompareY + defaultPortHeight &&
           portCompareY <= coordinateDummyNodeY) {
           targetId = portCoordinate.id
-          drawEdge({
-            source: modelSource,
-            edgeId: edgeNumber,
-            sourceNumb: sourceId,
-            targetNumb: targetId.replace("port-", ""),
-            cssClasses: ["dummy-edge"],
-          });
-          edgeArr.push({
-            id: `edge-${edgeNumber}`,
-            sourceId: `port-${sourceId}`,
-            targetId: targetId,
-          });
-          edgeNumber++
-          cancelDrawEdge();
+          isDrawable = true
         }
       })
+      if (isDrawable) {
+        drawEdge({
+          source: modelSource,
+          edgeId: edgeNumber,
+          sourceNumb: sourceId,
+          targetNumb: targetId.replace("port-", ""),
+          cssClasses: ["dummy-edge"],
+        });
+        edgeArr.push({
+          id: `edge-${edgeNumber}`,
+          sourceId: `port-${sourceId}`,
+          targetId: targetId,
+        });
+        edgeNumber++
+        cancelDrawEdge();
+      } else {
+        cancelDrawEdge()
+      }
     }
     return [];
   }
@@ -376,18 +384,18 @@ export default function run() {
 
   // cancel draw edge
   cancelDrawEdgeBtn.addEventListener("click", () => {
-    
-      cancelDrawEdge();
-    
+
+    cancelDrawEdge();
+
   });
 
   // draw edge
   function drawLogic() {
     setTimeout(() => {
       document.querySelectorAll(".port").forEach((port) => {
-        
+
         port.addEventListener("click", (e) => {
-          if ( !dummyMode) {
+          if (!dummyMode) {
             cancelDrawEdgeBtn.classList.remove("hide");
             port.classList.add("ready-draw");
             sourceId = port.id.replace("sprotty-container_port-", "");

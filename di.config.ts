@@ -6,7 +6,7 @@ import {
   loadDefaultModules,
   LocalModelSource,
   PolylineEdgeView,
-  EdgeWithArrow,
+
   RectangularNodeView,
   SBezierControlHandleView,
   SBezierCreateHandleView,
@@ -24,6 +24,7 @@ import {
 
 import { PortViewWithExternalLabel } from "./views/PortViewWithExternalLabel";
 import { CustomMouseListener } from "./index";
+import { EdgeWithArrow } from "./views/views";
 
 export const createContainer = (containerId: string) => {
   const myModule = new ContainerModule((bind, unbind, isBound, rebind) => {

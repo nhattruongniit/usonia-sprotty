@@ -4676,7 +4676,7 @@
       exports.injectable = void 0;
       var ERRORS_MSGS = __importStar(require_error_msgs());
       var METADATA_KEY = __importStar(require_metadata_keys());
-      function injectable2() {
+      function injectable3() {
         return function(target) {
           if (Reflect.hasOwnMetadata(METADATA_KEY.PARAM_TYPES, target)) {
             throw new Error(ERRORS_MSGS.DUPLICATED_INJECTABLE_DECORATOR);
@@ -4686,7 +4686,7 @@
           return target;
         };
       }
-      exports.injectable = injectable2;
+      exports.injectable = injectable3;
     }
   });
 
@@ -6011,9 +6011,9 @@
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.almostEquals = exports.toRadians = exports.toDegrees = exports.Bounds = exports.isBounds = exports.Dimension = exports.centerOfLine = exports.angleBetweenPoints = exports.angleOfPoint = exports.Point = void 0;
       var object_1 = require_object();
-      var Point;
-      (function(Point2) {
-        Point2.ORIGIN = Object.freeze({
+      var Point2;
+      (function(Point3) {
+        Point3.ORIGIN = Object.freeze({
           x: 0,
           y: 0
         });
@@ -6023,66 +6023,66 @@
             y: p1.y + p2.y
           };
         }
-        Point2.add = add;
+        Point3.add = add;
         function subtract(p1, p2) {
           return {
             x: p1.x - p2.x,
             y: p1.y - p2.y
           };
         }
-        Point2.subtract = subtract;
+        Point3.subtract = subtract;
         function equals(point1, point2) {
           return point1.x === point2.x && point1.y === point2.y;
         }
-        Point2.equals = equals;
+        Point3.equals = equals;
         function shiftTowards(point, refPoint, distance) {
           const diff = subtract(refPoint, point);
           const normalized = normalize(diff);
           const shift = { x: normalized.x * distance, y: normalized.y * distance };
           return add(point, shift);
         }
-        Point2.shiftTowards = shiftTowards;
+        Point3.shiftTowards = shiftTowards;
         function normalize(point) {
           const mag = magnitude(point);
           if (mag === 0 || mag === 1) {
-            return Point2.ORIGIN;
+            return Point3.ORIGIN;
           }
           return {
             x: point.x / mag,
             y: point.y / mag
           };
         }
-        Point2.normalize = normalize;
+        Point3.normalize = normalize;
         function magnitude(point) {
           return Math.sqrt(Math.pow(point.x, 2) + Math.pow(point.y, 2));
         }
-        Point2.magnitude = magnitude;
+        Point3.magnitude = magnitude;
         function linear(p0, p1, lambda) {
           return {
             x: (1 - lambda) * p0.x + lambda * p1.x,
             y: (1 - lambda) * p0.y + lambda * p1.y
           };
         }
-        Point2.linear = linear;
+        Point3.linear = linear;
         function euclideanDistance(a, b) {
           const dx = b.x - a.x;
           const dy = b.y - a.y;
           return Math.sqrt(dx * dx + dy * dy);
         }
-        Point2.euclideanDistance = euclideanDistance;
+        Point3.euclideanDistance = euclideanDistance;
         function manhattanDistance(a, b) {
           return Math.abs(b.x - a.x) + Math.abs(b.y - a.y);
         }
-        Point2.manhattanDistance = manhattanDistance;
+        Point3.manhattanDistance = manhattanDistance;
         function maxDistance(a, b) {
           return Math.max(Math.abs(b.x - a.x), Math.abs(b.y - a.y));
         }
-        Point2.maxDistance = maxDistance;
+        Point3.maxDistance = maxDistance;
         function dotProduct(a, b) {
           return a.x * b.x + a.y * b.y;
         }
-        Point2.dotProduct = dotProduct;
-      })(Point || (exports.Point = Point = {}));
+        Point3.dotProduct = dotProduct;
+      })(Point2 || (exports.Point = Point2 = {}));
       function angleOfPoint(p) {
         return Math.atan2(p.y, p.x);
       }
@@ -6166,10 +6166,10 @@
         }
         Bounds2.includes = includes;
       })(Bounds || (exports.Bounds = Bounds = {}));
-      function toDegrees(a) {
+      function toDegrees2(a) {
         return a * 180 / Math.PI;
       }
-      exports.toDegrees = toDegrees;
+      exports.toDegrees = toDegrees2;
       function toRadians(a) {
         return a * Math.PI / 180;
       }
@@ -10148,8 +10148,8 @@
       exports.JSX = JSX;
       var html = JSX();
       exports.html = html;
-      var svg2 = JSX(SVGNS, "attrs");
-      exports.svg = svg2;
+      var svg3 = JSX(SVGNS, "attrs");
+      exports.svg = svg3;
     }
   });
 
@@ -13926,7 +13926,7 @@
           if (index instanceof SGraphIndex) {
             return index.getIncomingEdges(this);
           }
-          const allEdges = this.index.all().filter((e) => e instanceof SEdgeImpl3);
+          const allEdges = this.index.all().filter((e) => e instanceof SEdgeImpl4);
           return allEdges.filter((e) => e.targetId === this.id);
         }
         get outgoingEdges() {
@@ -13934,7 +13934,7 @@
           if (index instanceof SGraphIndex) {
             return index.getOutgoingEdges(this);
           }
-          const allEdges = this.index.all().filter((e) => e instanceof SEdgeImpl3);
+          const allEdges = this.index.all().filter((e) => e instanceof SEdgeImpl4);
           return allEdges.filter((e) => e.sourceId === this.id);
         }
       };
@@ -13962,14 +13962,14 @@
           if (index instanceof SGraphIndex) {
             return index.getIncomingEdges(this);
           }
-          return super.incomingEdges.filter((e) => e instanceof SEdgeImpl3);
+          return super.incomingEdges.filter((e) => e instanceof SEdgeImpl4);
         }
         get outgoingEdges() {
           const index = this.index;
           if (index instanceof SGraphIndex) {
             return index.getOutgoingEdges(this);
           }
-          return super.outgoingEdges.filter((e) => e instanceof SEdgeImpl3);
+          return super.outgoingEdges.filter((e) => e instanceof SEdgeImpl4);
         }
       };
       exports.SPortImpl = SPortImpl3;
@@ -13980,7 +13980,7 @@
         model_4.fadeFeature,
         model_5.hoverFeedbackFeature
       ];
-      var SEdgeImpl3 = class extends model_7.SRoutableElementImpl {
+      var SEdgeImpl4 = class extends model_7.SRoutableElementImpl {
         constructor() {
           super(...arguments);
           this.selected = false;
@@ -13988,8 +13988,8 @@
           this.opacity = 1;
         }
       };
-      exports.SEdgeImpl = SEdgeImpl3;
-      SEdgeImpl3.DEFAULT_FEATURES = [
+      exports.SEdgeImpl = SEdgeImpl4;
+      SEdgeImpl4.DEFAULT_FEATURES = [
         model_3.editFeature,
         delete_1.deletableFeature,
         model_8.selectFeature,
@@ -14033,7 +14033,7 @@
         }
         add(element) {
           super.add(element);
-          if (element instanceof SEdgeImpl3) {
+          if (element instanceof SEdgeImpl4) {
             if (element.sourceId) {
               const sourceArr = this.outgoing.get(element.sourceId);
               if (sourceArr === void 0)
@@ -14052,7 +14052,7 @@
         }
         remove(element) {
           super.remove(element);
-          if (element instanceof SEdgeImpl3) {
+          if (element instanceof SEdgeImpl4) {
             const sourceArr = this.outgoing.get(element.sourceId);
             if (sourceArr !== void 0) {
               const index = sourceArr.indexOf(element);
@@ -15452,10 +15452,10 @@
       var ExportSvgAction;
       (function(ExportSvgAction2) {
         ExportSvgAction2.KIND = "exportSvg";
-        function create(svg2, requestId) {
+        function create(svg3, requestId) {
           return {
             kind: ExportSvgAction2.KIND,
-            svg: svg2,
+            svg: svg3,
             responseId: requestId
           };
         }
@@ -15474,8 +15474,8 @@
               this.log.warn(this, `No svg element found in ${this.options.hiddenDiv} div. Nothing to export.`);
               return;
             }
-            const svg2 = this.createSvg(svgElement, root);
-            this.actionDispatcher.dispatch(ExportSvgAction.create(svg2, request ? request.requestId : ""));
+            const svg3 = this.createSvg(svgElement, root);
+            this.actionDispatcher.dispatch(ExportSvgAction.create(svg3, request ? request.requestId : ""));
           }
         }
         createSvg(svgElementOrig, root) {
@@ -21429,7 +21429,7 @@
       exports.SGraphView = SGraphView2 = __decorate([
         (0, inversify_1.injectable)()
       ], SGraphView2);
-      var PolylineEdgeView2 = class PolylineEdgeView extends views_2.RoutableView {
+      var PolylineEdgeView3 = class PolylineEdgeView extends views_2.RoutableView {
         render(edge, context, args) {
           const route = this.edgeRouterRegistry.route(edge, args);
           if (route.length === 0) {
@@ -21465,15 +21465,15 @@
           return (0, jsx_1.svg)("text", { "class-sprotty-edge-dangling": true, title: message }, "?");
         }
       };
-      exports.PolylineEdgeView = PolylineEdgeView2;
+      exports.PolylineEdgeView = PolylineEdgeView3;
       __decorate([
         (0, inversify_1.inject)(routing_1.EdgeRouterRegistry),
         __metadata("design:type", routing_1.EdgeRouterRegistry)
-      ], PolylineEdgeView2.prototype, "edgeRouterRegistry", void 0);
-      exports.PolylineEdgeView = PolylineEdgeView2 = __decorate([
+      ], PolylineEdgeView3.prototype, "edgeRouterRegistry", void 0);
+      exports.PolylineEdgeView = PolylineEdgeView3 = __decorate([
         (0, inversify_1.injectable)()
-      ], PolylineEdgeView2);
-      var JumpingPolylineEdgeView = class JumpingPolylineEdgeView extends PolylineEdgeView2 {
+      ], PolylineEdgeView3);
+      var JumpingPolylineEdgeView = class JumpingPolylineEdgeView extends PolylineEdgeView3 {
         constructor() {
           super(...arguments);
           this.jumpOffsetBefore = 5;
@@ -23208,11 +23208,11 @@
 
   // index.ts
   var import_reflect_metadata = __toESM(require_Reflect());
-  var import_sprotty3 = __toESM(require_lib2());
+  var import_sprotty4 = __toESM(require_lib2());
 
   // di.config.ts
-  var import_inversify2 = __toESM(require_inversify());
-  var import_sprotty2 = __toESM(require_lib2());
+  var import_inversify3 = __toESM(require_inversify());
+  var import_sprotty3 = __toESM(require_lib2());
 
   // views/PortViewWithExternalLabel.tsx
   var import_jsx = __toESM(require_jsx());
@@ -23243,66 +23243,108 @@
     (0, import_inversify.injectable)()
   ], PortViewWithExternalLabel);
 
+  // views/views.tsx
+  var import_jsx2 = __toESM(require_jsx());
+  var import_inversify2 = __toESM(require_inversify());
+  var import_sprotty2 = __toESM(require_lib2());
+  var import_sprotty_protocol = __toESM(require_lib());
+  var EdgeWithArrow = class extends import_sprotty2.PolylineEdgeView {
+    renderAdditionals(edge, segments, context) {
+      const p1 = segments[segments.length - 1];
+      const p2 = segments[segments.length - 2];
+      return [
+        /* @__PURE__ */ (0, import_jsx2.svg)(
+          "path",
+          {
+            "class-arrowhead": true,
+            d: "M 10, -5 L 0, 0 L 10, 5 z",
+            transform: `rotate(${this.angle(p1, p2)} ${p1.x} ${p1.y}) translate(${p1.x} ${p1.y})`
+          }
+        )
+      ];
+    }
+    angle(x0, x1) {
+      return (0, import_sprotty_protocol.toDegrees)(Math.atan2(x1.y - x0.y, x1.x - x0.x));
+    }
+  };
+  EdgeWithArrow = __decorateClass([
+    (0, import_inversify2.injectable)()
+  ], EdgeWithArrow);
+  var TaskNodeView = class {
+    render(node, context) {
+      const position = 50;
+      return /* @__PURE__ */ (0, import_jsx2.svg)("g", null, /* @__PURE__ */ (0, import_jsx2.svg)(
+        "rect",
+        {
+          "class-sprotty-node": true,
+          "class-task": true,
+          "class-running": node.isRunning,
+          "class-finished": node.isFinished,
+          width: node.size.width,
+          height: node.size.height
+        }
+      ), /* @__PURE__ */ (0, import_jsx2.svg)("text", { x: position, y: position + 5 }, node.name));
+    }
+  };
+  TaskNodeView = __decorateClass([
+    (0, import_inversify2.injectable)()
+  ], TaskNodeView);
+
   // di.config.ts
   var createContainer = (containerId) => {
-    const myModule = new import_inversify2.ContainerModule((bind, unbind, isBound, rebind) => {
+    const myModule = new import_inversify3.ContainerModule((bind, unbind, isBound, rebind) => {
       bind(CustomMouseListener).toSelf().inSingletonScope();
-      bind(import_sprotty2.TYPES.MouseListener).toService(CustomMouseListener);
-      bind(import_sprotty2.TYPES.ModelSource).to(import_sprotty2.LocalModelSource).inSingletonScope();
+      bind(import_sprotty3.TYPES.MouseListener).toService(CustomMouseListener);
+      bind(import_sprotty3.TYPES.ModelSource).to(import_sprotty3.LocalModelSource).inSingletonScope();
       const context = { bind, unbind, isBound, rebind };
-      (0, import_sprotty2.configureModelElement)(context, "graph", import_sprotty2.SGraphImpl, import_sprotty2.SGraphView);
-      (0, import_sprotty2.configureModelElement)(
+      (0, import_sprotty3.configureModelElement)(context, "graph", import_sprotty3.SGraphImpl, import_sprotty3.SGraphView);
+      (0, import_sprotty3.configureModelElement)(
         context,
         "port",
-        import_sprotty2.SPortImpl,
+        import_sprotty3.SPortImpl,
         PortViewWithExternalLabel
       );
-      (0, import_sprotty2.configureModelElement)(container2, "label:port", import_sprotty2.SLabelImpl, import_sprotty2.SLabelView);
-      (0, import_sprotty2.configureModelElement)(container2, "label:node", import_sprotty2.SLabelImpl, import_sprotty2.SLabelView);
-      (0, import_sprotty2.configureModelElement)(context, "node", import_sprotty2.SNodeImpl, import_sprotty2.RectangularNodeView);
-      (0, import_sprotty2.configureModelElement)(
-        context,
-        "edge:straight",
-        import_sprotty2.SEdgeImpl,
-        import_sprotty2.PolylineEdgeView
-      );
-      (0, import_sprotty2.configureModelElement)(
+      (0, import_sprotty3.configureModelElement)(container2, "label:port", import_sprotty3.SLabelImpl, import_sprotty3.SLabelView);
+      (0, import_sprotty3.configureModelElement)(container2, "label:node", import_sprotty3.SLabelImpl, import_sprotty3.SLabelView);
+      (0, import_sprotty3.configureModelElement)(context, "node", import_sprotty3.SNodeImpl, import_sprotty3.RectangularNodeView);
+      (0, import_sprotty3.configureModelElement)(context, "edge", import_sprotty3.SEdgeImpl, EdgeWithArrow);
+      (0, import_sprotty3.configureModelElement)(
         context,
         "routing-point",
-        import_sprotty2.SRoutingHandleImpl,
-        import_sprotty2.SRoutingHandleView
+        import_sprotty3.SRoutingHandleImpl,
+        import_sprotty3.SRoutingHandleView
       );
-      (0, import_sprotty2.configureModelElement)(
+      (0, import_sprotty3.configureModelElement)(
         context,
         "volatile-routing-point",
-        import_sprotty2.SRoutingHandleImpl,
-        import_sprotty2.SRoutingHandleView
+        import_sprotty3.SRoutingHandleImpl,
+        import_sprotty3.SRoutingHandleView
       );
-      (0, import_sprotty2.configureModelElement)(
+      (0, import_sprotty3.configureModelElement)(
         context,
         "bezier-create-routing-point",
-        import_sprotty2.SRoutingHandleImpl,
-        import_sprotty2.SBezierCreateHandleView
+        import_sprotty3.SRoutingHandleImpl,
+        import_sprotty3.SBezierCreateHandleView
       );
-      (0, import_sprotty2.configureModelElement)(
+      (0, import_sprotty3.configureModelElement)(
         context,
         "bezier-remove-routing-point",
-        import_sprotty2.SRoutingHandleImpl,
-        import_sprotty2.SBezierCreateHandleView
+        import_sprotty3.SRoutingHandleImpl,
+        import_sprotty3.SBezierCreateHandleView
       );
-      (0, import_sprotty2.configureModelElement)(
+      (0, import_sprotty3.configureModelElement)(
         context,
         "bezier-routing-point",
-        import_sprotty2.SRoutingHandleImpl,
-        import_sprotty2.SBezierControlHandleView
+        import_sprotty3.SRoutingHandleImpl,
+        import_sprotty3.SBezierControlHandleView
       );
-      (0, import_sprotty2.configureViewerOptions)(context, {
+      (0, import_sprotty3.configureViewerOptions)(context, {
         needsClientLayout: false,
         baseDiv: containerId
       });
     });
-    const container2 = new import_inversify2.Container();
-    (0, import_sprotty2.loadDefaultModules)(container2);
+    const container2 = new import_inversify3.Container();
+    (0, import_sprotty3.loadDefaultModules)(container2);
     container2.load(myModule);
     return container2;
   };
@@ -23386,7 +23428,7 @@
       {
         parentId: "graph",
         element: {
-          type: "edge:straight",
+          type: "edge",
           id: `edge-${edgeId}`,
           sourceId: `port-${sourceNumb}`,
           targetId: `port-${targetNumb}`,
@@ -23395,7 +23437,6 @@
         }
       }
     ]);
-    console.log("draw");
   }
 
   // index.ts
@@ -23431,8 +23472,9 @@
   var dummyMode = false;
   var sourceId = null;
   var targetId = null;
-  var CustomMouseListener = class extends import_sprotty3.MouseListener {
+  var CustomMouseListener = class extends import_sprotty4.MouseListener {
     mouseUp(target, event) {
+      let isDrawable = false;
       if (target.id === "node-dummy") {
         const coordinateDummyNodeX = target.position.x + defaultDummyWidth / 2;
         const coordinateDummyNodeY = target.position.y + defaultDummyHeight / 2;
@@ -23461,7 +23503,6 @@
           }
         });
         portCompareCoordinateArr.forEach((portCoordinate) => {
-          console.log("dummy X : " + coordinateDummyNodeX, "dummy Y : " + coordinateDummyNodeY);
           let portCompareX;
           let portCompareY;
           if (portCoordinate.type === 1) {
@@ -23485,22 +23526,27 @@
           }
           if (coordinateDummyNodeX <= portCompareX + defaultPortWidth && portCompareX <= coordinateDummyNodeX && coordinateDummyNodeY <= portCompareY + defaultPortHeight && portCompareY <= coordinateDummyNodeY) {
             targetId = portCoordinate.id;
-            drawEdge({
-              source: modelSource,
-              edgeId: edgeNumber,
-              sourceNumb: sourceId,
-              targetNumb: targetId.replace("port-", ""),
-              cssClasses: ["dummy-edge"]
-            });
-            edgeArr.push({
-              id: `edge-${edgeNumber}`,
-              sourceId: `port-${sourceId}`,
-              targetId
-            });
-            edgeNumber++;
-            cancelDrawEdge();
+            isDrawable = true;
           }
         });
+        if (isDrawable) {
+          drawEdge({
+            source: modelSource,
+            edgeId: edgeNumber,
+            sourceNumb: sourceId,
+            targetNumb: targetId.replace("port-", ""),
+            cssClasses: ["dummy-edge"]
+          });
+          edgeArr.push({
+            id: `edge-${edgeNumber}`,
+            sourceId: `port-${sourceId}`,
+            targetId
+          });
+          edgeNumber++;
+          cancelDrawEdge();
+        } else {
+          cancelDrawEdge();
+        }
       }
       return [];
     }
@@ -23513,7 +23559,7 @@
     }
   };
   var container = createContainer("sprotty-container");
-  var modelSource = container.get(import_sprotty3.TYPES.ModelSource);
+  var modelSource = container.get(import_sprotty4.TYPES.ModelSource);
   function cancelDrawEdge() {
     addNode1Btn.removeAttribute("disabled");
     addNode2Btn.removeAttribute("disabled");
