@@ -23306,6 +23306,7 @@
       );
       (0, import_sprotty3.configureModelElement)(container2, "label:port", import_sprotty3.SLabelImpl, import_sprotty3.SLabelView);
       (0, import_sprotty3.configureModelElement)(container2, "label:node", import_sprotty3.SLabelImpl, import_sprotty3.SLabelView);
+      (0, import_sprotty3.configureModelElement)(container2, "label:edge", import_sprotty3.SLabelImpl, import_sprotty3.SLabelView);
       (0, import_sprotty3.configureModelElement)(context, "node", import_sprotty3.SNodeImpl, import_sprotty3.RectangularNodeView);
       (0, import_sprotty3.configureModelElement)(context, "edge", import_sprotty3.SEdgeImpl, EdgeWithArrow);
       (0, import_sprotty3.configureModelElement)(
@@ -23377,11 +23378,23 @@
     x = Math.floor(Math.random() * 500),
     y = Math.floor(Math.random() * 500)
   }) {
-    const positionPorts = [
-      { x: nodeWidth, y: nodeHeight / 2 - portHeight / 2 },
-      { x: nodeWidth / 2 - portWidth / 2, y: nodeHeight },
-      { x: 0 - portWidth, y: nodeHeight / 2 - portHeight / 2 },
-      { x: nodeWidth / 2 - portWidth / 2, y: 0 - portHeight }
+    const positionLabel = [
+      {
+        labelNode: { x: nodeWidth, y: nodeHeight / 2 - portHeight / 2 },
+        labelPort: { x: portWidth / 2, y: portHeight / 6 + portHeight / 2 }
+      },
+      {
+        labelNode: { x: nodeWidth / 2 - portWidth / 2, y: nodeHeight },
+        labelPort: { x: portWidth / 2, y: portHeight / 6 + portHeight / 2 }
+      },
+      {
+        labelNode: { x: 0 - portWidth, y: nodeHeight / 2 - portHeight / 2 },
+        labelPort: { x: portWidth / 2, y: portHeight / 6 + portHeight / 2 }
+      },
+      {
+        labelNode: { x: nodeWidth / 2 - portWidth / 2, y: 0 - portHeight },
+        labelPort: { x: portWidth / 2, y: portHeight / 6 + portHeight / 2 }
+      }
     ];
     source.addElements([
       {
@@ -23414,8 +23427,16 @@
             type: "port",
             id: `port-${nodeId}-${i + 1}`,
             size: { width: portWidth, height: portHeight },
-            position: positionPorts[i],
-            cssClasses: ["port"]
+            position: positionLabel[i].labelNode,
+            cssClasses: ["port"],
+            children: nodeId === "dummy" ? [] : [
+              {
+                type: "label:port",
+                id: `label-port-${nodeId}-${i + 1}`,
+                text: `p-${i + 1}`,
+                position: positionLabel[i].labelPort
+              }
+            ]
           }
         }
       ]);
@@ -23440,7 +23461,14 @@
           sourceId: `port-${sourceNumb}`,
           targetId: `port-${targetNumb}`,
           cssClasses,
-          routerKind: "manhattan"
+          routerKind: "manhattan",
+          children: edgeId === "dummy" ? [] : [
+            {
+              type: "label:edge",
+              id: `label-edge-${edgeId}`,
+              text: `label-edge-${edgeId}`
+            }
+          ]
         }
       }
     ]);

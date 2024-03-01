@@ -44,6 +44,7 @@ export const createContainer = (containerId: string) => {
     );
     configureModelElement(container, "label:port", SLabelImpl, SLabelView);
     configureModelElement(container, "label:node", SLabelImpl, SLabelView);
+    configureModelElement(container, "label:edge", SLabelImpl, SLabelView);
     configureModelElement(context, "node", SNodeImpl, RectangularNodeView);
     configureModelElement(context, "edge", SEdgeImpl, EdgeWithArrow);
     configureModelElement(

@@ -1,11 +1,11 @@
-import { SEdge } from "sprotty-protocol";
+import { SEdge, SLabel } from "sprotty-protocol";
 
 type IProps = {
   source: any;
   edgeId: any;
   sourceNumb: number;
   targetNumb: string;
-  type : string;
+  type: string;
   cssClasses?: string[];
 };
 
@@ -21,14 +21,21 @@ export default function drawEdge({
     {
       parentId: "graph",
       element: (<SEdge>{
-        type : type,
+        type: type,
         id: `edge-${edgeId}`,
         sourceId: `port-${sourceNumb}`,
         targetId: `port-${targetNumb}`,
         cssClasses,
         routerKind: "manhattan",
+        children: edgeId === "dummy" ? [] : [
+          <SLabel>{
+            type: 'label:edge',
+            id: `label-edge-${edgeId}`,
+            text: `label-edge-${edgeId}`,
+          }
+        ]
       }) as SEdge,
     },
   ]);
- 
+
 }

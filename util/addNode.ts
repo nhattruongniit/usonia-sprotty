@@ -29,17 +29,29 @@ export default function addNode({
   x = Math.floor(Math.random() * 500),
   y = Math.floor(Math.random() * 500),
 }: IProps) {
-  const positionPorts = [
-    { x: nodeWidth, y: nodeHeight / 2 - portHeight / 2 },
-    { x: nodeWidth / 2 - portWidth / 2, y: nodeHeight },
-    { x: 0 - portWidth, y: nodeHeight / 2 - portHeight / 2 },
-    { x: nodeWidth / 2 - portWidth / 2, y: 0 - portHeight },
+  const positionLabel = [
+    {
+      labelNode: { x: nodeWidth, y: nodeHeight / 2 - portHeight / 2 },
+      labelPort: { x: portWidth / 2, y: portHeight / 6 + portHeight / 2 }
+    }, {
+      labelNode: { x: nodeWidth / 2 - portWidth / 2, y: nodeHeight },
+      labelPort: { x: portWidth / 2, y: portHeight / 6 + portHeight / 2 }
+    },
+    {
+      labelNode: { x: 0 - portWidth, y: nodeHeight / 2 - portHeight / 2 },
+      labelPort: { x: portWidth / 2, y: portHeight / 6 + portHeight / 2 }
+    },
+    {
+      labelNode: { x: nodeWidth / 2 - portWidth / 2, y: 0 - portHeight },
+      labelPort: { x: portWidth / 2, y: portHeight / 6 + portHeight / 2 }
+    },
   ]
+
 
   source.addElements([
     {
       parentId: 'graph',
-      element: <SNode> {
+      element: <SNode>{
         type: 'node',
         id: `node-${nodeId}`,
         cssClasses,
@@ -51,7 +63,7 @@ export default function addNode({
         children: [
           <SLabel>{
             type: 'label:node',
-            id:  `label-${nodeId}-${labelId}`,
+            id: `label-${nodeId}-${labelId}`,
             text: name,
             position: { x: nodeWidth / 2, y: nodeHeight / 2 }
           }
@@ -69,8 +81,16 @@ export default function addNode({
           type: 'port',
           id: `port-${nodeId}-${i + 1}`,
           size: { width: portWidth, height: portHeight },
-          position: positionPorts[i],
-          cssClasses: ['port']
+          position: positionLabel[i].labelNode,
+          cssClasses: ['port'],
+          children: nodeId === "dummy" ? [] : [
+            <SLabel>{
+              type: 'label:port',
+              id: `label-port-${nodeId}-${i + 1}`,
+              text: `p-${i + 1}`,
+              position: positionLabel[i].labelPort
+            }
+          ]
         }
       }
     ])

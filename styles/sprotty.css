@@ -148,3 +148,8 @@ svg {
 .selected > rect {
   stroke-width: 3;
 }
+
+.port.sprotty-label{
+  fill : rgb(255, 196, 0);
+  font-size: 8px;
+}
