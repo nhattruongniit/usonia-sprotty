@@ -1,8 +1,29 @@
-import { Container, ContainerModule } from 'inversify';
-import { BezierCurveEdgeView, configureModelElement, configureViewerOptions, loadDefaultModules, LocalModelSource, PolylineEdgeView, RectangularNodeView, SBezierControlHandleView, SBezierCreateHandleView, SEdgeImpl, SGraphImpl, SGraphView, SLabelImpl, SLabelView, SNodeImpl, SPortImpl, SRoutingHandleImpl, SRoutingHandleView, TYPES } from 'sprotty';
+import { Container, ContainerModule } from "inversify";
+import {
+  BezierCurveEdgeView,
+  configureModelElement,
+  configureViewerOptions,
+  loadDefaultModules,
+  LocalModelSource,
+  PolylineEdgeView,
+  EdgeWithArrow,
+  RectangularNodeView,
+  SBezierControlHandleView,
+  SBezierCreateHandleView,
+  SEdgeImpl,
+  SGraphImpl,
+  SGraphView,
+  SLabelImpl,
+  SLabelView,
+  SNodeImpl,
+  SPortImpl,
+  SRoutingHandleImpl,
+  SRoutingHandleView,
+  TYPES,
+} from "sprotty";
 
-import { PortViewWithExternalLabel } from './views/PortViewWithExternalLabel';
-import { CustomMouseListener } from './index';
+import { PortViewWithExternalLabel } from "./views/PortViewWithExternalLabel";
+import { CustomMouseListener } from "./index";
 
 export const createContainer = (containerId: string) => {
   const myModule = new ContainerModule((bind, unbind, isBound, rebind) => {
@@ -23,18 +44,14 @@ export const createContainer = (containerId: string) => {
     configureModelElement(container, "label:port", SLabelImpl, SLabelView);
     configureModelElement(container, "label:node", SLabelImpl, SLabelView);
     configureModelElement(context, "node", SNodeImpl, RectangularNodeView);
-    configureModelElement(
-      context,
-      "edge:straight",
-      SEdgeImpl,
-      PolylineEdgeView
-    );
-    configureModelElement(
-      context,
-      "edge:bezier",
-      SEdgeImpl,
-      BezierCurveEdgeView
-    );
+    configureModelElement(context, "edge", SEdgeImpl, EdgeWithArrow);
+    // configureModelElement(
+    //   context,
+    //   "edge:straight",
+    //   SEdgeImpl,
+    //   PolylineEdgeView
+    // );
+
     configureModelElement(
       context,
       "routing-point",
@@ -68,7 +85,7 @@ export const createContainer = (containerId: string) => {
 
     configureViewerOptions(context, {
       needsClientLayout: false,
-      baseDiv: containerId
+      baseDiv: containerId,
     });
   });
 

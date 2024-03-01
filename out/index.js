@@ -23268,12 +23268,6 @@
       );
       (0, import_sprotty2.configureModelElement)(
         context,
-        "edge:bezier",
-        import_sprotty2.SEdgeImpl,
-        import_sprotty2.BezierCurveEdgeView
-      );
-      (0, import_sprotty2.configureModelElement)(
-        context,
         "routing-point",
         import_sprotty2.SRoutingHandleImpl,
         import_sprotty2.SRoutingHandleView

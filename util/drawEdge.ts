@@ -2,18 +2,18 @@ import { SEdge } from "sprotty-protocol";
 
 type IProps = {
   source: any;
-  edgeId: number;
+  edgeId: any;
   sourceNumb: number;
   targetNumb: string;
   cssClasses?: string[];
-}
+};
 
 export default function drawEdge({
   source,
   edgeId,
   sourceNumb,
   targetNumb,
-  cssClasses = []
+  cssClasses = [],
 }: IProps) {
   source.addElements([
     {
@@ -28,5 +28,5 @@ export default function drawEdge({
       }) as SEdge,
     },
   ]);
-  console.log("draw")
+  console.log("draw");
 }
