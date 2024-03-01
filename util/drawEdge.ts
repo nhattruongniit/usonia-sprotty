@@ -5,6 +5,7 @@ type IProps = {
   edgeId: any;
   sourceNumb: number;
   targetNumb: string;
+  type : string;
   cssClasses?: string[];
 };
 
@@ -13,13 +14,14 @@ export default function drawEdge({
   edgeId,
   sourceNumb,
   targetNumb,
+  type,
   cssClasses = [],
 }: IProps) {
   source.addElements([
     {
       parentId: "graph",
       element: (<SEdge>{
-        type: "edge",
+        type : type,
         id: `edge-${edgeId}`,
         sourceId: `port-${sourceNumb}`,
         targetId: `port-${targetNumb}`,

@@ -46,12 +46,12 @@ export const createContainer = (containerId: string) => {
     configureModelElement(container, "label:node", SLabelImpl, SLabelView);
     configureModelElement(context, "node", SNodeImpl, RectangularNodeView);
     configureModelElement(context, "edge", SEdgeImpl, EdgeWithArrow);
-    // configureModelElement(
-    //   context,
-    //   "edge:straight",
-    //   SEdgeImpl,
-    //   PolylineEdgeView
-    // );
+    configureModelElement(
+      context,
+      "edge:straight",
+      SEdgeImpl,
+      PolylineEdgeView
+    );
 
     configureModelElement(
       context,

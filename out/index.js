@@ -23310,6 +23310,12 @@
       (0, import_sprotty3.configureModelElement)(context, "edge", import_sprotty3.SEdgeImpl, EdgeWithArrow);
       (0, import_sprotty3.configureModelElement)(
         context,
+        "edge:straight",
+        import_sprotty3.SEdgeImpl,
+        import_sprotty3.PolylineEdgeView
+      );
+      (0, import_sprotty3.configureModelElement)(
+        context,
         "routing-point",
         import_sprotty3.SRoutingHandleImpl,
         import_sprotty3.SRoutingHandleView
@@ -23422,13 +23428,14 @@
     edgeId,
     sourceNumb,
     targetNumb,
+    type,
     cssClasses = []
   }) {
     source.addElements([
       {
         parentId: "graph",
         element: {
-          type: "edge",
+          type,
           id: `edge-${edgeId}`,
           sourceId: `port-${sourceNumb}`,
           targetId: `port-${targetNumb}`,
@@ -23535,6 +23542,7 @@
             edgeId: edgeNumber,
             sourceNumb: sourceId,
             targetNumb: targetId.replace("port-", ""),
+            type: "edge",
             cssClasses: ["dummy-edge"]
           });
           edgeArr.push({
@@ -23705,6 +23713,7 @@
                   edgeId: "dummy",
                   sourceNumb: sourceId,
                   targetNumb: "dummy-1",
+                  type: "edge:straight",
                   cssClasses: ["dummy-edge"]
                 });
                 edgeArr.push({

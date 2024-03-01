@@ -158,6 +158,7 @@ export class CustomMouseListener extends MouseListener {
           edgeId: edgeNumber,
           sourceNumb: sourceId,
           targetNumb: targetId.replace("port-", ""),
+          type : "edge",
           cssClasses: ["dummy-edge"],
         });
         edgeArr.push({
@@ -443,6 +444,7 @@ export default function run() {
                 edgeId: "dummy",
                 sourceNumb: sourceId,
                 targetNumb: "dummy-1",
+                type : "edge:straight",
                 cssClasses: ["dummy-edge"],
               });
               edgeArr.push({
