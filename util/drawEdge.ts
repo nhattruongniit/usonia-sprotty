@@ -27,20 +27,22 @@ export default function drawEdge({
         targetId: `port-${targetNumb}`,
         cssClasses,
         routerKind: "manhattan",
-        children: edgeId === "dummy" ? [] : [
-          <SLabel>{
-            type: 'label:edge',
-            id: `label-edge-${edgeId}`,
-            text: `label-edge-${edgeId}`,
-            edgePlacement: {
-              position: 0.5,
-              side: 'on',
-              rotate: false
-          }
-          }
-        ]
+        children:
+          edgeId === "dummy"
+            ? []
+            : [
+                <SLabel>{
+                  type: "label:edge",
+                  id: `label-edge-${edgeId}`,
+                  text: `label-edge-${edgeId}`,
+                  edgePlacement: {
+                    position: 0.5,
+                    side: "on",
+                    rotate: false,
+                  },
+                },
+              ],
       }) as SEdge,
     },
   ]);
-
 }

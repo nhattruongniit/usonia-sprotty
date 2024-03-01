@@ -47,7 +47,7 @@ let edgeNumber = 1;
 // dummy
 let edgeArr = [];
 let dummyNodeArray = [];
-let dummyEdgeId = null
+let dummyEdgeId = null;
 
 // size nodes & ports
 const defaultNodeWidth = 100;
@@ -59,11 +59,11 @@ const defaultDummyHeight = 10;
 
 // state of draw edge
 let drawMode = false;
-let dummyMode = false
+let dummyMode = false;
 
 // source
 let sourceId = null;
-let targetId = null
+let targetId = null;
 
 export class CustomMouseListener extends MouseListener {
   mouseUp(target: any, event: MouseEvent): (Action | Promise<Action>)[] {
@@ -86,11 +86,11 @@ export class CustomMouseListener extends MouseListener {
     // }
 
     // code connect by dummy node
-    let isDrawable = false
+    let isDrawable = false;
     if (target.id === "node-dummy") {
-      const coordinateDummyNodeX = target.position.x + (defaultDummyWidth) / 2;
-      const coordinateDummyNodeY = target.position.y + (defaultDummyHeight) / 2;
-      let portCompareCoordinateArr = []
+      const coordinateDummyNodeX = target.position.x + defaultDummyWidth / 2;
+      const coordinateDummyNodeY = target.position.y + defaultDummyHeight / 2;
+      let portCompareCoordinateArr = [];
 
       const gragphChildrenArr = target.parent.children;
 
@@ -102,63 +102,83 @@ export class CustomMouseListener extends MouseListener {
               let portType = null;
               const portX = nodeChild.position.x;
               const portY = nodeChild.position.y;
-              if (portX === defaultNodeWidth && portY === (defaultNodeHeight - defaultPortHeight) / 2) {
-                portType = 1
-              } else if (portX === (defaultNodeWidth - defaultPortWidth) / 2 && portY === defaultNodeHeight) {
-                portType = 2
-              } else if (portX === 0 - (defaultPortWidth) && portY === (defaultNodeHeight - defaultPortHeight) / 2) {
-                portType = 3
-              } else if (portX === (defaultNodeWidth - defaultPortWidth) / 2 && portY === 0 - (defaultPortHeight)) {
-                portType = 4
+              if (
+                portX === defaultNodeWidth &&
+                portY === (defaultNodeHeight - defaultPortHeight) / 2
+              ) {
+                portType = 1;
+              } else if (
+                portX === (defaultNodeWidth - defaultPortWidth) / 2 &&
+                portY === defaultNodeHeight
+              ) {
+                portType = 2;
+              } else if (
+                portX === 0 - defaultPortWidth &&
+                portY === (defaultNodeHeight - defaultPortHeight) / 2
+              ) {
+                portType = 3;
+              } else if (
+                portX === (defaultNodeWidth - defaultPortWidth) / 2 &&
+                portY === 0 - defaultPortHeight
+              ) {
+                portType = 4;
               }
-              portCompareCoordinateArr.push({ x: portX, y: portY, id: nodeChild.id, nodeX: nodeChild.parent.position.x, nodeY: nodeChild.parent.position.y, type: portType })
+              portCompareCoordinateArr.push({
+                x: portX,
+                y: portY,
+                id: nodeChild.id,
+                nodeX: nodeChild.parent.position.x,
+                nodeY: nodeChild.parent.position.y,
+                type: portType,
+              });
             }
           });
         }
       });
 
-      portCompareCoordinateArr.forEach(portCoordinate => {
-
+      portCompareCoordinateArr.forEach((portCoordinate) => {
         let portCompareX: number;
-        let portCompareY: number
+        let portCompareY: number;
         if (portCoordinate.type === 1) {
-          portCompareX = portCoordinate.nodeX + portCoordinate.x
-          portCompareY = portCoordinate.nodeY + (defaultNodeHeight - defaultPortHeight) / 2
-          console.log("x : " + portCompareX, "y : " + portCompareY, "type 1")
-        }
-        else if (portCoordinate.type === 2) {
-          portCompareX = portCoordinate.nodeX + (defaultNodeWidth - defaultPortWidth) / 2;
-          portCompareY = portCoordinate.nodeY + portCoordinate.y
-          console.log("x : " + portCompareX, "y : " + portCompareY, "type 2")
-        }
-        else if (portCoordinate.type === 3) {
           portCompareX = portCoordinate.nodeX + portCoordinate.x;
-          portCompareY = portCoordinate.nodeY + (defaultNodeHeight - defaultPortHeight) / 2
-          console.log("x : " + portCompareX, "y : " + portCompareY, "type 3")
-        }
-        else if (portCoordinate.type === 4) {
-          portCompareX = portCoordinate.nodeX + (defaultNodeWidth - defaultPortWidth) / 2;
-          portCompareY = portCoordinate.nodeY + portCoordinate.y
-          console.log("x : " + portCompareX, "y : " + portCompareY, "type 4")
-        }
-        else {
+          portCompareY =
+            portCoordinate.nodeY + (defaultNodeHeight - defaultPortHeight) / 2;
+          console.log("x : " + portCompareX, "y : " + portCompareY, "type 1");
+        } else if (portCoordinate.type === 2) {
+          portCompareX =
+            portCoordinate.nodeX + (defaultNodeWidth - defaultPortWidth) / 2;
+          portCompareY = portCoordinate.nodeY + portCoordinate.y;
+          console.log("x : " + portCompareX, "y : " + portCompareY, "type 2");
+        } else if (portCoordinate.type === 3) {
+          portCompareX = portCoordinate.nodeX + portCoordinate.x;
+          portCompareY =
+            portCoordinate.nodeY + (defaultNodeHeight - defaultPortHeight) / 2;
+          console.log("x : " + portCompareX, "y : " + portCompareY, "type 3");
+        } else if (portCoordinate.type === 4) {
+          portCompareX =
+            portCoordinate.nodeX + (defaultNodeWidth - defaultPortWidth) / 2;
+          portCompareY = portCoordinate.nodeY + portCoordinate.y;
+          console.log("x : " + portCompareX, "y : " + portCompareY, "type 4");
+        } else {
           return;
         }
-        if (coordinateDummyNodeX <= portCompareX + defaultPortWidth &&
+        if (
+          coordinateDummyNodeX <= portCompareX + defaultPortWidth &&
           portCompareX <= coordinateDummyNodeX &&
           coordinateDummyNodeY <= portCompareY + defaultPortHeight &&
-          portCompareY <= coordinateDummyNodeY) {
-          targetId = portCoordinate.id
-          isDrawable = true
+          portCompareY <= coordinateDummyNodeY
+        ) {
+          targetId = portCoordinate.id;
+          isDrawable = true;
         }
-      })
+      });
       if (isDrawable) {
         drawEdge({
           source: modelSource,
           edgeId: edgeNumber,
           sourceNumb: sourceId,
           targetNumb: targetId.replace("port-", ""),
-          type : "edge",
+          type: "edge",
           cssClasses: ["dummy-edge"],
         });
         edgeArr.push({
@@ -166,10 +186,10 @@ export class CustomMouseListener extends MouseListener {
           sourceId: `port-${sourceId}`,
           targetId: targetId,
         });
-        edgeNumber++
+        edgeNumber++;
         cancelDrawEdge();
       } else {
-        cancelDrawEdge()
+        cancelDrawEdge();
       }
     }
     return [];
@@ -215,14 +235,14 @@ function cancelDrawEdge() {
       parentId: "graph",
     },
   ]);
-  modelSource.removeElements([{
-    elementId: dummyEdgeId,
-    parentId: "graph"
-  }])
+  modelSource.removeElements([
+    {
+      elementId: dummyEdgeId,
+      parentId: "graph",
+    },
+  ]);
 
-  dummyEdgeId = null
-
-
+  dummyEdgeId = null;
 
   // const coordinateCircleArr = [];
   // const cirlceEl = document.querySelectorAll(".sprotty-routing-handle");
@@ -290,7 +310,7 @@ function cancelDrawEdge() {
   dummyNodeArray = [];
   sourceId = "";
   drawMode = false;
-  dummyMode = false
+  dummyMode = false;
 }
 
 const deleteLogic = () => {
@@ -385,16 +405,13 @@ export default function run() {
 
   // cancel draw edge
   cancelDrawEdgeBtn.addEventListener("click", () => {
-
     cancelDrawEdge();
-
   });
 
   // draw edge
   function drawLogic() {
     setTimeout(() => {
       document.querySelectorAll(".port").forEach((port) => {
-
         port.addEventListener("click", (e) => {
           if (!dummyMode) {
             cancelDrawEdgeBtn.classList.remove("hide");
@@ -404,20 +421,20 @@ export default function run() {
             const portTranslateAttribute = port.getAttribute("transform");
             const portCoordinate = portTranslateAttribute
               ? portTranslateAttribute
-                .replace("translate(", "")
-                .replace(")", "")
-                .trim()
-                .split(",")
+                  .replace("translate(", "")
+                  .replace(")", "")
+                  .trim()
+                  .split(",")
               : [0, 0];
 
             const transformAttribute =
               port.parentElement.getAttribute("transform");
             const coordinate = transformAttribute
               ? transformAttribute
-                .replace("translate(", "")
-                .replace(")", "")
-                .trim()
-                .split(",")
+                  .replace("translate(", "")
+                  .replace(")", "")
+                  .trim()
+                  .split(",")
               : [0, 0];
 
             // add dummy node
@@ -444,7 +461,7 @@ export default function run() {
                 edgeId: "dummy",
                 sourceNumb: sourceId,
                 targetNumb: "dummy-1",
-                type : "edge:straight",
+                type: "edge:straight",
                 cssClasses: ["dummy-edge"],
               });
               edgeArr.push({
@@ -454,7 +471,7 @@ export default function run() {
               });
               dummyEdgeId = "edge-dummy";
             }
-            dummyMode = true
+            dummyMode = true;
           }
         });
       });
@@ -462,8 +479,6 @@ export default function run() {
   }
 
   // delete
-
-
 
   // add node 1
   addNode1Btn.addEventListener("click", () => {
@@ -501,6 +516,7 @@ export default function run() {
     label2Number++;
     // draw edge
     drawLogic();
+  
   });
 
   // add node 3

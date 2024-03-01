@@ -23434,7 +23434,7 @@
                 type: "label:port",
                 id: `label-port-${nodeId}-${i + 1}`,
                 text: `p-${i + 1}`,
-                position: positionLabel[i].labelPort
+                position: { x: portWidth / 2, y: 0 - portHeight / 8 }
               }
             ]
           }
@@ -23537,7 +23537,14 @@
                 } else if (portX === (defaultNodeWidth - defaultPortWidth) / 2 && portY === 0 - defaultPortHeight) {
                   portType = 4;
                 }
-                portCompareCoordinateArr.push({ x: portX, y: portY, id: nodeChild.id, nodeX: nodeChild.parent.position.x, nodeY: nodeChild.parent.position.y, type: portType });
+                portCompareCoordinateArr.push({
+                  x: portX,
+                  y: portY,
+                  id: nodeChild.id,
+                  nodeX: nodeChild.parent.position.x,
+                  nodeY: nodeChild.parent.position.y,
+                  type: portType
+                });
               }
             });
           }
@@ -23621,10 +23628,12 @@
         parentId: "graph"
       }
     ]);
-    modelSource.removeElements([{
-      elementId: dummyEdgeId,
-      parentId: "graph"
-    }]);
+    modelSource.removeElements([
+      {
+        elementId: dummyEdgeId,
+        parentId: "graph"
+      }
+    ]);
     dummyEdgeId = null;
     Array.from(document.getElementsByClassName("ready-draw")).forEach((e) => {
       e.classList.remove("ready-draw");
