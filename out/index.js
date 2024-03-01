@@ -23466,7 +23466,12 @@
             {
               type: "label:edge",
               id: `label-edge-${edgeId}`,
-              text: `label-edge-${edgeId}`
+              text: `label-edge-${edgeId}`,
+              edgePlacement: {
+                position: 0.5,
+                side: "on",
+                rotate: false
+              }
             }
           ]
         }
