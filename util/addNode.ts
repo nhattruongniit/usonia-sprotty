@@ -3,7 +3,7 @@ import { SNode, SLabel, SPort } from "sprotty-protocol";
 type IProps = {
   source: any;
   nodeId: string;
-  labelId: number | string;
+
   portQuantity: number;
   nodeWidth: number;
   nodeHeight: number;
@@ -18,7 +18,7 @@ type IProps = {
 export default function addNode({
   source,
   nodeId,
-  labelId,
+
   portQuantity,
   nodeWidth,
   nodeHeight,
@@ -63,7 +63,7 @@ export default function addNode({
         children: [
           <SLabel>{
             type: "label:node",
-            id: `label-${nodeId}-${labelId}`,
+            id: `label-node-${nodeId}`,
             text: name,
             position: { x: nodeWidth / 2, y: nodeHeight / 2 },
           },

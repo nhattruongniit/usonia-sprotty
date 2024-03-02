@@ -23357,17 +23357,1324 @@
   };
 
   // model-source.ts
-  var graph = {
+  var jsonGraph = {
+    canvasBounds: {
+      x: 7.986111640930176,
+      y: 55.156253814697266,
+      width: 1501.8056640625,
+      height: 569.7743530273438
+    },
+    scroll: {
+      x: -1,
+      y: 0
+    },
+    zoom: 1,
+    position: {
+      x: 0,
+      y: 0
+    },
+    size: {
+      width: -1,
+      height: -1
+    },
     type: "graph",
     id: "graph",
-    children: []
+    children: [
+      {
+        position: {
+          x: 244,
+          y: 177
+        },
+        size: {
+          width: 100,
+          height: 100
+        },
+        strokeWidth: 0,
+        selected: false,
+        hoverFeedback: false,
+        opacity: 1,
+        type: "node",
+        id: "node-type-2-1",
+        cssClasses: ["node"],
+        children: [
+          {
+            position: {
+              x: 50,
+              y: 50
+            },
+            size: {
+              width: -1,
+              height: -1
+            },
+            selected: false,
+            alignment: {
+              x: 0,
+              y: 0
+            },
+            opacity: 1,
+            type: "label:node",
+            id: "label-node-type-2-1",
+            text: "node-type-2-1",
+            children: []
+          },
+          {
+            position: {
+              x: 100,
+              y: 40
+            },
+            size: {
+              width: 20,
+              height: 20
+            },
+            strokeWidth: 0,
+            selected: false,
+            hoverFeedback: false,
+            opacity: 1,
+            type: "port",
+            id: "port-type-2-1-1",
+            cssClasses: ["port"],
+            children: [
+              {
+                position: {
+                  x: 10,
+                  y: -2.5
+                },
+                size: {
+                  width: -1,
+                  height: -1
+                },
+                selected: false,
+                alignment: {
+                  x: 0,
+                  y: 0
+                },
+                opacity: 1,
+                type: "label:port",
+                id: "label-port-type-2-1-1",
+                text: "p-1",
+                children: []
+              }
+            ]
+          },
+          {
+            position: {
+              x: 40,
+              y: 100
+            },
+            size: {
+              width: 20,
+              height: 20
+            },
+            strokeWidth: 0,
+            selected: false,
+            hoverFeedback: false,
+            opacity: 1,
+            type: "port",
+            id: "port-type-2-1-2",
+            cssClasses: ["port"],
+            children: [
+              {
+                position: {
+                  x: 10,
+                  y: -2.5
+                },
+                size: {
+                  width: -1,
+                  height: -1
+                },
+                selected: false,
+                alignment: {
+                  x: 0,
+                  y: 0
+                },
+                opacity: 1,
+                type: "label:port",
+                id: "label-port-type-2-1-2",
+                text: "p-2",
+                children: []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        position: {
+          x: 294,
+          y: 402
+        },
+        size: {
+          width: 100,
+          height: 100
+        },
+        strokeWidth: 0,
+        selected: false,
+        hoverFeedback: false,
+        opacity: 1,
+        type: "node",
+        id: "node-type-4-1",
+        cssClasses: ["node"],
+        children: [
+          {
+            position: {
+              x: 50,
+              y: 50
+            },
+            size: {
+              width: -1,
+              height: -1
+            },
+            selected: false,
+            alignment: {
+              x: 0,
+              y: 0
+            },
+            opacity: 1,
+            type: "label:node",
+            id: "label-node-type-4-1",
+            text: "node-type-4-1",
+            children: []
+          },
+          {
+            position: {
+              x: 100,
+              y: 40
+            },
+            size: {
+              width: 20,
+              height: 20
+            },
+            strokeWidth: 0,
+            selected: false,
+            hoverFeedback: false,
+            opacity: 1,
+            type: "port",
+            id: "port-type-4-1-1",
+            cssClasses: ["port"],
+            children: [
+              {
+                position: {
+                  x: 10,
+                  y: -2.5
+                },
+                size: {
+                  width: -1,
+                  height: -1
+                },
+                selected: false,
+                alignment: {
+                  x: 0,
+                  y: 0
+                },
+                opacity: 1,
+                type: "label:port",
+                id: "label-port-type-4-1-1",
+                text: "p-1",
+                children: []
+              }
+            ]
+          },
+          {
+            position: {
+              x: 40,
+              y: -20
+            },
+            size: {
+              width: 20,
+              height: 20
+            },
+            strokeWidth: 0,
+            selected: false,
+            hoverFeedback: false,
+            opacity: 1,
+            type: "port",
+            id: "port-type-4-1-4",
+            cssClasses: ["port"],
+            children: [
+              {
+                position: {
+                  x: 10,
+                  y: -2.5
+                },
+                size: {
+                  width: -1,
+                  height: -1
+                },
+                selected: false,
+                alignment: {
+                  x: 0,
+                  y: 0
+                },
+                opacity: 1,
+                type: "label:port",
+                id: "label-port-type-4-1-4",
+                text: "p-4",
+                children: []
+              }
+            ]
+          },
+          {
+            position: {
+              x: 40,
+              y: 100
+            },
+            size: {
+              width: 20,
+              height: 20
+            },
+            strokeWidth: 0,
+            selected: false,
+            hoverFeedback: false,
+            opacity: 1,
+            type: "port",
+            id: "port-type-4-1-2",
+            cssClasses: ["port"],
+            children: [
+              {
+                position: {
+                  x: 10,
+                  y: -2.5
+                },
+                size: {
+                  width: -1,
+                  height: -1
+                },
+                selected: false,
+                alignment: {
+                  x: 0,
+                  y: 0
+                },
+                opacity: 1,
+                type: "label:port",
+                id: "label-port-type-4-1-2",
+                text: "p-2",
+                children: []
+              }
+            ]
+          },
+          {
+            position: {
+              x: -20,
+              y: 40
+            },
+            size: {
+              width: 20,
+              height: 20
+            },
+            strokeWidth: 0,
+            selected: false,
+            hoverFeedback: false,
+            opacity: 1,
+            type: "port",
+            id: "port-type-4-1-3",
+            cssClasses: ["port"],
+            children: [
+              {
+                position: {
+                  x: 10,
+                  y: -2.5
+                },
+                size: {
+                  width: -1,
+                  height: -1
+                },
+                selected: false,
+                alignment: {
+                  x: 0,
+                  y: 0
+                },
+                opacity: 1,
+                type: "label:port",
+                id: "label-port-type-4-1-3",
+                text: "p-3",
+                children: []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        position: {
+          x: 817,
+          y: 32
+        },
+        size: {
+          width: 100,
+          height: 100
+        },
+        strokeWidth: 0,
+        selected: false,
+        hoverFeedback: false,
+        opacity: 1,
+        type: "node",
+        id: "node-type-3-1",
+        cssClasses: ["node"],
+        children: [
+          {
+            position: {
+              x: 50,
+              y: 50
+            },
+            size: {
+              width: -1,
+              height: -1
+            },
+            selected: false,
+            alignment: {
+              x: 0,
+              y: 0
+            },
+            opacity: 1,
+            type: "label:node",
+            id: "label-node-type-3-1",
+            text: "node-type-3-1",
+            children: []
+          },
+          {
+            position: {
+              x: 40,
+              y: 100
+            },
+            size: {
+              width: 20,
+              height: 20
+            },
+            strokeWidth: 0,
+            selected: false,
+            hoverFeedback: false,
+            opacity: 1,
+            type: "port",
+            id: "port-type-3-1-2",
+            cssClasses: ["port"],
+            children: [
+              {
+                position: {
+                  x: 10,
+                  y: -2.5
+                },
+                size: {
+                  width: -1,
+                  height: -1
+                },
+                selected: false,
+                alignment: {
+                  x: 0,
+                  y: 0
+                },
+                opacity: 1,
+                type: "label:port",
+                id: "label-port-type-3-1-2",
+                text: "p-2",
+                children: []
+              }
+            ]
+          },
+          {
+            position: {
+              x: -20,
+              y: 40
+            },
+            size: {
+              width: 20,
+              height: 20
+            },
+            strokeWidth: 0,
+            selected: false,
+            hoverFeedback: false,
+            opacity: 1,
+            type: "port",
+            id: "port-type-3-1-3",
+            cssClasses: ["port"],
+            children: [
+              {
+                position: {
+                  x: 10,
+                  y: -2.5
+                },
+                size: {
+                  width: -1,
+                  height: -1
+                },
+                selected: false,
+                alignment: {
+                  x: 0,
+                  y: 0
+                },
+                opacity: 1,
+                type: "label:port",
+                id: "label-port-type-3-1-3",
+                text: "p-3",
+                children: []
+              }
+            ]
+          },
+          {
+            position: {
+              x: 100,
+              y: 40
+            },
+            size: {
+              width: 20,
+              height: 20
+            },
+            strokeWidth: 0,
+            selected: false,
+            hoverFeedback: false,
+            opacity: 1,
+            type: "port",
+            id: "port-type-3-1-1",
+            cssClasses: ["port"],
+            children: [
+              {
+                position: {
+                  x: 10,
+                  y: -2.5
+                },
+                size: {
+                  width: -1,
+                  height: -1
+                },
+                selected: false,
+                alignment: {
+                  x: 0,
+                  y: 0
+                },
+                opacity: 1,
+                type: "label:port",
+                id: "label-port-type-3-1-1",
+                text: "p-1",
+                children: []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        routingPoints: [],
+        selected: false,
+        hoverFeedback: false,
+        opacity: 1,
+        type: "edge",
+        id: "edge-4",
+        sourceId: "port-type-2-1-2",
+        targetId: "port-type-3-1-2",
+        cssClasses: ["dummy-edge"],
+        routerKind: "manhattan",
+        children: [
+          {
+            position: {
+              x: 0,
+              y: 0
+            },
+            size: {
+              width: -1,
+              height: -1
+            },
+            selected: false,
+            alignment: {
+              x: 0,
+              y: 0
+            },
+            opacity: 1,
+            type: "label:edge",
+            id: "label-edge-4",
+            text: "label-edge-4",
+            edgePlacement: {
+              position: 0.5,
+              side: "on",
+              rotate: false
+            },
+            children: []
+          }
+        ]
+      },
+      {
+        routingPoints: [],
+        selected: false,
+        hoverFeedback: false,
+        opacity: 1,
+        type: "edge",
+        id: "edge-2",
+        sourceId: "port-type-4-1-4",
+        targetId: "port-type-3-1-3",
+        cssClasses: ["dummy-edge"],
+        routerKind: "manhattan",
+        children: [
+          {
+            position: {
+              x: 0,
+              y: 0
+            },
+            size: {
+              width: -1,
+              height: -1
+            },
+            selected: false,
+            alignment: {
+              x: 0,
+              y: 0
+            },
+            opacity: 1,
+            type: "label:edge",
+            id: "label-edge-2",
+            text: "label-edge-2",
+            edgePlacement: {
+              position: 0.5,
+              side: "on",
+              rotate: false
+            },
+            children: []
+          }
+        ]
+      },
+      {
+        routingPoints: [],
+        selected: false,
+        hoverFeedback: false,
+        opacity: 1,
+        type: "edge",
+        id: "edge-3",
+        sourceId: "port-type-2-1-1",
+        targetId: "port-type-3-1-1",
+        cssClasses: ["dummy-edge"],
+        routerKind: "manhattan",
+        children: [
+          {
+            position: {
+              x: 0,
+              y: 0
+            },
+            size: {
+              width: -1,
+              height: -1
+            },
+            selected: false,
+            alignment: {
+              x: 0,
+              y: 0
+            },
+            opacity: 1,
+            type: "label:edge",
+            id: "label-edge-3",
+            text: "label-edge-3",
+            edgePlacement: {
+              position: 0.5,
+              side: "on",
+              rotate: false
+            },
+            children: []
+          }
+        ]
+      },
+      {
+        position: {
+          x: 1157,
+          y: 32
+        },
+        size: {
+          width: 100,
+          height: 100
+        },
+        strokeWidth: 0,
+        selected: false,
+        hoverFeedback: false,
+        opacity: 1,
+        type: "node",
+        id: "node-type-3-2",
+        cssClasses: ["node"],
+        children: [
+          {
+            position: {
+              x: 50,
+              y: 50
+            },
+            size: {
+              width: -1,
+              height: -1
+            },
+            selected: false,
+            alignment: {
+              x: 0,
+              y: 0
+            },
+            opacity: 1,
+            type: "label:node",
+            id: "label-node-type-3-2",
+            text: "node-type-3-2",
+            children: []
+          },
+          {
+            position: {
+              x: 100,
+              y: 40
+            },
+            size: {
+              width: 20,
+              height: 20
+            },
+            strokeWidth: 0,
+            selected: false,
+            hoverFeedback: false,
+            opacity: 1,
+            type: "port",
+            id: "port-type-3-2-1",
+            cssClasses: ["port"],
+            children: [
+              {
+                position: {
+                  x: 10,
+                  y: -2.5
+                },
+                size: {
+                  width: -1,
+                  height: -1
+                },
+                selected: false,
+                alignment: {
+                  x: 0,
+                  y: 0
+                },
+                opacity: 1,
+                type: "label:port",
+                id: "label-port-type-3-2-1",
+                text: "p-1",
+                children: []
+              }
+            ]
+          },
+          {
+            position: {
+              x: 40,
+              y: 100
+            },
+            size: {
+              width: 20,
+              height: 20
+            },
+            strokeWidth: 0,
+            selected: false,
+            hoverFeedback: false,
+            opacity: 1,
+            type: "port",
+            id: "port-type-3-2-2",
+            cssClasses: ["port"],
+            children: [
+              {
+                position: {
+                  x: 10,
+                  y: -2.5
+                },
+                size: {
+                  width: -1,
+                  height: -1
+                },
+                selected: false,
+                alignment: {
+                  x: 0,
+                  y: 0
+                },
+                opacity: 1,
+                type: "label:port",
+                id: "label-port-type-3-2-2",
+                text: "p-2",
+                children: []
+              }
+            ]
+          },
+          {
+            position: {
+              x: -20,
+              y: 40
+            },
+            size: {
+              width: 20,
+              height: 20
+            },
+            strokeWidth: 0,
+            selected: false,
+            hoverFeedback: false,
+            opacity: 1,
+            type: "port",
+            id: "port-type-3-2-3",
+            cssClasses: ["port"],
+            children: [
+              {
+                position: {
+                  x: 10,
+                  y: -2.5
+                },
+                size: {
+                  width: -1,
+                  height: -1
+                },
+                selected: false,
+                alignment: {
+                  x: 0,
+                  y: 0
+                },
+                opacity: 1,
+                type: "label:port",
+                id: "label-port-type-3-2-3",
+                text: "p-3",
+                children: []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        position: {
+          x: 912,
+          y: 355
+        },
+        size: {
+          width: 100,
+          height: 100
+        },
+        strokeWidth: 0,
+        selected: false,
+        hoverFeedback: false,
+        opacity: 1,
+        type: "node",
+        id: "node-type-4-2",
+        cssClasses: ["node"],
+        children: [
+          {
+            position: {
+              x: 50,
+              y: 50
+            },
+            size: {
+              width: -1,
+              height: -1
+            },
+            selected: false,
+            alignment: {
+              x: 0,
+              y: 0
+            },
+            opacity: 1,
+            type: "label:node",
+            id: "label-node-type-4-2",
+            text: "node-type-4-2",
+            children: []
+          },
+          {
+            position: {
+              x: -20,
+              y: 40
+            },
+            size: {
+              width: 20,
+              height: 20
+            },
+            strokeWidth: 0,
+            selected: false,
+            hoverFeedback: false,
+            opacity: 1,
+            type: "port",
+            id: "port-type-4-2-3",
+            cssClasses: ["port"],
+            children: [
+              {
+                position: {
+                  x: 10,
+                  y: -2.5
+                },
+                size: {
+                  width: -1,
+                  height: -1
+                },
+                selected: false,
+                alignment: {
+                  x: 0,
+                  y: 0
+                },
+                opacity: 1,
+                type: "label:port",
+                id: "label-port-type-4-2-3",
+                text: "p-3",
+                children: []
+              }
+            ]
+          },
+          {
+            position: {
+              x: 40,
+              y: -20
+            },
+            size: {
+              width: 20,
+              height: 20
+            },
+            strokeWidth: 0,
+            selected: false,
+            hoverFeedback: false,
+            opacity: 1,
+            type: "port",
+            id: "port-type-4-2-4",
+            cssClasses: ["port"],
+            children: [
+              {
+                position: {
+                  x: 10,
+                  y: -2.5
+                },
+                size: {
+                  width: -1,
+                  height: -1
+                },
+                selected: false,
+                alignment: {
+                  x: 0,
+                  y: 0
+                },
+                opacity: 1,
+                type: "label:port",
+                id: "label-port-type-4-2-4",
+                text: "p-4",
+                children: []
+              }
+            ]
+          },
+          {
+            position: {
+              x: 100,
+              y: 40
+            },
+            size: {
+              width: 20,
+              height: 20
+            },
+            strokeWidth: 0,
+            selected: false,
+            hoverFeedback: false,
+            opacity: 1,
+            type: "port",
+            id: "port-type-4-2-1",
+            cssClasses: ["port"],
+            children: [
+              {
+                position: {
+                  x: 10,
+                  y: -2.5
+                },
+                size: {
+                  width: -1,
+                  height: -1
+                },
+                selected: false,
+                alignment: {
+                  x: 0,
+                  y: 0
+                },
+                opacity: 1,
+                type: "label:port",
+                id: "label-port-type-4-2-1",
+                text: "p-1",
+                children: []
+              }
+            ]
+          },
+          {
+            position: {
+              x: 40,
+              y: 100
+            },
+            size: {
+              width: 20,
+              height: 20
+            },
+            strokeWidth: 0,
+            selected: false,
+            hoverFeedback: false,
+            opacity: 1,
+            type: "port",
+            id: "port-type-4-2-2",
+            cssClasses: ["port"],
+            children: [
+              {
+                position: {
+                  x: 10,
+                  y: -2.5
+                },
+                size: {
+                  width: -1,
+                  height: -1
+                },
+                selected: false,
+                alignment: {
+                  x: 0,
+                  y: 0
+                },
+                opacity: 1,
+                type: "label:port",
+                id: "label-port-type-4-2-2",
+                text: "p-2",
+                children: []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        routingPoints: [],
+        selected: false,
+        hoverFeedback: false,
+        opacity: 1,
+        type: "edge",
+        id: "edge-5",
+        sourceId: "port-type-3-1-1",
+        targetId: "port-type-4-2-4",
+        cssClasses: ["dummy-edge"],
+        routerKind: "manhattan",
+        children: [
+          {
+            position: {
+              x: 0,
+              y: 0
+            },
+            size: {
+              width: -1,
+              height: -1
+            },
+            selected: false,
+            alignment: {
+              x: 0,
+              y: 0
+            },
+            opacity: 1,
+            type: "label:edge",
+            id: "label-edge-5",
+            text: "label-edge-5",
+            edgePlacement: {
+              position: 0.5,
+              side: "on",
+              rotate: false
+            },
+            children: []
+          }
+        ]
+      },
+      {
+        routingPoints: [],
+        selected: false,
+        hoverFeedback: false,
+        opacity: 1,
+        type: "edge",
+        id: "edge-6",
+        sourceId: "port-type-4-2-1",
+        targetId: "port-type-3-2-1",
+        cssClasses: ["dummy-edge"],
+        routerKind: "manhattan",
+        children: [
+          {
+            position: {
+              x: 0,
+              y: 0
+            },
+            size: {
+              width: -1,
+              height: -1
+            },
+            selected: false,
+            alignment: {
+              x: 0,
+              y: 0
+            },
+            opacity: 1,
+            type: "label:edge",
+            id: "label-edge-6",
+            text: "label-edge-6",
+            edgePlacement: {
+              position: 0.5,
+              side: "on",
+              rotate: false
+            },
+            children: []
+          }
+        ]
+      },
+      {
+        routingPoints: [],
+        selected: false,
+        hoverFeedback: false,
+        opacity: 1,
+        type: "edge",
+        id: "edge-7",
+        sourceId: "port-type-4-2-2",
+        targetId: "port-type-3-2-3",
+        cssClasses: ["dummy-edge"],
+        routerKind: "manhattan",
+        children: [
+          {
+            position: {
+              x: 0,
+              y: 0
+            },
+            size: {
+              width: -1,
+              height: -1
+            },
+            selected: false,
+            alignment: {
+              x: 0,
+              y: 0
+            },
+            opacity: 1,
+            type: "label:edge",
+            id: "label-edge-7",
+            text: "label-edge-7",
+            edgePlacement: {
+              position: 0.5,
+              side: "on",
+              rotate: false
+            },
+            children: []
+          }
+        ]
+      },
+      {
+        position: {
+          x: 682,
+          y: 382
+        },
+        size: {
+          width: 100,
+          height: 100
+        },
+        strokeWidth: 0,
+        selected: false,
+        hoverFeedback: false,
+        opacity: 1,
+        type: "node",
+        id: "node-type-1-1",
+        cssClasses: ["node"],
+        children: [
+          {
+            position: {
+              x: 50,
+              y: 50
+            },
+            size: {
+              width: -1,
+              height: -1
+            },
+            selected: false,
+            alignment: {
+              x: 0,
+              y: 0
+            },
+            opacity: 1,
+            type: "label:node",
+            id: "label-node-type-1-1",
+            text: "node-type-1-1",
+            children: []
+          },
+          {
+            position: {
+              x: 100,
+              y: 40
+            },
+            size: {
+              width: 20,
+              height: 20
+            },
+            strokeWidth: 0,
+            selected: false,
+            hoverFeedback: false,
+            opacity: 1,
+            type: "port",
+            id: "port-type-1-1-1",
+            cssClasses: ["port"],
+            children: [
+              {
+                position: {
+                  x: 10,
+                  y: -2.5
+                },
+                size: {
+                  width: -1,
+                  height: -1
+                },
+                selected: false,
+                alignment: {
+                  x: 0,
+                  y: 0
+                },
+                opacity: 1,
+                type: "label:port",
+                id: "label-port-type-1-1-1",
+                text: "p-1",
+                children: []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        routingPoints: [],
+        selected: false,
+        hoverFeedback: false,
+        opacity: 1,
+        type: "edge",
+        id: "edge-1",
+        sourceId: "port-type-4-1-1",
+        targetId: "port-type-1-1-1",
+        cssClasses: ["dummy-edge"],
+        routerKind: "manhattan",
+        children: [
+          {
+            position: {
+              x: 0,
+              y: 0
+            },
+            size: {
+              width: -1,
+              height: -1
+            },
+            selected: false,
+            alignment: {
+              x: 0,
+              y: 0
+            },
+            opacity: 1,
+            type: "label:edge",
+            id: "label-edge-1",
+            text: "label-edge-1",
+            edgePlacement: {
+              position: 0.5,
+              side: "on",
+              rotate: false
+            },
+            children: []
+          }
+        ]
+      },
+      {
+        routingPoints: [],
+        selected: false,
+        hoverFeedback: false,
+        opacity: 1,
+        type: "edge",
+        id: "edge-8",
+        sourceId: "port-type-1-1-1",
+        targetId: "port-type-4-2-3",
+        cssClasses: ["dummy-edge"],
+        routerKind: "manhattan",
+        children: [
+          {
+            position: {
+              x: 0,
+              y: 0
+            },
+            size: {
+              width: -1,
+              height: -1
+            },
+            selected: false,
+            alignment: {
+              x: 0,
+              y: 0
+            },
+            opacity: 1,
+            type: "label:edge",
+            id: "label-edge-8",
+            text: "label-edge-8",
+            edgePlacement: {
+              position: 0.5,
+              side: "on",
+              rotate: false
+            },
+            children: []
+          }
+        ]
+      },
+      {
+        routingPoints: [],
+        selected: false,
+        hoverFeedback: false,
+        opacity: 1,
+        type: "edge",
+        id: "edge-9",
+        sourceId: "port-type-4-1-2",
+        targetId: "port-type-3-2-2",
+        cssClasses: ["dummy-edge"],
+        routerKind: "manhattan",
+        children: [
+          {
+            position: {
+              x: 0,
+              y: 0
+            },
+            size: {
+              width: -1,
+              height: -1
+            },
+            selected: false,
+            alignment: {
+              x: 0,
+              y: 0
+            },
+            opacity: 1,
+            type: "label:edge",
+            id: "label-edge-9",
+            text: "label-edge-9",
+            edgePlacement: {
+              position: 0.5,
+              side: "on",
+              rotate: false
+            },
+            children: []
+          }
+        ]
+      },
+      {
+        routingPoints: [],
+        selected: false,
+        hoverFeedback: false,
+        opacity: 1,
+        type: "edge",
+        id: "edge-10",
+        sourceId: "port-type-4-1-3",
+        targetId: "port-type-2-1-2",
+        cssClasses: ["dummy-edge"],
+        routerKind: "manhattan",
+        children: [
+          {
+            position: {
+              x: 0,
+              y: 0
+            },
+            size: {
+              width: -1,
+              height: -1
+            },
+            selected: false,
+            alignment: {
+              x: 0,
+              y: 0
+            },
+            opacity: 1,
+            type: "label:edge",
+            id: "label-edge-10",
+            text: "label-edge-10",
+            edgePlacement: {
+              position: 0.5,
+              side: "on",
+              rotate: false
+            },
+            children: []
+          }
+        ]
+      }
+    ]
   };
+  var graph = jsonGraph;
 
   // util/addNode.ts
   function addNode({
     source,
     nodeId,
-    labelId,
     portQuantity,
     nodeWidth,
     nodeHeight,
@@ -23411,7 +24718,7 @@
           children: [
             {
               type: "label:node",
-              id: `label-${nodeId}-${labelId}`,
+              id: `label-node-${nodeId}`,
               text: name,
               position: { x: nodeWidth / 2, y: nodeHeight / 2 }
             }
@@ -23479,7 +24786,1404 @@
     ]);
   }
 
+  // util/checkIdElement.ts
+  var getLength = (arr, type, idInclude) => {
+    return arr.filter((e) => {
+      return e.type === type;
+    }).filter((e) => {
+      return e.id.includes(idInclude);
+    }).length;
+  };
+  function checkIdElement(graph2) {
+    return {
+      countIdNodeType1: getLength(graph2.children, "node", "node-type-1") + 1,
+      countIdNodeType2: getLength(graph2.children, "node", "node-type-2") + 1,
+      countIdNodeType3: getLength(graph2.children, "node", "node-type-3") + 1,
+      countIdNodeType4: getLength(graph2.children, "node", "node-type-4") + 1,
+      countIdEdge: getLength(graph2.children, "edge", "edge") + 1
+    };
+  }
+
   // index.ts
+  var jsonGraph2 = {
+    canvasBounds: {
+      x: 7.986111640930176,
+      y: 55.156253814697266,
+      width: 1501.8056640625,
+      height: 569.7743530273438
+    },
+    scroll: {
+      x: -1,
+      y: 0
+    },
+    zoom: 1,
+    position: {
+      x: 0,
+      y: 0
+    },
+    size: {
+      width: -1,
+      height: -1
+    },
+    features: {},
+    type: "graph",
+    id: "graph",
+    children: [
+      {
+        position: {
+          x: 244,
+          y: 177
+        },
+        size: {
+          width: 100,
+          height: 100
+        },
+        strokeWidth: 0,
+        selected: false,
+        hoverFeedback: false,
+        opacity: 1,
+        features: {},
+        type: "node",
+        id: "node-type-2-1",
+        cssClasses: ["node"],
+        children: [
+          {
+            position: {
+              x: 50,
+              y: 50
+            },
+            size: {
+              width: -1,
+              height: -1
+            },
+            selected: false,
+            alignment: {
+              x: 0,
+              y: 0
+            },
+            opacity: 1,
+            features: {},
+            type: "label:node",
+            id: "label-node-type-2-1",
+            text: "node-type-2-1",
+            children: []
+          },
+          {
+            position: {
+              x: 100,
+              y: 40
+            },
+            size: {
+              width: 20,
+              height: 20
+            },
+            strokeWidth: 0,
+            selected: false,
+            hoverFeedback: false,
+            opacity: 1,
+            features: {},
+            type: "port",
+            id: "port-type-2-1-1",
+            cssClasses: ["port"],
+            children: [
+              {
+                position: {
+                  x: 10,
+                  y: -2.5
+                },
+                size: {
+                  width: -1,
+                  height: -1
+                },
+                selected: false,
+                alignment: {
+                  x: 0,
+                  y: 0
+                },
+                opacity: 1,
+                features: {},
+                type: "label:port",
+                id: "label-port-type-2-1-1",
+                text: "p-1",
+                children: []
+              }
+            ]
+          },
+          {
+            position: {
+              x: 40,
+              y: 100
+            },
+            size: {
+              width: 20,
+              height: 20
+            },
+            strokeWidth: 0,
+            selected: false,
+            hoverFeedback: false,
+            opacity: 1,
+            features: {},
+            type: "port",
+            id: "port-type-2-1-2",
+            cssClasses: ["port"],
+            children: [
+              {
+                position: {
+                  x: 10,
+                  y: -2.5
+                },
+                size: {
+                  width: -1,
+                  height: -1
+                },
+                selected: false,
+                alignment: {
+                  x: 0,
+                  y: 0
+                },
+                opacity: 1,
+                features: {},
+                type: "label:port",
+                id: "label-port-type-2-1-2",
+                text: "p-2",
+                children: []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        position: {
+          x: 294,
+          y: 402
+        },
+        size: {
+          width: 100,
+          height: 100
+        },
+        strokeWidth: 0,
+        selected: false,
+        hoverFeedback: false,
+        opacity: 1,
+        features: {},
+        type: "node",
+        id: "node-type-4-1",
+        cssClasses: ["node"],
+        children: [
+          {
+            position: {
+              x: 50,
+              y: 50
+            },
+            size: {
+              width: -1,
+              height: -1
+            },
+            selected: false,
+            alignment: {
+              x: 0,
+              y: 0
+            },
+            opacity: 1,
+            features: {},
+            type: "label:node",
+            id: "label-node-type-4-1",
+            text: "node-type-4-1",
+            children: []
+          },
+          {
+            position: {
+              x: 100,
+              y: 40
+            },
+            size: {
+              width: 20,
+              height: 20
+            },
+            strokeWidth: 0,
+            selected: false,
+            hoverFeedback: false,
+            opacity: 1,
+            features: {},
+            type: "port",
+            id: "port-type-4-1-1",
+            cssClasses: ["port"],
+            children: [
+              {
+                position: {
+                  x: 10,
+                  y: -2.5
+                },
+                size: {
+                  width: -1,
+                  height: -1
+                },
+                selected: false,
+                alignment: {
+                  x: 0,
+                  y: 0
+                },
+                opacity: 1,
+                features: {},
+                type: "label:port",
+                id: "label-port-type-4-1-1",
+                text: "p-1",
+                children: []
+              }
+            ]
+          },
+          {
+            position: {
+              x: 40,
+              y: -20
+            },
+            size: {
+              width: 20,
+              height: 20
+            },
+            strokeWidth: 0,
+            selected: false,
+            hoverFeedback: false,
+            opacity: 1,
+            features: {},
+            type: "port",
+            id: "port-type-4-1-4",
+            cssClasses: ["port"],
+            children: [
+              {
+                position: {
+                  x: 10,
+                  y: -2.5
+                },
+                size: {
+                  width: -1,
+                  height: -1
+                },
+                selected: false,
+                alignment: {
+                  x: 0,
+                  y: 0
+                },
+                opacity: 1,
+                features: {},
+                type: "label:port",
+                id: "label-port-type-4-1-4",
+                text: "p-4",
+                children: []
+              }
+            ]
+          },
+          {
+            position: {
+              x: 40,
+              y: 100
+            },
+            size: {
+              width: 20,
+              height: 20
+            },
+            strokeWidth: 0,
+            selected: false,
+            hoverFeedback: false,
+            opacity: 1,
+            features: {},
+            type: "port",
+            id: "port-type-4-1-2",
+            cssClasses: ["port"],
+            children: [
+              {
+                position: {
+                  x: 10,
+                  y: -2.5
+                },
+                size: {
+                  width: -1,
+                  height: -1
+                },
+                selected: false,
+                alignment: {
+                  x: 0,
+                  y: 0
+                },
+                opacity: 1,
+                features: {},
+                type: "label:port",
+                id: "label-port-type-4-1-2",
+                text: "p-2",
+                children: []
+              }
+            ]
+          },
+          {
+            position: {
+              x: -20,
+              y: 40
+            },
+            size: {
+              width: 20,
+              height: 20
+            },
+            strokeWidth: 0,
+            selected: false,
+            hoverFeedback: false,
+            opacity: 1,
+            features: {},
+            type: "port",
+            id: "port-type-4-1-3",
+            cssClasses: ["port"],
+            children: [
+              {
+                position: {
+                  x: 10,
+                  y: -2.5
+                },
+                size: {
+                  width: -1,
+                  height: -1
+                },
+                selected: false,
+                alignment: {
+                  x: 0,
+                  y: 0
+                },
+                opacity: 1,
+                features: {},
+                type: "label:port",
+                id: "label-port-type-4-1-3",
+                text: "p-3",
+                children: []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        position: {
+          x: 817,
+          y: 32
+        },
+        size: {
+          width: 100,
+          height: 100
+        },
+        strokeWidth: 0,
+        selected: false,
+        hoverFeedback: false,
+        opacity: 1,
+        features: {},
+        type: "node",
+        id: "node-type-3-1",
+        cssClasses: ["node"],
+        children: [
+          {
+            position: {
+              x: 50,
+              y: 50
+            },
+            size: {
+              width: -1,
+              height: -1
+            },
+            selected: false,
+            alignment: {
+              x: 0,
+              y: 0
+            },
+            opacity: 1,
+            features: {},
+            type: "label:node",
+            id: "label-node-type-3-1",
+            text: "node-type-3-1",
+            children: []
+          },
+          {
+            position: {
+              x: 40,
+              y: 100
+            },
+            size: {
+              width: 20,
+              height: 20
+            },
+            strokeWidth: 0,
+            selected: false,
+            hoverFeedback: false,
+            opacity: 1,
+            features: {},
+            type: "port",
+            id: "port-type-3-1-2",
+            cssClasses: ["port"],
+            children: [
+              {
+                position: {
+                  x: 10,
+                  y: -2.5
+                },
+                size: {
+                  width: -1,
+                  height: -1
+                },
+                selected: false,
+                alignment: {
+                  x: 0,
+                  y: 0
+                },
+                opacity: 1,
+                features: {},
+                type: "label:port",
+                id: "label-port-type-3-1-2",
+                text: "p-2",
+                children: []
+              }
+            ]
+          },
+          {
+            position: {
+              x: -20,
+              y: 40
+            },
+            size: {
+              width: 20,
+              height: 20
+            },
+            strokeWidth: 0,
+            selected: false,
+            hoverFeedback: false,
+            opacity: 1,
+            features: {},
+            type: "port",
+            id: "port-type-3-1-3",
+            cssClasses: ["port"],
+            children: [
+              {
+                position: {
+                  x: 10,
+                  y: -2.5
+                },
+                size: {
+                  width: -1,
+                  height: -1
+                },
+                selected: false,
+                alignment: {
+                  x: 0,
+                  y: 0
+                },
+                opacity: 1,
+                features: {},
+                type: "label:port",
+                id: "label-port-type-3-1-3",
+                text: "p-3",
+                children: []
+              }
+            ]
+          },
+          {
+            position: {
+              x: 100,
+              y: 40
+            },
+            size: {
+              width: 20,
+              height: 20
+            },
+            strokeWidth: 0,
+            selected: false,
+            hoverFeedback: false,
+            opacity: 1,
+            features: {},
+            type: "port",
+            id: "port-type-3-1-1",
+            cssClasses: ["port"],
+            children: [
+              {
+                position: {
+                  x: 10,
+                  y: -2.5
+                },
+                size: {
+                  width: -1,
+                  height: -1
+                },
+                selected: false,
+                alignment: {
+                  x: 0,
+                  y: 0
+                },
+                opacity: 1,
+                features: {},
+                type: "label:port",
+                id: "label-port-type-3-1-1",
+                text: "p-1",
+                children: []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        routingPoints: [],
+        selected: false,
+        hoverFeedback: false,
+        opacity: 1,
+        features: {},
+        type: "edge",
+        id: "edge-4",
+        sourceId: "port-type-2-1-2",
+        targetId: "port-type-3-1-2",
+        cssClasses: ["dummy-edge"],
+        routerKind: "manhattan",
+        children: [
+          {
+            position: {
+              x: 0,
+              y: 0
+            },
+            size: {
+              width: -1,
+              height: -1
+            },
+            selected: false,
+            alignment: {
+              x: 0,
+              y: 0
+            },
+            opacity: 1,
+            features: {},
+            type: "label:edge",
+            id: "label-edge-4",
+            text: "label-edge-4",
+            edgePlacement: {
+              position: 0.5,
+              side: "on",
+              rotate: false
+            },
+            children: []
+          }
+        ]
+      },
+      {
+        routingPoints: [],
+        selected: false,
+        hoverFeedback: false,
+        opacity: 1,
+        features: {},
+        type: "edge",
+        id: "edge-2",
+        sourceId: "port-type-4-1-4",
+        targetId: "port-type-3-1-3",
+        cssClasses: ["dummy-edge"],
+        routerKind: "manhattan",
+        children: [
+          {
+            position: {
+              x: 0,
+              y: 0
+            },
+            size: {
+              width: -1,
+              height: -1
+            },
+            selected: false,
+            alignment: {
+              x: 0,
+              y: 0
+            },
+            opacity: 1,
+            features: {},
+            type: "label:edge",
+            id: "label-edge-2",
+            text: "label-edge-2",
+            edgePlacement: {
+              position: 0.5,
+              side: "on",
+              rotate: false
+            },
+            children: []
+          }
+        ]
+      },
+      {
+        routingPoints: [],
+        selected: false,
+        hoverFeedback: false,
+        opacity: 1,
+        features: {},
+        type: "edge",
+        id: "edge-3",
+        sourceId: "port-type-2-1-1",
+        targetId: "port-type-3-1-1",
+        cssClasses: ["dummy-edge"],
+        routerKind: "manhattan",
+        children: [
+          {
+            position: {
+              x: 0,
+              y: 0
+            },
+            size: {
+              width: -1,
+              height: -1
+            },
+            selected: false,
+            alignment: {
+              x: 0,
+              y: 0
+            },
+            opacity: 1,
+            features: {},
+            type: "label:edge",
+            id: "label-edge-3",
+            text: "label-edge-3",
+            edgePlacement: {
+              position: 0.5,
+              side: "on",
+              rotate: false
+            },
+            children: []
+          }
+        ]
+      },
+      {
+        position: {
+          x: 1157,
+          y: 32
+        },
+        size: {
+          width: 100,
+          height: 100
+        },
+        strokeWidth: 0,
+        selected: false,
+        hoverFeedback: false,
+        opacity: 1,
+        features: {},
+        type: "node",
+        id: "node-type-3-2",
+        cssClasses: ["node"],
+        children: [
+          {
+            position: {
+              x: 50,
+              y: 50
+            },
+            size: {
+              width: -1,
+              height: -1
+            },
+            selected: false,
+            alignment: {
+              x: 0,
+              y: 0
+            },
+            opacity: 1,
+            features: {},
+            type: "label:node",
+            id: "label-node-type-3-2",
+            text: "node-type-3-2",
+            children: []
+          },
+          {
+            position: {
+              x: 100,
+              y: 40
+            },
+            size: {
+              width: 20,
+              height: 20
+            },
+            strokeWidth: 0,
+            selected: false,
+            hoverFeedback: false,
+            opacity: 1,
+            features: {},
+            type: "port",
+            id: "port-type-3-2-1",
+            cssClasses: ["port"],
+            children: [
+              {
+                position: {
+                  x: 10,
+                  y: -2.5
+                },
+                size: {
+                  width: -1,
+                  height: -1
+                },
+                selected: false,
+                alignment: {
+                  x: 0,
+                  y: 0
+                },
+                opacity: 1,
+                features: {},
+                type: "label:port",
+                id: "label-port-type-3-2-1",
+                text: "p-1",
+                children: []
+              }
+            ]
+          },
+          {
+            position: {
+              x: 40,
+              y: 100
+            },
+            size: {
+              width: 20,
+              height: 20
+            },
+            strokeWidth: 0,
+            selected: false,
+            hoverFeedback: false,
+            opacity: 1,
+            features: {},
+            type: "port",
+            id: "port-type-3-2-2",
+            cssClasses: ["port"],
+            children: [
+              {
+                position: {
+                  x: 10,
+                  y: -2.5
+                },
+                size: {
+                  width: -1,
+                  height: -1
+                },
+                selected: false,
+                alignment: {
+                  x: 0,
+                  y: 0
+                },
+                opacity: 1,
+                features: {},
+                type: "label:port",
+                id: "label-port-type-3-2-2",
+                text: "p-2",
+                children: []
+              }
+            ]
+          },
+          {
+            position: {
+              x: -20,
+              y: 40
+            },
+            size: {
+              width: 20,
+              height: 20
+            },
+            strokeWidth: 0,
+            selected: false,
+            hoverFeedback: false,
+            opacity: 1,
+            features: {},
+            type: "port",
+            id: "port-type-3-2-3",
+            cssClasses: ["port"],
+            children: [
+              {
+                position: {
+                  x: 10,
+                  y: -2.5
+                },
+                size: {
+                  width: -1,
+                  height: -1
+                },
+                selected: false,
+                alignment: {
+                  x: 0,
+                  y: 0
+                },
+                opacity: 1,
+                features: {},
+                type: "label:port",
+                id: "label-port-type-3-2-3",
+                text: "p-3",
+                children: []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        position: {
+          x: 912,
+          y: 355
+        },
+        size: {
+          width: 100,
+          height: 100
+        },
+        strokeWidth: 0,
+        selected: false,
+        hoverFeedback: false,
+        opacity: 1,
+        features: {},
+        type: "node",
+        id: "node-type-4-2",
+        cssClasses: ["node"],
+        children: [
+          {
+            position: {
+              x: 50,
+              y: 50
+            },
+            size: {
+              width: -1,
+              height: -1
+            },
+            selected: false,
+            alignment: {
+              x: 0,
+              y: 0
+            },
+            opacity: 1,
+            features: {},
+            type: "label:node",
+            id: "label-node-type-4-2",
+            text: "node-type-4-2",
+            children: []
+          },
+          {
+            position: {
+              x: -20,
+              y: 40
+            },
+            size: {
+              width: 20,
+              height: 20
+            },
+            strokeWidth: 0,
+            selected: false,
+            hoverFeedback: false,
+            opacity: 1,
+            features: {},
+            type: "port",
+            id: "port-type-4-2-3",
+            cssClasses: ["port"],
+            children: [
+              {
+                position: {
+                  x: 10,
+                  y: -2.5
+                },
+                size: {
+                  width: -1,
+                  height: -1
+                },
+                selected: false,
+                alignment: {
+                  x: 0,
+                  y: 0
+                },
+                opacity: 1,
+                features: {},
+                type: "label:port",
+                id: "label-port-type-4-2-3",
+                text: "p-3",
+                children: []
+              }
+            ]
+          },
+          {
+            position: {
+              x: 40,
+              y: -20
+            },
+            size: {
+              width: 20,
+              height: 20
+            },
+            strokeWidth: 0,
+            selected: false,
+            hoverFeedback: false,
+            opacity: 1,
+            features: {},
+            type: "port",
+            id: "port-type-4-2-4",
+            cssClasses: ["port"],
+            children: [
+              {
+                position: {
+                  x: 10,
+                  y: -2.5
+                },
+                size: {
+                  width: -1,
+                  height: -1
+                },
+                selected: false,
+                alignment: {
+                  x: 0,
+                  y: 0
+                },
+                opacity: 1,
+                features: {},
+                type: "label:port",
+                id: "label-port-type-4-2-4",
+                text: "p-4",
+                children: []
+              }
+            ]
+          },
+          {
+            position: {
+              x: 100,
+              y: 40
+            },
+            size: {
+              width: 20,
+              height: 20
+            },
+            strokeWidth: 0,
+            selected: false,
+            hoverFeedback: false,
+            opacity: 1,
+            features: {},
+            type: "port",
+            id: "port-type-4-2-1",
+            cssClasses: ["port"],
+            children: [
+              {
+                position: {
+                  x: 10,
+                  y: -2.5
+                },
+                size: {
+                  width: -1,
+                  height: -1
+                },
+                selected: false,
+                alignment: {
+                  x: 0,
+                  y: 0
+                },
+                opacity: 1,
+                features: {},
+                type: "label:port",
+                id: "label-port-type-4-2-1",
+                text: "p-1",
+                children: []
+              }
+            ]
+          },
+          {
+            position: {
+              x: 40,
+              y: 100
+            },
+            size: {
+              width: 20,
+              height: 20
+            },
+            strokeWidth: 0,
+            selected: false,
+            hoverFeedback: false,
+            opacity: 1,
+            features: {},
+            type: "port",
+            id: "port-type-4-2-2",
+            cssClasses: ["port"],
+            children: [
+              {
+                position: {
+                  x: 10,
+                  y: -2.5
+                },
+                size: {
+                  width: -1,
+                  height: -1
+                },
+                selected: false,
+                alignment: {
+                  x: 0,
+                  y: 0
+                },
+                opacity: 1,
+                features: {},
+                type: "label:port",
+                id: "label-port-type-4-2-2",
+                text: "p-2",
+                children: []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        routingPoints: [],
+        selected: false,
+        hoverFeedback: false,
+        opacity: 1,
+        features: {},
+        type: "edge",
+        id: "edge-5",
+        sourceId: "port-type-3-1-1",
+        targetId: "port-type-4-2-4",
+        cssClasses: ["dummy-edge"],
+        routerKind: "manhattan",
+        children: [
+          {
+            position: {
+              x: 0,
+              y: 0
+            },
+            size: {
+              width: -1,
+              height: -1
+            },
+            selected: false,
+            alignment: {
+              x: 0,
+              y: 0
+            },
+            opacity: 1,
+            features: {},
+            type: "label:edge",
+            id: "label-edge-5",
+            text: "label-edge-5",
+            edgePlacement: {
+              position: 0.5,
+              side: "on",
+              rotate: false
+            },
+            children: []
+          }
+        ]
+      },
+      {
+        routingPoints: [],
+        selected: false,
+        hoverFeedback: false,
+        opacity: 1,
+        features: {},
+        type: "edge",
+        id: "edge-6",
+        sourceId: "port-type-4-2-1",
+        targetId: "port-type-3-2-1",
+        cssClasses: ["dummy-edge"],
+        routerKind: "manhattan",
+        children: [
+          {
+            position: {
+              x: 0,
+              y: 0
+            },
+            size: {
+              width: -1,
+              height: -1
+            },
+            selected: false,
+            alignment: {
+              x: 0,
+              y: 0
+            },
+            opacity: 1,
+            features: {},
+            type: "label:edge",
+            id: "label-edge-6",
+            text: "label-edge-6",
+            edgePlacement: {
+              position: 0.5,
+              side: "on",
+              rotate: false
+            },
+            children: []
+          }
+        ]
+      },
+      {
+        routingPoints: [],
+        selected: false,
+        hoverFeedback: false,
+        opacity: 1,
+        features: {},
+        type: "edge",
+        id: "edge-7",
+        sourceId: "port-type-4-2-2",
+        targetId: "port-type-3-2-3",
+        cssClasses: ["dummy-edge"],
+        routerKind: "manhattan",
+        children: [
+          {
+            position: {
+              x: 0,
+              y: 0
+            },
+            size: {
+              width: -1,
+              height: -1
+            },
+            selected: false,
+            alignment: {
+              x: 0,
+              y: 0
+            },
+            opacity: 1,
+            features: {},
+            type: "label:edge",
+            id: "label-edge-7",
+            text: "label-edge-7",
+            edgePlacement: {
+              position: 0.5,
+              side: "on",
+              rotate: false
+            },
+            children: []
+          }
+        ]
+      },
+      {
+        position: {
+          x: 682,
+          y: 382
+        },
+        size: {
+          width: 100,
+          height: 100
+        },
+        strokeWidth: 0,
+        selected: false,
+        hoverFeedback: false,
+        opacity: 1,
+        features: {},
+        type: "node",
+        id: "node-type-1-1",
+        cssClasses: ["node"],
+        children: [
+          {
+            position: {
+              x: 50,
+              y: 50
+            },
+            size: {
+              width: -1,
+              height: -1
+            },
+            selected: false,
+            alignment: {
+              x: 0,
+              y: 0
+            },
+            opacity: 1,
+            features: {},
+            type: "label:node",
+            id: "label-node-type-1-1",
+            text: "node-type-1-1",
+            children: []
+          },
+          {
+            position: {
+              x: 100,
+              y: 40
+            },
+            size: {
+              width: 20,
+              height: 20
+            },
+            strokeWidth: 0,
+            selected: false,
+            hoverFeedback: false,
+            opacity: 1,
+            features: {},
+            type: "port",
+            id: "port-type-1-1-1",
+            cssClasses: ["port"],
+            children: [
+              {
+                position: {
+                  x: 10,
+                  y: -2.5
+                },
+                size: {
+                  width: -1,
+                  height: -1
+                },
+                selected: false,
+                alignment: {
+                  x: 0,
+                  y: 0
+                },
+                opacity: 1,
+                features: {},
+                type: "label:port",
+                id: "label-port-type-1-1-1",
+                text: "p-1",
+                children: []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        routingPoints: [],
+        selected: false,
+        hoverFeedback: false,
+        opacity: 1,
+        features: {},
+        type: "edge",
+        id: "edge-1",
+        sourceId: "port-type-4-1-1",
+        targetId: "port-type-1-1-1",
+        cssClasses: ["dummy-edge"],
+        routerKind: "manhattan",
+        children: [
+          {
+            position: {
+              x: 0,
+              y: 0
+            },
+            size: {
+              width: -1,
+              height: -1
+            },
+            selected: false,
+            alignment: {
+              x: 0,
+              y: 0
+            },
+            opacity: 1,
+            features: {},
+            type: "label:edge",
+            id: "label-edge-1",
+            text: "label-edge-1",
+            edgePlacement: {
+              position: 0.5,
+              side: "on",
+              rotate: false
+            },
+            children: []
+          }
+        ]
+      },
+      {
+        routingPoints: [],
+        selected: false,
+        hoverFeedback: false,
+        opacity: 1,
+        features: {},
+        type: "edge",
+        id: "edge-8",
+        sourceId: "port-type-1-1-1",
+        targetId: "port-type-4-2-3",
+        cssClasses: ["dummy-edge"],
+        routerKind: "manhattan",
+        children: [
+          {
+            position: {
+              x: 0,
+              y: 0
+            },
+            size: {
+              width: -1,
+              height: -1
+            },
+            selected: false,
+            alignment: {
+              x: 0,
+              y: 0
+            },
+            opacity: 1,
+            features: {},
+            type: "label:edge",
+            id: "label-edge-8",
+            text: "label-edge-8",
+            edgePlacement: {
+              position: 0.5,
+              side: "on",
+              rotate: false
+            },
+            children: []
+          }
+        ]
+      },
+      {
+        routingPoints: [],
+        selected: false,
+        hoverFeedback: false,
+        opacity: 1,
+        features: {},
+        type: "edge",
+        id: "edge-9",
+        sourceId: "port-type-4-1-2",
+        targetId: "port-type-3-2-2",
+        cssClasses: ["dummy-edge"],
+        routerKind: "manhattan",
+        children: [
+          {
+            position: {
+              x: 0,
+              y: 0
+            },
+            size: {
+              width: -1,
+              height: -1
+            },
+            selected: false,
+            alignment: {
+              x: 0,
+              y: 0
+            },
+            opacity: 1,
+            features: {},
+            type: "label:edge",
+            id: "label-edge-9",
+            text: "label-edge-9",
+            edgePlacement: {
+              position: 0.5,
+              side: "on",
+              rotate: false
+            },
+            children: []
+          }
+        ]
+      },
+      {
+        routingPoints: [],
+        selected: false,
+        hoverFeedback: false,
+        opacity: 1,
+        features: {},
+        type: "edge",
+        id: "edge-10",
+        sourceId: "port-type-4-1-3",
+        targetId: "port-type-2-1-2",
+        cssClasses: ["dummy-edge"],
+        routerKind: "manhattan",
+        children: [
+          {
+            position: {
+              x: 0,
+              y: 0
+            },
+            size: {
+              width: -1,
+              height: -1
+            },
+            selected: false,
+            alignment: {
+              x: 0,
+              y: 0
+            },
+            opacity: 1,
+            features: {},
+            type: "label:edge",
+            id: "label-edge-10",
+            text: "label-edge-10",
+            edgePlacement: {
+              position: 0.5,
+              side: "on",
+              rotate: false
+            },
+            children: []
+          }
+        ]
+      }
+    ]
+  };
   var addNode1Btn = null;
   var addNode2Btn = null;
   var addNode3Btn = null;
@@ -23490,15 +26194,11 @@
   var dummyNodeBtn = null;
   var showJsonBtn = null;
   var exportJsonBtn = null;
-  var node1Number = 1;
-  var node2Number = 1;
-  var node3Number = 1;
-  var node4Number = 1;
-  var label1Number = 1;
-  var label2Number = 1;
-  var label3Number = 1;
-  var label4Number = 1;
-  var edgeNumber = 1;
+  var node1Number = checkIdElement(jsonGraph2).countIdNodeType1 || 1;
+  var node2Number = checkIdElement(jsonGraph2).countIdNodeType2 || 1;
+  var node3Number = checkIdElement(jsonGraph2).countIdNodeType3 || 1;
+  var node4Number = checkIdElement(jsonGraph2).countIdNodeType4 || 1;
+  var edgeNumber = checkIdElement(jsonGraph2).countIdEdge || 1;
   var edgeArr = [];
   var dummyNodeArray = [];
   var dummyEdgeId = null;
@@ -23703,7 +26403,6 @@
       addNode({
         source: modelSource,
         nodeId: `dummy-${node1Number}`,
-        labelId: "dummy",
         nodeWidth: 5,
         nodeHeight: 5,
         portWidth: 2,
@@ -23736,7 +26435,6 @@
                 addNode({
                   source: modelSource,
                   nodeId: "dummy",
-                  labelId: "dummy",
                   nodeWidth: defaultDummyWidth,
                   nodeHeight: defaultDummyHeight,
                   portWidth: 2,
@@ -23775,7 +26473,6 @@
       addNode({
         source: modelSource,
         nodeId: `type-1-${node1Number}`,
-        labelId: label1Number,
         nodeWidth: defaultNodeWidth,
         nodeHeight: defaultNodeHeight,
         portWidth: defaultPortWidth,
@@ -23783,14 +26480,12 @@
         portQuantity: 1
       });
       node1Number++;
-      label1Number++;
       drawLogic();
     });
     addNode2Btn.addEventListener("click", () => {
       addNode({
         source: modelSource,
         nodeId: `type-2-${node2Number}`,
-        labelId: label2Number,
         nodeWidth: defaultNodeWidth,
         nodeHeight: defaultNodeHeight,
         portWidth: defaultPortWidth,
@@ -23798,14 +26493,12 @@
         portQuantity: 2
       });
       node2Number++;
-      label2Number++;
       drawLogic();
     });
     addNode3Btn.addEventListener("click", () => {
       addNode({
         source: modelSource,
         nodeId: `type-3-${node3Number}`,
-        labelId: label3Number,
         nodeWidth: defaultNodeWidth,
         nodeHeight: defaultNodeHeight,
         portWidth: defaultPortWidth,
@@ -23813,14 +26506,12 @@
         portQuantity: 3
       });
       node3Number++;
-      label3Number++;
       drawLogic();
     });
     addNode4Btn.addEventListener("click", () => {
       addNode({
         source: modelSource,
         nodeId: `type-4-${node4Number}`,
-        labelId: label4Number,
         nodeWidth: defaultNodeWidth,
         nodeHeight: defaultNodeHeight,
         portWidth: defaultPortWidth,
@@ -23828,7 +26519,6 @@
         portQuantity: 4
       });
       node4Number++;
-      label4Number++;
       drawLogic();
     });
     drawEdgeBtn.addEventListener("click", () => {
