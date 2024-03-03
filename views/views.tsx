@@ -2,7 +2,7 @@
 import { svg } from "sprotty/lib/lib/jsx";
 import { injectable } from "inversify";
 import { VNode } from "snabbdom";
-import { IView, RenderingContext, SEdgeImpl, PolylineEdgeView } from "sprotty";
+import { IView, RenderingContext, SEdgeImpl, PolylineEdgeView,RectangularNodeView,SNodeImpl,IViewArgs } from "sprotty";
 
 import { Point, toDegrees } from "sprotty-protocol";
 
@@ -52,6 +52,23 @@ export class TaskNodeView implements IView {
       </g>
     );
   }
+}
+
+@injectable()
+export class NodeView extends RectangularNodeView {
+    override render(node: Readonly<SNodeImpl>, context: RenderingContext, args?: IViewArgs): VNode | undefined {
+        if (!this.isVisible(node, context)) {
+            return undefined;
+        }
+        return <g>
+            <rect class-sprotty-node={true}
+                  class-node-package={node.type === 'node:package'}
+                  class-node-class={node.type === 'node:class'}
+                  class-mouseover={node.hoverFeedback} class-selected={node.selected}
+                  x='0' y='0' width={Math.max(node.size.width, 0)} height={Math.max(node.size.height, 0)}></rect>
+            {context.renderChildren(node)}
+        </g>;
+    }
 }
 
 

@@ -12,6 +12,9 @@
 
 <body>
   <div class="control p-2">
+    <button id="add-parent-node" class="btn btn-primary btn-sm">
+      Add Parent Node
+    </button>
     <button id="add-node-1" class="btn btn-primary btn-sm">Add Node 1</button>
     <button id="add-node-2" class="btn btn-primary btn-sm">Add Node 2</button>
     <button id="add-node-3" class="btn btn-primary btn-sm">Add Node 3</button>
@@ -20,19 +23,21 @@
     <button id="show-json" class="btn btn-primary btn-sm">Show JSON</button>
     <button id="delete" class="btn btn-danger btn-sm">Delete</button>
     <button id="draw-edge" class="btn btn-info btn-sm hide">Draw Edge</button>
-    <button id="cancel-draw-edge" class="btn btn-danger btn-sm hide">Cancel</button>
-    <button id="add-dummy-node" class="btn btn-primary btn-sm hide">Add Dummy Node</button>
-    
+    <button id="cancel-draw-edge" class="btn btn-danger btn-sm hide">
+      Cancel
+    </button>
+    <button id="add-dummy-node" class="btn btn-primary btn-sm hide">
+      Add Dummy Node
+    </button>
 
-    <div draggable="true" style="height: 70px; width: 70px;" class="hide">
-      <svg style="height: inherit; width:inherit">
-          <g transform="translate(2, 2)">
-              <circle class="sprotty-node" r="30" cx="30" cy="30"></circle>
-              <text x="30" y="37" class="sprotty-text">drag</text>
-          </g>
+    <div draggable="true" style="height: 70px; width: 70px" class="hide">
+      <svg style="height: inherit; width: inherit">
+        <g transform="translate(2, 2)">
+          <circle class="sprotty-node" r="30" cx="30" cy="30"></circle>
+          <text x="30" y="37" class="sprotty-text">drag</text>
+        </g>
       </svg>
-  </div>
-
+    </div>
   </div>
   <div class="tip-container hide">
     <!-- <div class="draw-tip">

@@ -3,7 +3,6 @@ import { SNode, SLabel, SPort } from "sprotty-protocol";
 type IProps = {
   source: any;
   nodeId: string;
-
   portQuantity: number;
   nodeWidth: number;
   nodeHeight: number;
@@ -13,12 +12,12 @@ type IProps = {
   name?: string;
   x?: number;
   y?: number;
+  type: string;
 };
 
 export default function addNode({
   source,
   nodeId,
-
   portQuantity,
   nodeWidth,
   nodeHeight,
@@ -28,6 +27,7 @@ export default function addNode({
   name = `node-${nodeId}`,
   x = Math.floor(Math.random() * 500),
   y = Math.floor(Math.random() * 500),
+  type ,
 }: IProps) {
   const positionLabel = [
     {
@@ -52,7 +52,7 @@ export default function addNode({
     {
       parentId: "graph",
       element: <SNode>{
-        type: "node",
+        type,
         id: `node-${nodeId}`,
         cssClasses,
         position: { x, y },

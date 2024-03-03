@@ -160,3 +160,8 @@ svg {
   font-size: 10px;
   font-weight: bold;
 }
+
+.node-package {
+  fill: #d0c8c0;
+  stroke: #541;
+}

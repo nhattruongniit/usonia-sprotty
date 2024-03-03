@@ -6,7 +6,6 @@ import {
   loadDefaultModules,
   LocalModelSource,
   PolylineEdgeView,
-
   RectangularNodeView,
   SBezierControlHandleView,
   SBezierCreateHandleView,
@@ -20,11 +19,12 @@ import {
   SRoutingHandleImpl,
   SRoutingHandleView,
   TYPES,
+  RectangularNode,
 } from "sprotty";
 
 import { PortViewWithExternalLabel } from "./views/PortViewWithExternalLabel";
 import { CustomMouseListener } from "./index";
-import { EdgeWithArrow } from "./views/views";
+import { EdgeWithArrow, NodeView } from "./views/views";
 
 export const createContainer = (containerId: string) => {
   const myModule = new ContainerModule((bind, unbind, isBound, rebind) => {
@@ -36,6 +36,7 @@ export const createContainer = (containerId: string) => {
 
     const context = { bind, unbind, isBound, rebind };
     configureModelElement(context, "graph", SGraphImpl, SGraphView);
+    configureModelElement(context, "node:package", RectangularNode, NodeView);
     configureModelElement(
       context,
       "port",
