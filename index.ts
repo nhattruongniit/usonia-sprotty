@@ -18,8 +18,6 @@ import addNode from "./util/addNode";
 import drawEdge from "./util/drawEdge";
 import checkIdElement from "./util/checkIdElement";
 
-let jsonGraph = null;
-//  jsonGraph = {
 //   canvasBounds: {
 //     x: 7.986111640930176,
 //     y: 55.156253814697266,
@@ -1415,30 +1413,30 @@ let exportJsonBtn = null;
 // count of nodes
 
 let nodeParentNumber =
-  checkIdElement(jsonGraph).countIdNodeParent !== null
-    ? checkIdElement(jsonGraph).countIdNodeParent
+  checkIdElement(graph).countIdNodeParent !== null
+    ? checkIdElement(graph).countIdNodeParent
     : 1;
 let node1Number =
-  checkIdElement(jsonGraph).countIdNodeType1 !== null
-    ? checkIdElement(jsonGraph).countIdNodeType1
+  checkIdElement(graph).countIdNodeType1 !== null
+    ? checkIdElement(graph).countIdNodeType1
     : 1;
 let node2Number =
-  checkIdElement(jsonGraph).countIdNodeType2 !== null
-    ? checkIdElement(jsonGraph).countIdNodeType2
+  checkIdElement(graph).countIdNodeType2 !== null
+    ? checkIdElement(graph).countIdNodeType2
     : 1;
 let node3Number =
-  checkIdElement(jsonGraph).countIdNodeType3 !== null
-    ? checkIdElement(jsonGraph).countIdNodeType3
+  checkIdElement(graph).countIdNodeType3 !== null
+    ? checkIdElement(graph).countIdNodeType3
     : 1;
 let node4Number =
-  checkIdElement(jsonGraph).countIdNodeType4 !== null
-    ? checkIdElement(jsonGraph).countIdNodeType4
+  checkIdElement(graph).countIdNodeType4 !== null
+    ? checkIdElement(graph).countIdNodeType4
     : 1;
 
 // count of edges
 let edgeNumber =
-  checkIdElement(jsonGraph).countIdEdge !== null
-    ? checkIdElement(jsonGraph).countIdEdge
+  checkIdElement(graph).countIdEdge !== null
+    ? checkIdElement(graph).countIdEdge
     : 1;
 
 // dummy

@@ -1,23 +1,23 @@
 const jsonGraph = {
-  canvasBounds: {
-    x: 7.986111640930176,
-    y: 55.156253814697266,
-    width: 1501.8056640625,
-    height: 569.7743530273438,
-  },
-  scroll: {
-    x: -1,
-    y: 0,
-  },
-  zoom: 1,
-  position: {
-    x: 0,
-    y: 0,
-  },
-  size: {
-    width: -1,
-    height: -1,
-  },
+  // canvasBounds: {
+  //   x: 7.986111640930176,
+  //   y: 55.156253814697266,
+  //   width: 1501.8056640625,
+  //   height: 569.7743530273438,
+  // },
+  // scroll: {
+  //   x: -1,
+  //   y: 0,
+  // },
+  // zoom: 1,
+  // position: {
+  //   x: 0,
+  //   y: 0,
+  // },
+  // size: {
+  //   width: -1,
+  //   height: -1,
+  // },
 
   type: "graph",
   id: "graph",
@@ -1378,9 +1378,9 @@ const jsonGraph = {
   ],
 };
 
-// export const graph: any = jsonGraph;
-export const graph: any = {
-  type: "graph",
-  id: "graph",
-  children: [],
-};
+export const graph: any = jsonGraph;
+// export const graph: any = {
+//   type: "graph",
+//   id: "graph",
+//   children: [],
+// };
