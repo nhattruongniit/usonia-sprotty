@@ -1469,24 +1469,6 @@ let targetId = null;
 //
 export class CustomMouseListener extends MouseListener {
   mouseUp(target: any, event: MouseEvent): (Action | Promise<Action>)[] {
-    // code connect by dummy edge
-    // if (target instanceof SRoutingHandleImpl) {
-    //   const targetParentEl = target.parent as SEdgeImpl;
-
-    //   if (!targetParentEl.targetId.includes("dummy")) {
-    //     setTimeout(() => {
-    //       document.getElementById("cancel-draw-edge").click();
-    //       const indexEdge = edgeArr.findIndex((edge) => {
-    //         return edge.id === targetParentEl.id;
-    //       });
-    //       if (indexEdge !== -1) {
-    //         edgeArr[indexEdge].sourceId = targetParentEl.sourceId;
-    //         edgeArr[indexEdge].targetId = targetParentEl.targetId;
-    //       }
-    //     }, 100);
-    //   }
-    // }
-
     // code connect by dummy node
     let isDrawable = false;
     if (target.id === "node-dummy") {
@@ -1596,17 +1578,32 @@ export class CustomMouseListener extends MouseListener {
     }
     return [];
   }
-
-  override drop(
-    target: SModelElementImpl,
-    event: MouseEvent
-  ): (Action | Promise<Action>)[] {
-    const customEvent = new CustomEvent("addDummyNode", {
-      detail: { x: event.offsetX, y: event.offsetY },
-    });
-    document.getElementById("add-dummy-node").dispatchEvent(customEvent);
-    return [];
+  mouseOver(target: SModelElementImpl, event: MouseEvent): (Action | Promise<Action>)[] {
+    if (dummyMode) {
+      if (target.type === "port") {
+        target.cssClasses.push('ready-draw')
+      }
+    }
+    return []
   }
+  mouseDown(target: SModelElementImpl, event: MouseEvent): (Action | Promise<Action>)[] {
+    // this.mouseOver
+    if (target.id === "node-dummy") {
+      console.log("click")
+    }
+    return []
+  }
+
+  // override drop(
+  //   target: SModelElementImpl,
+  //   event: MouseEvent
+  // ): (Action | Promise<Action>)[] {
+  //   const customEvent = new CustomEvent("addDummyNode", {
+  //     detail: { x: event.offsetX, y: event.offsetY },
+  //   });
+  //   document.getElementById("add-dummy-node").dispatchEvent(customEvent);
+  //   return [];
+  // }
 }
 
 const container = createContainer("sprotty-container");
@@ -1834,20 +1831,20 @@ export default function run() {
             const portTranslateAttribute = port.getAttribute("transform");
             const portCoordinate = portTranslateAttribute
               ? portTranslateAttribute
-                  .replace("translate(", "")
-                  .replace(")", "")
-                  .trim()
-                  .split(",")
+                .replace("translate(", "")
+                .replace(")", "")
+                .trim()
+                .split(",")
               : [0, 0];
 
             const transformAttribute =
               port.parentElement.getAttribute("transform");
             const coordinate = transformAttribute
               ? transformAttribute
-                  .replace("translate(", "")
-                  .replace(")", "")
-                  .trim()
-                  .split(",")
+                .replace("translate(", "")
+                .replace(")", "")
+                .trim()
+                .split(",")
               : [0, 0];
 
             // add dummy node
