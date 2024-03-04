@@ -17,6 +17,8 @@ import { graph } from "./model-source";
 import addNode from "./util/addNode";
 import drawEdge from "./util/drawEdge";
 import checkIdElement from "./util/checkIdElement";
+import randomText from "./util/randomText";
+import getGrahpJson from './util/getGraphJson';
 
 //   canvasBounds: {
 //     x: 7.986111640930176,
@@ -1543,22 +1545,22 @@ export class CustomMouseListener extends MouseListener {
           portCompareX = portCoordinate.nodeX + portCoordinate.x;
           portCompareY =
             portCoordinate.nodeY + (defaultNodeHeight - defaultPortHeight) / 2;
-          console.log("x : " + portCompareX, "y : " + portCompareY, "type 1");
+          // console.log("x : " + portCompareX, "y : " + portCompareY, "type 1");
         } else if (portCoordinate.type === 2) {
           portCompareX =
             portCoordinate.nodeX + (defaultNodeWidth - defaultPortWidth) / 2;
           portCompareY = portCoordinate.nodeY + portCoordinate.y;
-          console.log("x : " + portCompareX, "y : " + portCompareY, "type 2");
+          // console.log("x : " + portCompareX, "y : " + portCompareY, "type 2");
         } else if (portCoordinate.type === 3) {
           portCompareX = portCoordinate.nodeX + portCoordinate.x;
           portCompareY =
             portCoordinate.nodeY + (defaultNodeHeight - defaultPortHeight) / 2;
-          console.log("x : " + portCompareX, "y : " + portCompareY, "type 3");
+          // console.log("x : " + portCompareX, "y : " + portCompareY, "type 3");
         } else if (portCoordinate.type === 4) {
           portCompareX =
             portCoordinate.nodeX + (defaultNodeWidth - defaultPortWidth) / 2;
           portCompareY = portCoordinate.nodeY + portCoordinate.y;
-          console.log("x : " + portCompareX, "y : " + portCompareY, "type 4");
+          // console.log("x : " + portCompareX, "y : " + portCompareY, "type 4");
         } else {
           return;
         }
@@ -1777,8 +1779,17 @@ export default function run() {
   });
 
   exportJsonBtn.addEventListener("click", () => {
-    // console.log(JSON.stringify(modelSource.model, null, 2));
-    console.log("exportJsonBtn: ", modelSource.model);
+    const name = randomText('graph');
+    const jsonFiltered = getGrahpJson(modelSource.model);
+    const blob = new Blob([jsonFiltered], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${name}.json`;
+    document.body.appendChild(a); // required for firefox
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
   });
 
   // for drag to create node

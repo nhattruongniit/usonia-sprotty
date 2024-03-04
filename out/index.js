@@ -24841,6 +24841,37 @@
     };
   }
 
+  // util/randomText.ts
+  function addZero(i) {
+    let str = i.toString();
+    if (i < 10) {
+      str = "0" + i;
+    }
+    return str;
+  }
+  function randomText(prefix = "default") {
+    const today = /* @__PURE__ */ new Date();
+    const day = today.getDate() < 10 ? `0${today.getDate()}` : today.getDate();
+    const month = today.getMonth() + 1 < 10 ? `0${today.getMonth() + 1}` : `${today.getMonth() + 1}`;
+    const date = /* @__PURE__ */ new Date();
+    const hour = addZero(date.getHours());
+    const minute = addZero(date.getMinutes());
+    const second = addZero(date.getSeconds());
+    const text = `${prefix}_${month}${day}${today.getFullYear()}_${hour}${minute}${second}`;
+    return text;
+  }
+
+  // util/getGraphJson.ts
+  function getGrahpJson(graph2) {
+    graph2 == null ? true : delete graph2.canvasBounds;
+    graph2 == null ? true : delete graph2.scroll;
+    graph2 == null ? true : delete graph2.zoom;
+    graph2 == null ? true : delete graph2.position;
+    graph2 == null ? true : delete graph2.size;
+    graph2 == null ? true : delete graph2.features;
+    return JSON.stringify(graph2, null, 2);
+  }
+
   // index.ts
   var addParentNode = null;
   var addNode1Btn = null;
@@ -24916,19 +24947,15 @@
           if (portCoordinate.type === 1) {
             portCompareX = portCoordinate.nodeX + portCoordinate.x;
             portCompareY = portCoordinate.nodeY + (defaultNodeHeight - defaultPortHeight) / 2;
-            console.log("x : " + portCompareX, "y : " + portCompareY, "type 1");
           } else if (portCoordinate.type === 2) {
             portCompareX = portCoordinate.nodeX + (defaultNodeWidth - defaultPortWidth) / 2;
             portCompareY = portCoordinate.nodeY + portCoordinate.y;
-            console.log("x : " + portCompareX, "y : " + portCompareY, "type 2");
           } else if (portCoordinate.type === 3) {
             portCompareX = portCoordinate.nodeX + portCoordinate.x;
             portCompareY = portCoordinate.nodeY + (defaultNodeHeight - defaultPortHeight) / 2;
-            console.log("x : " + portCompareX, "y : " + portCompareY, "type 3");
           } else if (portCoordinate.type === 4) {
             portCompareX = portCoordinate.nodeX + (defaultNodeWidth - defaultPortWidth) / 2;
             portCompareY = portCoordinate.nodeY + portCoordinate.y;
-            console.log("x : " + portCompareX, "y : " + portCompareY, "type 4");
           } else {
             return;
           }
@@ -25056,7 +25083,17 @@
       console.log(JSON.stringify(modelSource.model, null, 2));
     });
     exportJsonBtn.addEventListener("click", () => {
-      console.log("exportJsonBtn: ", modelSource.model);
+      const name = randomText("graph");
+      const jsonFiltered = getGrahpJson(modelSource.model);
+      const blob = new Blob([jsonFiltered], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${name}.json`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
     });
     cancelDrawEdgeBtn.addEventListener("click", () => {
       cancelDrawEdge();
