@@ -1378,9 +1378,9 @@ const jsonGraph = {
   ],
 };
 
-export const graph: any = jsonGraph;
-// export const graph: any = {
-//   type: "graph",
-//   id: "graph",
-//   children: [],
-// };
+// export const graph: any = jsonGraph;
+export const graph: any = {
+  type: "graph",
+  id: "graph",
+  children: [],
+};

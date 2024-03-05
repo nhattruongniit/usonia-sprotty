@@ -18,7 +18,7 @@ import addNode from "./util/addNode";
 import drawEdge from "./util/drawEdge";
 import checkIdElement from "./util/checkIdElement";
 import randomText from "./util/randomText";
-import getGrahpJson from './util/getGraphJson';
+import getGrahpJson from "./util/getGraphJson";
 
 //   canvasBounds: {
 //     x: 7.986111640930176,
@@ -1469,24 +1469,6 @@ let targetId = null;
 //
 export class CustomMouseListener extends MouseListener {
   mouseUp(target: any, event: MouseEvent): (Action | Promise<Action>)[] {
-    // code connect by dummy edge
-    // if (target instanceof SRoutingHandleImpl) {
-    //   const targetParentEl = target.parent as SEdgeImpl;
-
-    //   if (!targetParentEl.targetId.includes("dummy")) {
-    //     setTimeout(() => {
-    //       document.getElementById("cancel-draw-edge").click();
-    //       const indexEdge = edgeArr.findIndex((edge) => {
-    //         return edge.id === targetParentEl.id;
-    //       });
-    //       if (indexEdge !== -1) {
-    //         edgeArr[indexEdge].sourceId = targetParentEl.sourceId;
-    //         edgeArr[indexEdge].targetId = targetParentEl.targetId;
-    //       }
-    //     }, 100);
-    //   }
-    // }
-
     // code connect by dummy node
     let isDrawable = false;
     if (target.id === "node-dummy") {
@@ -1596,17 +1578,117 @@ export class CustomMouseListener extends MouseListener {
     }
     return [];
   }
+  mouseMove(target: any, event: MouseEvent): (Action | Promise<Action>)[] {
+    let isMatch = false;
+    if (target.id === "node-dummy") {
+      const coordinateDummyNodeX = target.position.x;
+      const coordinateDummyNodeY = target.position.y;
+      let portCompareCoordinateArr = [];
 
-  override drop(
-    target: SModelElementImpl,
-    event: MouseEvent
-  ): (Action | Promise<Action>)[] {
-    const customEvent = new CustomEvent("addDummyNode", {
-      detail: { x: event.offsetX, y: event.offsetY },
-    });
-    document.getElementById("add-dummy-node").dispatchEvent(customEvent);
+      const gragphChildrenArr = target.parent.children;
+
+      gragphChildrenArr.forEach((child: any) => {
+        if (child.type === "node" && child.id !== "node-dummy") {
+          const nodeChildArr = child.children;
+          nodeChildArr.forEach((nodeChild: any) => {
+            if (nodeChild.type === "port") {
+              let portType = null;
+              const portX = nodeChild.position.x;
+              const portY = nodeChild.position.y;
+              if (
+                portX === defaultNodeWidth &&
+                portY === (defaultNodeHeight - defaultPortHeight) / 2
+              ) {
+                portType = 1;
+              } else if (
+                portX === (defaultNodeWidth - defaultPortWidth) / 2 &&
+                portY === defaultNodeHeight
+              ) {
+                portType = 2;
+              } else if (
+                portX === 0 - defaultPortWidth &&
+                portY === (defaultNodeHeight - defaultPortHeight) / 2
+              ) {
+                portType = 3;
+              } else if (
+                portX === (defaultNodeWidth - defaultPortWidth) / 2 &&
+                portY === 0 - defaultPortHeight
+              ) {
+                portType = 4;
+              }
+              portCompareCoordinateArr.push({
+                x: portX,
+                y: portY,
+                id: nodeChild.id,
+                nodeX: nodeChild.parent.position.x,
+                nodeY: nodeChild.parent.position.y,
+                type: portType,
+              });
+            }
+          });
+        }
+      });
+      portCompareCoordinateArr.forEach((portCoordinate) => {
+        let portCompareX: number;
+        let portCompareY: number;
+        if (portCoordinate.type === 1) {
+          portCompareX = portCoordinate.nodeX + portCoordinate.x;
+          portCompareY =
+            portCoordinate.nodeY + (defaultNodeHeight - defaultPortHeight) / 2;
+          // console.log("x : " + portCompareX, "y : " + portCompareY, "type 1");
+        } else if (portCoordinate.type === 2) {
+          portCompareX =
+            portCoordinate.nodeX + (defaultNodeWidth - defaultPortWidth) / 2;
+          portCompareY = portCoordinate.nodeY + portCoordinate.y;
+          // console.log("x : " + portCompareX, "y : " + portCompareY, "type 2");
+        } else if (portCoordinate.type === 3) {
+          portCompareX = portCoordinate.nodeX + portCoordinate.x;
+          portCompareY =
+            portCoordinate.nodeY + (defaultNodeHeight - defaultPortHeight) / 2;
+          // console.log("x : " + portCompareX, "y : " + portCompareY, "type 3");
+        } else if (portCoordinate.type === 4) {
+          portCompareX =
+            portCoordinate.nodeX + (defaultNodeWidth - defaultPortWidth) / 2;
+          portCompareY = portCoordinate.nodeY + portCoordinate.y;
+          // console.log("x : " + portCompareX, "y : " + portCompareY, "type 4");
+        } else {
+          return;
+        }
+        if (
+          coordinateDummyNodeX <= portCompareX + defaultPortWidth &&
+          portCompareX <= coordinateDummyNodeX &&
+          coordinateDummyNodeY <= portCompareY + defaultPortHeight &&
+          portCompareY <= coordinateDummyNodeY
+        ) {
+          // targetId = portCoordinate.id;
+
+          const nodeElementMatch = gragphChildrenArr.find((e) => {
+            return e.id.includes(
+              portCoordinate.id
+                .replace("port-", "")
+                .slice(0, portCoordinate.id.replace("port-", "").length - 2)
+            );
+          });
+          const portElementMatch = nodeElementMatch.children.find((e) => {
+            return e.id === portCoordinate.id;
+          });
+          portElementMatch.cssClasses.push("ready-draw");
+        }
+      });
+    }
     return [];
   }
+
+  // override drop(
+  //   target: SModelElementImpl,
+  //   event: MouseEvent
+  // ): (Action | Promise<Action>)[] {
+  //   const customEvent = new CustomEvent("addDummyNode", {
+  //     detail: { x: event.offsetX, y: event.offsetY },
+  //   });
+  //   document.getElementById("add-dummy-node").dispatchEvent(customEvent);
+  //   return [];
+  // }
 }
 
 const container = createContainer("sprotty-container");
@@ -1779,11 +1861,11 @@ export default function run() {
   });
 
   exportJsonBtn.addEventListener("click", () => {
-    const name = randomText('graph');
+    const name = randomText("graph");
     const jsonFiltered = getGrahpJson(modelSource.model);
     const blob = new Blob([jsonFiltered], { type: "application/json" });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = url;
     a.download = `${name}.json`;
     document.body.appendChild(a); // required for firefox
