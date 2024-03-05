@@ -23678,17 +23678,72 @@
       }
       return [];
     }
-    mouseOver(target, event) {
-      if (dummyMode) {
-        if (target.type === "port") {
-          target.cssClasses.push("ready-draw");
-        }
-      }
-      return [];
-    }
-    mouseDown(target, event) {
+    mouseMove(target, event) {
+      let isMatch = false;
       if (target.id === "node-dummy") {
-        console.log("click");
+        const coordinateDummyNodeX = target.position.x;
+        const coordinateDummyNodeY = target.position.y;
+        let portCompareCoordinateArr = [];
+        const gragphChildrenArr = target.parent.children;
+        gragphChildrenArr.forEach((child) => {
+          if (child.type === "node" && child.id !== "node-dummy") {
+            const nodeChildArr = child.children;
+            nodeChildArr.forEach((nodeChild) => {
+              if (nodeChild.type === "port") {
+                let portType = null;
+                const portX = nodeChild.position.x;
+                const portY = nodeChild.position.y;
+                if (portX === defaultNodeWidth && portY === (defaultNodeHeight - defaultPortHeight) / 2) {
+                  portType = 1;
+                } else if (portX === (defaultNodeWidth - defaultPortWidth) / 2 && portY === defaultNodeHeight) {
+                  portType = 2;
+                } else if (portX === 0 - defaultPortWidth && portY === (defaultNodeHeight - defaultPortHeight) / 2) {
+                  portType = 3;
+                } else if (portX === (defaultNodeWidth - defaultPortWidth) / 2 && portY === 0 - defaultPortHeight) {
+                  portType = 4;
+                }
+                portCompareCoordinateArr.push({
+                  x: portX,
+                  y: portY,
+                  id: nodeChild.id,
+                  nodeX: nodeChild.parent.position.x,
+                  nodeY: nodeChild.parent.position.y,
+                  type: portType
+                });
+              }
+            });
+          }
+        });
+        portCompareCoordinateArr.forEach((portCoordinate) => {
+          let portCompareX;
+          let portCompareY;
+          if (portCoordinate.type === 1) {
+            portCompareX = portCoordinate.nodeX + portCoordinate.x;
+            portCompareY = portCoordinate.nodeY + (defaultNodeHeight - defaultPortHeight) / 2;
+          } else if (portCoordinate.type === 2) {
+            portCompareX = portCoordinate.nodeX + (defaultNodeWidth - defaultPortWidth) / 2;
+            portCompareY = portCoordinate.nodeY + portCoordinate.y;
+          } else if (portCoordinate.type === 3) {
+            portCompareX = portCoordinate.nodeX + portCoordinate.x;
+            portCompareY = portCoordinate.nodeY + (defaultNodeHeight - defaultPortHeight) / 2;
+          } else if (portCoordinate.type === 4) {
+            portCompareX = portCoordinate.nodeX + (defaultNodeWidth - defaultPortWidth) / 2;
+            portCompareY = portCoordinate.nodeY + portCoordinate.y;
+          } else {
+            return;
+          }
+          if (coordinateDummyNodeX <= portCompareX + defaultPortWidth && portCompareX <= coordinateDummyNodeX && coordinateDummyNodeY <= portCompareY + defaultPortHeight && portCompareY <= coordinateDummyNodeY) {
+            const nodeElementMatch = gragphChildrenArr.find((e) => {
+              return e.id.includes(
+                portCoordinate.id.replace("port-", "").slice(0, portCoordinate.id.replace("port-", "").length - 2)
+              );
+            });
+            const portElementMatch = nodeElementMatch.children.find((e) => {
+              return e.id === portCoordinate.id;
+            });
+            portElementMatch.cssClasses.push("ready-draw");
+          }
+        });
       }
       return [];
     }
