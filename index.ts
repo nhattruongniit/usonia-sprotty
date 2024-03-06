@@ -69,15 +69,19 @@ let edgeArr = [];
 let dummyNodeArray = [];
 let dummyEdgeId = null;
 
-// size nodes & ports
-const defaultNodeParentWidth = 400;
-const defaultNodeParentHeight = 400;
-const defaultNodeWidth = 100;
-const defaultNodeHeight = 100;
-const defaultPortWidth = 20;
-const defaultPortHeight = 20;
-const defaultDummyWidth = 10;
-const defaultDummyHeight = 10;
+// size nodes & ports & label
+const NODE_WIDTH = 100;
+const NODE_HEIGHT = 100;
+const PORT_CHILD_WIDTH = NODE_WIDTH / 5;
+const PORT_CHILD_HEIGHT = NODE_HEIGHT / 5;
+
+const NODE_PARENT_WIDTH = NODE_WIDTH * 4;
+const NODE_PARENT_HEIGHT = NODE_HEIGHT * 4;
+const PORT_PARENT_WIDTH = NODE_PARENT_WIDTH / 8;
+const PORT_PARENT_HEIGHT = NODE_PARENT_HEIGHT / 8;
+
+const NODE_DUMMY_WIDTH = NODE_WIDTH / 10;
+const NODE_DUMMY_HEIGHT = NODE_HEIGHT / 10;
 
 // state of draw edge
 let drawMode = false;
@@ -98,12 +102,12 @@ export class CustomMouseListener extends MouseListener {
     // code connect by dummy node
     const objectCheck = checkPositionEl(
       target,
-      defaultDummyWidth,
-      defaultDummyHeight,
-      defaultNodeWidth,
-      defaultNodeHeight,
-      defaultPortWidth,
-      defaultPortHeight
+      NODE_DUMMY_WIDTH,
+      NODE_DUMMY_HEIGHT,
+      NODE_WIDTH,
+      NODE_HEIGHT,
+      PORT_CHILD_WIDTH,
+      PORT_CHILD_HEIGHT
     );
     if (objectCheck.isDrawable) {
       targetId = objectCheck.targetId;
@@ -131,12 +135,12 @@ export class CustomMouseListener extends MouseListener {
   mouseMove(target: any, event: MouseEvent): (Action | Promise<Action>)[] {
     const objectCheck = checkPositionEl(
       target,
-      defaultDummyWidth,
-      defaultDummyHeight,
-      defaultNodeWidth,
-      defaultNodeHeight,
-      defaultPortWidth,
-      defaultPortHeight
+      NODE_DUMMY_WIDTH,
+      NODE_DUMMY_HEIGHT,
+      NODE_WIDTH,
+      NODE_HEIGHT,
+      PORT_CHILD_WIDTH,
+      PORT_CHILD_HEIGHT
     );
     let portElementMatch: SPortImpl;
 
@@ -301,8 +305,10 @@ export default function run() {
   // draw edge
   function drawLogic() {
     setTimeout(() => {
+      console.log(document.querySelectorAll(".port"));
       document.querySelectorAll(".port").forEach((port) => {
         port.addEventListener("click", (e) => {
+          console.log(e);
           if (!dummyMode) {
             cancelDrawEdgeBtn.classList.remove("hide");
             port.classList.add("ready-draw-source");
@@ -330,17 +336,18 @@ export default function run() {
             // add dummy node
             if (dummyNodeArray.length == 0) {
               addNode({
+                isParentNode: false,
                 source: modelSource,
                 nodeId: "dummy",
-
-                nodeWidth: defaultDummyWidth,
-                nodeHeight: defaultDummyHeight,
+                nodeWidth: NODE_DUMMY_WIDTH,
+                nodeHeight: NODE_DUMMY_HEIGHT,
                 portWidth: 2,
                 portHeight: 2,
                 portQuantity: 1,
+
                 cssClasses: ["nodes", "dummy"],
                 name: "",
-                // x: Number(coordinate[0]) + 2 * defaultNodeWidth,
+                // x: Number(coordinate[0]) + 2 * NODE_WIDTH,
                 // y: Number(coordinate[1]),
                 x: Number(coordinate[0]) + Number(portCoordinate[0]) + 5,
                 y: Number(coordinate[1]) + Number(portCoordinate[1]) + 5,
@@ -374,13 +381,14 @@ export default function run() {
   // add Parent Node
   addParentNode.addEventListener("click", () => {
     addNode({
+      isParentNode: true,
       source: modelSource,
       nodeId: `type-parent-${nodeParentNumber}`,
-      nodeWidth: defaultNodeParentWidth,
-      nodeHeight: defaultNodeParentHeight,
-      portWidth: defaultPortWidth,
-      portHeight: defaultPortHeight,
-      portQuantity: 0,
+      nodeWidth: NODE_PARENT_WIDTH,
+      nodeHeight: NODE_PARENT_HEIGHT,
+      portWidth: PORT_PARENT_WIDTH,
+      portHeight: PORT_PARENT_HEIGHT,
+      portQuantity: 1,
       type: "node:package",
     });
     nodeParentNumber++;
@@ -390,13 +398,15 @@ export default function run() {
   // add node 1
   addNode1Btn.addEventListener("click", () => {
     addNode({
+      isParentNode: false,
       source: modelSource,
       nodeId: `type-1-${node1Number}`,
-      nodeWidth: defaultNodeWidth,
-      nodeHeight: defaultNodeHeight,
-      portWidth: defaultPortWidth,
-      portHeight: defaultPortHeight,
+      nodeWidth: NODE_WIDTH,
+      nodeHeight: NODE_HEIGHT,
+      portWidth: PORT_CHILD_WIDTH,
+      portHeight: PORT_CHILD_HEIGHT,
       portQuantity: 1,
+
       type: "node",
     });
 
@@ -409,12 +419,14 @@ export default function run() {
   // add node 2
   addNode2Btn.addEventListener("click", () => {
     addNode({
+      isParentNode: false,
       source: modelSource,
       nodeId: `type-2-${node2Number}`,
-      nodeWidth: defaultNodeWidth,
-      nodeHeight: defaultNodeHeight,
-      portWidth: defaultPortWidth,
-      portHeight: defaultPortHeight,
+      nodeWidth: NODE_WIDTH,
+      nodeHeight: NODE_HEIGHT,
+      portWidth: PORT_CHILD_WIDTH,
+      portHeight: PORT_CHILD_HEIGHT,
+
       portQuantity: 2,
       type: "node",
     });
@@ -428,12 +440,14 @@ export default function run() {
   // add node 3
   addNode3Btn.addEventListener("click", () => {
     addNode({
+      isParentNode: false,
       source: modelSource,
       nodeId: `type-3-${node3Number}`,
-      nodeWidth: defaultNodeWidth,
-      nodeHeight: defaultNodeHeight,
-      portWidth: defaultPortWidth,
-      portHeight: defaultPortHeight,
+      nodeWidth: NODE_WIDTH,
+      nodeHeight: NODE_HEIGHT,
+      portWidth: PORT_CHILD_WIDTH,
+      portHeight: PORT_CHILD_HEIGHT,
+
       portQuantity: 3,
       type: "node",
     });
@@ -447,12 +461,14 @@ export default function run() {
   // add node 4
   addNode4Btn.addEventListener("click", () => {
     addNode({
+      isParentNode: false,
       source: modelSource,
       nodeId: `type-4-${node4Number}`,
-      nodeWidth: defaultNodeWidth,
-      nodeHeight: defaultNodeHeight,
-      portWidth: defaultPortWidth,
-      portHeight: defaultPortHeight,
+      nodeWidth: NODE_WIDTH,
+      nodeHeight: NODE_HEIGHT,
+      portWidth: PORT_CHILD_WIDTH,
+      portHeight: PORT_CHILD_HEIGHT,
+
       portQuantity: 4,
       type: "node",
     });

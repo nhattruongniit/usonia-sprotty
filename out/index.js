@@ -23390,6 +23390,7 @@
 
   // util/addNode.ts
   function addNode({
+    isParentNode,
     source,
     nodeId,
     portQuantity,
@@ -23403,23 +23404,11 @@
     y = Math.floor(Math.random() * 500),
     type
   }) {
-    const positionLabel = [
-      {
-        labelNode: { x: nodeWidth, y: nodeHeight / 2 - portHeight / 2 },
-        labelPort: { x: portWidth / 2, y: portHeight / 6 + portHeight / 2 }
-      },
-      {
-        labelNode: { x: nodeWidth / 2 - portWidth / 2, y: nodeHeight },
-        labelPort: { x: portWidth / 2, y: portHeight / 6 + portHeight / 2 }
-      },
-      {
-        labelNode: { x: 0 - portWidth, y: nodeHeight / 2 - portHeight / 2 },
-        labelPort: { x: portWidth / 2, y: portHeight / 6 + portHeight / 2 }
-      },
-      {
-        labelNode: { x: nodeWidth / 2 - portWidth / 2, y: 0 - portHeight },
-        labelPort: { x: portWidth / 2, y: portHeight / 6 + portHeight / 2 }
-      }
+    const positionPort = [
+      { x: nodeWidth, y: nodeHeight / 2 - portHeight / 2 },
+      { x: nodeWidth / 2 - portWidth / 2, y: nodeHeight },
+      { x: 0 - portWidth, y: nodeHeight / 2 - portHeight / 2 },
+      { x: nodeWidth / 2 - portWidth / 2, y: 0 - portHeight }
     ];
     source.addElements([
       {
@@ -23438,12 +23427,94 @@
               type: "label:node",
               id: `label-node-${nodeId}`,
               text: name,
-              position: { x: nodeWidth / 2, y: nodeHeight / 2 }
+              position: isParentNode ? { x: nodeWidth / 2, y: nodeHeight / 10 } : { x: nodeWidth / 2, y: nodeHeight / 2 }
             }
           ]
         }
       }
     ]);
+    if (isParentNode) {
+      const nodeChildWidth = nodeWidth / 4;
+      const nodeChildHeight = nodeHeight / 4;
+      const portChildWidth = nodeChildWidth / 5;
+      const portChildHeight = nodeChildHeight / 5;
+      const positionNodeChildren = [
+        { x: nodeWidth / 5, y: nodeHeight / 5 },
+        { x: nodeWidth / 4 + nodeWidth / 3, y: nodeHeight / 4 + nodeHeight / 3 }
+      ];
+      for (let i = 0; i < positionNodeChildren.length; i++) {
+        source.addElements([
+          {
+            parentId: `node-${nodeId}`,
+            element: {
+              type: "node",
+              id: `node-child-${nodeId}-${i + 1}`,
+              position: positionNodeChildren[i],
+              size: { width: nodeChildWidth, height: nodeChildHeight },
+              children: [
+                {
+                  type: "label:node",
+                  id: `label-child-${nodeId}-${i + 1}`,
+                  text: `child-${i + 1}`,
+                  position: { x: nodeWidth / 8, y: nodeHeight / 8 },
+                  cssClasses: ["text-node-child"]
+                },
+                {
+                  type: "port",
+                  id: `port-node-child-${nodeId}-${i + 1}-1`,
+                  size: {
+                    width: portChildWidth,
+                    height: portChildHeight
+                  },
+                  position: {
+                    x: nodeChildWidth,
+                    y: nodeChildHeight / 2 - portChildHeight / 2
+                  },
+                  cssClasses: ["port"],
+                  children: [
+                    {
+                      type: "label:port",
+                      id: `label-port-1-node-child-${nodeId}-${i + 1}`,
+                      text: `p-1`,
+                      position: {
+                        x: portChildWidth / 2,
+                        y: 0 - portChildHeight / 8
+                      },
+                      cssClasses: ["label-port-node-child"]
+                    }
+                  ]
+                },
+                {
+                  type: "port",
+                  id: `port-node-child-${nodeId}-${i + 1}-2`,
+                  size: {
+                    width: portChildWidth,
+                    height: portChildHeight
+                  },
+                  position: {
+                    x: 0 - portChildWidth,
+                    y: nodeChildHeight / 2 - portChildHeight / 2
+                  },
+                  cssClasses: ["port"],
+                  children: [
+                    {
+                      type: "label:port",
+                      id: `label-port-2-node-child-${nodeId}-${i + 1}`,
+                      text: `p-3`,
+                      position: {
+                        x: portChildWidth / 2,
+                        y: 0 - portChildHeight / 8
+                      },
+                      cssClasses: ["label-port-node-child"]
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]);
+      }
+    }
     for (let i = 0; i < portQuantity; i++) {
       source.addElements([
         {
@@ -23452,7 +23523,7 @@
             type: "port",
             id: `port-${nodeId}-${i + 1}`,
             size: { width: portWidth, height: portHeight },
-            position: positionLabel[i].labelNode,
+            position: positionPort[i],
             cssClasses: ["port"],
             children: nodeId === "dummy" ? [] : [
               {
@@ -23654,14 +23725,16 @@
   var edgeArr = [];
   var dummyNodeArray = [];
   var dummyEdgeId = null;
-  var defaultNodeParentWidth = 400;
-  var defaultNodeParentHeight = 400;
-  var defaultNodeWidth = 100;
-  var defaultNodeHeight = 100;
-  var defaultPortWidth = 20;
-  var defaultPortHeight = 20;
-  var defaultDummyWidth = 10;
-  var defaultDummyHeight = 10;
+  var NODE_WIDTH = 100;
+  var NODE_HEIGHT = 100;
+  var PORT_CHILD_WIDTH = NODE_WIDTH / 5;
+  var PORT_CHILD_HEIGHT = NODE_HEIGHT / 5;
+  var NODE_PARENT_WIDTH = NODE_WIDTH * 4;
+  var NODE_PARENT_HEIGHT = NODE_HEIGHT * 4;
+  var PORT_PARENT_WIDTH = NODE_PARENT_WIDTH / 8;
+  var PORT_PARENT_HEIGHT = NODE_PARENT_HEIGHT / 8;
+  var NODE_DUMMY_WIDTH = NODE_WIDTH / 10;
+  var NODE_DUMMY_HEIGHT = NODE_HEIGHT / 10;
   var drawMode = false;
   var dummyMode = false;
   var sourceId = null;
@@ -23672,12 +23745,12 @@
     mouseUp(target, event) {
       const objectCheck = checkPositionEl(
         target,
-        defaultDummyWidth,
-        defaultDummyHeight,
-        defaultNodeWidth,
-        defaultNodeHeight,
-        defaultPortWidth,
-        defaultPortHeight
+        NODE_DUMMY_WIDTH,
+        NODE_DUMMY_HEIGHT,
+        NODE_WIDTH,
+        NODE_HEIGHT,
+        PORT_CHILD_WIDTH,
+        PORT_CHILD_HEIGHT
       );
       if (objectCheck.isDrawable) {
         targetId = objectCheck.targetId;
@@ -23703,12 +23776,12 @@
     mouseMove(target, event) {
       const objectCheck = checkPositionEl(
         target,
-        defaultDummyWidth,
-        defaultDummyHeight,
-        defaultNodeWidth,
-        defaultNodeHeight,
-        defaultPortWidth,
-        defaultPortHeight
+        NODE_DUMMY_WIDTH,
+        NODE_DUMMY_HEIGHT,
+        NODE_WIDTH,
+        NODE_HEIGHT,
+        PORT_CHILD_WIDTH,
+        PORT_CHILD_HEIGHT
       );
       let portElementMatch;
       let nodeElementMatch;
@@ -23844,8 +23917,10 @@
     });
     function drawLogic() {
       setTimeout(() => {
+        console.log(document.querySelectorAll(".port"));
         document.querySelectorAll(".port").forEach((port) => {
           port.addEventListener("click", (e) => {
+            console.log(e);
             if (!dummyMode) {
               cancelDrawEdgeBtn.classList.remove("hide");
               port.classList.add("ready-draw-source");
@@ -23856,16 +23931,17 @@
               const coordinate = transformAttribute ? transformAttribute.replace("translate(", "").replace(")", "").trim().split(",") : [0, 0];
               if (dummyNodeArray.length == 0) {
                 addNode({
+                  isParentNode: false,
                   source: modelSource,
                   nodeId: "dummy",
-                  nodeWidth: defaultDummyWidth,
-                  nodeHeight: defaultDummyHeight,
+                  nodeWidth: NODE_DUMMY_WIDTH,
+                  nodeHeight: NODE_DUMMY_HEIGHT,
                   portWidth: 2,
                   portHeight: 2,
                   portQuantity: 1,
                   cssClasses: ["nodes", "dummy"],
                   name: "",
-                  // x: Number(coordinate[0]) + 2 * defaultNodeWidth,
+                  // x: Number(coordinate[0]) + 2 * NODE_WIDTH,
                   // y: Number(coordinate[1]),
                   x: Number(coordinate[0]) + Number(portCoordinate[0]) + 5,
                   y: Number(coordinate[1]) + Number(portCoordinate[1]) + 5,
@@ -23895,13 +23971,14 @@
     }
     addParentNode.addEventListener("click", () => {
       addNode({
+        isParentNode: true,
         source: modelSource,
         nodeId: `type-parent-${nodeParentNumber}`,
-        nodeWidth: defaultNodeParentWidth,
-        nodeHeight: defaultNodeParentHeight,
-        portWidth: defaultPortWidth,
-        portHeight: defaultPortHeight,
-        portQuantity: 0,
+        nodeWidth: NODE_PARENT_WIDTH,
+        nodeHeight: NODE_PARENT_HEIGHT,
+        portWidth: PORT_PARENT_WIDTH,
+        portHeight: PORT_PARENT_HEIGHT,
+        portQuantity: 1,
         type: "node:package"
       });
       nodeParentNumber++;
@@ -23909,12 +23986,13 @@
     });
     addNode1Btn.addEventListener("click", () => {
       addNode({
+        isParentNode: false,
         source: modelSource,
         nodeId: `type-1-${node1Number}`,
-        nodeWidth: defaultNodeWidth,
-        nodeHeight: defaultNodeHeight,
-        portWidth: defaultPortWidth,
-        portHeight: defaultPortHeight,
+        nodeWidth: NODE_WIDTH,
+        nodeHeight: NODE_HEIGHT,
+        portWidth: PORT_CHILD_WIDTH,
+        portHeight: PORT_CHILD_HEIGHT,
         portQuantity: 1,
         type: "node"
       });
@@ -23923,12 +24001,13 @@
     });
     addNode2Btn.addEventListener("click", () => {
       addNode({
+        isParentNode: false,
         source: modelSource,
         nodeId: `type-2-${node2Number}`,
-        nodeWidth: defaultNodeWidth,
-        nodeHeight: defaultNodeHeight,
-        portWidth: defaultPortWidth,
-        portHeight: defaultPortHeight,
+        nodeWidth: NODE_WIDTH,
+        nodeHeight: NODE_HEIGHT,
+        portWidth: PORT_CHILD_WIDTH,
+        portHeight: PORT_CHILD_HEIGHT,
         portQuantity: 2,
         type: "node"
       });
@@ -23937,12 +24016,13 @@
     });
     addNode3Btn.addEventListener("click", () => {
       addNode({
+        isParentNode: false,
         source: modelSource,
         nodeId: `type-3-${node3Number}`,
-        nodeWidth: defaultNodeWidth,
-        nodeHeight: defaultNodeHeight,
-        portWidth: defaultPortWidth,
-        portHeight: defaultPortHeight,
+        nodeWidth: NODE_WIDTH,
+        nodeHeight: NODE_HEIGHT,
+        portWidth: PORT_CHILD_WIDTH,
+        portHeight: PORT_CHILD_HEIGHT,
         portQuantity: 3,
         type: "node"
       });
@@ -23951,12 +24031,13 @@
     });
     addNode4Btn.addEventListener("click", () => {
       addNode({
+        isParentNode: false,
         source: modelSource,
         nodeId: `type-4-${node4Number}`,
-        nodeWidth: defaultNodeWidth,
-        nodeHeight: defaultNodeHeight,
-        portWidth: defaultPortWidth,
-        portHeight: defaultPortHeight,
+        nodeWidth: NODE_WIDTH,
+        nodeHeight: NODE_HEIGHT,
+        portWidth: PORT_CHILD_WIDTH,
+        portHeight: PORT_CHILD_HEIGHT,
         portQuantity: 4,
         type: "node"
       });
