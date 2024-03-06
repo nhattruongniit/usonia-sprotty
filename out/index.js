@@ -13919,7 +13919,7 @@
           this.opacity = 1;
         }
         canConnect(routable, role) {
-          return this.children.find((c) => c instanceof SPortImpl3) === void 0;
+          return this.children.find((c) => c instanceof SPortImpl4) === void 0;
         }
         get incomingEdges() {
           const index = this.index;
@@ -13950,7 +13950,7 @@
         model_5.hoverFeedbackFeature,
         model_5.popupFeature
       ];
-      var SPortImpl3 = class extends model_7.SConnectableElementImpl {
+      var SPortImpl4 = class extends model_7.SConnectableElementImpl {
         constructor() {
           super(...arguments);
           this.selected = false;
@@ -13972,8 +13972,8 @@
           return super.outgoingEdges.filter((e) => e instanceof SEdgeImpl4);
         }
       };
-      exports.SPortImpl = SPortImpl3;
-      SPortImpl3.DEFAULT_FEATURES = [
+      exports.SPortImpl = SPortImpl4;
+      SPortImpl4.DEFAULT_FEATURES = [
         model_7.connectableFeature,
         model_8.selectFeature,
         model_1.boundsFeature,
@@ -23567,8 +23567,8 @@
   // util/checkPositionEl.ts
   function checkPositionEl(target, dummyWidth, dummyHeight, nodeWidth, nodeHeight, portWidth, portHeight) {
     let isDrawable = false;
-    let targetId2;
-    let gragphChildrenArr;
+    let targetId2 = "";
+    let gragphChildrenArr = [];
     if (target.id === "node-dummy") {
       const coordinateDummyNodeX = target.position.x + dummyWidth / 2;
       const coordinateDummyNodeY = target.position.y + dummyHeight / 2;
@@ -23624,7 +23624,6 @@
         if (coordinateDummyNodeX <= portCompareX + portWidth && portCompareX <= coordinateDummyNodeX && coordinateDummyNodeY <= portCompareY + portHeight && portCompareY <= coordinateDummyNodeY) {
           targetId2 = portCoordinate.id;
           isDrawable = true;
-          console.log(isDrawable);
         }
       });
     }
@@ -23667,6 +23666,7 @@
   var dummyMode = false;
   var sourceId = null;
   var targetId = null;
+  var portEl;
   var CustomMouseListener = class extends import_sprotty4.MouseListener {
     mouseUp(target, event) {
       const objectCheck = checkPositionEl(
@@ -23679,9 +23679,7 @@
         defaultPortHeight
       );
       if (objectCheck.isDrawable) {
-        console.log(objectCheck);
         targetId = objectCheck.targetId;
-        console.log("draw");
         drawEdge({
           source: modelSource,
           edgeId: edgeNumber,
@@ -23711,16 +23709,33 @@
         defaultPortWidth,
         defaultPortHeight
       );
-      if (objectCheck.isDrawable) {
-        const nodeElementMatch = objectCheck.gragphChildrenArr.find((e) => {
+      let portElementMatch;
+      let nodeElementMatch;
+      if (objectCheck.gragphChildrenArr.length > 0) {
+        nodeElementMatch = objectCheck.gragphChildrenArr.find((e) => {
           return e.id.includes(
             objectCheck.targetId.replace("port-", "").slice(0, objectCheck.targetId.replace("port-", "").length - 2)
           );
         });
-        const portElementMatch = nodeElementMatch.children.find((e) => {
+      }
+      if (nodeElementMatch) {
+        portElementMatch = nodeElementMatch.children.find((e) => {
           return e.id === objectCheck.targetId;
         });
-        portElementMatch.cssClasses.push("ready-draw");
+        portEl = portElementMatch;
+      }
+      if (objectCheck.isDrawable) {
+        const cssPortArr = portEl.cssClasses;
+        const isHaveClass = cssPortArr.find((e) => {
+          return e === "ready-draw";
+        });
+        if (!isHaveClass) {
+          cssPortArr.push("ready-draw");
+        }
+      } else {
+        if (portEl) {
+          portEl.cssClasses.pop();
+        }
       }
       return [];
     }

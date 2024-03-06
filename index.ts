@@ -5,6 +5,7 @@ import {
   SEdgeImpl,
   SModelElementImpl,
   SNodeImpl,
+  SPortImpl,
   SRoutingHandleImpl,
   SelectMouseListener,
   TYPES,
@@ -88,6 +89,8 @@ let targetId = null;
 
 // JSON resolve
 
+let portEl: SPortImpl;
+
 //
 export class CustomMouseListener extends MouseListener {
   mouseUp(target: any, event: MouseEvent): (Action | Promise<Action>)[] {
@@ -102,9 +105,8 @@ export class CustomMouseListener extends MouseListener {
       defaultPortHeight
     );
     if (objectCheck.isDrawable) {
-      console.log(objectCheck);
       targetId = objectCheck.targetId;
-      console.log("draw");
+
       drawEdge({
         source: modelSource,
         edgeId: edgeNumber,
@@ -135,19 +137,43 @@ export class CustomMouseListener extends MouseListener {
       defaultPortWidth,
       defaultPortHeight
     );
-    if (objectCheck.isDrawable) {
-      const nodeElementMatch = objectCheck.gragphChildrenArr.find((e) => {
+    let portElementMatch: SPortImpl;
+
+    let nodeElementMatch;
+    if (objectCheck.gragphChildrenArr.length > 0) {
+      nodeElementMatch = objectCheck.gragphChildrenArr.find((e) => {
         return e.id.includes(
           objectCheck.targetId
             .replace("port-", "")
             .slice(0, objectCheck.targetId.replace("port-", "").length - 2)
         );
       });
-      const portElementMatch = nodeElementMatch.children.find((e) => {
+    }
+    if (nodeElementMatch) {
+      portElementMatch = nodeElementMatch.children.find((e) => {
         return e.id === objectCheck.targetId;
       });
-      portElementMatch.cssClasses.push("ready-draw");
+      portEl = portElementMatch;
     }
+    if (objectCheck.isDrawable) {
+      const cssPortArr = portEl.cssClasses;
+      const isHaveClass = cssPortArr.find((e) => {
+        return e === "ready-draw";
+      });
+
+      if (!isHaveClass) {
+        cssPortArr.push("ready-draw");
+      }
+    } else {
+      if (portEl) {
+        // const indexRemove = portEl.cssClasses.findIndex((e) => {
+        //   return e === " ready-draw";
+        // });
+        // console.log(indexRemove);
+        portEl.cssClasses.pop();
+      }
+    }
+
     return [];
   }
 }

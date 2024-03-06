@@ -8,8 +8,8 @@ export default function checkPositionEl(
   portHeight
 ) {
   let isDrawable = false;
-  let targetId;
-  let gragphChildrenArr;
+  let targetId = "";
+  let gragphChildrenArr = [];
   if (target.id === "node-dummy") {
     const coordinateDummyNodeX = target.position.x + dummyWidth / 2;
     const coordinateDummyNodeY = target.position.y + dummyHeight / 2;
@@ -89,7 +89,6 @@ export default function checkPositionEl(
       ) {
         targetId = portCoordinate.id;
         isDrawable = true;
-        console.log(isDrawable);
       }
     });
   }
