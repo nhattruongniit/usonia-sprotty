@@ -23667,6 +23667,7 @@
   var sourceId = null;
   var targetId = null;
   var portEl;
+  var portTarget;
   var CustomMouseListener = class extends import_sprotty4.MouseListener {
     mouseUp(target, event) {
       const objectCheck = checkPositionEl(
@@ -23725,16 +23726,11 @@
         portEl = portElementMatch;
       }
       if (objectCheck.isDrawable) {
-        const cssPortArr = portEl.cssClasses;
-        const isHaveClass = cssPortArr.find((e) => {
-          return e === "ready-draw";
-        });
-        if (!isHaveClass) {
-          cssPortArr.push("ready-draw");
-        }
-      } else {
-        if (portEl) {
-          portEl.cssClasses.pop();
+        portTarget = document.getElementById(`sprotty-container_${portEl.id}`);
+        portTarget.classList.add("ready-draw");
+      } else if (!objectCheck.isDrawable) {
+        if (portTarget) {
+          portTarget.classList.remove("ready-draw");
         }
       }
       return [];
@@ -23769,9 +23765,11 @@
       }
     ]);
     dummyEdgeId = null;
-    Array.from(document.getElementsByClassName("ready-draw")).forEach((e) => {
-      e.classList.remove("ready-draw");
-    });
+    Array.from(document.getElementsByClassName("ready-draw-source")).forEach(
+      (e) => {
+        e.classList.remove("ready-draw-source");
+      }
+    );
     dummyNodeArray = [];
     sourceId = "";
     drawMode = false;
@@ -23850,7 +23848,7 @@
           port.addEventListener("click", (e) => {
             if (!dummyMode) {
               cancelDrawEdgeBtn.classList.remove("hide");
-              port.classList.add("ready-draw");
+              port.classList.add("ready-draw-source");
               sourceId = port.id.replace("sprotty-container_port-", "");
               const portTranslateAttribute = port.getAttribute("transform");
               const portCoordinate = portTranslateAttribute ? portTranslateAttribute.replace("translate(", "").replace(")", "").trim().split(",") : [0, 0];

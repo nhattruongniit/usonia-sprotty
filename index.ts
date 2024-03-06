@@ -90,6 +90,7 @@ let targetId = null;
 // JSON resolve
 
 let portEl: SPortImpl;
+let portTarget: HTMLElement;
 
 //
 export class CustomMouseListener extends MouseListener {
@@ -140,6 +141,7 @@ export class CustomMouseListener extends MouseListener {
     let portElementMatch: SPortImpl;
 
     let nodeElementMatch;
+
     if (objectCheck.gragphChildrenArr.length > 0) {
       nodeElementMatch = objectCheck.gragphChildrenArr.find((e) => {
         return e.id.includes(
@@ -156,21 +158,11 @@ export class CustomMouseListener extends MouseListener {
       portEl = portElementMatch;
     }
     if (objectCheck.isDrawable) {
-      const cssPortArr = portEl.cssClasses;
-      const isHaveClass = cssPortArr.find((e) => {
-        return e === "ready-draw";
-      });
-
-      if (!isHaveClass) {
-        cssPortArr.push("ready-draw");
-      }
-    } else {
-      if (portEl) {
-        // const indexRemove = portEl.cssClasses.findIndex((e) => {
-        //   return e === " ready-draw";
-        // });
-        // console.log(indexRemove);
-        portEl.cssClasses.pop();
+      portTarget = document.getElementById(`sprotty-container_${portEl.id}`);
+      portTarget.classList.add("ready-draw");
+    } else if (!objectCheck.isDrawable) {
+      if (portTarget) {
+        portTarget.classList.remove("ready-draw");
       }
     }
 
@@ -213,9 +205,11 @@ function cancelDrawEdge() {
     },
   ]);
   dummyEdgeId = null;
-  Array.from(document.getElementsByClassName("ready-draw")).forEach((e) => {
-    e.classList.remove("ready-draw");
-  });
+  Array.from(document.getElementsByClassName("ready-draw-source")).forEach(
+    (e) => {
+      e.classList.remove("ready-draw-source");
+    }
+  );
 
   dummyNodeArray = [];
   sourceId = "";
@@ -311,7 +305,7 @@ export default function run() {
         port.addEventListener("click", (e) => {
           if (!dummyMode) {
             cancelDrawEdgeBtn.classList.remove("hide");
-            port.classList.add("ready-draw");
+            port.classList.add("ready-draw-source");
             sourceId = port.id.replace("sprotty-container_port-", "");
 
             const portTranslateAttribute = port.getAttribute("transform");

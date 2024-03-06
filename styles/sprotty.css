@@ -85,7 +85,8 @@
   opacity: 70%;
 }
 
-.ready-draw .sprotty-port {
+.ready-draw .sprotty-port,
+.ready-draw-source .sprotty-port {
   fill: #0f0;
 }
 
