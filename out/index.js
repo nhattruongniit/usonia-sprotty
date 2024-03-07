@@ -23382,17 +23382,11 @@
   };
 
   // model-source.ts
-  var graphImport = null;
-  function jsonFile(file) {
-    function handleFileLoad(event) {
-      console.log(event.target.result);
-      graphImport = event.target.result;
-    }
-    const reader = new FileReader();
-    reader.onload = handleFileLoad;
-    reader.readAsText(file);
-  }
-  var graph = graphImport;
+  var graph = {
+    type: "graph",
+    id: "graph",
+    children: []
+  };
 
   // util/addNode.ts
   function addNode({
@@ -23790,8 +23784,8 @@
   var PORT_CHILD_HEIGHT = NODE_HEIGHT / 5;
   var NODE_PARENT_WIDTH = NODE_WIDTH * 4;
   var NODE_PARENT_HEIGHT = NODE_HEIGHT * 4;
-  var PORT_PARENT_WIDTH = NODE_PARENT_WIDTH / 8;
-  var PORT_PARENT_HEIGHT = NODE_PARENT_HEIGHT / 8;
+  var PORT_PARENT_WIDTH = NODE_PARENT_WIDTH / 20;
+  var PORT_PARENT_HEIGHT = NODE_PARENT_HEIGHT / 20;
   var NODE_DUMMY_WIDTH = NODE_WIDTH / 10;
   var NODE_DUMMY_HEIGHT = NODE_HEIGHT / 10;
   var drawMode = false;
@@ -23939,11 +23933,7 @@
     });
   };
   function run() {
-    graph ? modelSource.setModel(graph) : modelSource.setModel({
-      type: "graph",
-      id: "graph",
-      children: []
-    });
+    modelSource.setModel(graph);
     addParentNode = document.getElementById("add-parent-node");
     addNode1Btn = document.getElementById("add-node-1");
     addNode2Btn = document.getElementById("add-node-2");
@@ -23976,8 +23966,12 @@
       inputFile.click();
     });
     inputFile.addEventListener("change", (event) => {
-      jsonFile(event.target.files[0]);
-    }, false);
+      const reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onload = (event2) => {
+        console.log(event2.target.result);
+      };
+    });
     cancelDrawEdgeBtn.addEventListener("click", () => {
       cancelDrawEdge();
     });
@@ -23985,15 +23979,22 @@
       setTimeout(() => {
         document.querySelectorAll(".port").forEach((port) => {
           port.addEventListener("click", (e) => {
-            console.log(e);
             if (!dummyMode) {
               cancelDrawEdgeBtn.classList.remove("hide");
               port.classList.add("ready-draw-source");
               sourceId = port.id.replace("sprotty-container_port-", "");
               const portTranslateAttribute = port.getAttribute("transform");
               const portCoordinate = portTranslateAttribute ? portTranslateAttribute.replace("translate(", "").replace(")", "").trim().split(",") : [0, 0];
+              let isParent = false;
+              if (port.parentElement.id.includes("node-child-type-parent")) {
+                isParent = true;
+              }
               const transformAttribute = port.parentElement.getAttribute("transform");
               const coordinate = transformAttribute ? transformAttribute.replace("translate(", "").replace(")", "").trim().split(",") : [0, 0];
+              const transformAttributeParent = port.parentElement.parentElement.getAttribute("transform");
+              const coordinateParent = transformAttributeParent ? transformAttributeParent.replace("translate(", "").replace(")", "").trim().split(",") : [0, 0];
+              const defaultX = Number(coordinate[0]) + Number(portCoordinate[0]) + 5;
+              const defaultY = Number(coordinate[1]) + Number(portCoordinate[1]) + 5;
               if (dummyNodeArray.length == 0) {
                 addNode({
                   isParentNode: false,
@@ -24008,8 +24009,8 @@
                   name: "",
                   // x: Number(coordinate[0]) + 2 * NODE_WIDTH,
                   // y: Number(coordinate[1]),
-                  x: Number(coordinate[0]) + Number(portCoordinate[0]) + 5,
-                  y: Number(coordinate[1]) + Number(portCoordinate[1]) + 5,
+                  x: isParent ? Number(coordinateParent[0]) + defaultX : defaultX,
+                  y: isParent ? Number(coordinateParent[1]) + defaultY : defaultY,
                   type: "node"
                 });
                 dummyNodeArray.push("node-dummy");

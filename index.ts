@@ -80,8 +80,8 @@ const PORT_CHILD_HEIGHT = NODE_HEIGHT / 5;
 
 const NODE_PARENT_WIDTH = NODE_WIDTH * 4;
 const NODE_PARENT_HEIGHT = NODE_HEIGHT * 4;
-const PORT_PARENT_WIDTH = NODE_PARENT_WIDTH / 8;
-const PORT_PARENT_HEIGHT = NODE_PARENT_HEIGHT / 8;
+const PORT_PARENT_WIDTH = NODE_PARENT_WIDTH / 20;
+const PORT_PARENT_HEIGHT = NODE_PARENT_HEIGHT / 20;
 
 const NODE_DUMMY_WIDTH = NODE_WIDTH / 10;
 const NODE_DUMMY_HEIGHT = NODE_HEIGHT / 10;
@@ -96,7 +96,6 @@ let targetId = null;
 
 // JSON resolve
 
-let portEl: SPortImpl;
 let portTarget: HTMLElement;
 
 //
@@ -264,11 +263,7 @@ const deleteLogic = () => {
 };
 
 export default function run() {
-  graph ? modelSource.setModel(graph) : modelSource.setModel({
-    type: "graph",
-    id: "graph",
-    children: [],
-  });
+  modelSource.setModel(graph);
 
   // elements dom
   addParentNode = document.getElementById("add-parent-node");
@@ -282,7 +277,7 @@ export default function run() {
   showJsonBtn = document.getElementById("show-json");
   exportJsonBtn = document.getElementById("export-json");
   importJsonBtn = document.getElementById("import-json");
-  inputFile = document.getElementById("input-file")
+  inputFile = document.getElementById("input-file");
 
   // show json
   showJsonBtn.addEventListener("click", () => {
@@ -306,11 +301,16 @@ export default function run() {
 
   importJsonBtn.addEventListener("click", () => {
     // logic import file
-    inputFile.click()
-  })
-  inputFile.addEventListener("change",(event)=>{
-    jsonFile(event.target.files[0])
-   },false)
+    inputFile.click();
+  });
+  inputFile.addEventListener("change", (event) => {
+    const reader = new FileReader();
+    // reader.readAsText(event.target.files[0]);
+    reader.readAsText(event.target.files[0]);
+    reader.onload = (event) => {
+      console.log(event.target.result);
+    };
+  });
   // cancel draw edge
   cancelDrawEdgeBtn.addEventListener("click", () => {
     cancelDrawEdge();
@@ -321,31 +321,46 @@ export default function run() {
     setTimeout(() => {
       document.querySelectorAll(".port").forEach((port) => {
         port.addEventListener("click", (e) => {
-          console.log(e);
           if (!dummyMode) {
             cancelDrawEdgeBtn.classList.remove("hide");
             port.classList.add("ready-draw-source");
             sourceId = port.id.replace("sprotty-container_port-", "");
-
             const portTranslateAttribute = port.getAttribute("transform");
             const portCoordinate = portTranslateAttribute
               ? portTranslateAttribute
-                .replace("translate(", "")
-                .replace(")", "")
-                .trim()
-                .split(",")
+                  .replace("translate(", "")
+                  .replace(")", "")
+                  .trim()
+                  .split(",")
               : [0, 0];
+            let isParent = false;
 
+            if (port.parentElement.id.includes("node-child-type-parent")) {
+              isParent = true;
+            }
             const transformAttribute =
               port.parentElement.getAttribute("transform");
             const coordinate = transformAttribute
               ? transformAttribute
-                .replace("translate(", "")
-                .replace(")", "")
-                .trim()
-                .split(",")
+                  .replace("translate(", "")
+                  .replace(")", "")
+                  .trim()
+                  .split(",")
+              : [0, 0];
+            const transformAttributeParent =
+              port.parentElement.parentElement.getAttribute("transform");
+            const coordinateParent = transformAttributeParent
+              ? transformAttributeParent
+                  .replace("translate(", "")
+                  .replace(")", "")
+                  .trim()
+                  .split(",")
               : [0, 0];
 
+            const defaultX =
+              Number(coordinate[0]) + Number(portCoordinate[0]) + 5;
+            const defaultY =
+              Number(coordinate[1]) + Number(portCoordinate[1]) + 5;
             // add dummy node
             if (dummyNodeArray.length == 0) {
               addNode({
@@ -362,8 +377,8 @@ export default function run() {
                 name: "",
                 // x: Number(coordinate[0]) + 2 * NODE_WIDTH,
                 // y: Number(coordinate[1]),
-                x: Number(coordinate[0]) + Number(portCoordinate[0]) + 5,
-                y: Number(coordinate[1]) + Number(portCoordinate[1]) + 5,
+                x: isParent ? Number(coordinateParent[0]) + defaultX : defaultX,
+                y: isParent ? Number(coordinateParent[1]) + defaultY : defaultY,
                 type: "node",
               });
               dummyNodeArray.push("node-dummy");

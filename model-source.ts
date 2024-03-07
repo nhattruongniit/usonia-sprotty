@@ -1,14 +1,18 @@
-let graphImport = null
+let graphImport = null;
 
 export default function jsonFile(file) {
-    function handleFileLoad(event) {
-        console.log(event.target.result);
-        graphImport = event.target.result
-    }
-    const reader = new FileReader()
-    reader.onload = handleFileLoad;
-    reader.readAsText(file);
-    }
+  const reader = new FileReader();
+  reader.readAsText(file);
 
-export const graph: any = graphImport;
+  reader.onload = (event) => {
+    graphImport = event.target.result;
+    console.log(event.target.result);
+    return event.target.result;
+  };
+}
 
+export const graph: any = {
+  type: "graph",
+  id: "graph",
+  children: [],
+};
