@@ -155,14 +155,11 @@ export class CustomMouseListener extends MouseListener {
         );
       });
     }
-    if (nodeElementMatch) {
-      portElementMatch = nodeElementMatch.children.find((e) => {
-        return e.id === objectCheck.targetId;
-      });
-      portEl = portElementMatch;
-    }
+
     if (objectCheck.isDrawable) {
-      portTarget = document.getElementById(`sprotty-container_${portEl.id}`);
+      portTarget = document.getElementById(
+        `sprotty-container_${objectCheck.targetId}`
+      );
       portTarget.classList.add("ready-draw");
     } else if (!objectCheck.isDrawable) {
       if (portTarget) {
@@ -305,7 +302,6 @@ export default function run() {
   // draw edge
   function drawLogic() {
     setTimeout(() => {
-      console.log(document.querySelectorAll(".port"));
       document.querySelectorAll(".port").forEach((port) => {
         port.addEventListener("click", (e) => {
           console.log(e);

@@ -23637,6 +23637,10 @@
 
   // util/checkPositionEl.ts
   function checkPositionEl(target, dummyWidth, dummyHeight, nodeWidth, nodeHeight, portWidth, portHeight) {
+    const NODE_PARENT_WIDTH2 = nodeWidth * 4;
+    const NODE_PARENT_HEIGHT2 = nodeWidth * 4;
+    const PORT_PARENT_WIDTH2 = NODE_PARENT_WIDTH2 / 8;
+    const PORT_PARENT_HEIGHT2 = NODE_PARENT_HEIGHT2 / 8;
     let isDrawable = false;
     let targetId2 = "";
     let gragphChildrenArr = [];
@@ -23673,6 +23677,46 @@
             }
           });
         }
+        if (child.type === "node:package") {
+          child.children.forEach((packageChild) => {
+            if (packageChild.type === "port") {
+              portCompareCoordinateArr.push({
+                x: packageChild.position.x,
+                y: packageChild.position.y,
+                id: packageChild.id,
+                nodeX: packageChild.parent.position.x,
+                nodeY: packageChild.parent.position.y,
+                type: 5
+              });
+            }
+            if (packageChild.type === "node") {
+              packageChild.children.forEach((childOfNodeChildren) => {
+                if (childOfNodeChildren.type === "port") {
+                  let portType = null;
+                  const portX = childOfNodeChildren.position.x;
+                  const portY = childOfNodeChildren.position.y;
+                  if (portX === nodeWidth && portY === (nodeHeight - portHeight) / 2) {
+                    portType = 1;
+                  } else if (portX === (nodeWidth - portWidth) / 2 && portY === nodeHeight) {
+                    portType = 2;
+                  } else if (portX === 0 - portWidth && portY === (nodeHeight - portHeight) / 2) {
+                    portType = 3;
+                  } else if (portX === (nodeWidth - portWidth) / 2 && portY === 0 - portHeight) {
+                    portType = 4;
+                  }
+                  portCompareCoordinateArr.push({
+                    x: portX,
+                    y: portY,
+                    id: childOfNodeChildren.id,
+                    nodeX: childOfNodeChildren.parent.position.x + childOfNodeChildren.parent.parent.position.x,
+                    nodeY: childOfNodeChildren.parent.position.y + childOfNodeChildren.parent.parent.position.y,
+                    type: portType
+                  });
+                }
+              });
+            }
+          });
+        }
       });
       portCompareCoordinateArr.forEach((portCoordinate) => {
         let portCompareX;
@@ -23689,10 +23733,17 @@
         } else if (portCoordinate.type === 4) {
           portCompareX = portCoordinate.nodeX + (nodeWidth - portWidth) / 2;
           portCompareY = portCoordinate.nodeY + portCoordinate.y;
+        } else if (portCoordinate.type === 5) {
+          portCompareX = portCoordinate.nodeX + portCoordinate.x;
+          portCompareY = portCoordinate.nodeY + (NODE_PARENT_HEIGHT2 - PORT_PARENT_HEIGHT2) / 2;
         } else {
           return;
         }
         if (coordinateDummyNodeX <= portCompareX + portWidth && portCompareX <= coordinateDummyNodeX && coordinateDummyNodeY <= portCompareY + portHeight && portCompareY <= coordinateDummyNodeY) {
+          targetId2 = portCoordinate.id;
+          isDrawable = true;
+        }
+        if (coordinateDummyNodeX <= portCompareX + PORT_PARENT_WIDTH2 && portCompareX <= coordinateDummyNodeX && coordinateDummyNodeY <= portCompareY + PORT_PARENT_HEIGHT2 && portCompareY <= coordinateDummyNodeY) {
           targetId2 = portCoordinate.id;
           isDrawable = true;
         }
@@ -23739,7 +23790,6 @@
   var dummyMode = false;
   var sourceId = null;
   var targetId = null;
-  var portEl;
   var portTarget;
   var CustomMouseListener = class extends import_sprotty4.MouseListener {
     mouseUp(target, event) {
@@ -23786,20 +23836,17 @@
       let portElementMatch;
       let nodeElementMatch;
       if (objectCheck.gragphChildrenArr.length > 0) {
+        console.log(objectCheck);
         nodeElementMatch = objectCheck.gragphChildrenArr.find((e) => {
           return e.id.includes(
             objectCheck.targetId.replace("port-", "").slice(0, objectCheck.targetId.replace("port-", "").length - 2)
           );
         });
       }
-      if (nodeElementMatch) {
-        portElementMatch = nodeElementMatch.children.find((e) => {
-          return e.id === objectCheck.targetId;
-        });
-        portEl = portElementMatch;
-      }
       if (objectCheck.isDrawable) {
-        portTarget = document.getElementById(`sprotty-container_${portEl.id}`);
+        portTarget = document.getElementById(
+          `sprotty-container_${objectCheck.targetId}`
+        );
         portTarget.classList.add("ready-draw");
       } else if (!objectCheck.isDrawable) {
         if (portTarget) {
@@ -23917,7 +23964,6 @@
     });
     function drawLogic() {
       setTimeout(() => {
-        console.log(document.querySelectorAll(".port"));
         document.querySelectorAll(".port").forEach((port) => {
           port.addEventListener("click", (e) => {
             console.log(e);
