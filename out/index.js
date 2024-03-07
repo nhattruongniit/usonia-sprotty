@@ -23382,11 +23382,17 @@
   };
 
   // model-source.ts
-  var graph = {
-    type: "graph",
-    id: "graph",
-    children: []
-  };
+  var graphImport = null;
+  function jsonFile(file) {
+    function handleFileLoad(event) {
+      console.log(event.target.result);
+      graphImport = event.target.result;
+    }
+    const reader = new FileReader();
+    reader.onload = handleFileLoad;
+    reader.readAsText(file);
+  }
+  var graph = graphImport;
 
   // util/addNode.ts
   function addNode({
@@ -23767,6 +23773,8 @@
   var deleteBtn = null;
   var showJsonBtn = null;
   var exportJsonBtn = null;
+  var importJsonBtn = null;
+  var inputFile = null;
   var nodeParentNumber = checkIdElement(graph).countIdNodeParent !== null ? checkIdElement(graph).countIdNodeParent : 1;
   var node1Number = checkIdElement(graph).countIdNodeType1 !== null ? checkIdElement(graph).countIdNodeType1 : 1;
   var node2Number = checkIdElement(graph).countIdNodeType2 !== null ? checkIdElement(graph).countIdNodeType2 : 1;
@@ -23836,7 +23844,6 @@
       let portElementMatch;
       let nodeElementMatch;
       if (objectCheck.gragphChildrenArr.length > 0) {
-        console.log(objectCheck);
         nodeElementMatch = objectCheck.gragphChildrenArr.find((e) => {
           return e.id.includes(
             objectCheck.targetId.replace("port-", "").slice(0, objectCheck.targetId.replace("port-", "").length - 2)
@@ -23932,7 +23939,11 @@
     });
   };
   function run() {
-    modelSource.setModel(graph);
+    graph ? modelSource.setModel(graph) : modelSource.setModel({
+      type: "graph",
+      id: "graph",
+      children: []
+    });
     addParentNode = document.getElementById("add-parent-node");
     addNode1Btn = document.getElementById("add-node-1");
     addNode2Btn = document.getElementById("add-node-2");
@@ -23943,6 +23954,8 @@
     cancelDrawEdgeBtn = document.getElementById("cancel-draw-edge");
     showJsonBtn = document.getElementById("show-json");
     exportJsonBtn = document.getElementById("export-json");
+    importJsonBtn = document.getElementById("import-json");
+    inputFile = document.getElementById("input-file");
     showJsonBtn.addEventListener("click", () => {
       console.log(JSON.stringify(modelSource.model, null, 2));
     });
@@ -23959,6 +23972,12 @@
       a.remove();
       URL.revokeObjectURL(url);
     });
+    importJsonBtn.addEventListener("click", () => {
+      inputFile.click();
+    });
+    inputFile.addEventListener("change", (event) => {
+      jsonFile(event.target.files[0]);
+    }, false);
     cancelDrawEdgeBtn.addEventListener("click", () => {
       cancelDrawEdge();
     });

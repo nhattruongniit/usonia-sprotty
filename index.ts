@@ -21,6 +21,7 @@ import checkIdElement from "./util/checkIdElement";
 import randomText from "./util/randomText";
 import getGrahpJson from "./util/getGraphJson";
 import checkPositionEl from "./util/checkPositionEl";
+import jsonFile from "./model-source";
 
 // elements dom
 let addParentNode = null;
@@ -34,6 +35,8 @@ let deleteBtn = null;
 let dummyNodeBtn = null;
 let showJsonBtn = null;
 let exportJsonBtn = null;
+let importJsonBtn = null;
+let inputFile = null;
 
 // count of nodes
 
@@ -261,7 +264,11 @@ const deleteLogic = () => {
 };
 
 export default function run() {
-  modelSource.setModel(graph);
+  graph ? modelSource.setModel(graph) : modelSource.setModel({
+    type: "graph",
+    id: "graph",
+    children: [],
+  });
 
   // elements dom
   addParentNode = document.getElementById("add-parent-node");
@@ -274,6 +281,8 @@ export default function run() {
   cancelDrawEdgeBtn = document.getElementById("cancel-draw-edge");
   showJsonBtn = document.getElementById("show-json");
   exportJsonBtn = document.getElementById("export-json");
+  importJsonBtn = document.getElementById("import-json");
+  inputFile = document.getElementById("input-file")
 
   // show json
   showJsonBtn.addEventListener("click", () => {
@@ -294,6 +303,14 @@ export default function run() {
     a.remove();
     URL.revokeObjectURL(url);
   });
+
+  importJsonBtn.addEventListener("click", () => {
+    // logic import file
+    inputFile.click()
+  })
+  inputFile.addEventListener("change",(event)=>{
+    jsonFile(event.target.files[0])
+   },false)
   // cancel draw edge
   cancelDrawEdgeBtn.addEventListener("click", () => {
     cancelDrawEdge();
@@ -313,20 +330,20 @@ export default function run() {
             const portTranslateAttribute = port.getAttribute("transform");
             const portCoordinate = portTranslateAttribute
               ? portTranslateAttribute
-                  .replace("translate(", "")
-                  .replace(")", "")
-                  .trim()
-                  .split(",")
+                .replace("translate(", "")
+                .replace(")", "")
+                .trim()
+                .split(",")
               : [0, 0];
 
             const transformAttribute =
               port.parentElement.getAttribute("transform");
             const coordinate = transformAttribute
               ? transformAttribute
-                  .replace("translate(", "")
-                  .replace(")", "")
-                  .trim()
-                  .split(",")
+                .replace("translate(", "")
+                .replace(")", "")
+                .trim()
+                .split(",")
               : [0, 0];
 
             // add dummy node
