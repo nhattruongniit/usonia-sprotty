@@ -12,7 +12,6 @@ import {
 } from "sprotty";
 import { Action, Selectable } from "sprotty-protocol";
 import { createContainer } from "./di.config";
-import { graph } from "./model-source";
 
 // utils
 import addNode from "./util/addNode";
@@ -21,7 +20,6 @@ import checkIdElement from "./util/checkIdElement";
 import randomText from "./util/randomText";
 import getGrahpJson from "./util/getGraphJson";
 import checkPositionEl from "./util/checkPositionEl";
-import jsonFile from "./model-source";
 
 // elements dom
 let addParentNode = null;
@@ -38,33 +36,47 @@ let exportJsonBtn = null;
 let importJsonBtn = null;
 let inputFile = null;
 
-// count of nodes
+// count of
+let graphDisplay;
+const graph: any = {
+  type: "graph",
+  id: "graph",
+  children: [],
+};
+
+graphDisplay = JSON.parse(localStorage.getItem("graph"))
+  ? JSON.parse(localStorage.getItem("graph"))
+  : graph;
+if (graphDisplay !== graph && !graphDisplay.isValidGraph) {
+  graphDisplay = graph;
+  alert("Invaid type of files, please re-import !!!");
+}
 
 let nodeParentNumber =
-  checkIdElement(graph).countIdNodeParent !== null
-    ? checkIdElement(graph).countIdNodeParent
+  checkIdElement(graphDisplay).countIdNodeParent !== null
+    ? checkIdElement(graphDisplay).countIdNodeParent
     : 1;
 let node1Number =
-  checkIdElement(graph).countIdNodeType1 !== null
-    ? checkIdElement(graph).countIdNodeType1
+  checkIdElement(graphDisplay).countIdNodeType1 !== null
+    ? checkIdElement(graphDisplay).countIdNodeType1
     : 1;
 let node2Number =
-  checkIdElement(graph).countIdNodeType2 !== null
-    ? checkIdElement(graph).countIdNodeType2
+  checkIdElement(graphDisplay).countIdNodeType2 !== null
+    ? checkIdElement(graphDisplay).countIdNodeType2
     : 1;
 let node3Number =
-  checkIdElement(graph).countIdNodeType3 !== null
-    ? checkIdElement(graph).countIdNodeType3
+  checkIdElement(graphDisplay).countIdNodeType3 !== null
+    ? checkIdElement(graphDisplay).countIdNodeType3
     : 1;
 let node4Number =
-  checkIdElement(graph).countIdNodeType4 !== null
-    ? checkIdElement(graph).countIdNodeType4
+  checkIdElement(graphDisplay).countIdNodeType4 !== null
+    ? checkIdElement(graphDisplay).countIdNodeType4
     : 1;
 
 // count of edges
 let edgeNumber =
-  checkIdElement(graph).countIdEdge !== null
-    ? checkIdElement(graph).countIdEdge
+  checkIdElement(graphDisplay).countIdEdge !== null
+    ? checkIdElement(graphDisplay).countIdEdge
     : 1;
 
 // dummy
@@ -263,8 +275,9 @@ const deleteLogic = () => {
 };
 
 export default function run() {
-  modelSource.setModel(graph);
-
+  modelSource.setModel(graphDisplay);
+  localStorage.clear();
+  drawLogic();
   // elements dom
   addParentNode = document.getElementById("add-parent-node");
   addNode1Btn = document.getElementById("add-node-1");
@@ -305,14 +318,19 @@ export default function run() {
   });
 
   inputFile.addEventListener("change", (event) => {
+    // console.log(event.target.files[0]);
+    if (!event.target.files[0]) {
+      return;
+    }
     const reader = new FileReader();
     // reader.readAsText(event.target.files[0]);
     reader.readAsText(event.target.files[0]);
     reader.onload = (event) => {
       const dataImport = event.target.result;
       const parseGraph = JSON.parse(dataImport as string);
-      console.log(parseGraph);
-      modelSource.setModel(parseGraph);
+      localStorage.setItem("graph", JSON.stringify(parseGraph));
+
+      location.reload();
     };
   });
   // cancel draw edge

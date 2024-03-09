@@ -23381,13 +23381,6 @@
     return container2;
   };
 
-  // model-source.ts
-  var graph = {
-    type: "graph",
-    id: "graph",
-    children: []
-  };
-
   // util/addNode.ts
   function addNode({
     isParentNode,
@@ -23577,6 +23570,9 @@
 
   // util/checkIdElement.ts
   var getLength = (arr, type, idInclude) => {
+    if (!arr) {
+      return;
+    }
     return arr.filter((e) => {
       return e.type === type;
     }).filter((e) => {
@@ -23595,7 +23591,7 @@
       };
     }
     return {
-      countIdNodeParent: getLength(graph2.children, "node", "node-parent") + 1,
+      countIdNodeParent: getLength(graph2.children, "node:package", "node-type-parent") + 1,
       countIdNodeType1: getLength(graph2.children, "node", "node-type-1") + 1,
       countIdNodeType2: getLength(graph2.children, "node", "node-type-2") + 1,
       countIdNodeType3: getLength(graph2.children, "node", "node-type-3") + 1,
@@ -23626,7 +23622,7 @@
 
   // util/getGraphJson.ts
   function removeIsFeatures(data) {
-    if (data.length > 0) {
+    if (data) {
       data.forEach((e) => {
         e == null ? true : delete e.features;
         removeIsFeatures(e.children);
@@ -23641,20 +23637,8 @@
     graph2 == null ? true : delete graph2.size;
     graph2 == null ? true : delete graph2.features;
     removeIsFeatures(graph2.children);
+    graph2.isValidGraph = true;
     return JSON.stringify(graph2, null, 2);
-  }
-  {
-    features: {
-    }
-    children:
-      [
-        {
-          isFeatures: {},
-          children: [{}, {}, {}]
-        },
-        {},
-        {}
-      ];
   }
 
   // util/checkPositionEl.ts
@@ -23791,12 +23775,23 @@
   var exportJsonBtn = null;
   var importJsonBtn = null;
   var inputFile = null;
-  var nodeParentNumber = checkIdElement(graph).countIdNodeParent !== null ? checkIdElement(graph).countIdNodeParent : 1;
-  var node1Number = checkIdElement(graph).countIdNodeType1 !== null ? checkIdElement(graph).countIdNodeType1 : 1;
-  var node2Number = checkIdElement(graph).countIdNodeType2 !== null ? checkIdElement(graph).countIdNodeType2 : 1;
-  var node3Number = checkIdElement(graph).countIdNodeType3 !== null ? checkIdElement(graph).countIdNodeType3 : 1;
-  var node4Number = checkIdElement(graph).countIdNodeType4 !== null ? checkIdElement(graph).countIdNodeType4 : 1;
-  var edgeNumber = checkIdElement(graph).countIdEdge !== null ? checkIdElement(graph).countIdEdge : 1;
+  var graphDisplay;
+  var graph = {
+    type: "graph",
+    id: "graph",
+    children: []
+  };
+  graphDisplay = JSON.parse(localStorage.getItem("graph")) ? JSON.parse(localStorage.getItem("graph")) : graph;
+  if (graphDisplay !== graph && !graphDisplay.isValidGraph) {
+    graphDisplay = graph;
+    alert("Invaid type of files, please re-import !!!");
+  }
+  var nodeParentNumber = checkIdElement(graphDisplay).countIdNodeParent !== null ? checkIdElement(graphDisplay).countIdNodeParent : 1;
+  var node1Number = checkIdElement(graphDisplay).countIdNodeType1 !== null ? checkIdElement(graphDisplay).countIdNodeType1 : 1;
+  var node2Number = checkIdElement(graphDisplay).countIdNodeType2 !== null ? checkIdElement(graphDisplay).countIdNodeType2 : 1;
+  var node3Number = checkIdElement(graphDisplay).countIdNodeType3 !== null ? checkIdElement(graphDisplay).countIdNodeType3 : 1;
+  var node4Number = checkIdElement(graphDisplay).countIdNodeType4 !== null ? checkIdElement(graphDisplay).countIdNodeType4 : 1;
+  var edgeNumber = checkIdElement(graphDisplay).countIdEdge !== null ? checkIdElement(graphDisplay).countIdEdge : 1;
   var edgeArr = [];
   var dummyNodeArray = [];
   var dummyEdgeId = null;
@@ -23955,7 +23950,9 @@
     });
   };
   function run() {
-    modelSource.setModel(graph);
+    modelSource.setModel(graphDisplay);
+    localStorage.clear();
+    drawLogic();
     addParentNode = document.getElementById("add-parent-node");
     addNode1Btn = document.getElementById("add-node-1");
     addNode2Btn = document.getElementById("add-node-2");
@@ -23988,13 +23985,16 @@
       inputFile.click();
     });
     inputFile.addEventListener("change", (event) => {
+      if (!event.target.files[0]) {
+        return;
+      }
       const reader = new FileReader();
       reader.readAsText(event.target.files[0]);
       reader.onload = (event2) => {
         const dataImport = event2.target.result;
         const parseGraph = JSON.parse(dataImport);
-        console.log(parseGraph);
-        modelSource.setModel(parseGraph);
+        localStorage.setItem("graph", JSON.stringify(parseGraph));
+        location.reload();
       };
     });
     cancelDrawEdgeBtn.addEventListener("click", () => {

@@ -1,5 +1,6 @@
 function removeIsFeatures(data) {
-  if (data.length > 0) {
+  // console.log(data);
+  if (data) {
     data.forEach((e) => {
       delete e?.features;
       removeIsFeatures(e.children);
@@ -15,19 +16,7 @@ export default function getGrahpJson(graph: any) {
   delete graph?.size;
   delete graph?.features;
   removeIsFeatures(graph.children);
+  graph.isValidGraph = true;
 
   return JSON.stringify(graph, null, 2);
-}
-
-{
-  features: {
-  }
-  children: [
-    {
-      isFeatures: {},
-      children: [{}, {}, {}],
-    },
-    {},
-    {},
-  ];
 }
