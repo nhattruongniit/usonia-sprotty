@@ -23625,6 +23625,14 @@
   }
 
   // util/getGraphJson.ts
+  function removeIsFeatures(data) {
+    if (data.length > 0) {
+      data.forEach((e) => {
+        e == null ? true : delete e.features;
+        removeIsFeatures(e.children);
+      });
+    }
+  }
   function getGrahpJson(graph2) {
     graph2 == null ? true : delete graph2.canvasBounds;
     graph2 == null ? true : delete graph2.scroll;
@@ -23632,7 +23640,21 @@
     graph2 == null ? true : delete graph2.position;
     graph2 == null ? true : delete graph2.size;
     graph2 == null ? true : delete graph2.features;
+    removeIsFeatures(graph2.children);
     return JSON.stringify(graph2, null, 2);
+  }
+  {
+    features: {
+    }
+    children:
+      [
+        {
+          isFeatures: {},
+          children: [{}, {}, {}]
+        },
+        {},
+        {}
+      ];
   }
 
   // util/checkPositionEl.ts
@@ -23967,9 +23989,12 @@
     });
     inputFile.addEventListener("change", (event) => {
       const reader = new FileReader();
-      reader.readAsDataURL(event.target.files[0]);
+      reader.readAsText(event.target.files[0]);
       reader.onload = (event2) => {
-        console.log(event2.target.result);
+        const dataImport = event2.target.result;
+        const parseGraph = JSON.parse(dataImport);
+        console.log(parseGraph);
+        modelSource.setModel(parseGraph);
       };
     });
     cancelDrawEdgeBtn.addEventListener("click", () => {

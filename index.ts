@@ -303,12 +303,16 @@ export default function run() {
     // logic import file
     inputFile.click();
   });
+
   inputFile.addEventListener("change", (event) => {
     const reader = new FileReader();
     // reader.readAsText(event.target.files[0]);
     reader.readAsText(event.target.files[0]);
     reader.onload = (event) => {
-      console.log(event.target.result);
+      const dataImport = event.target.result;
+      const parseGraph = JSON.parse(dataImport as string);
+      console.log(parseGraph);
+      modelSource.setModel(parseGraph);
     };
   });
   // cancel draw edge
