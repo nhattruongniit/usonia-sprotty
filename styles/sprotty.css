@@ -3,10 +3,6 @@
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-.sprotty-graph {
-  /* border: #000 solid 5px; */
-}
-
 .sprotty-hidden {
   display: block;
   position: absolute;
@@ -40,12 +36,6 @@
   height: calc(100vh - 100px);
 }
 
-/* .sprotty-edge {
-  fill: none;
-  stroke: black;
-  stroke-width: 3px;
-} */
-
 .sprotty-graph,
 .sprotty {
   display: flex;
@@ -55,20 +45,8 @@
   height: 80vh;
 }
 
-.sprotty-edge {
-  fill: none;
-  stroke: black;
-  stroke-width: 3px;
-}
-
 .sprotty-edge.selected {
   stroke: red;
-}
-
-.sprotty-node {
-  fill: #c0e0fc;
-  stroke: #444;
-  stroke-width: 1;
 }
 
 .dummy .sprotty-node {
@@ -85,7 +63,8 @@
   opacity: 70%;
 }
 
-.ready-draw .sprotty-port {
+.ready-draw .sprotty-port,
+.ready-draw-source .sprotty-port {
   fill: #0f0;
 }
 
@@ -94,12 +73,25 @@ text {
   stroke: #000;
   fill: #000;
   font-family: sans-serif;
-  font-size: 10pt;
   text-anchor: middle;
 }
 
-.arrowhead {
-  fill: black;
+.node text {
+  font-size: 10pt;
+}
+
+.package text {
+  font-size: 20pt;
+}
+
+.port text {
+  font-size: 8pt;
+}
+.node.text-node-child {
+  font-size: 10pt;
+}
+text.label-port-node-child {
+  font-size: 8pt;
 }
 
 .sprotty-port {
@@ -142,7 +134,6 @@ svg {
 }
 
 .mouseover {
-  stroke: #88f;
 }
 
 .selected > rect {
@@ -151,17 +142,56 @@ svg {
 
 .port.sprotty-label {
   fill: rgb(0, 0, 0);
-  font-size: 10px;
+  /* font-size: 10px; */
   font-weight: bold;
 }
 
 .edge.sprotty-label {
-  fill: rgba(42, 163, 82, 0.767);
+  fill: black;
   font-size: 10px;
   font-weight: bold;
 }
 
+.sprotty-node {
+  stroke: #448;
+  stroke-width: 1;
+  fill: #ddf;
+}
+
+.sprotty-node.mouseover {
+  fill: #dfd;
+  stroke: #88f;
+}
+
+.sprotty-port.mouseover {
+  stroke: #88f;
+}
+
+.sprotty-node.selected {
+  stroke-width: 3;
+}
+
+.sprotty-port {
+  stroke: #448;
+  stroke-width: 1;
+  fill: #66c;
+}
+
+.sprotty-edge {
+  fill: none;
+  stroke: #224;
+  stroke-width: 1;
+}
+
 .node-package {
+  fill: #d0c8c0;
+  stroke: none;
+}
+.sprotty-edge .arrowhead {
+  fill: #336;
+}
+
+.node-package.mouseover {
   fill: #d0c8c0;
   stroke: #541;
 }

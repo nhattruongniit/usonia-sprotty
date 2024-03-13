@@ -1,4 +1,7 @@
 const getLength = (arr: any, type: string, idInclude: string) => {
+  if (!arr) {
+    return;
+  }
   return arr
     .filter((e: any) => {
       return e.type === type;
@@ -20,7 +23,8 @@ export default function checkIdElement(graph: any = null) {
     };
   }
   return {
-    countIdNodeParent: getLength(graph.children, "node", "node-parent") + 1,
+    countIdNodeParent:
+      getLength(graph.children, "node:package", "node-type-parent") + 1,
     countIdNodeType1: getLength(graph.children, "node", "node-type-1") + 1,
     countIdNodeType2: getLength(graph.children, "node", "node-type-2") + 1,
     countIdNodeType3: getLength(graph.children, "node", "node-type-3") + 1,

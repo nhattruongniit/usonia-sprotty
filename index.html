@@ -19,8 +19,11 @@
     <button id="add-node-2" class="btn btn-primary btn-sm">Add Node 2</button>
     <button id="add-node-3" class="btn btn-primary btn-sm">Add Node 3</button>
     <button id="add-node-4" class="btn btn-primary btn-sm">Add Node 4</button>
-    <button id="export-json" class="btn btn-primary btn-sm">Export JSON</button>
-    <button id="show-json" class="btn btn-primary btn-sm hide">Show JSON</button>
+    <button id="export-json" class="btn btn-success btn-sm">Export JSON</button>
+    <button id="show-json" class="btn btn-success btn-sm hide">
+      Show JSON
+    </button>
+    <button id="import-json" class="btn btn-success btn-sm">Import JSON</button>
     <button id="delete" class="btn btn-danger btn-sm">Delete</button>
     <button id="draw-edge" class="btn btn-info btn-sm hide">Draw Edge</button>
     <button id="cancel-draw-edge" class="btn btn-danger btn-sm hide">
@@ -29,6 +32,13 @@
     <button id="add-dummy-node" class="btn btn-primary btn-sm hide">
       Add Dummy Node
     </button>
+    <input
+      type="file"
+      accept="application/json"
+      name=""
+      id="input-file"
+      hidden
+    />
 
     <div draggable="true" style="height: 70px; width: 70px" class="hide">
       <svg style="height: inherit; width: inherit">
