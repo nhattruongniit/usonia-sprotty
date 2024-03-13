@@ -3,10 +3,6 @@
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-.sprotty-graph {
-  /* border: #000 solid 5px; */
-}
-
 .sprotty-hidden {
   display: block;
   position: absolute;
@@ -40,12 +36,6 @@
   height: calc(100vh - 100px);
 }
 
-/* .sprotty-edge {
-  fill: none;
-  stroke: black;
-  stroke-width: 3px;
-} */
-
 .sprotty-graph,
 .sprotty {
   display: flex;
@@ -57,12 +47,6 @@
 
 .sprotty-edge.selected {
   stroke: red;
-}
-
-.sprotty-node {
-  fill: #c0e0fc;
-  stroke: #444;
-  stroke-width: 1;
 }
 
 .dummy .sprotty-node {
@@ -150,7 +134,6 @@ svg {
 }
 
 .mouseover {
-  stroke: #88f;
 }
 
 .selected > rect {
@@ -170,13 +153,18 @@ svg {
 }
 
 .sprotty-node {
-  fill: #cdc;
-  stroke: #152;
-  stroke-width: 2;
+  stroke: #448;
+  stroke-width: 1;
+  fill: #ddf;
 }
 
 .sprotty-node.mouseover {
   fill: #dfd;
+  stroke: #88f;
+}
+
+.sprotty-port.mouseover {
+  stroke: #88f;
 }
 
 .sprotty-node.selected {
@@ -184,18 +172,23 @@ svg {
 }
 
 .sprotty-port {
-  fill: #484;
+  stroke: #448;
+  stroke-width: 1;
+  fill: #66c;
 }
 
 .sprotty-edge {
   fill: none;
-  stroke: #152;
-  stroke-width: 3;
+  stroke: #224;
+  stroke-width: 1;
 }
 
 .node-package {
   fill: #d0c8c0;
   stroke: none;
+}
+.sprotty-edge .arrowhead {
+  fill: #336;
 }
 
 .node-package.mouseover {
