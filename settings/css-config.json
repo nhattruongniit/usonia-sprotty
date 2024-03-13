@@ -1,0 +1,18 @@
+/*
+ color node,
+ color port,
+ width node,
+ height node,
+width port,
+height port,
+effect hover port
+color hover node
+width parent node
+height parent node
+*/
+
+
+{
+  "NODE_DEFAULT_WIDTH": "200",
+  "NODE_DEFAULT_HEIGHT": "100"
+}
