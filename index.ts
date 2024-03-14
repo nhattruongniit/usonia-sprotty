@@ -13,6 +13,9 @@ import {
 import { Action, Selectable } from "sprotty-protocol";
 import { createContainer } from "./di.config";
 
+// settings
+import * as config from "./settings/config.json";
+
 // utils
 import addNode from "./util/addNode";
 import drawEdge from "./util/drawEdge";
@@ -88,8 +91,8 @@ let dummyEdgeId = null;
 // size nodes & ports & label
 // let NODE_WIDTH;
 // let NODE_HEIGHT;
-const config = fetchJSONData("./settings/config.json");
-console.log(config);
+
+console.log(config, config.EDGE_ARROW_FILL);
 const NODE_WIDTH = 100;
 const NODE_HEIGHT = 100;
 const PORT_CHILD_WIDTH = NODE_WIDTH / 5;
