@@ -91,9 +91,9 @@ let dummyEdgeId = null;
 // let NODE_WIDTH;
 // let NODE_HEIGHT;
 
-console.log(config, config.EDGE_ARROW_FILL);
-const NODE_WIDTH = 100;
-const NODE_HEIGHT = 100;
+// console.log(config, config.EDGE_ARROW_FILL);
+const NODE_WIDTH = config.NODE_WIDTH;
+const NODE_HEIGHT = config.NODE_HEIGTH;
 const PORT_CHILD_WIDTH = NODE_WIDTH / 5;
 const PORT_CHILD_HEIGHT = NODE_HEIGHT / 5;
 

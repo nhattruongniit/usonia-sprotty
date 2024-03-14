@@ -12582,7 +12582,7 @@
           }
           function inputEventHandler() {
             if (!suppressAutocomplete) {
-              fetch2(
+              fetch(
                 0
                 /* Keyboard */
               );
@@ -12687,13 +12687,13 @@
           }
           function focusEventHandler() {
             if (showOnFocus) {
-              fetch2(
+              fetch(
                 1
                 /* Focus */
               );
             }
           }
-          function fetch2(trigger) {
+          function fetch(trigger) {
             if (input.value.length >= minLen || trigger === 1) {
               clearDebounceTimer();
               debounceTimer = window.setTimeout(function() {
@@ -12721,7 +12721,7 @@
               settings.keyup({
                 event: e,
                 fetch: function() {
-                  return fetch2(
+                  return fetch(
                     0
                     /* Keyboard */
                   );
@@ -12730,7 +12730,7 @@
               return;
             }
             if (!containerDisplayed() && e.key === "ArrowDown") {
-              fetch2(
+              fetch(
                 0
                 /* Keyboard */
               );
@@ -12740,7 +12740,7 @@
             settings.click && settings.click({
               event: e,
               fetch: function() {
-                return fetch2(
+                return fetch(
                   2
                   /* Mouse */
                 );
@@ -23381,6 +23381,10 @@
     return container2;
   };
 
+  // settings/config.json
+  var NODE_WIDTH = 100;
+  var NODE_HEIGTH = 100;
+
   // util/addNode.ts
   function addNode({
     isParentNode,
@@ -23762,20 +23766,6 @@
     };
   }
 
-  // util/fetchJson.ts
-  async function fetchJSONData(path) {
-    try {
-      const response = await fetch(path);
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status : ${response.status}`);
-      }
-      const data = await response.json();
-      return data;
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
   // index.ts
   var addParentNode = null;
   var addNode1Btn = null;
@@ -23809,17 +23799,15 @@
   var edgeArr = [];
   var dummyNodeArray = [];
   var dummyEdgeId = null;
-  var config = fetchJSONData("./settings/config.json");
-  console.log(config);
-  var NODE_WIDTH = 100;
-  var NODE_HEIGHT = 100;
-  var PORT_CHILD_WIDTH = NODE_WIDTH / 5;
+  var NODE_WIDTH2 = NODE_WIDTH;
+  var NODE_HEIGHT = NODE_HEIGTH;
+  var PORT_CHILD_WIDTH = NODE_WIDTH2 / 5;
   var PORT_CHILD_HEIGHT = NODE_HEIGHT / 5;
-  var NODE_PARENT_WIDTH = NODE_WIDTH * 4;
+  var NODE_PARENT_WIDTH = NODE_WIDTH2 * 4;
   var NODE_PARENT_HEIGHT = NODE_HEIGHT * 4;
   var PORT_PARENT_WIDTH = NODE_PARENT_WIDTH / 20;
   var PORT_PARENT_HEIGHT = NODE_PARENT_HEIGHT / 20;
-  var NODE_DUMMY_WIDTH = NODE_WIDTH / 10;
+  var NODE_DUMMY_WIDTH = NODE_WIDTH2 / 10;
   var NODE_DUMMY_HEIGHT = NODE_HEIGHT / 10;
   var drawMode = false;
   var dummyMode = false;
@@ -23832,7 +23820,7 @@
         target,
         NODE_DUMMY_WIDTH,
         NODE_DUMMY_HEIGHT,
-        NODE_WIDTH,
+        NODE_WIDTH2,
         NODE_HEIGHT,
         PORT_CHILD_WIDTH,
         PORT_CHILD_HEIGHT
@@ -23863,7 +23851,7 @@
         target,
         NODE_DUMMY_WIDTH,
         NODE_DUMMY_HEIGHT,
-        NODE_WIDTH,
+        NODE_WIDTH2,
         NODE_HEIGHT,
         PORT_CHILD_WIDTH,
         PORT_CHILD_HEIGHT
@@ -24096,7 +24084,7 @@
         isParentNode: false,
         source: modelSource,
         nodeId: `type-1-${node1Number}`,
-        nodeWidth: NODE_WIDTH,
+        nodeWidth: NODE_WIDTH2,
         nodeHeight: NODE_HEIGHT,
         portWidth: PORT_CHILD_WIDTH,
         portHeight: PORT_CHILD_HEIGHT,
@@ -24111,7 +24099,7 @@
         isParentNode: false,
         source: modelSource,
         nodeId: `type-2-${node2Number}`,
-        nodeWidth: NODE_WIDTH,
+        nodeWidth: NODE_WIDTH2,
         nodeHeight: NODE_HEIGHT,
         portWidth: PORT_CHILD_WIDTH,
         portHeight: PORT_CHILD_HEIGHT,
@@ -24126,7 +24114,7 @@
         isParentNode: false,
         source: modelSource,
         nodeId: `type-3-${node3Number}`,
-        nodeWidth: NODE_WIDTH,
+        nodeWidth: NODE_WIDTH2,
         nodeHeight: NODE_HEIGHT,
         portWidth: PORT_CHILD_WIDTH,
         portHeight: PORT_CHILD_HEIGHT,
@@ -24141,7 +24129,7 @@
         isParentNode: false,
         source: modelSource,
         nodeId: `type-4-${node4Number}`,
-        nodeWidth: NODE_WIDTH,
+        nodeWidth: NODE_WIDTH2,
         nodeHeight: NODE_HEIGHT,
         portWidth: PORT_CHILD_WIDTH,
         portHeight: PORT_CHILD_HEIGHT,
