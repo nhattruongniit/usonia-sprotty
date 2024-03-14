@@ -10,6 +10,7 @@
   "NODE_PARENT_STROKE_HOVER": "#541",
   "PORT_FILL": "#66c",
   "PORT_STROKE": "#448",
+  "PORT_STROKE_HOVER": "#88f",
   "EDGE_FILL": "none",
   "EDGE_STROKE": "#224",
   "EDGE_ARROW_FILL": "#336",
