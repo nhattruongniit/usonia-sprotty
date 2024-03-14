@@ -1,0 +1,21 @@
+{
+  "NODE_WIDTH": 100,
+  "NODE_HEIGTH": 100,
+  "NODE_FILL": "#448",
+  "NODE_STROKE": "#ddf",
+  "NODE_FILL_HOVER": "#88f",
+  "NODE_PARENT_FILL": "#d0c8c0",
+  "NODE_PARENT_STROKE": "none",
+  "NODE_PARENT_FILL_HOVER": "#d0c8c0",
+  "NODE_PARENT_STROKE_HOVER": "#541",
+  "PORT_FILL": "#66c",
+  "PORT_STROKE": "#448",
+  "EDGE_FILL": "none",
+  "EDGE_STROKE": "#224",
+  "EDGE_ARROW_FILL": "#336",
+  "NODE_DUMMY_FILL": "#000",
+  "NODE_DUMMY_STROKE": "none",
+  "EDGE_DUMMY_FILL": "none",
+  "EDGE_DUMMY_STROKE": "#333",
+  "READY_DRAW_PORT_FILL": "#0f0"
+}

@@ -51,6 +51,7 @@
 
 .dummy .sprotty-node {
   fill: black;
+  stroke: none;
 }
 
 .dummy-edge {
@@ -94,10 +95,6 @@ text.label-port-node-child {
   font-size: 8pt;
 }
 
-.sprotty-port {
-  fill: #484;
-}
-
 /* .sprotty-label.node {
   font-size: 1.2rem;
 } */
@@ -131,9 +128,6 @@ svg {
   100% {
     transform: rotate(360deg);
   }
-}
-
-.mouseover {
 }
 
 .selected > rect {

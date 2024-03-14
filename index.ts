@@ -20,6 +20,7 @@ import checkIdElement from "./util/checkIdElement";
 import randomText from "./util/randomText";
 import getGrahpJson from "./util/getGraphJson";
 import checkPositionEl from "./util/checkPositionEl";
+import { fetchJSONData } from "./util/fetchJson";
 
 // elements dom
 let addParentNode = null;
@@ -85,6 +86,10 @@ let dummyNodeArray = [];
 let dummyEdgeId = null;
 
 // size nodes & ports & label
+// let NODE_WIDTH;
+// let NODE_HEIGHT;
+const config = fetchJSONData("./settings/config.json");
+console.log(config);
 const NODE_WIDTH = 100;
 const NODE_HEIGHT = 100;
 const PORT_CHILD_WIDTH = NODE_WIDTH / 5;

@@ -12582,7 +12582,7 @@
           }
           function inputEventHandler() {
             if (!suppressAutocomplete) {
-              fetch(
+              fetch2(
                 0
                 /* Keyboard */
               );
@@ -12687,13 +12687,13 @@
           }
           function focusEventHandler() {
             if (showOnFocus) {
-              fetch(
+              fetch2(
                 1
                 /* Focus */
               );
             }
           }
-          function fetch(trigger) {
+          function fetch2(trigger) {
             if (input.value.length >= minLen || trigger === 1) {
               clearDebounceTimer();
               debounceTimer = window.setTimeout(function() {
@@ -12721,7 +12721,7 @@
               settings.keyup({
                 event: e,
                 fetch: function() {
-                  return fetch(
+                  return fetch2(
                     0
                     /* Keyboard */
                   );
@@ -12730,7 +12730,7 @@
               return;
             }
             if (!containerDisplayed() && e.key === "ArrowDown") {
-              fetch(
+              fetch2(
                 0
                 /* Keyboard */
               );
@@ -12740,7 +12740,7 @@
             settings.click && settings.click({
               event: e,
               fetch: function() {
-                return fetch(
+                return fetch2(
                   2
                   /* Mouse */
                 );
@@ -23762,6 +23762,20 @@
     };
   }
 
+  // util/fetchJson.ts
+  async function fetchJSONData(path) {
+    try {
+      const response = await fetch(path);
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status : ${response.status}`);
+      }
+      const data = await response.json();
+      return data;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   // index.ts
   var addParentNode = null;
   var addNode1Btn = null;
@@ -23795,6 +23809,8 @@
   var edgeArr = [];
   var dummyNodeArray = [];
   var dummyEdgeId = null;
+  var config = fetchJSONData("./settings/config.json");
+  console.log(config);
   var NODE_WIDTH = 100;
   var NODE_HEIGHT = 100;
   var PORT_CHILD_WIDTH = NODE_WIDTH / 5;
