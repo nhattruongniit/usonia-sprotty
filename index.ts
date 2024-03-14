@@ -23,7 +23,6 @@ import checkIdElement from "./util/checkIdElement";
 import randomText from "./util/randomText";
 import getGrahpJson from "./util/getGraphJson";
 import checkPositionEl from "./util/checkPositionEl";
-import { fetchJSONData } from "./util/fetchJson";
 
 // elements dom
 let addParentNode = null;
