@@ -117,7 +117,15 @@ let targetId = null;
 
 let portTarget: HTMLElement;
 
-//
+// styles
+const styles = `
+.sprotty-node { stroke: ${config.NODE_STROKE}; fill: ${config.NODE_FILL}; }
+`
+const styleSheet = document.createElement("style")
+styleSheet.innerText = styles
+document.head.appendChild(styleSheet)
+
+
 export class CustomMouseListener extends MouseListener {
   mouseUp(target: any, event: MouseEvent): (Action | Promise<Action>)[] {
     // code connect by dummy node
@@ -207,7 +215,7 @@ function cancelDrawEdge() {
   cancelDrawEdgeBtn.classList.add("hide");
 
   document.querySelectorAll(".sprotty-node").forEach((e) => {
-    (e as HTMLElement).removeAttribute("style");
+    // (e as HTMLElement).removeAttribute("style");
   });
 
   document.querySelectorAll(".sprotty-edge").forEach((e) => {

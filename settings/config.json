@@ -1,5 +1,5 @@
 {
-  "NODE_WIDTH": 100,
+  "NODE_WIDTH": 200,
   "NODE_HEIGTH": 100,
   "NODE_FILL": "#448",
   "NODE_STROKE": "#ddf",

@@ -23270,25 +23270,6 @@
   EdgeWithArrow = __decorateClass([
     (0, import_inversify2.injectable)()
   ], EdgeWithArrow);
-  var TaskNodeView = class {
-    render(node, context) {
-      const position = 50;
-      return /* @__PURE__ */ (0, import_jsx2.svg)("g", null, /* @__PURE__ */ (0, import_jsx2.svg)(
-        "rect",
-        {
-          "class-sprotty-node": true,
-          "class-task": true,
-          "class-running": node.isRunning,
-          "class-finished": node.isFinished,
-          width: node.size.width,
-          height: node.size.height
-        }
-      ), /* @__PURE__ */ (0, import_jsx2.svg)("text", { x: position, y: position + 5 }, node.name));
-    }
-  };
-  TaskNodeView = __decorateClass([
-    (0, import_inversify2.injectable)()
-  ], TaskNodeView);
   var NodeView = class extends import_sprotty2.RectangularNodeView {
     render(node, context, args) {
       if (!this.isVisible(node, context)) {
@@ -23382,8 +23363,10 @@
   };
 
   // settings/config.json
-  var NODE_WIDTH = 100;
+  var NODE_WIDTH = 200;
   var NODE_HEIGTH = 100;
+  var NODE_FILL = "#448";
+  var NODE_STROKE = "#ddf";
 
   // util/addNode.ts
   function addNode({
@@ -23814,6 +23797,12 @@
   var sourceId = null;
   var targetId = null;
   var portTarget;
+  var styles = `
+.sprotty-node { stroke: ${NODE_STROKE}; fill: ${NODE_FILL}; }
+`;
+  var styleSheet = document.createElement("style");
+  styleSheet.innerText = styles;
+  document.head.appendChild(styleSheet);
   var CustomMouseListener = class extends import_sprotty4.MouseListener {
     mouseUp(target, event) {
       const objectCheck = checkPositionEl(
@@ -23889,7 +23878,6 @@
     drawEdgeBtn.classList.remove("btn-active");
     cancelDrawEdgeBtn.classList.add("hide");
     document.querySelectorAll(".sprotty-node").forEach((e) => {
-      e.removeAttribute("style");
     });
     document.querySelectorAll(".sprotty-edge").forEach((e) => {
       e.classList.remove("selected");
