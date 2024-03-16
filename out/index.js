@@ -23498,26 +23498,51 @@
       }
     }
     for (let i = 0; i < portQuantity; i++) {
-      source.addElements([
-        {
-          parentId: `node-${nodeId}`,
-          element: {
-            type: "port",
-            id: `port-${nodeId}-${i + 1}`,
-            size: { width: portWidth, height: portHeight },
-            position: positionPort[i],
-            cssClasses: ["port"],
-            children: nodeId === "dummy" ? [] : [
-              {
-                type: "label:port",
-                id: `label-port-${nodeId}-${i + 1}`,
-                text: `p-${i + 1}`,
-                position: { x: portWidth / 2, y: 0 - portHeight / 8 }
-              }
-            ]
+      if (portQuantity === 3) {
+        source.addElements([
+          {
+            parentId: `node-${nodeId}`,
+            element: {
+              type: "port",
+              id: `port-${nodeId}-${i + 1}`,
+              size: { width: portWidth, height: portHeight },
+              position: positionPort[i],
+              // cssClasses:  ["port"],
+              cssClasses: i === 1 ? ["port", "hide"] : ["port"],
+              children: nodeId === "dummy" ? [] : [
+                {
+                  type: "label:port",
+                  id: `label-port-${nodeId}-${i + 1}`,
+                  text: `p-${i + 1}`,
+                  position: { x: portWidth / 2, y: 0 - portHeight / 8 }
+                }
+              ]
+            }
           }
-        }
-      ]);
+        ]);
+      } else {
+        source.addElements([
+          {
+            parentId: `node-${nodeId}`,
+            element: {
+              type: "port",
+              id: `port-${nodeId}-${i + 1}`,
+              size: { width: portWidth, height: portHeight },
+              position: positionPort[i],
+              cssClasses: ["port"],
+              // cssClasses: i === 1 ? ["port"] : ["port"],
+              children: nodeId === "dummy" ? [] : [
+                {
+                  type: "label:port",
+                  id: `label-port-${nodeId}-${i + 1}`,
+                  text: `p-${i + 1}`,
+                  position: { x: portWidth / 2, y: 0 - portHeight / 8 }
+                }
+              ]
+            }
+          }
+        ]);
+      }
     }
   }
 
