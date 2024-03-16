@@ -23365,8 +23365,10 @@
   // settings/config.json
   var NODE_WIDTH = 200;
   var NODE_HEIGTH = 100;
-  var NODE_FILL = "#448";
-  var NODE_STROKE = "#ddf";
+  var NODE_DUMMY_WIDTH = 10;
+  var NODE_DUMMY_HEIGTH = 10;
+  var PORT_WIDTH = 20;
+  var PORT_HEIGTH = 20;
 
   // util/addNode.ts
   function addNode({
@@ -23784,35 +23786,29 @@
   var dummyEdgeId = null;
   var NODE_WIDTH2 = NODE_WIDTH;
   var NODE_HEIGHT = NODE_HEIGTH;
-  var PORT_CHILD_WIDTH = NODE_WIDTH2 / 5;
-  var PORT_CHILD_HEIGHT = NODE_HEIGHT / 5;
+  var PORT_WIDTH2 = PORT_WIDTH;
+  var PORT_HEIGHT = PORT_HEIGTH;
   var NODE_PARENT_WIDTH = NODE_WIDTH2 * 4;
   var NODE_PARENT_HEIGHT = NODE_HEIGHT * 4;
   var PORT_PARENT_WIDTH = NODE_PARENT_WIDTH / 20;
   var PORT_PARENT_HEIGHT = NODE_PARENT_HEIGHT / 20;
-  var NODE_DUMMY_WIDTH = NODE_WIDTH2 / 10;
-  var NODE_DUMMY_HEIGHT = NODE_HEIGHT / 10;
+  var NODE_DUMMY_WIDTH2 = NODE_DUMMY_WIDTH;
+  var NODE_DUMMY_HEIGHT = NODE_DUMMY_HEIGTH;
   var drawMode = false;
   var dummyMode = false;
   var sourceId = null;
   var targetId = null;
   var portTarget;
-  var styles = `
-.sprotty-node { stroke: ${NODE_STROKE}; fill: ${NODE_FILL}; }
-`;
-  var styleSheet = document.createElement("style");
-  styleSheet.innerText = styles;
-  document.head.appendChild(styleSheet);
   var CustomMouseListener = class extends import_sprotty4.MouseListener {
     mouseUp(target, event) {
       const objectCheck = checkPositionEl(
         target,
-        NODE_DUMMY_WIDTH,
+        NODE_DUMMY_WIDTH2,
         NODE_DUMMY_HEIGHT,
         NODE_WIDTH2,
         NODE_HEIGHT,
-        PORT_CHILD_WIDTH,
-        PORT_CHILD_HEIGHT
+        PORT_WIDTH2,
+        PORT_HEIGHT
       );
       if (objectCheck.isDrawable) {
         targetId = objectCheck.targetId;
@@ -23838,12 +23834,12 @@
     mouseMove(target, event) {
       const objectCheck = checkPositionEl(
         target,
-        NODE_DUMMY_WIDTH,
+        NODE_DUMMY_WIDTH2,
         NODE_DUMMY_HEIGHT,
         NODE_WIDTH2,
         NODE_HEIGHT,
-        PORT_CHILD_WIDTH,
-        PORT_CHILD_HEIGHT
+        PORT_WIDTH2,
+        PORT_HEIGHT
       );
       let portElementMatch;
       let nodeElementMatch;
@@ -24017,7 +24013,7 @@
                   isParentNode: false,
                   source: modelSource,
                   nodeId: "dummy",
-                  nodeWidth: NODE_DUMMY_WIDTH,
+                  nodeWidth: NODE_DUMMY_WIDTH2,
                   nodeHeight: NODE_DUMMY_HEIGHT,
                   portWidth: 2,
                   portHeight: 2,
@@ -24074,8 +24070,8 @@
         nodeId: `type-1-${node1Number}`,
         nodeWidth: NODE_WIDTH2,
         nodeHeight: NODE_HEIGHT,
-        portWidth: PORT_CHILD_WIDTH,
-        portHeight: PORT_CHILD_HEIGHT,
+        portWidth: PORT_WIDTH2,
+        portHeight: PORT_HEIGHT,
         portQuantity: 1,
         type: "node"
       });
@@ -24089,8 +24085,8 @@
         nodeId: `type-2-${node2Number}`,
         nodeWidth: NODE_WIDTH2,
         nodeHeight: NODE_HEIGHT,
-        portWidth: PORT_CHILD_WIDTH,
-        portHeight: PORT_CHILD_HEIGHT,
+        portWidth: PORT_WIDTH2,
+        portHeight: PORT_HEIGHT,
         portQuantity: 2,
         type: "node"
       });
@@ -24104,8 +24100,8 @@
         nodeId: `type-3-${node3Number}`,
         nodeWidth: NODE_WIDTH2,
         nodeHeight: NODE_HEIGHT,
-        portWidth: PORT_CHILD_WIDTH,
-        portHeight: PORT_CHILD_HEIGHT,
+        portWidth: PORT_WIDTH2,
+        portHeight: PORT_HEIGHT,
         portQuantity: 3,
         type: "node"
       });
@@ -24119,8 +24115,8 @@
         nodeId: `type-4-${node4Number}`,
         nodeWidth: NODE_WIDTH2,
         nodeHeight: NODE_HEIGHT,
-        portWidth: PORT_CHILD_WIDTH,
-        portHeight: PORT_CHILD_HEIGHT,
+        portWidth: PORT_WIDTH2,
+        portHeight: PORT_HEIGHT,
         portQuantity: 4,
         type: "node"
       });

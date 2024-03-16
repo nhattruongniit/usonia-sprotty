@@ -94,16 +94,16 @@ let dummyEdgeId = null;
 // console.log(config, config.EDGE_ARROW_FILL);
 const NODE_WIDTH = config.NODE_WIDTH;
 const NODE_HEIGHT = config.NODE_HEIGTH;
-const PORT_CHILD_WIDTH = NODE_WIDTH / 5;
-const PORT_CHILD_HEIGHT = NODE_HEIGHT / 5;
+const PORT_WIDTH = config.PORT_WIDTH;
+const PORT_HEIGHT = config.PORT_HEIGTH;
 
 const NODE_PARENT_WIDTH = NODE_WIDTH * 4;
 const NODE_PARENT_HEIGHT = NODE_HEIGHT * 4;
 const PORT_PARENT_WIDTH = NODE_PARENT_WIDTH / 20;
 const PORT_PARENT_HEIGHT = NODE_PARENT_HEIGHT / 20;
 
-const NODE_DUMMY_WIDTH = NODE_WIDTH / 10;
-const NODE_DUMMY_HEIGHT = NODE_HEIGHT / 10;
+const NODE_DUMMY_WIDTH = config.NODE_DUMMY_WIDTH;
+const NODE_DUMMY_HEIGHT = config.NODE_DUMMY_HEIGTH;
 
 // state of draw edge
 let drawMode = false;
@@ -118,13 +118,12 @@ let targetId = null;
 let portTarget: HTMLElement;
 
 // styles
-const styles = `
-.sprotty-node { stroke: ${config.NODE_STROKE}; fill: ${config.NODE_FILL}; }
-`
-const styleSheet = document.createElement("style")
-styleSheet.innerText = styles
-document.head.appendChild(styleSheet)
-
+// const styles = `
+// .sprotty-node { stroke: ${config.NODE_STROKE}; fill: ${config.NODE_FILL}; }
+// `;
+// const styleSheet = document.createElement("style");
+// styleSheet.innerText = styles;
+// document.head.appendChild(styleSheet);
 
 export class CustomMouseListener extends MouseListener {
   mouseUp(target: any, event: MouseEvent): (Action | Promise<Action>)[] {
@@ -135,8 +134,8 @@ export class CustomMouseListener extends MouseListener {
       NODE_DUMMY_HEIGHT,
       NODE_WIDTH,
       NODE_HEIGHT,
-      PORT_CHILD_WIDTH,
-      PORT_CHILD_HEIGHT
+      PORT_WIDTH,
+      PORT_HEIGHT
     );
     if (objectCheck.isDrawable) {
       targetId = objectCheck.targetId;
@@ -168,8 +167,8 @@ export class CustomMouseListener extends MouseListener {
       NODE_DUMMY_HEIGHT,
       NODE_WIDTH,
       NODE_HEIGHT,
-      PORT_CHILD_WIDTH,
-      PORT_CHILD_HEIGHT
+      PORT_WIDTH,
+      PORT_HEIGHT
     );
     let portElementMatch: SPortImpl;
 
@@ -468,8 +467,8 @@ export default function run() {
       nodeId: `type-1-${node1Number}`,
       nodeWidth: NODE_WIDTH,
       nodeHeight: NODE_HEIGHT,
-      portWidth: PORT_CHILD_WIDTH,
-      portHeight: PORT_CHILD_HEIGHT,
+      portWidth: PORT_WIDTH,
+      portHeight: PORT_HEIGHT,
       portQuantity: 1,
 
       type: "node",
@@ -489,8 +488,8 @@ export default function run() {
       nodeId: `type-2-${node2Number}`,
       nodeWidth: NODE_WIDTH,
       nodeHeight: NODE_HEIGHT,
-      portWidth: PORT_CHILD_WIDTH,
-      portHeight: PORT_CHILD_HEIGHT,
+      portWidth: PORT_WIDTH,
+      portHeight: PORT_HEIGHT,
 
       portQuantity: 2,
       type: "node",
@@ -510,8 +509,8 @@ export default function run() {
       nodeId: `type-3-${node3Number}`,
       nodeWidth: NODE_WIDTH,
       nodeHeight: NODE_HEIGHT,
-      portWidth: PORT_CHILD_WIDTH,
-      portHeight: PORT_CHILD_HEIGHT,
+      portWidth: PORT_WIDTH,
+      portHeight: PORT_HEIGHT,
 
       portQuantity: 3,
       type: "node",
@@ -531,8 +530,8 @@ export default function run() {
       nodeId: `type-4-${node4Number}`,
       nodeWidth: NODE_WIDTH,
       nodeHeight: NODE_HEIGHT,
-      portWidth: PORT_CHILD_WIDTH,
-      portHeight: PORT_CHILD_HEIGHT,
+      portWidth: PORT_WIDTH,
+      portHeight: PORT_HEIGHT,
 
       portQuantity: 4,
       type: "node",
