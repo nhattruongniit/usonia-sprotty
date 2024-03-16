@@ -118,12 +118,55 @@ let targetId = null;
 let portTarget: HTMLElement;
 
 // styles
-// const styles = `
-// .sprotty-node { stroke: ${config.NODE_STROKE}; fill: ${config.NODE_FILL}; }
-// `;
-// const styleSheet = document.createElement("style");
-// styleSheet.innerText = styles;
-// document.head.appendChild(styleSheet);
+const styles = `
+.dummy .sprotty-node {
+  fill: ${config.NODE_DUMMY_FILL};
+  stroke: ${config.EDGE_DUMMY_STROKE};
+}
+.dummy-edge {
+  fill: ${config.EDGE_DUMMY_FILL};
+  stroke: ${config.EDGE_DUMMY_STROKE};
+}
+.ready-draw .sprotty-port,
+.ready-draw-source .sprotty-port {
+  fill: ${config.READY_DRAW_PORT_FILL};
+}
+.sprotty-node {
+  stroke: ${config.NODE_STROKE};
+  fill: ${config.NODE_FILL};
+}
+.sprotty-node.mouseover {
+  fill: ${config.NODE_FILL_HOVER};
+  stroke: ${config.NODE_FILL_HOVER};
+}
+.sprotty-port.mouseover {
+  stroke: ${config.NODE_FILL_HOVER};
+}
+.sprotty-port {
+  stroke: ${config.PORT_STROKE};
+  stroke-width: 1;
+  fill: ${config.PORT_FILL};
+}
+.sprotty-edge {
+  fill: ${config.EDGE_FILL};
+  stroke: ${config.EDGE_STROKE};
+}
+.node-package {
+  fill: ${config.NODE_PARENT_FILL};
+  stroke: ${config.NODE_PARENT_STROKE};
+}
+.sprotty-edge .arrowhead {
+  fill: ${config.EDGE_ARROW_FILL}
+}
+.node-package.mouseover {
+  fill: ${config.NODE_PARENT_FILL_HOVER};
+  stroke: ${config.NODE_PARENT_STROKE_HOVER};
+}
+ }
+`;
+const styleSheet = document.createElement("style");
+styleSheet.innerText = styles;
+document.head.appendChild(styleSheet);
 
 export class CustomMouseListener extends MouseListener {
   mouseUp(target: any, event: MouseEvent): (Action | Promise<Action>)[] {
@@ -364,10 +407,10 @@ export default function run() {
             const portTranslateAttribute = port.getAttribute("transform");
             const portCoordinate = portTranslateAttribute
               ? portTranslateAttribute
-                  .replace("translate(", "")
-                  .replace(")", "")
-                  .trim()
-                  .split(",")
+                .replace("translate(", "")
+                .replace(")", "")
+                .trim()
+                .split(",")
               : [0, 0];
             let isParent = false;
 
@@ -378,19 +421,19 @@ export default function run() {
               port.parentElement.getAttribute("transform");
             const coordinate = transformAttribute
               ? transformAttribute
-                  .replace("translate(", "")
-                  .replace(")", "")
-                  .trim()
-                  .split(",")
+                .replace("translate(", "")
+                .replace(")", "")
+                .trim()
+                .split(",")
               : [0, 0];
             const transformAttributeParent =
               port.parentElement.parentElement.getAttribute("transform");
             const coordinateParent = transformAttributeParent
               ? transformAttributeParent
-                  .replace("translate(", "")
-                  .replace(")", "")
-                  .trim()
-                  .split(",")
+                .replace("translate(", "")
+                .replace(")", "")
+                .trim()
+                .split(",")
               : [0, 0];
 
             const defaultX =

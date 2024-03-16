@@ -56,7 +56,7 @@
 
 .dummy-edge {
   fill: none;
-  stroke: #333;
+  /* stroke: #333; */
   stroke-width: 2px;
 }
 
@@ -66,7 +66,7 @@
 
 .ready-draw .sprotty-port,
 .ready-draw-source .sprotty-port {
-  fill: #0f0;
+  /* fill: #0f0; */
 }
 
 text {
@@ -147,18 +147,18 @@ svg {
 }
 
 .sprotty-node {
-  stroke: #448;
+  /* stroke: #448; */
   stroke-width: 1;
-  fill: #ddf;
+  /* fill: #ddf; */
 }
 
 .sprotty-node.mouseover {
-  fill: #dfd;
-  stroke: #88f;
+  /* fill: #dfd; */
+  /* stroke: #88f; */
 }
 
 .sprotty-port.mouseover {
-  stroke: #88f;
+  /* stroke: #88f; */
 }
 
 .sprotty-node.selected {
@@ -166,26 +166,26 @@ svg {
 }
 
 .sprotty-port {
-  stroke: #448;
+  /* stroke: #448; */
   stroke-width: 1;
-  fill: #66c;
+  /* fill: #66c; */
 }
 
 .sprotty-edge {
-  fill: none;
-  stroke: #224;
+  /* fill: none; */
+  /* stroke: #224; */
   stroke-width: 1;
 }
 
 .node-package {
-  fill: #d0c8c0;
+  /* fill: #d0c8c0; */
   stroke: none;
 }
 .sprotty-edge .arrowhead {
-  fill: #336;
+  /* fill: #336; */
 }
 
 .node-package.mouseover {
-  fill: #d0c8c0;
-  stroke: #541;
+  /* fill: #d0c8c0; */
+  /* stroke: #541; */
 }

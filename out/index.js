@@ -23369,6 +23369,22 @@
   var NODE_DUMMY_HEIGTH = 10;
   var PORT_WIDTH = 20;
   var PORT_HEIGTH = 20;
+  var NODE_STROKE = "#448";
+  var NODE_FILL = "#ddf";
+  var NODE_FILL_HOVER = "#88f";
+  var NODE_PARENT_FILL = "#d0c8c0";
+  var NODE_PARENT_STROKE = "none";
+  var NODE_PARENT_FILL_HOVER = "#d0c8c0";
+  var NODE_PARENT_STROKE_HOVER = "#541";
+  var PORT_FILL = "#66c";
+  var PORT_STROKE = "#448";
+  var EDGE_FILL = "none";
+  var EDGE_STROKE = "#224";
+  var EDGE_ARROW_FILL = "#336";
+  var NODE_DUMMY_FILL = "#000";
+  var EDGE_DUMMY_FILL = "none";
+  var EDGE_DUMMY_STROKE = "#333";
+  var READY_DRAW_PORT_FILL = "#0f0";
 
   // util/addNode.ts
   function addNode({
@@ -23824,6 +23840,55 @@
   var sourceId = null;
   var targetId = null;
   var portTarget;
+  var styles = `
+.dummy .sprotty-node {
+  fill: ${NODE_DUMMY_FILL};
+  stroke: ${EDGE_DUMMY_STROKE};
+}
+.dummy-edge {
+  fill: ${EDGE_DUMMY_FILL};
+  stroke: ${EDGE_DUMMY_STROKE};
+}
+.ready-draw .sprotty-port,
+.ready-draw-source .sprotty-port {
+  fill: ${READY_DRAW_PORT_FILL};
+}
+.sprotty-node {
+  stroke: ${NODE_STROKE};
+  fill: ${NODE_FILL};
+}
+.sprotty-node.mouseover {
+  fill: ${NODE_FILL_HOVER};
+  stroke: ${NODE_FILL_HOVER};
+}
+.sprotty-port.mouseover {
+  stroke: ${NODE_FILL_HOVER};
+}
+.sprotty-port {
+  stroke: ${PORT_STROKE};
+  stroke-width: 1;
+  fill: ${PORT_FILL};
+}
+.sprotty-edge {
+  fill: ${EDGE_FILL};
+  stroke: ${EDGE_STROKE};
+}
+.node-package {
+  fill: ${NODE_PARENT_FILL};
+  stroke: ${NODE_PARENT_STROKE};
+}
+.sprotty-edge .arrowhead {
+  fill: ${EDGE_ARROW_FILL}
+}
+.node-package.mouseover {
+  fill: ${NODE_PARENT_FILL_HOVER};
+  stroke: ${NODE_PARENT_STROKE_HOVER};
+}
+ }
+`;
+  var styleSheet = document.createElement("style");
+  styleSheet.innerText = styles;
+  document.head.appendChild(styleSheet);
   var CustomMouseListener = class extends import_sprotty4.MouseListener {
     mouseUp(target, event) {
       const objectCheck = checkPositionEl(

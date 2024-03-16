@@ -151,59 +151,59 @@ export default function addNode({
     }
   }
   for (let i = 0; i < portQuantity; i++) {
-  if(portQuantity === 3) {
+    if (portQuantity === 3) {
 
-    source.addElements([
-      {
-        parentId: `node-${nodeId}`,
-        element: <SPort>{
-          type: "port",
-          id: `port-${nodeId}-${i + 1}`,
-          size: { width: portWidth, height: portHeight },
-          position: positionPort[i],
-          // cssClasses:  ["port"],
-          cssClasses: i === 1 ? ["port","hide"] : ["port"],
-          children:
-          nodeId === "dummy"
-              ? []
-              : [
-                <SLabel>{
-                  type: "label:port",
-                  id: `label-port-${nodeId}-${i + 1}`,
-                  text: `p-${i + 1}`,
-                  position: { x: portWidth / 2, y: 0 - portHeight / 8 },
-                },
-              ],
-            },
-          },
-        ]);
-      }  
-        else{
-          source.addElements([
-            {
-              parentId: `node-${nodeId}`,
-              element: <SPort>{
-                type: "port",
-                id: `port-${nodeId}-${i + 1}`,
+      source.addElements([
+        {
+          parentId: `node-${nodeId}`,
+          element: <SPort>{
+            type: "port",
+            id: `port-${nodeId}-${i + 1}`,
             size: { width: portWidth, height: portHeight },
             position: positionPort[i],
-            cssClasses:  ["port"],
+            // cssClasses:  ["port"],
+            cssClasses: i === 1 ? ["port", "hide"] : ["port"],
+            children:
+              nodeId === "dummy"
+                ? []
+                : [
+                  <SLabel>{
+                    type: "label:port",
+                    id: `label-port-${nodeId}-${i + 1}`,
+                    text: `p-${i + 1}`,
+                    position: { x: portWidth / 2, y: 0 - portHeight / 8 },
+                  },
+                ],
+          },
+        },
+      ]);
+    }
+    else {
+      source.addElements([
+        {
+          parentId: `node-${nodeId}`,
+          element: <SPort>{
+            type: "port",
+            id: `port-${nodeId}-${i + 1}`,
+            size: { width: portWidth, height: portHeight },
+            position: positionPort[i],
+            cssClasses: ["port"],
             // cssClasses: i === 1 ? ["port"] : ["port"],
             children:
               nodeId === "dummy"
                 ? []
                 : [
-                    <SLabel>{
-                      type: "label:port",
-                      id: `label-port-${nodeId}-${i + 1}`,
-                      text: `p-${i + 1}`,
-                      position: { x: portWidth / 2, y: 0 - portHeight / 8 },
-                    },
-                  ],
+                  <SLabel>{
+                    type: "label:port",
+                    id: `label-port-${nodeId}-${i + 1}`,
+                    text: `p-${i + 1}`,
+                    position: { x: portWidth / 2, y: 0 - portHeight / 8 },
+                  },
+                ],
           },
         },
       ]);
-        } 
-        
+    }
+
   }
 }
