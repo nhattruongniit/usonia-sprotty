@@ -1,4 +1,4 @@
-import { SEdge, SLabel } from "sprotty-protocol";
+import { SEdge, SLabel, EdgeLayoutable } from "sprotty-protocol";
 
 type IProps = {
   source: any;
@@ -31,13 +31,14 @@ export default function drawEdge({
           edgeId === "dummy"
             ? []
             : [
-                <SLabel>{
-                  type: "label:edge",
+                <SLabel & EdgeLayoutable>{
+                  type: "label:text",
                   id: `label-edge-${edgeId}`,
                   text: `label-edge-${edgeId}`,
                   edgePlacement: {
                     position: 0.5,
-                    side: "on",
+                    offset: 10,
+                    side: "top",
                     rotate: false,
                   },
                 },

@@ -2,7 +2,7 @@
 import { svg } from "sprotty/lib/lib/jsx";
 import { injectable } from "inversify";
 import { VNode } from "snabbdom";
-import { IView, RenderingContext, SEdgeImpl, PolylineEdgeView,RectangularNodeView,SNodeImpl,IViewArgs } from "sprotty";
+import { IView, RenderingContext, SEdgeImpl, PolylineEdgeView,RectangularNodeView,SNodeImpl,IViewArgs ,SLabelImpl} from "sprotty";
 
 import { Point, toDegrees } from "sprotty-protocol";
 
@@ -31,6 +31,7 @@ export class EdgeWithArrow extends PolylineEdgeView {
     return toDegrees(Math.atan2(x1.y - x0.y, x1.x - x0.x));
   }
 }
+export class PropertyLabel extends SLabelImpl { }
 
 // @injectable()
 // export class TaskNodeView implements IView {

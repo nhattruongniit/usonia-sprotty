@@ -13996,7 +13996,7 @@
         model_4.fadeFeature,
         model_5.hoverFeedbackFeature
       ];
-      var SLabelImpl2 = class extends model_1.SShapeElementImpl {
+      var SLabelImpl3 = class extends model_1.SShapeElementImpl {
         constructor() {
           super(...arguments);
           this.selected = false;
@@ -14004,8 +14004,8 @@
           this.opacity = 1;
         }
       };
-      exports.SLabelImpl = SLabelImpl2;
-      SLabelImpl2.DEFAULT_FEATURES = [
+      exports.SLabelImpl = SLabelImpl3;
+      SLabelImpl3.DEFAULT_FEATURES = [
         model_1.boundsFeature,
         model_1.alignFeature,
         model_1.layoutableChildFeature,
@@ -23270,6 +23270,8 @@
   EdgeWithArrow = __decorateClass([
     (0, import_inversify2.injectable)()
   ], EdgeWithArrow);
+  var PropertyLabel = class extends import_sprotty2.SLabelImpl {
+  };
   var NodeView = class extends import_sprotty2.RectangularNodeView {
     render(node, context, args) {
       if (!this.isVisible(node, context)) {
@@ -23313,6 +23315,9 @@
       (0, import_sprotty3.configureModelElement)(container2, "label:port", import_sprotty3.SLabelImpl, import_sprotty3.SLabelView);
       (0, import_sprotty3.configureModelElement)(container2, "label:node", import_sprotty3.SLabelImpl, import_sprotty3.SLabelView);
       (0, import_sprotty3.configureModelElement)(container2, "label:edge", import_sprotty3.SLabelImpl, import_sprotty3.SLabelView);
+      (0, import_sprotty3.configureModelElement)(context, "label:text", PropertyLabel, import_sprotty3.SLabelView, {
+        enable: [import_sprotty3.moveFeature, import_sprotty3.selectFeature]
+      });
       (0, import_sprotty3.configureModelElement)(context, "node", import_sprotty3.SNodeImpl, import_sprotty3.RectangularNodeView);
       (0, import_sprotty3.configureModelElement)(context, "edge", import_sprotty3.SEdgeImpl, EdgeWithArrow);
       (0, import_sprotty3.configureModelElement)(
@@ -23583,12 +23588,13 @@
           routerKind: "manhattan",
           children: edgeId === "dummy" ? [] : [
             {
-              type: "label:edge",
+              type: "label:text",
               id: `label-edge-${edgeId}`,
               text: `label-edge-${edgeId}`,
               edgePlacement: {
                 position: 0.5,
-                side: "on",
+                offset: 10,
+                side: "top",
                 rotate: false
               }
             }
