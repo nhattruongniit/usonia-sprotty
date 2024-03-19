@@ -99,8 +99,8 @@ const PORT_HEIGHT = config.PORT_HEIGTH;
 
 const NODE_PARENT_WIDTH = NODE_WIDTH * 4;
 const NODE_PARENT_HEIGHT = NODE_HEIGHT * 4;
-const PORT_PARENT_WIDTH = NODE_PARENT_WIDTH / 20;
-const PORT_PARENT_HEIGHT = NODE_PARENT_HEIGHT / 20;
+const PORT_PARENT_WIDTH = config.PORT_WIDTH;
+const PORT_PARENT_HEIGHT = config.PORT_HEIGTH;
 
 const NODE_DUMMY_WIDTH = config.NODE_DUMMY_WIDTH;
 const NODE_DUMMY_HEIGHT = config.NODE_DUMMY_HEIGTH;
@@ -171,6 +171,7 @@ document.head.appendChild(styleSheet);
 export class CustomMouseListener extends MouseListener {
   mouseUp(target: any, event: MouseEvent): (Action | Promise<Action>)[] {
     // code connect by dummy node
+    console.log(target);
     const objectCheck = checkPositionEl(
       target,
       NODE_DUMMY_WIDTH,
@@ -260,9 +261,9 @@ function cancelDrawEdge() {
     // (e as HTMLElement).removeAttribute("style");
   });
 
-  document.querySelectorAll(".sprotty-edge").forEach((e) => {
-    (e as HTMLElement).classList.remove("selected");
-  });
+  // document.querySelectorAll(".sprotty-edge").forEach((e) => {
+  //   (e as HTMLElement).classList.remove("selected");
+  // });
 
   modelSource.removeElements([
     {
@@ -400,6 +401,7 @@ export default function run() {
     setTimeout(() => {
       document.querySelectorAll(".port").forEach((port) => {
         port.addEventListener("click", (e) => {
+          console.log(dummyMode);
           if (!dummyMode) {
             cancelDrawEdgeBtn.classList.remove("hide");
             port.classList.add("ready-draw-source");
@@ -407,10 +409,10 @@ export default function run() {
             const portTranslateAttribute = port.getAttribute("transform");
             const portCoordinate = portTranslateAttribute
               ? portTranslateAttribute
-                .replace("translate(", "")
-                .replace(")", "")
-                .trim()
-                .split(",")
+                  .replace("translate(", "")
+                  .replace(")", "")
+                  .trim()
+                  .split(",")
               : [0, 0];
             let isParent = false;
 
@@ -421,19 +423,19 @@ export default function run() {
               port.parentElement.getAttribute("transform");
             const coordinate = transformAttribute
               ? transformAttribute
-                .replace("translate(", "")
-                .replace(")", "")
-                .trim()
-                .split(",")
+                  .replace("translate(", "")
+                  .replace(")", "")
+                  .trim()
+                  .split(",")
               : [0, 0];
             const transformAttributeParent =
               port.parentElement.parentElement.getAttribute("transform");
             const coordinateParent = transformAttributeParent
               ? transformAttributeParent
-                .replace("translate(", "")
-                .replace(")", "")
-                .trim()
-                .split(",")
+                  .replace("translate(", "")
+                  .replace(")", "")
+                  .trim()
+                  .split(",")
               : [0, 0];
 
             const defaultX =
@@ -513,7 +515,6 @@ export default function run() {
       portWidth: PORT_WIDTH,
       portHeight: PORT_HEIGHT,
       portQuantity: 1,
-
       type: "node",
     });
 

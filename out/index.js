@@ -23439,8 +23439,8 @@
     if (isParentNode) {
       const nodeChildWidth = nodeWidth / 4;
       const nodeChildHeight = nodeHeight / 4;
-      const portChildWidth = nodeChildWidth / 5;
-      const portChildHeight = nodeChildHeight / 5;
+      const portChildWidth = portWidth;
+      const portChildHeight = portHeight;
       const positionNodeChildren = [
         { x: nodeWidth / 5, y: nodeHeight / 5 },
         { x: nodeWidth / 4 + nodeWidth / 3, y: nodeHeight / 4 + nodeHeight / 3 }
@@ -23786,6 +23786,7 @@
           isDrawable = true;
         }
         if (coordinateDummyNodeX <= portCompareX + PORT_PARENT_WIDTH2 && portCompareX <= coordinateDummyNodeX && coordinateDummyNodeY <= portCompareY + PORT_PARENT_HEIGHT2 && portCompareY <= coordinateDummyNodeY) {
+          console.log(portCoordinate.id);
           targetId2 = portCoordinate.id;
           isDrawable = true;
         }
@@ -23837,8 +23838,8 @@
   var PORT_HEIGHT = PORT_HEIGTH;
   var NODE_PARENT_WIDTH = NODE_WIDTH2 * 4;
   var NODE_PARENT_HEIGHT = NODE_HEIGHT * 4;
-  var PORT_PARENT_WIDTH = NODE_PARENT_WIDTH / 20;
-  var PORT_PARENT_HEIGHT = NODE_PARENT_HEIGHT / 20;
+  var PORT_PARENT_WIDTH = PORT_WIDTH;
+  var PORT_PARENT_HEIGHT = PORT_HEIGTH;
   var NODE_DUMMY_WIDTH2 = NODE_DUMMY_WIDTH;
   var NODE_DUMMY_HEIGHT = NODE_DUMMY_HEIGTH;
   var drawMode = false;
@@ -23897,6 +23898,7 @@
   document.head.appendChild(styleSheet);
   var CustomMouseListener = class extends import_sprotty4.MouseListener {
     mouseUp(target, event) {
+      console.log(target);
       const objectCheck = checkPositionEl(
         target,
         NODE_DUMMY_WIDTH2,
@@ -23970,9 +23972,6 @@
     drawEdgeBtn.classList.remove("btn-active");
     cancelDrawEdgeBtn.classList.add("hide");
     document.querySelectorAll(".sprotty-node").forEach((e) => {
-    });
-    document.querySelectorAll(".sprotty-edge").forEach((e) => {
-      e.classList.remove("selected");
     });
     modelSource.removeElements([
       {
@@ -24088,6 +24087,7 @@
       setTimeout(() => {
         document.querySelectorAll(".port").forEach((port) => {
           port.addEventListener("click", (e) => {
+            console.log(dummyMode);
             if (!dummyMode) {
               cancelDrawEdgeBtn.classList.remove("hide");
               port.classList.add("ready-draw-source");

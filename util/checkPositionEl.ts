@@ -100,7 +100,7 @@ export default function checkPositionEl(
                 ) {
                   portType = 4;
                 }
-             
+
                 portCompareCoordinateArr.push({
                   x: portX,
                   y: portY,
@@ -157,6 +157,7 @@ export default function checkPositionEl(
         coordinateDummyNodeY <= portCompareY + PORT_PARENT_HEIGHT &&
         portCompareY <= coordinateDummyNodeY
       ) {
+        console.log(portCoordinate.id);
         targetId = portCoordinate.id;
         isDrawable = true;
       }

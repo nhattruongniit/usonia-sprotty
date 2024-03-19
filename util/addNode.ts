@@ -69,8 +69,8 @@ export default function addNode({
   if (isParentNode) {
     const nodeChildWidth = nodeWidth / 4;
     const nodeChildHeight = nodeHeight / 4;
-    const portChildWidth = nodeChildWidth / 5;
-    const portChildHeight = nodeChildHeight / 5;
+    const portChildWidth = portWidth;
+    const portChildHeight = portHeight;
     const positionNodeChildren = [
       { x: nodeWidth / 5, y: nodeHeight / 5 },
       { x: nodeWidth / 4 + nodeWidth / 3, y: nodeHeight / 4 + nodeHeight / 3 },
@@ -152,7 +152,6 @@ export default function addNode({
   }
   for (let i = 0; i < portQuantity; i++) {
     if (portQuantity === 3) {
-
       source.addElements([
         {
           parentId: `node-${nodeId}`,
@@ -167,18 +166,17 @@ export default function addNode({
               nodeId === "dummy"
                 ? []
                 : [
-                  <SLabel>{
-                    type: "label:port",
-                    id: `label-port-${nodeId}-${i + 1}`,
-                    text: `p-${i + 1}`,
-                    position: { x: portWidth / 2, y: 0 - portHeight / 8 },
-                  },
-                ],
+                    <SLabel>{
+                      type: "label:port",
+                      id: `label-port-${nodeId}-${i + 1}`,
+                      text: `p-${i + 1}`,
+                      position: { x: portWidth / 2, y: 0 - portHeight / 8 },
+                    },
+                  ],
           },
         },
       ]);
-    }
-    else {
+    } else {
       source.addElements([
         {
           parentId: `node-${nodeId}`,
@@ -193,17 +191,16 @@ export default function addNode({
               nodeId === "dummy"
                 ? []
                 : [
-                  <SLabel>{
-                    type: "label:port",
-                    id: `label-port-${nodeId}-${i + 1}`,
-                    text: `p-${i + 1}`,
-                    position: { x: portWidth / 2, y: 0 - portHeight / 8 },
-                  },
-                ],
+                    <SLabel>{
+                      type: "label:port",
+                      id: `label-port-${nodeId}-${i + 1}`,
+                      text: `p-${i + 1}`,
+                      position: { x: portWidth / 2, y: 0 - portHeight / 8 },
+                    },
+                  ],
           },
         },
       ]);
     }
-
   }
 }
