@@ -171,7 +171,7 @@ document.head.appendChild(styleSheet);
 export class CustomMouseListener extends MouseListener {
   mouseUp(target: any, event: MouseEvent): (Action | Promise<Action>)[] {
     // code connect by dummy node
-    console.log(target);
+
     const objectCheck = checkPositionEl(
       target,
       NODE_DUMMY_WIDTH,
@@ -205,6 +205,8 @@ export class CustomMouseListener extends MouseListener {
     return [];
   }
   mouseMove(target: any, event: MouseEvent): (Action | Promise<Action>)[] {
+    if (target instanceof SPortImpl) {
+    }
     const objectCheck = checkPositionEl(
       target,
       NODE_DUMMY_WIDTH,
@@ -401,7 +403,6 @@ export default function run() {
     setTimeout(() => {
       document.querySelectorAll(".port").forEach((port) => {
         port.addEventListener("click", (e) => {
-          console.log(dummyMode);
           if (!dummyMode) {
             cancelDrawEdgeBtn.classList.remove("hide");
             port.classList.add("ready-draw-source");

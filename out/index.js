@@ -23691,6 +23691,7 @@
       const coordinateDummyNodeY = target.position.y + dummyHeight / 2;
       gragphChildrenArr = target.parent.children;
       let portCompareCoordinateArr = [];
+      console.log(gragphChildrenArr);
       gragphChildrenArr.forEach((child) => {
         if (child.type === "node" && child.id !== "node-dummy") {
           const nodeChildArr = child.children;
@@ -23898,7 +23899,6 @@
   document.head.appendChild(styleSheet);
   var CustomMouseListener = class extends import_sprotty4.MouseListener {
     mouseUp(target, event) {
-      console.log(target);
       const objectCheck = checkPositionEl(
         target,
         NODE_DUMMY_WIDTH2,
@@ -23930,6 +23930,8 @@
       return [];
     }
     mouseMove(target, event) {
+      if (target instanceof import_sprotty4.SPortImpl) {
+      }
       const objectCheck = checkPositionEl(
         target,
         NODE_DUMMY_WIDTH2,
@@ -24087,7 +24089,6 @@
       setTimeout(() => {
         document.querySelectorAll(".port").forEach((port) => {
           port.addEventListener("click", (e) => {
-            console.log(dummyMode);
             if (!dummyMode) {
               cancelDrawEdgeBtn.classList.remove("hide");
               port.classList.add("ready-draw-source");
