@@ -13996,7 +13996,7 @@
         model_4.fadeFeature,
         model_5.hoverFeedbackFeature
       ];
-      var SLabelImpl2 = class extends model_1.SShapeElementImpl {
+      var SLabelImpl3 = class extends model_1.SShapeElementImpl {
         constructor() {
           super(...arguments);
           this.selected = false;
@@ -14004,8 +14004,8 @@
           this.opacity = 1;
         }
       };
-      exports.SLabelImpl = SLabelImpl2;
-      SLabelImpl2.DEFAULT_FEATURES = [
+      exports.SLabelImpl = SLabelImpl3;
+      SLabelImpl3.DEFAULT_FEATURES = [
         model_1.boundsFeature,
         model_1.alignFeature,
         model_1.layoutableChildFeature,
@@ -23270,25 +23270,8 @@
   EdgeWithArrow = __decorateClass([
     (0, import_inversify2.injectable)()
   ], EdgeWithArrow);
-  var TaskNodeView = class {
-    render(node, context) {
-      const position = 50;
-      return /* @__PURE__ */ (0, import_jsx2.svg)("g", null, /* @__PURE__ */ (0, import_jsx2.svg)(
-        "rect",
-        {
-          "class-sprotty-node": true,
-          "class-task": true,
-          "class-running": node.isRunning,
-          "class-finished": node.isFinished,
-          width: node.size.width,
-          height: node.size.height
-        }
-      ), /* @__PURE__ */ (0, import_jsx2.svg)("text", { x: position, y: position + 5 }, node.name));
-    }
+  var PropertyLabel = class extends import_sprotty2.SLabelImpl {
   };
-  TaskNodeView = __decorateClass([
-    (0, import_inversify2.injectable)()
-  ], TaskNodeView);
   var NodeView = class extends import_sprotty2.RectangularNodeView {
     render(node, context, args) {
       if (!this.isVisible(node, context)) {
@@ -23332,6 +23315,9 @@
       (0, import_sprotty3.configureModelElement)(container2, "label:port", import_sprotty3.SLabelImpl, import_sprotty3.SLabelView);
       (0, import_sprotty3.configureModelElement)(container2, "label:node", import_sprotty3.SLabelImpl, import_sprotty3.SLabelView);
       (0, import_sprotty3.configureModelElement)(container2, "label:edge", import_sprotty3.SLabelImpl, import_sprotty3.SLabelView);
+      (0, import_sprotty3.configureModelElement)(context, "label:text", PropertyLabel, import_sprotty3.SLabelView, {
+        enable: [import_sprotty3.moveFeature, import_sprotty3.selectFeature]
+      });
       (0, import_sprotty3.configureModelElement)(context, "node", import_sprotty3.SNodeImpl, import_sprotty3.RectangularNodeView);
       (0, import_sprotty3.configureModelElement)(context, "edge", import_sprotty3.SEdgeImpl, EdgeWithArrow);
       (0, import_sprotty3.configureModelElement)(
@@ -23381,6 +23367,30 @@
     return container2;
   };
 
+  // settings/config.json
+  var NODE_WIDTH = 200;
+  var NODE_HEIGTH = 100;
+  var NODE_DUMMY_WIDTH = 10;
+  var NODE_DUMMY_HEIGTH = 10;
+  var PORT_WIDTH = 20;
+  var PORT_HEIGTH = 20;
+  var NODE_STROKE = "#448";
+  var NODE_FILL = "#ddf";
+  var NODE_FILL_HOVER = "#88f";
+  var NODE_PARENT_FILL = "#d0c8c0";
+  var NODE_PARENT_STROKE = "none";
+  var NODE_PARENT_FILL_HOVER = "#d0c8c0";
+  var NODE_PARENT_STROKE_HOVER = "#541";
+  var PORT_FILL = "#66c";
+  var PORT_STROKE = "#448";
+  var EDGE_FILL = "none";
+  var EDGE_STROKE = "#224";
+  var EDGE_ARROW_FILL = "#336";
+  var NODE_DUMMY_FILL = "#000";
+  var EDGE_DUMMY_FILL = "none";
+  var EDGE_DUMMY_STROKE = "#333";
+  var READY_DRAW_PORT_FILL = "#0f0";
+
   // util/addNode.ts
   function addNode({
     isParentNode,
@@ -23429,8 +23439,8 @@
     if (isParentNode) {
       const nodeChildWidth = nodeWidth / 4;
       const nodeChildHeight = nodeHeight / 4;
-      const portChildWidth = nodeChildWidth / 5;
-      const portChildHeight = nodeChildHeight / 5;
+      const portChildWidth = portWidth;
+      const portChildHeight = portHeight;
       const positionNodeChildren = [
         { x: nodeWidth / 5, y: nodeHeight / 5 },
         { x: nodeWidth / 4 + nodeWidth / 3, y: nodeHeight / 4 + nodeHeight / 3 }
@@ -23509,26 +23519,51 @@
       }
     }
     for (let i = 0; i < portQuantity; i++) {
-      source.addElements([
-        {
-          parentId: `node-${nodeId}`,
-          element: {
-            type: "port",
-            id: `port-${nodeId}-${i + 1}`,
-            size: { width: portWidth, height: portHeight },
-            position: positionPort[i],
-            cssClasses: ["port"],
-            children: nodeId === "dummy" ? [] : [
-              {
-                type: "label:port",
-                id: `label-port-${nodeId}-${i + 1}`,
-                text: `p-${i + 1}`,
-                position: { x: portWidth / 2, y: 0 - portHeight / 8 }
-              }
-            ]
+      if (portQuantity === 3) {
+        source.addElements([
+          {
+            parentId: `node-${nodeId}`,
+            element: {
+              type: "port",
+              id: `port-${nodeId}-${i + 1}`,
+              size: { width: portWidth, height: portHeight },
+              position: positionPort[i],
+              // cssClasses:  ["port"],
+              cssClasses: i === 1 ? ["port", "hide"] : ["port"],
+              children: nodeId === "dummy" ? [] : [
+                {
+                  type: "label:port",
+                  id: `label-port-${nodeId}-${i + 1}`,
+                  text: `p-${i + 1}`,
+                  position: { x: portWidth / 2, y: 0 - portHeight / 8 }
+                }
+              ]
+            }
           }
-        }
-      ]);
+        ]);
+      } else {
+        source.addElements([
+          {
+            parentId: `node-${nodeId}`,
+            element: {
+              type: "port",
+              id: `port-${nodeId}-${i + 1}`,
+              size: { width: portWidth, height: portHeight },
+              position: positionPort[i],
+              cssClasses: ["port"],
+              // cssClasses: i === 1 ? ["port"] : ["port"],
+              children: nodeId === "dummy" ? [] : [
+                {
+                  type: "label:port",
+                  id: `label-port-${nodeId}-${i + 1}`,
+                  text: `p-${i + 1}`,
+                  position: { x: portWidth / 2, y: 0 - portHeight / 8 }
+                }
+              ]
+            }
+          }
+        ]);
+      }
     }
   }
 
@@ -23553,12 +23588,13 @@
           routerKind: "manhattan",
           children: edgeId === "dummy" ? [] : [
             {
-              type: "label:edge",
+              type: "label:text",
               id: `label-edge-${edgeId}`,
               text: `label-edge-${edgeId}`,
               edgePlacement: {
                 position: 0.5,
-                side: "on",
+                offset: 10,
+                side: "top",
                 rotate: false
               }
             }
@@ -23655,6 +23691,7 @@
       const coordinateDummyNodeY = target.position.y + dummyHeight / 2;
       gragphChildrenArr = target.parent.children;
       let portCompareCoordinateArr = [];
+      console.log(gragphChildrenArr);
       gragphChildrenArr.forEach((child) => {
         if (child.type === "node" && child.id !== "node-dummy") {
           const nodeChildArr = child.children;
@@ -23750,6 +23787,7 @@
           isDrawable = true;
         }
         if (coordinateDummyNodeX <= portCompareX + PORT_PARENT_WIDTH2 && portCompareX <= coordinateDummyNodeX && coordinateDummyNodeY <= portCompareY + PORT_PARENT_HEIGHT2 && portCompareY <= coordinateDummyNodeY) {
+          console.log(portCoordinate.id);
           targetId2 = portCoordinate.id;
           isDrawable = true;
         }
@@ -23795,31 +23833,80 @@
   var edgeArr = [];
   var dummyNodeArray = [];
   var dummyEdgeId = null;
-  var NODE_WIDTH = 100;
-  var NODE_HEIGHT = 100;
-  var PORT_CHILD_WIDTH = NODE_WIDTH / 5;
-  var PORT_CHILD_HEIGHT = NODE_HEIGHT / 5;
-  var NODE_PARENT_WIDTH = NODE_WIDTH * 4;
+  var NODE_WIDTH2 = NODE_WIDTH;
+  var NODE_HEIGHT = NODE_HEIGTH;
+  var PORT_WIDTH2 = PORT_WIDTH;
+  var PORT_HEIGHT = PORT_HEIGTH;
+  var NODE_PARENT_WIDTH = NODE_WIDTH2 * 4;
   var NODE_PARENT_HEIGHT = NODE_HEIGHT * 4;
-  var PORT_PARENT_WIDTH = NODE_PARENT_WIDTH / 20;
-  var PORT_PARENT_HEIGHT = NODE_PARENT_HEIGHT / 20;
-  var NODE_DUMMY_WIDTH = NODE_WIDTH / 10;
-  var NODE_DUMMY_HEIGHT = NODE_HEIGHT / 10;
+  var PORT_PARENT_WIDTH = PORT_WIDTH;
+  var PORT_PARENT_HEIGHT = PORT_HEIGTH;
+  var NODE_DUMMY_WIDTH2 = NODE_DUMMY_WIDTH;
+  var NODE_DUMMY_HEIGHT = NODE_DUMMY_HEIGTH;
   var drawMode = false;
   var dummyMode = false;
   var sourceId = null;
   var targetId = null;
   var portTarget;
+  var styles = `
+.dummy .sprotty-node {
+  fill: ${NODE_DUMMY_FILL};
+  stroke: ${EDGE_DUMMY_STROKE};
+}
+.dummy-edge {
+  fill: ${EDGE_DUMMY_FILL};
+  stroke: ${EDGE_DUMMY_STROKE};
+}
+.ready-draw .sprotty-port,
+.ready-draw-source .sprotty-port {
+  fill: ${READY_DRAW_PORT_FILL};
+}
+.sprotty-node {
+  stroke: ${NODE_STROKE};
+  fill: ${NODE_FILL};
+}
+.sprotty-node.mouseover {
+  fill: ${NODE_FILL_HOVER};
+  stroke: ${NODE_FILL_HOVER};
+}
+.sprotty-port.mouseover {
+  stroke: ${NODE_FILL_HOVER};
+}
+.sprotty-port {
+  stroke: ${PORT_STROKE};
+  stroke-width: 1;
+  fill: ${PORT_FILL};
+}
+.sprotty-edge {
+  fill: ${EDGE_FILL};
+  stroke: ${EDGE_STROKE};
+}
+.node-package {
+  fill: ${NODE_PARENT_FILL};
+  stroke: ${NODE_PARENT_STROKE};
+}
+.sprotty-edge .arrowhead {
+  fill: ${EDGE_ARROW_FILL}
+}
+.node-package.mouseover {
+  fill: ${NODE_PARENT_FILL_HOVER};
+  stroke: ${NODE_PARENT_STROKE_HOVER};
+}
+ }
+`;
+  var styleSheet = document.createElement("style");
+  styleSheet.innerText = styles;
+  document.head.appendChild(styleSheet);
   var CustomMouseListener = class extends import_sprotty4.MouseListener {
     mouseUp(target, event) {
       const objectCheck = checkPositionEl(
         target,
-        NODE_DUMMY_WIDTH,
+        NODE_DUMMY_WIDTH2,
         NODE_DUMMY_HEIGHT,
-        NODE_WIDTH,
+        NODE_WIDTH2,
         NODE_HEIGHT,
-        PORT_CHILD_WIDTH,
-        PORT_CHILD_HEIGHT
+        PORT_WIDTH2,
+        PORT_HEIGHT
       );
       if (objectCheck.isDrawable) {
         targetId = objectCheck.targetId;
@@ -23843,14 +23930,16 @@
       return [];
     }
     mouseMove(target, event) {
+      if (target instanceof import_sprotty4.SPortImpl) {
+      }
       const objectCheck = checkPositionEl(
         target,
-        NODE_DUMMY_WIDTH,
+        NODE_DUMMY_WIDTH2,
         NODE_DUMMY_HEIGHT,
-        NODE_WIDTH,
+        NODE_WIDTH2,
         NODE_HEIGHT,
-        PORT_CHILD_WIDTH,
-        PORT_CHILD_HEIGHT
+        PORT_WIDTH2,
+        PORT_HEIGHT
       );
       let portElementMatch;
       let nodeElementMatch;
@@ -23885,10 +23974,6 @@
     drawEdgeBtn.classList.remove("btn-active");
     cancelDrawEdgeBtn.classList.add("hide");
     document.querySelectorAll(".sprotty-node").forEach((e) => {
-      e.removeAttribute("style");
-    });
-    document.querySelectorAll(".sprotty-edge").forEach((e) => {
-      e.classList.remove("selected");
     });
     modelSource.removeElements([
       {
@@ -24025,7 +24110,7 @@
                   isParentNode: false,
                   source: modelSource,
                   nodeId: "dummy",
-                  nodeWidth: NODE_DUMMY_WIDTH,
+                  nodeWidth: NODE_DUMMY_WIDTH2,
                   nodeHeight: NODE_DUMMY_HEIGHT,
                   portWidth: 2,
                   portHeight: 2,
@@ -24080,10 +24165,10 @@
         isParentNode: false,
         source: modelSource,
         nodeId: `type-1-${node1Number}`,
-        nodeWidth: NODE_WIDTH,
+        nodeWidth: NODE_WIDTH2,
         nodeHeight: NODE_HEIGHT,
-        portWidth: PORT_CHILD_WIDTH,
-        portHeight: PORT_CHILD_HEIGHT,
+        portWidth: PORT_WIDTH2,
+        portHeight: PORT_HEIGHT,
         portQuantity: 1,
         type: "node"
       });
@@ -24095,10 +24180,10 @@
         isParentNode: false,
         source: modelSource,
         nodeId: `type-2-${node2Number}`,
-        nodeWidth: NODE_WIDTH,
+        nodeWidth: NODE_WIDTH2,
         nodeHeight: NODE_HEIGHT,
-        portWidth: PORT_CHILD_WIDTH,
-        portHeight: PORT_CHILD_HEIGHT,
+        portWidth: PORT_WIDTH2,
+        portHeight: PORT_HEIGHT,
         portQuantity: 2,
         type: "node"
       });
@@ -24110,10 +24195,10 @@
         isParentNode: false,
         source: modelSource,
         nodeId: `type-3-${node3Number}`,
-        nodeWidth: NODE_WIDTH,
+        nodeWidth: NODE_WIDTH2,
         nodeHeight: NODE_HEIGHT,
-        portWidth: PORT_CHILD_WIDTH,
-        portHeight: PORT_CHILD_HEIGHT,
+        portWidth: PORT_WIDTH2,
+        portHeight: PORT_HEIGHT,
         portQuantity: 3,
         type: "node"
       });
@@ -24125,10 +24210,10 @@
         isParentNode: false,
         source: modelSource,
         nodeId: `type-4-${node4Number}`,
-        nodeWidth: NODE_WIDTH,
+        nodeWidth: NODE_WIDTH2,
         nodeHeight: NODE_HEIGHT,
-        portWidth: PORT_CHILD_WIDTH,
-        portHeight: PORT_CHILD_HEIGHT,
+        portWidth: PORT_WIDTH2,
+        portHeight: PORT_HEIGHT,
         portQuantity: 4,
         type: "node"
       });

@@ -18,9 +18,8 @@ export default function checkPositionEl(
     const coordinateDummyNodeX = target.position.x + dummyWidth / 2;
     const coordinateDummyNodeY = target.position.y + dummyHeight / 2;
     gragphChildrenArr = target.parent.children;
-
     let portCompareCoordinateArr = [];
-
+    console.log(gragphChildrenArr);
     gragphChildrenArr.forEach((child: any) => {
       if (child.type === "node" && child.id !== "node-dummy") {
         const nodeChildArr = child.children;
@@ -100,7 +99,7 @@ export default function checkPositionEl(
                 ) {
                   portType = 4;
                 }
-             
+
                 portCompareCoordinateArr.push({
                   x: portX,
                   y: portY,
@@ -157,6 +156,7 @@ export default function checkPositionEl(
         coordinateDummyNodeY <= portCompareY + PORT_PARENT_HEIGHT &&
         portCompareY <= coordinateDummyNodeY
       ) {
+        console.log(portCoordinate.id);
         targetId = portCoordinate.id;
         isDrawable = true;
       }

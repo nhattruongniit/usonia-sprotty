@@ -20,11 +20,13 @@ import {
   SRoutingHandleView,
   TYPES,
   RectangularNode,
+  moveFeature,
+  selectFeature,
 } from "sprotty";
 
 import { PortViewWithExternalLabel } from "./views/PortViewWithExternalLabel";
 import { CustomMouseListener } from "./index";
-import { EdgeWithArrow, NodeView } from "./views/views";
+import { EdgeWithArrow, NodeView, PropertyLabel } from "./views/views";
 
 export const createContainer = (containerId: string) => {
   const myModule = new ContainerModule((bind, unbind, isBound, rebind) => {
@@ -46,6 +48,9 @@ export const createContainer = (containerId: string) => {
     configureModelElement(container, "label:port", SLabelImpl, SLabelView);
     configureModelElement(container, "label:node", SLabelImpl, SLabelView);
     configureModelElement(container, "label:edge", SLabelImpl, SLabelView);
+    configureModelElement(context, "label:text", PropertyLabel, SLabelView, {
+      enable: [moveFeature, selectFeature],
+    });
     configureModelElement(context, "node", SNodeImpl, RectangularNodeView);
     configureModelElement(context, "edge", SEdgeImpl, EdgeWithArrow);
     configureModelElement(

@@ -36,14 +36,7 @@
   height: calc(100vh - 100px);
 }
 
-.sprotty-graph,
-.sprotty {
-  display: flex;
-  justify-content: center;
-  margin: 0 auto;
-  width: 100%;
-  height: 80vh;
-}
+
 
 .sprotty-edge.selected {
   stroke: red;
@@ -51,11 +44,12 @@
 
 .dummy .sprotty-node {
   fill: black;
+  stroke: none;
 }
 
 .dummy-edge {
   fill: none;
-  stroke: #333;
+  /* stroke: #333; */
   stroke-width: 2px;
 }
 
@@ -65,7 +59,7 @@
 
 .ready-draw .sprotty-port,
 .ready-draw-source .sprotty-port {
-  fill: #0f0;
+  /* fill: #0f0; */
 }
 
 text {
@@ -92,10 +86,6 @@ text {
 }
 text.label-port-node-child {
   font-size: 8pt;
-}
-
-.sprotty-port {
-  fill: #484;
 }
 
 /* .sprotty-label.node {
@@ -133,9 +123,6 @@ svg {
   }
 }
 
-.mouseover {
-}
-
 .selected > rect {
   stroke-width: 3;
 }
@@ -153,18 +140,18 @@ svg {
 }
 
 .sprotty-node {
-  stroke: #448;
+  /* stroke: #448; */
   stroke-width: 1;
-  fill: #ddf;
+  /* fill: #ddf; */
 }
 
 .sprotty-node.mouseover {
-  fill: #dfd;
-  stroke: #88f;
+  /* fill: #dfd; */
+  /* stroke: #88f; */
 }
 
 .sprotty-port.mouseover {
-  stroke: #88f;
+  /* stroke: #88f; */
 }
 
 .sprotty-node.selected {
@@ -172,26 +159,26 @@ svg {
 }
 
 .sprotty-port {
-  stroke: #448;
+  /* stroke: #448; */
   stroke-width: 1;
-  fill: #66c;
+  /* fill: #66c; */
 }
 
 .sprotty-edge {
-  fill: none;
-  stroke: #224;
+  /* fill: none; */
+  /* stroke: #224; */
   stroke-width: 1;
 }
 
 .node-package {
-  fill: #d0c8c0;
+  /* fill: #d0c8c0; */
   stroke: none;
 }
 .sprotty-edge .arrowhead {
-  fill: #336;
+  /* fill: #336; */
 }
 
 .node-package.mouseover {
-  fill: #d0c8c0;
-  stroke: #541;
+  /* fill: #d0c8c0; */
+  /* stroke: #541; */
 }

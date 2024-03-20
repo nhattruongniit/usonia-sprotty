@@ -13,6 +13,9 @@ import {
 import { Action, Selectable } from "sprotty-protocol";
 import { createContainer } from "./di.config";
 
+// settings
+import * as config from "./settings/config.json";
+
 // utils
 import addNode from "./util/addNode";
 import drawEdge from "./util/drawEdge";
@@ -85,18 +88,22 @@ let dummyNodeArray = [];
 let dummyEdgeId = null;
 
 // size nodes & ports & label
-const NODE_WIDTH = 100;
-const NODE_HEIGHT = 100;
-const PORT_CHILD_WIDTH = NODE_WIDTH / 5;
-const PORT_CHILD_HEIGHT = NODE_HEIGHT / 5;
+// let NODE_WIDTH;
+// let NODE_HEIGHT;
+
+// console.log(config, config.EDGE_ARROW_FILL);
+const NODE_WIDTH = config.NODE_WIDTH;
+const NODE_HEIGHT = config.NODE_HEIGTH;
+const PORT_WIDTH = config.PORT_WIDTH;
+const PORT_HEIGHT = config.PORT_HEIGTH;
 
 const NODE_PARENT_WIDTH = NODE_WIDTH * 4;
 const NODE_PARENT_HEIGHT = NODE_HEIGHT * 4;
-const PORT_PARENT_WIDTH = NODE_PARENT_WIDTH / 20;
-const PORT_PARENT_HEIGHT = NODE_PARENT_HEIGHT / 20;
+const PORT_PARENT_WIDTH = config.PORT_WIDTH;
+const PORT_PARENT_HEIGHT = config.PORT_HEIGTH;
 
-const NODE_DUMMY_WIDTH = NODE_WIDTH / 10;
-const NODE_DUMMY_HEIGHT = NODE_HEIGHT / 10;
+const NODE_DUMMY_WIDTH = config.NODE_DUMMY_WIDTH;
+const NODE_DUMMY_HEIGHT = config.NODE_DUMMY_HEIGTH;
 
 // state of draw edge
 let drawMode = false;
@@ -110,18 +117,69 @@ let targetId = null;
 
 let portTarget: HTMLElement;
 
-//
+// styles
+const styles = `
+.dummy .sprotty-node {
+  fill: ${config.NODE_DUMMY_FILL};
+  stroke: ${config.EDGE_DUMMY_STROKE};
+}
+.dummy-edge {
+  fill: ${config.EDGE_DUMMY_FILL};
+  stroke: ${config.EDGE_DUMMY_STROKE};
+}
+.ready-draw .sprotty-port,
+.ready-draw-source .sprotty-port {
+  fill: ${config.READY_DRAW_PORT_FILL};
+}
+.sprotty-node {
+  stroke: ${config.NODE_STROKE};
+  fill: ${config.NODE_FILL};
+}
+.sprotty-node.mouseover {
+  fill: ${config.NODE_FILL_HOVER};
+  stroke: ${config.NODE_FILL_HOVER};
+}
+.sprotty-port.mouseover {
+  stroke: ${config.NODE_FILL_HOVER};
+}
+.sprotty-port {
+  stroke: ${config.PORT_STROKE};
+  stroke-width: 1;
+  fill: ${config.PORT_FILL};
+}
+.sprotty-edge {
+  fill: ${config.EDGE_FILL};
+  stroke: ${config.EDGE_STROKE};
+}
+.node-package {
+  fill: ${config.NODE_PARENT_FILL};
+  stroke: ${config.NODE_PARENT_STROKE};
+}
+.sprotty-edge .arrowhead {
+  fill: ${config.EDGE_ARROW_FILL}
+}
+.node-package.mouseover {
+  fill: ${config.NODE_PARENT_FILL_HOVER};
+  stroke: ${config.NODE_PARENT_STROKE_HOVER};
+}
+ }
+`;
+const styleSheet = document.createElement("style");
+styleSheet.innerText = styles;
+document.head.appendChild(styleSheet);
+
 export class CustomMouseListener extends MouseListener {
   mouseUp(target: any, event: MouseEvent): (Action | Promise<Action>)[] {
     // code connect by dummy node
+
     const objectCheck = checkPositionEl(
       target,
       NODE_DUMMY_WIDTH,
       NODE_DUMMY_HEIGHT,
       NODE_WIDTH,
       NODE_HEIGHT,
-      PORT_CHILD_WIDTH,
-      PORT_CHILD_HEIGHT
+      PORT_WIDTH,
+      PORT_HEIGHT
     );
     if (objectCheck.isDrawable) {
       targetId = objectCheck.targetId;
@@ -147,14 +205,16 @@ export class CustomMouseListener extends MouseListener {
     return [];
   }
   mouseMove(target: any, event: MouseEvent): (Action | Promise<Action>)[] {
+    if (target instanceof SPortImpl) {
+    }
     const objectCheck = checkPositionEl(
       target,
       NODE_DUMMY_WIDTH,
       NODE_DUMMY_HEIGHT,
       NODE_WIDTH,
       NODE_HEIGHT,
-      PORT_CHILD_WIDTH,
-      PORT_CHILD_HEIGHT
+      PORT_WIDTH,
+      PORT_HEIGHT
     );
     let portElementMatch: SPortImpl;
 
@@ -200,12 +260,12 @@ function cancelDrawEdge() {
   cancelDrawEdgeBtn.classList.add("hide");
 
   document.querySelectorAll(".sprotty-node").forEach((e) => {
-    (e as HTMLElement).removeAttribute("style");
+    // (e as HTMLElement).removeAttribute("style");
   });
 
-  document.querySelectorAll(".sprotty-edge").forEach((e) => {
-    (e as HTMLElement).classList.remove("selected");
-  });
+  // document.querySelectorAll(".sprotty-edge").forEach((e) => {
+  //   (e as HTMLElement).classList.remove("selected");
+  // });
 
   modelSource.removeElements([
     {
@@ -453,10 +513,9 @@ export default function run() {
       nodeId: `type-1-${node1Number}`,
       nodeWidth: NODE_WIDTH,
       nodeHeight: NODE_HEIGHT,
-      portWidth: PORT_CHILD_WIDTH,
-      portHeight: PORT_CHILD_HEIGHT,
+      portWidth: PORT_WIDTH,
+      portHeight: PORT_HEIGHT,
       portQuantity: 1,
-
       type: "node",
     });
 
@@ -474,8 +533,8 @@ export default function run() {
       nodeId: `type-2-${node2Number}`,
       nodeWidth: NODE_WIDTH,
       nodeHeight: NODE_HEIGHT,
-      portWidth: PORT_CHILD_WIDTH,
-      portHeight: PORT_CHILD_HEIGHT,
+      portWidth: PORT_WIDTH,
+      portHeight: PORT_HEIGHT,
 
       portQuantity: 2,
       type: "node",
@@ -495,8 +554,8 @@ export default function run() {
       nodeId: `type-3-${node3Number}`,
       nodeWidth: NODE_WIDTH,
       nodeHeight: NODE_HEIGHT,
-      portWidth: PORT_CHILD_WIDTH,
-      portHeight: PORT_CHILD_HEIGHT,
+      portWidth: PORT_WIDTH,
+      portHeight: PORT_HEIGHT,
 
       portQuantity: 3,
       type: "node",
@@ -516,8 +575,8 @@ export default function run() {
       nodeId: `type-4-${node4Number}`,
       nodeWidth: NODE_WIDTH,
       nodeHeight: NODE_HEIGHT,
-      portWidth: PORT_CHILD_WIDTH,
-      portHeight: PORT_CHILD_HEIGHT,
+      portWidth: PORT_WIDTH,
+      portHeight: PORT_HEIGHT,
 
       portQuantity: 4,
       type: "node",
