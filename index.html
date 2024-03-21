@@ -75,7 +75,7 @@
         </button>
       </div>
       <div id="nodes-shapes" class="mt-4 nodes-shapes">
-        <div id="node-1-shape" class="node-shape-1 hide">
+        <div id="node-1-shape" class="shape node-shape-1 hide">
           <div id="node-1-port-1" class="mt-5 node-shape node-1-port-1">
             <div class="port-shape port-shape-1"></div>
           </div>
@@ -89,26 +89,44 @@
             <div class="port-shape port-shape-4"></div>
           </div>
         </div>
-        <div id="node-2-shape" class="node-shape-2 hide">
+        <div id="node-2-shape" class="shape node-shape-2 hide">
           <div id="node-2-port-13" class="mt-5 node-shape node-2-port-13">
             <div class="port-shape port-shape-1"></div>
             <div class="port-shape port-shape-3"></div>
           </div>
+          <div id="node-2-port-24" class="mt-5 node-shape node-2-port-24">
+            <div class="port-shape port-shape-2"></div>
+            <div class="port-shape port-shape-4"></div>
+          </div>
         </div>
-        <div id="node-3-shape" class="node-shape-3 hide">
+        <div id="node-3-shape" class="shape node-shape-3 hide">
           <div id="node-3-port-123" class="mt-5 node-shape node-3-port-123">
             <div class="port-shape port-shape-1"></div>
             <div class="port-shape port-shape-2"></div>
             <div class="port-shape port-shape-3"></div>
           </div>
+          <div id="node-3-port-234" class="mt-5 node-shape node-3-port-234">
+            <div class="port-shape port-shape-2"></div>
+            <div class="port-shape port-shape-3"></div>
+            <div class="port-shape port-shape-4"></div>
+          </div>
+          <div id="node-3-port-341" class="mt-5 node-shape node-3-port-341">
+            <div class="port-shape port-shape-3"></div>
+            <div class="port-shape port-shape-4"></div>
+            <div class="port-shape port-shape-1"></div>
+          </div>
+          <div id="node-3-port-412" class="mt-5 node-shape node-3-port-412">
+            <div class="port-shape port-shape-4"></div>
+            <div class="port-shape port-shape-1"></div>
+            <div class="port-shape port-shape-2"></div>
+          </div>
         </div>
-        <div id="node-4-shape" class="node-shape-4 hide">
+        <div id="node-4-shape" class="shape node-shape-4 hide">
           <div id="node-4-port-1234" class="mt-5 node-shape node-4-port-1234">
             <div class="port-shape port-shape-1"></div>
             <div class="port-shape port-shape-2"></div>
             <div class="port-shape port-shape-3"></div>
             <div class="port-shape port-shape-4"></div>
-            <
           </div>
         </div>
       </div>
@@ -117,64 +135,6 @@
       <div id="sprotty-container"></div>
     </div>
   </div>
-  <script>
-    const selecteNodeEl = document.getElementById("select-node");
-    const node1ShapeEl = document.getElementById("node-1-shape");
-    const node2ShapeEl = document.getElementById("node-2-shape");
-    const node3ShapeEl = document.getElementById("node-3-shape");
-    const node4ShapeEl = document.getElementById("node-4-shape");
-    const nodeShapeEls = document.querySelectorAll(".node-shape");
-    nodeShapeEls.forEach((e) => {
-      e.addEventListener("click", (event) => {
-        console.log(event.target.id);
-      });
-    });
 
-    selecteNodeEl.addEventListener("change", (event) => {
-      const nodeValue = +event.target.value;
-      if (nodeValue === 1) {
-        node1ShapeEl.classList.remove("hide");
-        !node2ShapeEl.classList.contains("hide") &&
-          node2ShapeEl.classList.add("hide");
-        !node3ShapeEl.classList.contains("hide") &&
-          node3ShapeEl.classList.add("hide");
-        !node4ShapeEl.classList.contains("hide") &&
-          node4ShapeEl.classList.add("hide");
-      } else if (nodeValue === 2) {
-        node2ShapeEl.classList.remove("hide");
-        !node1ShapeEl.classList.contains("hide") &&
-          node1ShapeEl.classList.add("hide");
-        !node3ShapeEl.classList.contains("hide") &&
-          node3ShapeEl.classList.add("hide");
-        !node4ShapeEl.classList.contains("hide") &&
-          node4ShapeEl.classList.add("hide");
-      } else if (nodeValue === 3) {
-        node3ShapeEl.classList.remove("hide");
-        !node1ShapeEl.classList.contains("hide") &&
-          node1ShapeEl.classList.add("hide");
-        !node2ShapeEl.classList.contains("hide") &&
-          node2ShapeEl.classList.add("hide");
-        !node4ShapeEl.classList.contains("hide") &&
-          node4ShapeEl.classList.add("hide");
-      } else if (nodeValue === 4) {
-        node4ShapeEl.classList.remove("hide");
-        !node1ShapeEl.classList.contains("hide") &&
-          node1ShapeEl.classList.add("hide");
-        !node2ShapeEl.classList.contains("hide") &&
-          node2ShapeEl.classList.add("hide");
-        !node3ShapeEl.classList.contains("hide") &&
-          node3ShapeEl.classList.add("hide");
-      } else {
-        !node1ShapeEl.classList.contains("hide") &&
-          node1ShapeEl.classList.add("hide");
-        !node2ShapeEl.classList.contains("hide") &&
-          node2ShapeEl.classList.add("hide");
-        !node3ShapeEl.classList.contains("hide") &&
-          node3ShapeEl.classList.add("hide");
-        !node4ShapeEl.classList.contains("hide") &&
-          node4ShapeEl.classList.add("hide");
-      }
-    });
-  </script>
-  <!-- <script src="./out/index.js" type="text/javascript"></script> -->
+  <script src="./out/index.js" type="text/javascript"></script>
 </body>

@@ -111,7 +111,15 @@
 .node-1-port-4:hover,
 .node-2-port-13:hover,
 .node-3-port-123:hover,
-.node-4-port-1234:hover {
+.node-4-port-1234:hover,
+.node-2-port-24:hover,
+.node-3-port-234:hover,
+.node-3-port-341:hover,
+.node-3-port-412:hover {
+  background-color: #dfd;
+}
+
+.selected-node-add.node-shape {
   background-color: #dfd;
 }
 

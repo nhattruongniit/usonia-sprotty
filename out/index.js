@@ -23397,12 +23397,13 @@
     source,
     nodeId,
     portQuantity,
+    portType,
     nodeWidth,
     nodeHeight,
     portWidth,
     portHeight,
     cssClasses = ["node"],
-    name = `node-${nodeId}`,
+    name = `${nodeId}`,
     x = Math.floor(Math.random() * 500),
     y = Math.floor(Math.random() * 500),
     type
@@ -23413,29 +23414,6 @@
       { x: 0 - portWidth, y: nodeHeight / 2 - portHeight / 2 },
       { x: nodeWidth / 2 - portWidth / 2, y: 0 - portHeight }
     ];
-    source.addElements([
-      {
-        parentId: "graph",
-        element: {
-          type,
-          id: `node-${nodeId}`,
-          cssClasses,
-          position: { x, y },
-          size: {
-            width: nodeWidth,
-            height: nodeHeight
-          },
-          children: [
-            {
-              type: "label:node",
-              id: `label-node-${nodeId}`,
-              text: name,
-              position: isParentNode ? { x: nodeWidth / 2, y: nodeHeight / 10 } : { x: nodeWidth / 2, y: nodeHeight / 2 }
-            }
-          ]
-        }
-      }
-    ]);
     if (isParentNode) {
       const nodeChildWidth = nodeWidth / 4;
       const nodeChildHeight = nodeHeight / 4;
@@ -23518,52 +23496,51 @@
         ]);
       }
     }
-    for (let i = 0; i < portQuantity; i++) {
-      if (portQuantity === 3) {
-        source.addElements([
-          {
-            parentId: `node-${nodeId}`,
-            element: {
-              type: "port",
-              id: `port-${nodeId}-${i + 1}`,
-              size: { width: portWidth, height: portHeight },
-              position: positionPort[i],
-              // cssClasses:  ["port"],
-              cssClasses: i === 1 ? ["port", "hide"] : ["port"],
-              children: nodeId === "dummy" ? [] : [
-                {
-                  type: "label:port",
-                  id: `label-port-${nodeId}-${i + 1}`,
-                  text: `p-${i + 1}`,
-                  position: { x: portWidth / 2, y: 0 - portHeight / 8 }
-                }
-              ]
+    source.addElements([
+      {
+        parentId: "graph",
+        element: {
+          type,
+          id: `${nodeId}`,
+          cssClasses,
+          position: { x, y },
+          size: {
+            width: nodeWidth,
+            height: nodeHeight
+          },
+          children: [
+            {
+              type: "label:node",
+              id: `label-node-${nodeId}`,
+              text: name,
+              position: isParentNode ? { x: nodeWidth / 2, y: nodeHeight / 10 } : { x: nodeWidth / 2, y: nodeHeight / 2 }
             }
-          }
-        ]);
-      } else {
-        source.addElements([
-          {
-            parentId: `node-${nodeId}`,
-            element: {
-              type: "port",
-              id: `port-${nodeId}-${i + 1}`,
-              size: { width: portWidth, height: portHeight },
-              position: positionPort[i],
-              cssClasses: ["port"],
-              // cssClasses: i === 1 ? ["port"] : ["port"],
-              children: nodeId === "dummy" ? [] : [
-                {
-                  type: "label:port",
-                  id: `label-port-${nodeId}-${i + 1}`,
-                  text: `p-${i + 1}`,
-                  position: { x: portWidth / 2, y: 0 - portHeight / 8 }
-                }
-              ]
-            }
-          }
-        ]);
+          ]
+        }
       }
+    ]);
+    if (portQuantity === 1) {
+      source.addElements([
+        {
+          parentId: `${nodeId}`,
+          element: {
+            type: "port",
+            id: `port-${nodeId}-${portType}`,
+            size: { width: portWidth, height: portHeight },
+            position: positionPort[portType - 1],
+            cssClasses: ["port"],
+            // cssClasses: i === 1 ? ["port"] : ["port"],
+            children: nodeId === "dummy" ? [] : [
+              {
+                type: "label:port",
+                id: `label-port-${nodeId}-${portType}`,
+                text: `p-${portType}`,
+                position: { x: portWidth / 2, y: 0 - portHeight / 8 }
+              }
+            ]
+          }
+        }
+      ]);
     }
   }
 
@@ -23681,8 +23658,8 @@
   function checkPositionEl(target, dummyWidth, dummyHeight, nodeWidth, nodeHeight, portWidth, portHeight) {
     const NODE_PARENT_WIDTH2 = nodeWidth * 4;
     const NODE_PARENT_HEIGHT2 = nodeWidth * 4;
-    const PORT_PARENT_WIDTH2 = NODE_PARENT_WIDTH2 / 8;
-    const PORT_PARENT_HEIGHT2 = NODE_PARENT_HEIGHT2 / 8;
+    const PORT_PARENT_WIDTH = NODE_PARENT_WIDTH2 / 8;
+    const PORT_PARENT_HEIGHT = NODE_PARENT_HEIGHT2 / 8;
     let isDrawable = false;
     let targetId2 = "";
     let gragphChildrenArr = [];
@@ -23778,7 +23755,7 @@
           portCompareY = portCoordinate.nodeY + portCoordinate.y;
         } else if (portCoordinate.type === 5) {
           portCompareX = portCoordinate.nodeX + portCoordinate.x;
-          portCompareY = portCoordinate.nodeY + (NODE_PARENT_HEIGHT2 - PORT_PARENT_HEIGHT2) / 2;
+          portCompareY = portCoordinate.nodeY + (NODE_PARENT_HEIGHT2 - PORT_PARENT_HEIGHT) / 2;
         } else {
           return;
         }
@@ -23786,7 +23763,7 @@
           targetId2 = portCoordinate.id;
           isDrawable = true;
         }
-        if (coordinateDummyNodeX <= portCompareX + PORT_PARENT_WIDTH2 && portCompareX <= coordinateDummyNodeX && coordinateDummyNodeY <= portCompareY + PORT_PARENT_HEIGHT2 && portCompareY <= coordinateDummyNodeY) {
+        if (coordinateDummyNodeX <= portCompareX + PORT_PARENT_WIDTH && portCompareX <= coordinateDummyNodeX && coordinateDummyNodeY <= portCompareY + PORT_PARENT_HEIGHT && portCompareY <= coordinateDummyNodeY) {
           console.log(portCoordinate.id);
           targetId2 = portCoordinate.id;
           isDrawable = true;
@@ -23802,10 +23779,7 @@
 
   // index.ts
   var addParentNode = null;
-  var addNode1Btn = null;
-  var addNode2Btn = null;
-  var addNode3Btn = null;
-  var addNode4Btn = null;
+  var addNodeEl = null;
   var drawEdgeBtn = null;
   var cancelDrawEdgeBtn = null;
   var deleteBtn = null;
@@ -23813,6 +23787,12 @@
   var exportJsonBtn = null;
   var importJsonBtn = null;
   var inputFile = null;
+  var selecteNodeEl = null;
+  var node1ShapeEl = null;
+  var node2ShapeEl = null;
+  var node3ShapeEl = null;
+  var node4ShapeEl = null;
+  var nodeShapeEls = null;
   var graphDisplay;
   var graph = {
     type: "graph",
@@ -23839,8 +23819,6 @@
   var PORT_HEIGHT = PORT_HEIGTH;
   var NODE_PARENT_WIDTH = NODE_WIDTH2 * 4;
   var NODE_PARENT_HEIGHT = NODE_HEIGHT * 4;
-  var PORT_PARENT_WIDTH = PORT_WIDTH;
-  var PORT_PARENT_HEIGHT = PORT_HEIGTH;
   var NODE_DUMMY_WIDTH2 = NODE_DUMMY_WIDTH;
   var NODE_DUMMY_HEIGHT = NODE_DUMMY_HEIGTH;
   var drawMode = false;
@@ -23966,10 +23944,6 @@
   var container = createContainer("sprotty-container");
   var modelSource = container.get(import_sprotty4.TYPES.ModelSource);
   function cancelDrawEdge() {
-    addNode1Btn.removeAttribute("disabled");
-    addNode2Btn.removeAttribute("disabled");
-    addNode3Btn.removeAttribute("disabled");
-    addNode4Btn.removeAttribute("disabled");
     deleteBtn.removeAttribute("disabled");
     drawEdgeBtn.classList.remove("btn-active");
     cancelDrawEdgeBtn.classList.add("hide");
@@ -24039,10 +24013,7 @@
     localStorage.clear();
     drawLogic();
     addParentNode = document.getElementById("add-parent-node");
-    addNode1Btn = document.getElementById("add-node-1");
-    addNode2Btn = document.getElementById("add-node-2");
-    addNode3Btn = document.getElementById("add-node-3");
-    addNode4Btn = document.getElementById("add-node-4");
+    addNodeEl = document.getElementById("add-node-btn");
     drawEdgeBtn = document.getElementById("draw-edge");
     deleteBtn = document.getElementById("delete");
     cancelDrawEdgeBtn = document.getElementById("cancel-draw-edge");
@@ -24050,6 +24021,41 @@
     exportJsonBtn = document.getElementById("export-json");
     importJsonBtn = document.getElementById("import-json");
     inputFile = document.getElementById("input-file");
+    selecteNodeEl = document.getElementById("select-node");
+    node1ShapeEl = document.getElementById("node-1-shape");
+    node2ShapeEl = document.getElementById("node-2-shape");
+    node3ShapeEl = document.getElementById("node-3-shape");
+    node4ShapeEl = document.getElementById("node-4-shape");
+    nodeShapeEls = document.querySelectorAll(".node-shape");
+    selecteNodeEl.addEventListener("change", (event) => {
+      const nodeValue = +event.target.value;
+      if (nodeValue === 1) {
+        node1ShapeEl.classList.remove("hide");
+        !node2ShapeEl.classList.contains("hide") && node2ShapeEl.classList.add("hide");
+        !node3ShapeEl.classList.contains("hide") && node3ShapeEl.classList.add("hide");
+        !node4ShapeEl.classList.contains("hide") && node4ShapeEl.classList.add("hide");
+      } else if (nodeValue === 2) {
+        node2ShapeEl.classList.remove("hide");
+        !node1ShapeEl.classList.contains("hide") && node1ShapeEl.classList.add("hide");
+        !node3ShapeEl.classList.contains("hide") && node3ShapeEl.classList.add("hide");
+        !node4ShapeEl.classList.contains("hide") && node4ShapeEl.classList.add("hide");
+      } else if (nodeValue === 3) {
+        node3ShapeEl.classList.remove("hide");
+        !node1ShapeEl.classList.contains("hide") && node1ShapeEl.classList.add("hide");
+        !node2ShapeEl.classList.contains("hide") && node2ShapeEl.classList.add("hide");
+        !node4ShapeEl.classList.contains("hide") && node4ShapeEl.classList.add("hide");
+      } else if (nodeValue === 4) {
+        node4ShapeEl.classList.remove("hide");
+        !node1ShapeEl.classList.contains("hide") && node1ShapeEl.classList.add("hide");
+        !node2ShapeEl.classList.contains("hide") && node2ShapeEl.classList.add("hide");
+        !node3ShapeEl.classList.contains("hide") && node3ShapeEl.classList.add("hide");
+      } else {
+        !node1ShapeEl.classList.contains("hide") && node1ShapeEl.classList.add("hide");
+        !node2ShapeEl.classList.contains("hide") && node2ShapeEl.classList.add("hide");
+        !node3ShapeEl.classList.contains("hide") && node3ShapeEl.classList.add("hide");
+        !node4ShapeEl.classList.contains("hide") && node4ShapeEl.classList.add("hide");
+      }
+    });
     showJsonBtn.addEventListener("click", () => {
       console.log(JSON.stringify(modelSource.model, null, 2));
     });
@@ -24145,87 +24151,67 @@
         });
       }, 100);
     }
-    addParentNode.addEventListener("click", () => {
-      addNode({
-        isParentNode: true,
-        source: modelSource,
-        nodeId: `type-parent-${nodeParentNumber}`,
-        nodeWidth: NODE_PARENT_WIDTH,
-        nodeHeight: NODE_PARENT_HEIGHT,
-        portWidth: PORT_PARENT_WIDTH,
-        portHeight: PORT_PARENT_HEIGHT,
-        portQuantity: 1,
-        type: "node:package"
-      });
-      nodeParentNumber++;
-      drawLogic();
+    let portNumber = null;
+    let nodeAddId = null;
+    let addMode = false;
+    const shapeEl = document.getElementsByClassName("shape");
+    const nodeArr = [...shapeEl].map((e) => {
+      return {
+        portNumber: +e.id.replace("node-", "").replace("-shape", ""),
+        children: [...e.children].map((i) => {
+          return {
+            id: i.id,
+            count: 1
+          };
+        })
+      };
     });
-    addNode1Btn.addEventListener("click", () => {
-      addNode({
-        isParentNode: false,
-        source: modelSource,
-        nodeId: `type-1-${node1Number}`,
-        nodeWidth: NODE_WIDTH2,
-        nodeHeight: NODE_HEIGHT,
-        portWidth: PORT_WIDTH2,
-        portHeight: PORT_HEIGHT,
-        portQuantity: 1,
-        type: "node"
+    nodeShapeEls.forEach((e) => {
+      e.addEventListener("click", (event) => {
+        const targetEl = event.target;
+        addMode = true;
+        if (nodeAddId === targetEl.id) {
+          addMode = false;
+          nodeAddId = null;
+        }
+        portNumber = +targetEl.parentNode.id.replace("node-", "").replace("-shape", "");
+        nodeAddId = targetEl.id;
+        targetEl.classList.toggle("selected-node-add");
+        nodeShapeEls.forEach((e2) => {
+          if (e2.id !== targetEl.id) {
+            e2.classList.remove("selected-node-add");
+          }
+        });
       });
-      node1Number++;
-      drawLogic();
     });
-    addNode2Btn.addEventListener("click", () => {
-      addNode({
-        isParentNode: false,
-        source: modelSource,
-        nodeId: `type-2-${node2Number}`,
-        nodeWidth: NODE_WIDTH2,
-        nodeHeight: NODE_HEIGHT,
-        portWidth: PORT_WIDTH2,
-        portHeight: PORT_HEIGHT,
-        portQuantity: 2,
-        type: "node"
-      });
-      node2Number++;
-      drawLogic();
-    });
-    addNode3Btn.addEventListener("click", () => {
-      addNode({
-        isParentNode: false,
-        source: modelSource,
-        nodeId: `type-3-${node3Number}`,
-        nodeWidth: NODE_WIDTH2,
-        nodeHeight: NODE_HEIGHT,
-        portWidth: PORT_WIDTH2,
-        portHeight: PORT_HEIGHT,
-        portQuantity: 3,
-        type: "node"
-      });
-      node3Number++;
-      drawLogic();
-    });
-    addNode4Btn.addEventListener("click", () => {
-      addNode({
-        isParentNode: false,
-        source: modelSource,
-        nodeId: `type-4-${node4Number}`,
-        nodeWidth: NODE_WIDTH2,
-        nodeHeight: NODE_HEIGHT,
-        portWidth: PORT_WIDTH2,
-        portHeight: PORT_HEIGHT,
-        portQuantity: 4,
-        type: "node"
-      });
-      node4Number++;
-      drawLogic();
+    addNodeEl.addEventListener("click", () => {
+      if (addMode) {
+        const portType = +nodeAddId[nodeAddId.length - 1];
+        const nodeTypeAddIndex = nodeArr.findIndex((e) => {
+          return e.portNumber === portNumber;
+        });
+        const nodeTypeAdd = nodeArr[nodeTypeAddIndex];
+        const nodeAddIndex = nodeTypeAdd.children.findIndex((e) => {
+          return e.id === nodeAddId;
+        });
+        const nodeAdd = nodeTypeAdd.children[nodeAddIndex];
+        addNode({
+          isParentNode: false,
+          source: modelSource,
+          nodeId: `${nodeAdd.id}-${nodeAdd.count}`,
+          nodeWidth: NODE_WIDTH2,
+          nodeHeight: NODE_HEIGHT,
+          portWidth: PORT_WIDTH2,
+          portHeight: PORT_HEIGHT,
+          portQuantity: portNumber,
+          portType,
+          type: "node"
+        });
+        nodeAdd.count++;
+      }
     });
     drawEdgeBtn.addEventListener("click", () => {
       if (!drawMode) {
-        addNode1Btn.setAttribute("disabled", "true");
-        addNode2Btn.setAttribute("disabled", "true");
-        addNode3Btn.setAttribute("disabled", "true");
-        addNode4Btn.setAttribute("disabled", "true");
         deleteBtn.setAttribute("disabled", "true");
         drawEdgeBtn.classList.add("btn-active");
         cancelDrawEdgeBtn.classList.remove("hide");
