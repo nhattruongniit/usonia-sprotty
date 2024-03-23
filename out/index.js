@@ -23393,7 +23393,6 @@
 
   // util/addNode.ts
   var addPortElement = (source, parentId, portType, id, width, height, position, text) => {
-    console.log(parentId);
     source.addElements([
       {
         parentId,
@@ -23437,6 +23436,29 @@
       { x: 0 - portWidth, y: nodeHeight / 2 - portHeight / 2 },
       { x: nodeWidth / 2 - portWidth / 2, y: 0 - portHeight }
     ];
+    source.addElements([
+      {
+        parentId: "graph",
+        element: {
+          type,
+          id: `${nodeId}`,
+          cssClasses,
+          position: { x, y },
+          size: {
+            width: nodeWidth,
+            height: nodeHeight
+          },
+          children: [
+            {
+              type: "label:node",
+              id: `label-node-${nodeId}`,
+              text: name,
+              position: isParentNode ? { x: nodeWidth / 2, y: nodeHeight / 10 } : { x: nodeWidth / 2, y: nodeHeight / 2 }
+            }
+          ]
+        }
+      }
+    ]);
     if (isParentNode) {
       const nodeChildWidth = nodeWidth / 4;
       const nodeChildHeight = nodeHeight / 4;
@@ -23446,10 +23468,11 @@
         { x: nodeWidth / 5, y: nodeHeight / 5 },
         { x: nodeWidth / 4 + nodeWidth / 3, y: nodeHeight / 4 + nodeHeight / 3 }
       ];
+      console.log(nodeId);
       for (let i = 0; i < positionNodeChildren.length; i++) {
         source.addElements([
           {
-            parentId: `node-${nodeId}`,
+            parentId: `${nodeId}`,
             element: {
               type: "node",
               id: `node-child-${nodeId}-${i + 1}`,
@@ -23519,29 +23542,6 @@
         ]);
       }
     }
-    source.addElements([
-      {
-        parentId: "graph",
-        element: {
-          type,
-          id: `${nodeId}`,
-          cssClasses,
-          position: { x, y },
-          size: {
-            width: nodeWidth,
-            height: nodeHeight
-          },
-          children: [
-            {
-              type: "label:node",
-              id: `label-node-${nodeId}`,
-              text: name,
-              position: isParentNode ? { x: nodeWidth / 2, y: nodeHeight / 10 } : { x: nodeWidth / 2, y: nodeHeight / 2 }
-            }
-          ]
-        }
-      }
-    ]);
     const addPort = (position, id, text) => {
       addPortElement(
         source,
@@ -23560,13 +23560,14 @@
         `port-${nodeId}-${portType}`,
         `p-${portType}`
       );
-    }
-    for (let i = 0; i < portQuantity; i++) {
-      addPort(
-        positionPort[+portType[i] - 1],
-        `port-${nodeId}-${+portType[i]}`,
-        `p-${portType[i]}`
-      );
+    } else {
+      for (let i = 0; i < portQuantity; i++) {
+        addPort(
+          positionPort[+portType[i] - 1],
+          `port-${nodeId}-${+portType[i]}`,
+          `p-${portType[i]}`
+        );
+      }
     }
   }
 
@@ -23684,19 +23685,18 @@
   function checkPositionEl(target, dummyWidth, dummyHeight, nodeWidth, nodeHeight, portWidth, portHeight) {
     const NODE_PARENT_WIDTH2 = nodeWidth * 4;
     const NODE_PARENT_HEIGHT2 = nodeWidth * 4;
-    const PORT_PARENT_WIDTH = NODE_PARENT_WIDTH2 / 8;
-    const PORT_PARENT_HEIGHT = NODE_PARENT_HEIGHT2 / 8;
+    const PORT_PARENT_WIDTH2 = NODE_PARENT_WIDTH2 / 8;
+    const PORT_PARENT_HEIGHT2 = NODE_PARENT_HEIGHT2 / 8;
     let isDrawable = false;
     let targetId2 = "";
     let gragphChildrenArr = [];
-    if (target.id === "node-dummy") {
+    if (target.id === "dummy") {
       const coordinateDummyNodeX = target.position.x + dummyWidth / 2;
       const coordinateDummyNodeY = target.position.y + dummyHeight / 2;
       gragphChildrenArr = target.parent.children;
       let portCompareCoordinateArr = [];
-      console.log(gragphChildrenArr);
       gragphChildrenArr.forEach((child) => {
-        if (child.type === "node" && child.id !== "node-dummy") {
+        if (child.type === "node" && child.id !== "dummy") {
           const nodeChildArr = child.children;
           nodeChildArr.forEach((nodeChild) => {
             if (nodeChild.type === "port") {
@@ -23781,7 +23781,7 @@
           portCompareY = portCoordinate.nodeY + portCoordinate.y;
         } else if (portCoordinate.type === 5) {
           portCompareX = portCoordinate.nodeX + portCoordinate.x;
-          portCompareY = portCoordinate.nodeY + (NODE_PARENT_HEIGHT2 - PORT_PARENT_HEIGHT) / 2;
+          portCompareY = portCoordinate.nodeY + (NODE_PARENT_HEIGHT2 - PORT_PARENT_HEIGHT2) / 2;
         } else {
           return;
         }
@@ -23789,8 +23789,7 @@
           targetId2 = portCoordinate.id;
           isDrawable = true;
         }
-        if (coordinateDummyNodeX <= portCompareX + PORT_PARENT_WIDTH && portCompareX <= coordinateDummyNodeX && coordinateDummyNodeY <= portCompareY + PORT_PARENT_HEIGHT && portCompareY <= coordinateDummyNodeY) {
-          console.log(portCoordinate.id);
+        if (coordinateDummyNodeX <= portCompareX + PORT_PARENT_WIDTH2 && portCompareX <= coordinateDummyNodeX && coordinateDummyNodeY <= portCompareY + PORT_PARENT_HEIGHT2 && portCompareY <= coordinateDummyNodeY) {
           targetId2 = portCoordinate.id;
           isDrawable = true;
         }
@@ -23845,6 +23844,8 @@
   var PORT_HEIGHT = PORT_HEIGTH;
   var NODE_PARENT_WIDTH = NODE_WIDTH2 * 4;
   var NODE_PARENT_HEIGHT = NODE_HEIGHT * 4;
+  var PORT_PARENT_WIDTH = PORT_WIDTH;
+  var PORT_PARENT_HEIGHT = PORT_HEIGTH;
   var NODE_DUMMY_WIDTH2 = NODE_DUMMY_WIDTH;
   var NODE_DUMMY_HEIGHT = NODE_DUMMY_HEIGTH;
   var drawMode = false;
@@ -23973,8 +23974,6 @@
     deleteBtn.removeAttribute("disabled");
     drawEdgeBtn.classList.remove("btn-active");
     cancelDrawEdgeBtn.classList.add("hide");
-    document.querySelectorAll(".sprotty-node").forEach((e) => {
-    });
     modelSource.removeElements([
       {
         elementId: dummyNodeArray[0],
@@ -24004,10 +24003,8 @@
       if (element.id.includes("label") || element.id === "") {
         return;
       }
-      const idNodeCompare = element.id.replace(
-        "sprotty-container_node-type-",
-        ""
-      );
+      const idNodeCompare = element.id.replace("sprotty-container_node-", "");
+      console.log(idNodeCompare);
       edgeArr.forEach((edge) => {
         const edgeSourceIdCompare = edge.sourceId.replace("port-type-", "");
         const edgeTargetIdCompare = edge.targetId.replace("port-type-", "");
@@ -24033,6 +24030,7 @@
         }
       ]);
     });
+    console.log(edgeArr);
   };
   function run() {
     modelSource.setModel(graphDisplay);
@@ -24083,7 +24081,7 @@
       }
     });
     showJsonBtn.addEventListener("click", () => {
-      console.log(JSON.stringify(modelSource.model, null, 2));
+      JSON.stringify(modelSource.model, null, 2);
     });
     exportJsonBtn.addEventListener("click", () => {
       const name = randomText("graph");
@@ -24138,7 +24136,25 @@
               const defaultX = Number(coordinate[0]) + Number(portCoordinate[0]) + 5;
               const defaultY = Number(coordinate[1]) + Number(portCoordinate[1]) + 5;
               if (dummyNodeArray.length == 0) {
-                dummyNodeArray.push("node-dummy");
+                addNode({
+                  isParentNode: false,
+                  source: modelSource,
+                  nodeId: "dummy",
+                  nodeWidth: NODE_DUMMY_WIDTH2,
+                  nodeHeight: NODE_DUMMY_HEIGHT,
+                  portWidth: 2,
+                  portHeight: 2,
+                  portQuantity: 1,
+                  cssClasses: ["nodes", "dummy"],
+                  name: "",
+                  // x: Number(coordinate[0]) + 2 * NODE_WIDTH,
+                  // y: Number(coordinate[1]),
+                  x: isParent ? Number(coordinateParent[0]) + defaultX : defaultX,
+                  y: isParent ? Number(coordinateParent[1]) + defaultY : defaultY,
+                  type: "node",
+                  portType: "1"
+                });
+                dummyNodeArray.push("dummy");
                 drawEdge({
                   source: modelSource,
                   edgeId: "dummy",
@@ -24146,11 +24162,6 @@
                   targetNumb: "dummy-1",
                   type: "edge:straight",
                   cssClasses: ["dummy-edge"]
-                });
-                edgeArr.push({
-                  id: `edge-${edgeNumber}`,
-                  sourceId: `port-${sourceId}`,
-                  targetId: "dummy-1"
                 });
                 dummyEdgeId = "edge-dummy";
               }
@@ -24160,6 +24171,22 @@
         });
       }, 100);
     }
+    addParentNode.addEventListener("click", () => {
+      addNode({
+        isParentNode: true,
+        source: modelSource,
+        nodeId: `type-parent-${nodeParentNumber}`,
+        nodeWidth: NODE_PARENT_WIDTH,
+        nodeHeight: NODE_PARENT_HEIGHT,
+        portWidth: PORT_PARENT_WIDTH,
+        portHeight: PORT_PARENT_HEIGHT,
+        portQuantity: 1,
+        type: "node:package",
+        portType: "1"
+      });
+      nodeParentNumber++;
+      drawLogic();
+    });
     let portNumber = null;
     let nodeAddId = null;
     let addMode = false;
@@ -24218,6 +24245,7 @@
         });
         nodeAdd.count++;
       }
+      drawLogic();
     });
     drawEdgeBtn.addEventListener("click", () => {
       if (!drawMode) {

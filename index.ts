@@ -98,7 +98,7 @@ let dummyEdgeId = null;
 // let NODE_WIDTH;
 // let NODE_HEIGHT;
 
-// console.log(config, config.EDGE_ARROW_FILL);
+// (config, config.EDGE_ARROW_FILL);
 const NODE_WIDTH = config.NODE_WIDTH;
 const NODE_HEIGHT = config.NODE_HEIGTH;
 const PORT_WIDTH = config.PORT_WIDTH;
@@ -258,22 +258,10 @@ const modelSource = container.get<LocalModelSource>(TYPES.ModelSource);
 
 // cancel draw edge
 function cancelDrawEdge() {
-  // addNode1Btn.removeAttribute("disabled");
-  // addNode2Btn.removeAttribute("disabled");
-  // addNode3Btn.removeAttribute("disabled");
-  // addNode4Btn.removeAttribute("disabled");
   deleteBtn.removeAttribute("disabled");
 
   drawEdgeBtn.classList.remove("btn-active");
   cancelDrawEdgeBtn.classList.add("hide");
-
-  document.querySelectorAll(".sprotty-node").forEach((e) => {
-    // (e as HTMLElement).removeAttribute("style");
-  });
-
-  // document.querySelectorAll(".sprotty-edge").forEach((e) => {
-  //   (e as HTMLElement).classList.remove("selected");
-  // });
 
   modelSource.removeElements([
     {
@@ -287,6 +275,7 @@ function cancelDrawEdge() {
       parentId: "graph",
     },
   ]);
+
   dummyEdgeId = null;
   Array.from(document.getElementsByClassName("ready-draw-source")).forEach(
     (e) => {
@@ -307,10 +296,8 @@ const deleteLogic = () => {
       return;
     }
 
-    const idNodeCompare = element.id.replace(
-      "sprotty-container_node-type-",
-      ""
-    );
+    const idNodeCompare = element.id.replace("sprotty-container_node-", "");
+
     edgeArr.forEach((edge) => {
       const edgeSourceIdCompare = edge.sourceId.replace("port-type-", "");
       const edgeTargetIdCompare = edge.targetId.replace("port-type-", "");
@@ -416,8 +403,8 @@ export default function run() {
 
   // show json
   showJsonBtn.addEventListener("click", () => {
-    console.log(JSON.stringify(modelSource.model, null, 2));
-    // console.log("showJsonBtn: ", modelSource.model);
+    JSON.stringify(modelSource.model, null, 2);
+    // ("showJsonBtn: ", modelSource.model);
   });
 
   exportJsonBtn.addEventListener("click", () => {
@@ -440,7 +427,7 @@ export default function run() {
   });
 
   inputFile.addEventListener("change", (event) => {
-    // console.log(event.target.files[0]);
+    // (event.target.files[0]);
     if (!event.target.files[0]) {
       return;
     }
@@ -507,25 +494,26 @@ export default function run() {
               Number(coordinate[1]) + Number(portCoordinate[1]) + 5;
             // add dummy node
             if (dummyNodeArray.length == 0) {
-              // addNode({
-              //   isParentNode: false,
-              //   source: modelSource,
-              //   nodeId: "dummy",
-              //   nodeWidth: NODE_DUMMY_WIDTH,
-              //   nodeHeight: NODE_DUMMY_HEIGHT,
-              //   portWidth: 2,
-              //   portHeight: 2,
-              //   portQuantity: 1,
+              addNode({
+                isParentNode: false,
+                source: modelSource,
+                nodeId: "dummy",
+                nodeWidth: NODE_DUMMY_WIDTH,
+                nodeHeight: NODE_DUMMY_HEIGHT,
+                portWidth: 2,
+                portHeight: 2,
+                portQuantity: 1,
 
-              //   cssClasses: ["nodes", "dummy"],
-              //   name: "",
-              //   // x: Number(coordinate[0]) + 2 * NODE_WIDTH,
-              //   // y: Number(coordinate[1]),
-              //   x: isParent ? Number(coordinateParent[0]) + defaultX : defaultX,
-              //   y: isParent ? Number(coordinateParent[1]) + defaultY : defaultY,
-              //   type: "node",
-              // });
-              dummyNodeArray.push("node-dummy");
+                cssClasses: ["nodes", "dummy"],
+                name: "",
+                // x: Number(coordinate[0]) + 2 * NODE_WIDTH,
+                // y: Number(coordinate[1]),
+                x: isParent ? Number(coordinateParent[0]) + defaultX : defaultX,
+                y: isParent ? Number(coordinateParent[1]) + defaultY : defaultY,
+                type: "node",
+                portType: "1",
+              });
+              dummyNodeArray.push("dummy");
               drawEdge({
                 source: modelSource,
                 edgeId: "dummy",
@@ -534,11 +522,11 @@ export default function run() {
                 type: "edge:straight",
                 cssClasses: ["dummy-edge"],
               });
-              edgeArr.push({
-                id: `edge-${edgeNumber}`,
-                sourceId: `port-${sourceId}`,
-                targetId: "dummy-1",
-              });
+              // edgeArr.push({
+              //   id: "dummy",
+              //   sourceId: `port-${sourceId}`,
+              //   targetId: "dummy-1",
+              // });
               dummyEdgeId = "edge-dummy";
             }
             dummyMode = true;
@@ -548,25 +536,23 @@ export default function run() {
     }, 100);
   }
 
-  // delete
-
   // add Parent Node
-  // addParentNode.addEventListener("click", () => {
-  //   addNode({
-  //     isParentNode: true,
-  //     source: modelSource,
-  //     nodeId: `type-parent-${nodeParentNumber}`,
-  //     nodeWidth: NODE_PARENT_WIDTH,
-  //     nodeHeight: NODE_PARENT_HEIGHT,
-  //     portWidth: PORT_PARENT_WIDTH,
-  //     portHeight: PORT_PARENT_HEIGHT,
-  //     portQuantity: 1,
-  //     type: "node:package",
-  //     portType: 0,
-  //   });
-  //   nodeParentNumber++;
-  //   drawLogic();
-  // });
+  addParentNode.addEventListener("click", () => {
+    addNode({
+      isParentNode: true,
+      source: modelSource,
+      nodeId: `type-parent-${nodeParentNumber}`,
+      nodeWidth: NODE_PARENT_WIDTH,
+      nodeHeight: NODE_PARENT_HEIGHT,
+      portWidth: PORT_PARENT_WIDTH,
+      portHeight: PORT_PARENT_HEIGHT,
+      portQuantity: 1,
+      type: "node:package",
+      portType: "1",
+    });
+    nodeParentNumber++;
+    drawLogic();
+  });
 
   // let nodeArr = [];
 
@@ -635,103 +621,15 @@ export default function run() {
       });
       nodeAdd.count++;
     }
+    drawLogic();
   });
-
-  // add node 1
-  // addNode1Btn.addEventListener("click", () => {
-  //   addNode({
-  //     isParentNode: false,
-  //     source: modelSource,
-  //     nodeId: `type-1-${node1Number}`,
-  //     nodeWidth: NODE_WIDTH,
-  //     nodeHeight: NODE_HEIGHT,
-  //     portWidth: PORT_WIDTH,
-  //     portHeight: PORT_HEIGHT,
-  //     portQuantity: 1,
-  //     type: "node",
-  //   });
-
-  //   node1Number++;
-
-  //   // draw edge
-  //   drawLogic();
-  // });
-
-  // // add node 2
-  // addNode2Btn.addEventListener("click", () => {
-  //   addNode({
-  //     isParentNode: false,
-  //     source: modelSource,
-  //     nodeId: `type-2-${node2Number}`,
-  //     nodeWidth: NODE_WIDTH,
-  //     nodeHeight: NODE_HEIGHT,
-  //     portWidth: PORT_WIDTH,
-  //     portHeight: PORT_HEIGHT,
-
-  //     portQuantity: 2,
-  //     type: "node",
-  //   });
-
-  //   node2Number++;
-
-  //   // draw edge
-  //   drawLogic();
-  // });
-
-  // // add node 3
-  // addNode3Btn.addEventListener("click", () => {
-  //   addNode({
-  //     isParentNode: false,
-  //     source: modelSource,
-  //     nodeId: `type-3-${node3Number}`,
-  //     nodeWidth: NODE_WIDTH,
-  //     nodeHeight: NODE_HEIGHT,
-  //     portWidth: PORT_WIDTH,
-  //     portHeight: PORT_HEIGHT,
-
-  //     portQuantity: 3,
-  //     type: "node",
-  //   });
-
-  //   node3Number++;
-
-  //   // draw edge
-  //   drawLogic();
-  // });
-
-  // // add node 4
-  // addNode4Btn.addEventListener("click", () => {
-  //   addNode({
-  //     isParentNode: false,
-  //     source: modelSource,
-  //     nodeId: `type-4-${node4Number}`,
-  //     nodeWidth: NODE_WIDTH,
-  //     nodeHeight: NODE_HEIGHT,
-  //     portWidth: PORT_WIDTH,
-  //     portHeight: PORT_HEIGHT,
-
-  //     portQuantity: 4,
-  //     type: "node",
-  //   });
-
-  //   node4Number++;
-
-  //   // draw edge
-  //   drawLogic();
-  // });
 
   // draw edge
   drawEdgeBtn.addEventListener("click", () => {
     if (!drawMode) {
-      // addNode1Btn.setAttribute("disabled", "true");
-      // addNode2Btn.setAttribute("disabled", "true");
-      // addNode3Btn.setAttribute("disabled", "true");
-      // addNode4Btn.setAttribute("disabled", "true");
       deleteBtn.setAttribute("disabled", "true");
-
       drawEdgeBtn.classList.add("btn-active");
       cancelDrawEdgeBtn.classList.remove("hide");
-
       drawMode = true;
     } else {
       cancelDrawEdge();
