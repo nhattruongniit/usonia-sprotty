@@ -23392,6 +23392,29 @@
   var READY_DRAW_PORT_FILL = "#0f0";
 
   // util/addNode.ts
+  var addPortElement = (source, parentId, portType, id, width, height, position, text) => {
+    console.log(parentId);
+    source.addElements([
+      {
+        parentId,
+        element: {
+          type: "port",
+          id,
+          size: { width, height },
+          position,
+          cssClasses: ["port"],
+          children: parentId === "dummy" ? [] : [
+            {
+              type: "label:port",
+              id: `label-${id}`,
+              text,
+              position: { x: width / 2, y: 0 - height / 8 }
+            }
+          ]
+        }
+      }
+    ]);
+  };
   function addNode({
     isParentNode,
     source,
@@ -23519,28 +23542,31 @@
         }
       }
     ]);
+    const addPort = (position, id, text) => {
+      addPortElement(
+        source,
+        nodeId,
+        portType,
+        id,
+        portWidth,
+        portHeight,
+        position,
+        text
+      );
+    };
     if (portQuantity === 1) {
-      source.addElements([
-        {
-          parentId: `${nodeId}`,
-          element: {
-            type: "port",
-            id: `port-${nodeId}-${portType}`,
-            size: { width: portWidth, height: portHeight },
-            position: positionPort[portType - 1],
-            cssClasses: ["port"],
-            // cssClasses: i === 1 ? ["port"] : ["port"],
-            children: nodeId === "dummy" ? [] : [
-              {
-                type: "label:port",
-                id: `label-port-${nodeId}-${portType}`,
-                text: `p-${portType}`,
-                position: { x: portWidth / 2, y: 0 - portHeight / 8 }
-              }
-            ]
-          }
-        }
-      ]);
+      addPort(
+        positionPort[+portType - 1],
+        `port-${nodeId}-${portType}`,
+        `p-${portType}`
+      );
+    }
+    for (let i = 0; i < portQuantity; i++) {
+      addPort(
+        positionPort[+portType[i] - 1],
+        `port-${nodeId}-${+portType[i]}`,
+        `p-${portType[i]}`
+      );
     }
   }
 
@@ -24112,23 +24138,6 @@
               const defaultX = Number(coordinate[0]) + Number(portCoordinate[0]) + 5;
               const defaultY = Number(coordinate[1]) + Number(portCoordinate[1]) + 5;
               if (dummyNodeArray.length == 0) {
-                addNode({
-                  isParentNode: false,
-                  source: modelSource,
-                  nodeId: "dummy",
-                  nodeWidth: NODE_DUMMY_WIDTH2,
-                  nodeHeight: NODE_DUMMY_HEIGHT,
-                  portWidth: 2,
-                  portHeight: 2,
-                  portQuantity: 1,
-                  cssClasses: ["nodes", "dummy"],
-                  name: "",
-                  // x: Number(coordinate[0]) + 2 * NODE_WIDTH,
-                  // y: Number(coordinate[1]),
-                  x: isParent ? Number(coordinateParent[0]) + defaultX : defaultX,
-                  y: isParent ? Number(coordinateParent[1]) + defaultY : defaultY,
-                  type: "node"
-                });
                 dummyNodeArray.push("node-dummy");
                 drawEdge({
                   source: modelSource,
@@ -24186,7 +24195,7 @@
     });
     addNodeEl.addEventListener("click", () => {
       if (addMode) {
-        const portType = +nodeAddId[nodeAddId.length - 1];
+        const portType = nodeAddId.replace(`node-${portNumber}-port-`, "");
         const nodeTypeAddIndex = nodeArr.findIndex((e) => {
           return e.portNumber === portNumber;
         });

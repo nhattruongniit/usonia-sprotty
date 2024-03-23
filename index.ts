@@ -611,7 +611,8 @@ export default function run() {
 
   addNodeEl.addEventListener("click", () => {
     if (addMode) {
-      const portType = +nodeAddId[nodeAddId.length - 1];
+      const portType = nodeAddId.replace(`node-${portNumber}-port-`, "");
+
       const nodeTypeAddIndex = nodeArr.findIndex((e) => {
         return e.portNumber === portNumber;
       });

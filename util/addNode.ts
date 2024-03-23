@@ -5,7 +5,7 @@ type IProps = {
   source: any;
   nodeId: string;
   portQuantity: number;
-  portType: number;
+  portType: string;
   nodeWidth: number;
   nodeHeight: number;
   portWidth: number;
@@ -17,47 +17,41 @@ type IProps = {
   type: string;
 };
 
-// const addPort1 = ({
-//   portType,
-//   source,
-//   nodeId,
-//   portWidth,
-//   portHeight,
-//   nodeWidth,
-//   nodeHeight,
-// }: IProps) => {
-//   const positionPort = [
-//     { x: nodeWidth, y: nodeHeight / 2 - portHeight / 2 },
-//     { x: nodeWidth / 2 - portWidth / 2, y: nodeHeight },
-//     { x: 0 - portWidth, y: nodeHeight / 2 - portHeight / 2 },
-//     { x: nodeWidth / 2 - portWidth / 2, y: 0 - portHeight },
-//   ];
-
-//   source.addElements([
-//     {
-//       parentId: `node-${nodeId}`,
-//       element: <SPort>{
-//         type: "port",
-//         id: `port-${nodeId}-${i + 1}`,
-//         size: { width: portWidth, height: portHeight },
-//         position: positionPort[portType],
-//         cssClasses: ["port"],
-//         // cssClasses: i === 1 ? ["port"] : ["port"],
-//         children:
-//           nodeId === "dummy"
-//             ? []
-//             : [
-//                 <SLabel>{
-//                   type: "label:port",
-//                   id: `label-port-${nodeId}-${portType}`,
-//                   text: `p-${portType}`,
-//                   position: { x: portWidth / 2, y: 0 - portHeight / 8 },
-//                 },
-//               ],
-//       },
-//     },
-//   ]);
-// };
+const addPortElement = (
+  source: any,
+  parentId: string,
+  portType: string,
+  id: string,
+  width: number,
+  height: number,
+  position: object,
+  text: string
+) => {
+  console.log(parentId);
+  source.addElements([
+    {
+      parentId: parentId,
+      element: <SPort>{
+        type: "port",
+        id: id,
+        size: { width: width, height: height },
+        position: position,
+        cssClasses: ["port"],
+        children:
+          parentId === "dummy"
+            ? []
+            : [
+                <SLabel>{
+                  type: "label:port",
+                  id: `label-${id}`,
+                  text: text,
+                  position: { x: width / 2, y: 0 - height / 8 },
+                },
+              ],
+      },
+    },
+  ]);
+};
 
 export default function addNode({
   isParentNode,
@@ -191,32 +185,33 @@ export default function addNode({
       },
     },
   ]);
+  const addPort = (position: object, id: string, text: string) => {
+    addPortElement(
+      source,
+      nodeId,
+      portType,
+      id,
+      portWidth,
+      portHeight,
+      position,
+      text
+    );
+  };
 
   if (portQuantity === 1) {
-    source.addElements([
-      {
-        parentId: `${nodeId}`,
-        element: <SPort>{
-          type: "port",
-          id: `port-${nodeId}-${portType}`,
-          size: { width: portWidth, height: portHeight },
-          position: positionPort[portType - 1],
-          cssClasses: ["port"],
-          // cssClasses: i === 1 ? ["port"] : ["port"],
-          children:
-            nodeId === "dummy"
-              ? []
-              : [
-                  <SLabel>{
-                    type: "label:port",
-                    id: `label-port-${nodeId}-${portType}`,
-                    text: `p-${portType}`,
-                    position: { x: portWidth / 2, y: 0 - portHeight / 8 },
-                  },
-                ],
-        },
-      },
-    ]);
+    addPort(
+      positionPort[+portType - 1],
+      `port-${nodeId}-${portType}`,
+      `p-${portType}`
+    );
+  }
+
+  for (let i = 0; i < portQuantity; i++) {
+    addPort(
+      positionPort[+portType[i] - 1],
+      `port-${nodeId}-${+portType[i]}`,
+      `p-${portType[i]}`
+    );
   }
 
   // add ports node casual
