@@ -23631,7 +23631,7 @@
       };
     }
     return {
-      countIdNodeParent: getLength(graph2.children, "node:package", "node-type-parent") + 1,
+      countIdNodeParent: getLength(graph2.children, "node:package", "type-parent") + 1,
       countIdNodeType1: getLength(graph2.children, "node", "node-type-1") + 1,
       countIdNodeType2: getLength(graph2.children, "node", "node-type-2") + 1,
       countIdNodeType3: getLength(graph2.children, "node", "node-type-3") + 1,
@@ -23829,6 +23829,23 @@
     graphDisplay = graph;
     alert("Invaid type of files, please re-import !!!");
   }
+  var portNumber = null;
+  var nodeAddId = null;
+  var addMode = false;
+  var shapeEl = document.getElementsByClassName("shape");
+  var nodeArr = [...shapeEl].map((e) => {
+    return {
+      portNumber: +e.id.replace("node-", "").replace("-shape", ""),
+      children: [...e.children].map((i) => {
+        return {
+          id: i.id,
+          count: 1
+        };
+      })
+    };
+  });
+  console.log(nodeArr);
+  console.log(graphDisplay);
   var nodeParentNumber = checkIdElement(graphDisplay).countIdNodeParent !== null ? checkIdElement(graphDisplay).countIdNodeParent : 1;
   var node1Number = checkIdElement(graphDisplay).countIdNodeType1 !== null ? checkIdElement(graphDisplay).countIdNodeType1 : 1;
   var node2Number = checkIdElement(graphDisplay).countIdNodeType2 !== null ? checkIdElement(graphDisplay).countIdNodeType2 : 1;
@@ -24004,7 +24021,6 @@
         return;
       }
       const idNodeCompare = element.id.replace("sprotty-container_node-", "");
-      console.log(idNodeCompare);
       edgeArr.forEach((edge) => {
         const edgeSourceIdCompare = edge.sourceId.replace("port-type-", "");
         const edgeTargetIdCompare = edge.targetId.replace("port-type-", "");
@@ -24030,7 +24046,6 @@
         }
       ]);
     });
-    console.log(edgeArr);
   };
   function run() {
     modelSource.setModel(graphDisplay);
@@ -24186,21 +24201,6 @@
       });
       nodeParentNumber++;
       drawLogic();
-    });
-    let portNumber = null;
-    let nodeAddId = null;
-    let addMode = false;
-    const shapeEl = document.getElementsByClassName("shape");
-    const nodeArr = [...shapeEl].map((e) => {
-      return {
-        portNumber: +e.id.replace("node-", "").replace("-shape", ""),
-        children: [...e.children].map((i) => {
-          return {
-            id: i.id,
-            count: 1
-          };
-        })
-      };
     });
     nodeShapeEls.forEach((e) => {
       e.addEventListener("click", (event) => {

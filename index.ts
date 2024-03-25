@@ -62,6 +62,27 @@ if (graphDisplay !== graph && !graphDisplay.isValidGraph) {
   alert("Invaid type of files, please re-import !!!");
 }
 
+let portNumber = null;
+let nodeAddId = null;
+let addMode = false;
+
+const shapeEl = document.getElementsByClassName("shape");
+
+const nodeArr = [...shapeEl].map((e) => {
+  return {
+    portNumber: +e.id.replace("node-", "").replace("-shape", ""),
+    children: [...e.children].map((i) => {
+      return {
+        id: i.id,
+        count: 1,
+      };
+    }),
+  };
+});
+console.log(nodeArr);
+// console.log(checkIdElement(graphDisplay));
+console.log(graphDisplay);
+
 let nodeParentNumber =
   checkIdElement(graphDisplay).countIdNodeParent !== null
     ? checkIdElement(graphDisplay).countIdNodeParent
@@ -336,10 +357,6 @@ export default function run() {
   // elements dom
   addParentNode = document.getElementById("add-parent-node");
   addNodeEl = document.getElementById("add-node-btn");
-  // addNode1Btn = document.getElementById("add-node-1");
-  // addNode2Btn = document.getElementById("add-node-2");
-  // addNode3Btn = document.getElementById("add-node-3");
-  // addNode4Btn = document.getElementById("add-node-4");
   drawEdgeBtn = document.getElementById("draw-edge");
   deleteBtn = document.getElementById("delete");
   cancelDrawEdgeBtn = document.getElementById("cancel-draw-edge");
@@ -522,11 +539,7 @@ export default function run() {
                 type: "edge:straight",
                 cssClasses: ["dummy-edge"],
               });
-              // edgeArr.push({
-              //   id: "dummy",
-              //   sourceId: `port-${sourceId}`,
-              //   targetId: "dummy-1",
-              // });
+
               dummyEdgeId = "edge-dummy";
             }
             dummyMode = true;
@@ -554,26 +567,6 @@ export default function run() {
     drawLogic();
   });
 
-  // let nodeArr = [];
-
-  let portNumber = null;
-  let nodeAddId = null;
-  let addMode = false;
-
-  const shapeEl = document.getElementsByClassName("shape");
-
-  const nodeArr = [...shapeEl].map((e) => {
-    return {
-      portNumber: +e.id.replace("node-", "").replace("-shape", ""),
-      children: [...e.children].map((i) => {
-        return {
-          id: i.id,
-          count: 1,
-        };
-      }),
-    };
-  });
-
   nodeShapeEls.forEach((e: any) => {
     e.addEventListener("click", (event: any) => {
       const targetEl = event.target;
@@ -598,7 +591,6 @@ export default function run() {
   addNodeEl.addEventListener("click", () => {
     if (addMode) {
       const portType = nodeAddId.replace(`node-${portNumber}-port-`, "");
-
       const nodeTypeAddIndex = nodeArr.findIndex((e) => {
         return e.portNumber === portNumber;
       });
