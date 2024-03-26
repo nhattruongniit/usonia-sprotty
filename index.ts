@@ -45,6 +45,7 @@ let node2ShapeEl = null;
 let node3ShapeEl = null;
 let node4ShapeEl = null;
 let nodeShapeEls = null;
+let nodesShapesEl = null;
 
 // count of
 let graphDisplay;
@@ -69,39 +70,28 @@ let addMode = false;
 const shapeEl = document.getElementsByClassName("shape");
 
 const nodeArr = [...shapeEl].map((e) => {
+  const portNumber = +e.id.replace("node-", "").replace("-shape", "");
+  const nodeCompare = graphDisplay.children.filter((e) => {
+    return e.portQuantity === portNumber;
+  });
+
   return {
-    portNumber: +e.id.replace("node-", "").replace("-shape", ""),
+    portNumber,
     children: [...e.children].map((i) => {
       return {
         id: i.id,
-        count: 1,
+        count:
+          nodeCompare.filter((e) => {
+            return e.id.includes(i.id);
+          }).length + 1,
       };
     }),
   };
 });
-console.log(nodeArr);
-// console.log(checkIdElement(graphDisplay));
-console.log(graphDisplay);
 
 let nodeParentNumber =
   checkIdElement(graphDisplay).countIdNodeParent !== null
     ? checkIdElement(graphDisplay).countIdNodeParent
-    : 1;
-let node1Number =
-  checkIdElement(graphDisplay).countIdNodeType1 !== null
-    ? checkIdElement(graphDisplay).countIdNodeType1
-    : 1;
-let node2Number =
-  checkIdElement(graphDisplay).countIdNodeType2 !== null
-    ? checkIdElement(graphDisplay).countIdNodeType2
-    : 1;
-let node3Number =
-  checkIdElement(graphDisplay).countIdNodeType3 !== null
-    ? checkIdElement(graphDisplay).countIdNodeType3
-    : 1;
-let node4Number =
-  checkIdElement(graphDisplay).countIdNodeType4 !== null
-    ? checkIdElement(graphDisplay).countIdNodeType4
     : 1;
 
 // count of edges
@@ -568,6 +558,25 @@ export default function run() {
   });
 
   nodeShapeEls.forEach((e: any) => {
+    e.ondragstart = (event) => {
+      console.log("drag");
+      const targetEl = event.target;
+      addMode = true;
+      if (nodeAddId === targetEl.id) {
+        addMode = false;
+        nodeAddId = null;
+      }
+      portNumber = +targetEl.parentNode.id
+        .replace("node-", "")
+        .replace("-shape", "");
+      nodeAddId = targetEl.id;
+      targetEl.classList.toggle("selected-node-add");
+      nodeShapeEls.forEach((e: any) => {
+        if (e.id !== targetEl.id) {
+          e.classList.remove("selected-node-add");
+        }
+      });
+    };
     e.addEventListener("click", (event: any) => {
       const targetEl = event.target;
       addMode = true;
@@ -588,33 +597,42 @@ export default function run() {
     });
   });
 
-  addNodeEl.addEventListener("click", () => {
-    if (addMode) {
-      const portType = nodeAddId.replace(`node-${portNumber}-port-`, "");
-      const nodeTypeAddIndex = nodeArr.findIndex((e) => {
-        return e.portNumber === portNumber;
-      });
-      const nodeTypeAdd = nodeArr[nodeTypeAddIndex];
-      const nodeAddIndex = nodeTypeAdd.children.findIndex((e) => {
-        return e.id === nodeAddId;
-      });
-      const nodeAdd = nodeTypeAdd.children[nodeAddIndex];
-      addNode({
-        isParentNode: false,
-        source: modelSource,
-        nodeId: `${nodeAdd.id}-${nodeAdd.count}`,
-        nodeWidth: NODE_WIDTH,
-        nodeHeight: NODE_HEIGHT,
-        portWidth: PORT_WIDTH,
-        portHeight: PORT_HEIGHT,
-        portQuantity: portNumber,
-        portType,
-        type: "node",
-      });
-      nodeAdd.count++;
-    }
+  const addNodeLogic = () => {
+    const portType = nodeAddId.replace(`node-${portNumber}-port-`, "");
+    const nodeTypeAddIndex = nodeArr.findIndex((e) => {
+      return e.portNumber === portNumber;
+    });
+    const nodeTypeAdd = nodeArr[nodeTypeAddIndex];
+    const nodeAddIndex = nodeTypeAdd.children.findIndex((e) => {
+      return e.id === nodeAddId;
+    });
+    const nodeAdd = nodeTypeAdd.children[nodeAddIndex];
+    addNode({
+      isParentNode: false,
+      source: modelSource,
+      nodeId: `${nodeAdd.id}-${nodeAdd.count}`,
+      nodeWidth: NODE_WIDTH,
+      nodeHeight: NODE_HEIGHT,
+      portWidth: PORT_WIDTH,
+      portHeight: PORT_HEIGHT,
+      portQuantity: portNumber,
+      portType,
+      type: "node",
+    });
+    nodeAdd.count++;
+
     drawLogic();
-  });
+  };
+
+  addNodeEl.addEventListener("click", addNodeLogic);
+  const sprottyEl = document.getElementById("sprotty");
+
+  sprottyEl.ondragover = (event) => {
+    event.preventDefault();
+  };
+  sprottyEl.ondrop = (event) => {
+    addNodeLogic();
+  };
 
   // draw edge
   drawEdgeBtn.addEventListener("click", () => {

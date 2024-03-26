@@ -86,6 +86,7 @@ export default function addNode({
           width: nodeWidth,
           height: nodeHeight,
         },
+        portQuantity,
         children: [
           <SLabel>{
             type: "label:node",
