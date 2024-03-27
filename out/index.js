@@ -23805,7 +23805,6 @@
 
   // index.ts
   var addParentNode = null;
-  var addNodeEl = null;
   var drawEdgeBtn = null;
   var cancelDrawEdgeBtn = null;
   var deleteBtn = null;
@@ -24053,7 +24052,6 @@
     localStorage.clear();
     drawLogic();
     addParentNode = document.getElementById("add-parent-node");
-    addNodeEl = document.getElementById("add-node-btn");
     drawEdgeBtn = document.getElementById("draw-edge");
     deleteBtn = document.getElementById("delete");
     cancelDrawEdgeBtn = document.getElementById("cancel-draw-edge");
@@ -24263,16 +24261,14 @@
       nodeAdd.count++;
       drawLogic();
     };
-    addNodeEl.addEventListener("click", addNodeLogic);
     const sprottyEl = document.getElementById("sprotty");
     sprottyEl.ondragover = (event) => {
       event.preventDefault();
     };
     sprottyEl.ondrop = (event) => {
-      console.log("drop");
+      console.log(event);
       addNodeLogic();
     };
-    console.log(sprottyEl);
     drawEdgeBtn.addEventListener("click", () => {
       if (!drawMode) {
         deleteBtn.setAttribute("disabled", "true");

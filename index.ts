@@ -346,7 +346,7 @@ export default function run() {
   drawLogic();
   // elements dom
   addParentNode = document.getElementById("add-parent-node");
-  addNodeEl = document.getElementById("add-node-btn");
+  // addNodeEl = document.getElementById("add-node-btn");
   drawEdgeBtn = document.getElementById("draw-edge");
   deleteBtn = document.getElementById("delete");
   cancelDrawEdgeBtn = document.getElementById("cancel-draw-edge");
@@ -453,6 +453,35 @@ export default function run() {
   cancelDrawEdgeBtn.addEventListener("click", () => {
     cancelDrawEdge();
   });
+
+  // add node logic
+
+  const addNodeLogic = () => {
+    const portType = nodeAddId.replace(`node-${portNumber}-port-`, "");
+    const nodeTypeAddIndex = nodeArr.findIndex((e) => {
+      return e.portNumber === portNumber;
+    });
+    const nodeTypeAdd = nodeArr[nodeTypeAddIndex];
+    const nodeAddIndex = nodeTypeAdd.children.findIndex((e) => {
+      return e.id === nodeAddId;
+    });
+    const nodeAdd = nodeTypeAdd.children[nodeAddIndex];
+    addNode({
+      isParentNode: false,
+      source: modelSource,
+      nodeId: `${nodeAdd.id}-${nodeAdd.count}`,
+      nodeWidth: NODE_WIDTH,
+      nodeHeight: NODE_HEIGHT,
+      portWidth: PORT_WIDTH,
+      portHeight: PORT_HEIGHT,
+      portQuantity: portNumber,
+      portType,
+      type: "node",
+    });
+    nodeAdd.count++;
+
+    drawLogic();
+  };
 
   // draw edge
   function drawLogic() {
@@ -597,40 +626,14 @@ export default function run() {
     });
   });
 
-  const addNodeLogic = () => {
-    const portType = nodeAddId.replace(`node-${portNumber}-port-`, "");
-    const nodeTypeAddIndex = nodeArr.findIndex((e) => {
-      return e.portNumber === portNumber;
-    });
-    const nodeTypeAdd = nodeArr[nodeTypeAddIndex];
-    const nodeAddIndex = nodeTypeAdd.children.findIndex((e) => {
-      return e.id === nodeAddId;
-    });
-    const nodeAdd = nodeTypeAdd.children[nodeAddIndex];
-    addNode({
-      isParentNode: false,
-      source: modelSource,
-      nodeId: `${nodeAdd.id}-${nodeAdd.count}`,
-      nodeWidth: NODE_WIDTH,
-      nodeHeight: NODE_HEIGHT,
-      portWidth: PORT_WIDTH,
-      portHeight: PORT_HEIGHT,
-      portQuantity: portNumber,
-      portType,
-      type: "node",
-    });
-    nodeAdd.count++;
-
-    drawLogic();
-  };
-
-  addNodeEl.addEventListener("click", addNodeLogic);
+  // Add Node by drag
   const sprottyEl = document.getElementById("sprotty");
 
   sprottyEl.ondragover = (event) => {
     event.preventDefault();
   };
   sprottyEl.ondrop = (event) => {
+    console.log(event);
     addNodeLogic();
   };
 
