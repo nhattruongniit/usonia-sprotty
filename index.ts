@@ -26,10 +26,11 @@ import checkPositionEl from "./util/checkPositionEl";
 
 // elements dom
 let addParentNode = null;
-let addNode1Btn = null;
-let addNode2Btn = null;
-let addNode3Btn = null;
-let addNode4Btn = null;
+let addNodeEl = null;
+// let addNode1Btn = null;
+// let addNode2Btn = null;
+// let addNode3Btn = null;
+// let addNode4Btn = null;
 let drawEdgeBtn = null;
 let cancelDrawEdgeBtn = null;
 let deleteBtn = null;
@@ -38,6 +39,13 @@ let showJsonBtn = null;
 let exportJsonBtn = null;
 let importJsonBtn = null;
 let inputFile = null;
+let selecteNodeEl = null;
+let node1ShapeEl = null;
+let node2ShapeEl = null;
+let node3ShapeEl = null;
+let node4ShapeEl = null;
+let nodeShapeEls = null;
+let nodesShapesEl = null;
 
 // count of
 let graphDisplay;
@@ -55,25 +63,35 @@ if (graphDisplay !== graph && !graphDisplay.isValidGraph) {
   alert("Invaid type of files, please re-import !!!");
 }
 
+let portNumber = null;
+let nodeAddId = null;
+let addMode = false;
+
+const shapeEl = document.getElementsByClassName("shape");
+
+const nodeArr = [...shapeEl].map((e) => {
+  const portNumber = +e.id.replace("node-", "").replace("-shape", "");
+  const nodeCompare = graphDisplay.children.filter((e) => {
+    return e.portQuantity === portNumber;
+  });
+
+  return {
+    portNumber,
+    children: [...e.children].map((i) => {
+      return {
+        id: i.id,
+        count:
+          nodeCompare.filter((e) => {
+            return e.id.includes(i.id);
+          }).length + 1,
+      };
+    }),
+  };
+});
+
 let nodeParentNumber =
   checkIdElement(graphDisplay).countIdNodeParent !== null
     ? checkIdElement(graphDisplay).countIdNodeParent
-    : 1;
-let node1Number =
-  checkIdElement(graphDisplay).countIdNodeType1 !== null
-    ? checkIdElement(graphDisplay).countIdNodeType1
-    : 1;
-let node2Number =
-  checkIdElement(graphDisplay).countIdNodeType2 !== null
-    ? checkIdElement(graphDisplay).countIdNodeType2
-    : 1;
-let node3Number =
-  checkIdElement(graphDisplay).countIdNodeType3 !== null
-    ? checkIdElement(graphDisplay).countIdNodeType3
-    : 1;
-let node4Number =
-  checkIdElement(graphDisplay).countIdNodeType4 !== null
-    ? checkIdElement(graphDisplay).countIdNodeType4
     : 1;
 
 // count of edges
@@ -91,7 +109,7 @@ let dummyEdgeId = null;
 // let NODE_WIDTH;
 // let NODE_HEIGHT;
 
-// console.log(config, config.EDGE_ARROW_FILL);
+// (config, config.EDGE_ARROW_FILL);
 const NODE_WIDTH = config.NODE_WIDTH;
 const NODE_HEIGHT = config.NODE_HEIGTH;
 const PORT_WIDTH = config.PORT_WIDTH;
@@ -112,6 +130,7 @@ let dummyMode = false;
 // source
 let sourceId = null;
 let targetId = null;
+let portType = null;
 
 // JSON resolve
 
@@ -250,22 +269,10 @@ const modelSource = container.get<LocalModelSource>(TYPES.ModelSource);
 
 // cancel draw edge
 function cancelDrawEdge() {
-  addNode1Btn.removeAttribute("disabled");
-  addNode2Btn.removeAttribute("disabled");
-  addNode3Btn.removeAttribute("disabled");
-  addNode4Btn.removeAttribute("disabled");
   deleteBtn.removeAttribute("disabled");
 
   drawEdgeBtn.classList.remove("btn-active");
   cancelDrawEdgeBtn.classList.add("hide");
-
-  document.querySelectorAll(".sprotty-node").forEach((e) => {
-    // (e as HTMLElement).removeAttribute("style");
-  });
-
-  // document.querySelectorAll(".sprotty-edge").forEach((e) => {
-  //   (e as HTMLElement).classList.remove("selected");
-  // });
 
   modelSource.removeElements([
     {
@@ -279,6 +286,7 @@ function cancelDrawEdge() {
       parentId: "graph",
     },
   ]);
+
   dummyEdgeId = null;
   Array.from(document.getElementsByClassName("ready-draw-source")).forEach(
     (e) => {
@@ -299,10 +307,8 @@ const deleteLogic = () => {
       return;
     }
 
-    const idNodeCompare = element.id.replace(
-      "sprotty-container_node-type-",
-      ""
-    );
+    const idNodeCompare = element.id.replace("sprotty-container_node-", "");
+
     edgeArr.forEach((edge) => {
       const edgeSourceIdCompare = edge.sourceId.replace("port-type-", "");
       const edgeTargetIdCompare = edge.targetId.replace("port-type-", "");
@@ -340,10 +346,7 @@ export default function run() {
   drawLogic();
   // elements dom
   addParentNode = document.getElementById("add-parent-node");
-  addNode1Btn = document.getElementById("add-node-1");
-  addNode2Btn = document.getElementById("add-node-2");
-  addNode3Btn = document.getElementById("add-node-3");
-  addNode4Btn = document.getElementById("add-node-4");
+  // addNodeEl = document.getElementById("add-node-btn");
   drawEdgeBtn = document.getElementById("draw-edge");
   deleteBtn = document.getElementById("delete");
   cancelDrawEdgeBtn = document.getElementById("cancel-draw-edge");
@@ -351,11 +354,64 @@ export default function run() {
   exportJsonBtn = document.getElementById("export-json");
   importJsonBtn = document.getElementById("import-json");
   inputFile = document.getElementById("input-file");
+  selecteNodeEl = document.getElementById("select-node");
+  node1ShapeEl = document.getElementById("node-1-shape");
+  node2ShapeEl = document.getElementById("node-2-shape");
+  node3ShapeEl = document.getElementById("node-3-shape");
+  node4ShapeEl = document.getElementById("node-4-shape");
+  nodeShapeEls = document.querySelectorAll(".node-shape");
+
+  // UI
+  selecteNodeEl.addEventListener("change", (event: any) => {
+    const nodeValue = +event.target.value;
+    if (nodeValue === 1) {
+      node1ShapeEl.classList.remove("hide");
+      !node2ShapeEl.classList.contains("hide") &&
+        node2ShapeEl.classList.add("hide");
+      !node3ShapeEl.classList.contains("hide") &&
+        node3ShapeEl.classList.add("hide");
+      !node4ShapeEl.classList.contains("hide") &&
+        node4ShapeEl.classList.add("hide");
+    } else if (nodeValue === 2) {
+      node2ShapeEl.classList.remove("hide");
+      !node1ShapeEl.classList.contains("hide") &&
+        node1ShapeEl.classList.add("hide");
+      !node3ShapeEl.classList.contains("hide") &&
+        node3ShapeEl.classList.add("hide");
+      !node4ShapeEl.classList.contains("hide") &&
+        node4ShapeEl.classList.add("hide");
+    } else if (nodeValue === 3) {
+      node3ShapeEl.classList.remove("hide");
+      !node1ShapeEl.classList.contains("hide") &&
+        node1ShapeEl.classList.add("hide");
+      !node2ShapeEl.classList.contains("hide") &&
+        node2ShapeEl.classList.add("hide");
+      !node4ShapeEl.classList.contains("hide") &&
+        node4ShapeEl.classList.add("hide");
+    } else if (nodeValue === 4) {
+      node4ShapeEl.classList.remove("hide");
+      !node1ShapeEl.classList.contains("hide") &&
+        node1ShapeEl.classList.add("hide");
+      !node2ShapeEl.classList.contains("hide") &&
+        node2ShapeEl.classList.add("hide");
+      !node3ShapeEl.classList.contains("hide") &&
+        node3ShapeEl.classList.add("hide");
+    } else {
+      !node1ShapeEl.classList.contains("hide") &&
+        node1ShapeEl.classList.add("hide");
+      !node2ShapeEl.classList.contains("hide") &&
+        node2ShapeEl.classList.add("hide");
+      !node3ShapeEl.classList.contains("hide") &&
+        node3ShapeEl.classList.add("hide");
+      !node4ShapeEl.classList.contains("hide") &&
+        node4ShapeEl.classList.add("hide");
+    }
+  });
 
   // show json
   showJsonBtn.addEventListener("click", () => {
-    console.log(JSON.stringify(modelSource.model, null, 2));
-    // console.log("showJsonBtn: ", modelSource.model);
+    JSON.stringify(modelSource.model, null, 2);
+    // ("showJsonBtn: ", modelSource.model);
   });
 
   exportJsonBtn.addEventListener("click", () => {
@@ -378,7 +434,7 @@ export default function run() {
   });
 
   inputFile.addEventListener("change", (event) => {
-    // console.log(event.target.files[0]);
+    // (event.target.files[0]);
     if (!event.target.files[0]) {
       return;
     }
@@ -397,6 +453,35 @@ export default function run() {
   cancelDrawEdgeBtn.addEventListener("click", () => {
     cancelDrawEdge();
   });
+
+  // add node logic
+
+  const addNodeLogic = () => {
+    const portType = nodeAddId.replace(`node-${portNumber}-port-`, "");
+    const nodeTypeAddIndex = nodeArr.findIndex((e) => {
+      return e.portNumber === portNumber;
+    });
+    const nodeTypeAdd = nodeArr[nodeTypeAddIndex];
+    const nodeAddIndex = nodeTypeAdd.children.findIndex((e) => {
+      return e.id === nodeAddId;
+    });
+    const nodeAdd = nodeTypeAdd.children[nodeAddIndex];
+    addNode({
+      isParentNode: false,
+      source: modelSource,
+      nodeId: `${nodeAdd.id}-${nodeAdd.count}`,
+      nodeWidth: NODE_WIDTH,
+      nodeHeight: NODE_HEIGHT,
+      portWidth: PORT_WIDTH,
+      portHeight: PORT_HEIGHT,
+      portQuantity: portNumber,
+      portType,
+      type: "node",
+    });
+    nodeAdd.count++;
+
+    drawLogic();
+  };
 
   // draw edge
   function drawLogic() {
@@ -462,8 +547,9 @@ export default function run() {
                 x: isParent ? Number(coordinateParent[0]) + defaultX : defaultX,
                 y: isParent ? Number(coordinateParent[1]) + defaultY : defaultY,
                 type: "node",
+                portType: "1",
               });
-              dummyNodeArray.push("node-dummy");
+              dummyNodeArray.push("dummy");
               drawEdge({
                 source: modelSource,
                 edgeId: "dummy",
@@ -472,11 +558,7 @@ export default function run() {
                 type: "edge:straight",
                 cssClasses: ["dummy-edge"],
               });
-              edgeArr.push({
-                id: `edge-${edgeNumber}`,
-                sourceId: `port-${sourceId}`,
-                targetId: "dummy-1",
-              });
+
               dummyEdgeId = "edge-dummy";
             }
             dummyMode = true;
@@ -485,8 +567,6 @@ export default function run() {
       });
     }, 100);
   }
-
-  // delete
 
   // add Parent Node
   addParentNode.addEventListener("click", () => {
@@ -500,106 +580,69 @@ export default function run() {
       portHeight: PORT_PARENT_HEIGHT,
       portQuantity: 1,
       type: "node:package",
+      portType: "1",
     });
     nodeParentNumber++;
     drawLogic();
   });
 
-  // add node 1
-  addNode1Btn.addEventListener("click", () => {
-    addNode({
-      isParentNode: false,
-      source: modelSource,
-      nodeId: `type-1-${node1Number}`,
-      nodeWidth: NODE_WIDTH,
-      nodeHeight: NODE_HEIGHT,
-      portWidth: PORT_WIDTH,
-      portHeight: PORT_HEIGHT,
-      portQuantity: 1,
-      type: "node",
+  nodeShapeEls.forEach((e: any) => {
+    e.ondragstart = (event) => {
+      console.log("drag");
+      const targetEl = event.target;
+      addMode = true;
+      if (nodeAddId === targetEl.id) {
+        addMode = false;
+        nodeAddId = null;
+      }
+      portNumber = +targetEl.parentNode.id
+        .replace("node-", "")
+        .replace("-shape", "");
+      nodeAddId = targetEl.id;
+      targetEl.classList.toggle("selected-node-add");
+      nodeShapeEls.forEach((e: any) => {
+        if (e.id !== targetEl.id) {
+          e.classList.remove("selected-node-add");
+        }
+      });
+    };
+    e.addEventListener("click", (event: any) => {
+      const targetEl = event.target;
+      addMode = true;
+      if (nodeAddId === targetEl.id) {
+        addMode = false;
+        nodeAddId = null;
+      }
+      portNumber = +targetEl.parentNode.id
+        .replace("node-", "")
+        .replace("-shape", "");
+      nodeAddId = targetEl.id;
+      targetEl.classList.toggle("selected-node-add");
+      nodeShapeEls.forEach((e: any) => {
+        if (e.id !== targetEl.id) {
+          e.classList.remove("selected-node-add");
+        }
+      });
     });
-
-    node1Number++;
-
-    // draw edge
-    drawLogic();
   });
 
-  // add node 2
-  addNode2Btn.addEventListener("click", () => {
-    addNode({
-      isParentNode: false,
-      source: modelSource,
-      nodeId: `type-2-${node2Number}`,
-      nodeWidth: NODE_WIDTH,
-      nodeHeight: NODE_HEIGHT,
-      portWidth: PORT_WIDTH,
-      portHeight: PORT_HEIGHT,
+  // Add Node by drag
+  const sprottyEl = document.getElementById("sprotty");
 
-      portQuantity: 2,
-      type: "node",
-    });
-
-    node2Number++;
-
-    // draw edge
-    drawLogic();
-  });
-
-  // add node 3
-  addNode3Btn.addEventListener("click", () => {
-    addNode({
-      isParentNode: false,
-      source: modelSource,
-      nodeId: `type-3-${node3Number}`,
-      nodeWidth: NODE_WIDTH,
-      nodeHeight: NODE_HEIGHT,
-      portWidth: PORT_WIDTH,
-      portHeight: PORT_HEIGHT,
-
-      portQuantity: 3,
-      type: "node",
-    });
-
-    node3Number++;
-
-    // draw edge
-    drawLogic();
-  });
-
-  // add node 4
-  addNode4Btn.addEventListener("click", () => {
-    addNode({
-      isParentNode: false,
-      source: modelSource,
-      nodeId: `type-4-${node4Number}`,
-      nodeWidth: NODE_WIDTH,
-      nodeHeight: NODE_HEIGHT,
-      portWidth: PORT_WIDTH,
-      portHeight: PORT_HEIGHT,
-
-      portQuantity: 4,
-      type: "node",
-    });
-
-    node4Number++;
-
-    // draw edge
-    drawLogic();
-  });
+  sprottyEl.ondragover = (event) => {
+    event.preventDefault();
+  };
+  sprottyEl.ondrop = (event) => {
+    console.log(event);
+    addNodeLogic();
+  };
 
   // draw edge
   drawEdgeBtn.addEventListener("click", () => {
     if (!drawMode) {
-      addNode1Btn.setAttribute("disabled", "true");
-      addNode2Btn.setAttribute("disabled", "true");
-      addNode3Btn.setAttribute("disabled", "true");
-      addNode4Btn.setAttribute("disabled", "true");
       deleteBtn.setAttribute("disabled", "true");
-
       drawEdgeBtn.classList.add("btn-active");
       cancelDrawEdgeBtn.classList.remove("hide");
-
       drawMode = true;
     } else {
       cancelDrawEdge();

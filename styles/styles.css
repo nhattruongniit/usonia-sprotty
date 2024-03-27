@@ -1,3 +1,10 @@
+:root {
+  --node-width: 100px;
+  --node-height: 50px;
+  --port-width: 15px;
+  --port-height: 15px;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -34,13 +41,38 @@
 }
 
 .control {
-  margin: 0 auto;
-  padding: 20px 0px;
-  display: flex;
-  gap: 20px;
-  justify-content: center;
+  padding: 20px 10px;
+  border-right: 1px solid #cccccc;
+  flex-shrink: 0;
+  width: 250px;
 }
 
+.sprotty-container {
+  border: 1px solid #cccccc;
+}
+
+.sprotty-graph,
+.sprotty {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;
+}
+
+.parentContainer {
+  display: flex;
+  height: calc(100vh - 5px);
+}
+
+.control-btn {
+  display: flex;
+  flex-direction: column;
+}
+
+.control-btn button {
+  margin-bottom: 10px;
+}
 /* .tip-container {
   display: flex;
   justify-content: center;
@@ -62,4 +94,68 @@
 
 .hide {
   display: none;
+}
+
+.flex {
+  display: flex;
+}
+
+.add-node-btn {
+  flex-shrink: 0;
+  margin-left: 12px;
+}
+
+.node-1-port-1:hover,
+.node-1-port-2:hover,
+.node-1-port-3:hover,
+.node-1-port-4:hover,
+.node-2-port-13:hover,
+.node-3-port-123:hover,
+.node-4-port-1234:hover,
+.node-2-port-24:hover,
+.node-3-port-234:hover,
+.node-3-port-341:hover,
+.node-3-port-412:hover {
+  background-color: #dfd;
+}
+
+.selected-node-add.node-shape {
+  background-color: #dfd;
+}
+
+.node-shape {
+  margin: 10px auto;
+  position: relative;
+  width: var(--node-width);
+  height: var(--node-height);
+  background-color: #ddf;
+  /* border: 1px solid #448; */
+}
+.port-shape {
+  position: absolute;
+  width: var(--port-width);
+  height: var(--port-height);
+  background-color: #448;
+  /* border: 1px solid #66c; */
+}
+/* .node:hover {
+  background-color: #dfd;
+} */
+.port-shape-1 {
+  top: calc((var(--node-height) - var(--port-height)) / 2);
+  left: var(--node-width);
+}
+
+.port-shape-2 {
+  top: var(--node-height);
+  left: calc((var(--node-width) - var(--port-width)) / 2);
+}
+
+.port-shape-3 {
+  top: calc((var(--node-height) - var(--port-height)) / 2);
+  left: calc(0px - var(--port-width));
+}
+.port-shape-4 {
+  top: calc(0px - var(--port-height));
+  left: calc((var(--node-width) - var(--port-width)) / 2);
 }
