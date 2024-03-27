@@ -24129,6 +24129,31 @@
     cancelDrawEdgeBtn.addEventListener("click", () => {
       cancelDrawEdge();
     });
+    const addNodeLogic = () => {
+      const portType = nodeAddId.replace(`node-${portNumber}-port-`, "");
+      const nodeTypeAddIndex = nodeArr.findIndex((e) => {
+        return e.portNumber === portNumber;
+      });
+      const nodeTypeAdd = nodeArr[nodeTypeAddIndex];
+      const nodeAddIndex = nodeTypeAdd.children.findIndex((e) => {
+        return e.id === nodeAddId;
+      });
+      const nodeAdd = nodeTypeAdd.children[nodeAddIndex];
+      addNode({
+        isParentNode: false,
+        source: modelSource,
+        nodeId: `${nodeAdd.id}-${nodeAdd.count}`,
+        nodeWidth: NODE_WIDTH2,
+        nodeHeight: NODE_HEIGHT,
+        portWidth: PORT_WIDTH2,
+        portHeight: PORT_HEIGHT,
+        portQuantity: portNumber,
+        portType,
+        type: "node"
+      });
+      nodeAdd.count++;
+      drawLogic();
+    };
     function drawLogic() {
       setTimeout(() => {
         document.querySelectorAll(".port").forEach((port) => {
@@ -24236,31 +24261,6 @@
         });
       });
     });
-    const addNodeLogic = () => {
-      const portType = nodeAddId.replace(`node-${portNumber}-port-`, "");
-      const nodeTypeAddIndex = nodeArr.findIndex((e) => {
-        return e.portNumber === portNumber;
-      });
-      const nodeTypeAdd = nodeArr[nodeTypeAddIndex];
-      const nodeAddIndex = nodeTypeAdd.children.findIndex((e) => {
-        return e.id === nodeAddId;
-      });
-      const nodeAdd = nodeTypeAdd.children[nodeAddIndex];
-      addNode({
-        isParentNode: false,
-        source: modelSource,
-        nodeId: `${nodeAdd.id}-${nodeAdd.count}`,
-        nodeWidth: NODE_WIDTH2,
-        nodeHeight: NODE_HEIGHT,
-        portWidth: PORT_WIDTH2,
-        portHeight: PORT_HEIGHT,
-        portQuantity: portNumber,
-        portType,
-        type: "node"
-      });
-      nodeAdd.count++;
-      drawLogic();
-    };
     const sprottyEl = document.getElementById("sprotty");
     sprottyEl.ondragover = (event) => {
       event.preventDefault();
