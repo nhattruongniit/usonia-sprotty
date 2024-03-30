@@ -2,19 +2,34 @@ import "reflect-metadata";
 import {
   LocalModelSource,
   MouseListener,
-  SEdgeImpl,
-  SModelElementImpl,
-  SNodeImpl,
   SPortImpl,
-  SRoutingHandleImpl,
-  SelectMouseListener,
   TYPES,
+  IButtonHandler,
+  SButtonImpl,
+  isInjectable,
+  CommandExecutionContext,
+  CommandReturn,
+  SModelElementImpl,
+  isViewport,
+  IModelFactory,
+  ViewportRootElementImpl,
+  ConsoleLogger,
+  AnimationFrameSyncer,
+  SGraphImpl,
 } from "sprotty";
-import { Action, Selectable } from "sprotty-protocol";
+import {
+  Action,
+  Selectable,
+  SButton,
+  Viewport,
+  SetViewportAction,
+  SGraph,
+} from "sprotty-protocol";
 import { createContainer } from "./di.config";
 
 // settings
 import * as config from "./settings/config.json";
+import { SetViewportCommand } from "sprotty";
 
 // utils
 import addNode from "./util/addNode";
@@ -23,14 +38,10 @@ import checkIdElement from "./util/checkIdElement";
 import randomText from "./util/randomText";
 import getGrahpJson from "./util/getGraphJson";
 import checkPositionEl from "./util/checkPositionEl";
-
+import { injectable } from "inversify";
 // elements dom
 let addParentNode = null;
-let addNodeEl = null;
-// let addNode1Btn = null;
-// let addNode2Btn = null;
-// let addNode3Btn = null;
-// let addNode4Btn = null;
+
 let drawEdgeBtn = null;
 let cancelDrawEdgeBtn = null;
 let deleteBtn = null;
@@ -46,13 +57,26 @@ let node3ShapeEl = null;
 let node4ShapeEl = null;
 let nodeShapeEls = null;
 let nodesShapesEl = null;
+let zoomInBtn = null;
+let zoomOutBtn = null;
+let defaultScaleBtn = null;
 
 // count of
 let graphDisplay;
-const graph: any = {
+const graph: SGraph = {
   type: "graph",
   id: "graph",
-  children: [],
+  children: [
+    // {
+    //   parentId: "graph",
+    //   element: <SButton>{
+    //     type: "button:custom",
+    //     id: "button-1",
+    //     size: { width: 50, height: 50 },
+    //     position: { x: 100, y: 100 },
+    //   },
+    // },
+  ],
 };
 
 graphDisplay = JSON.parse(localStorage.getItem("graph"))
@@ -263,9 +287,52 @@ export class CustomMouseListener extends MouseListener {
     return [];
   }
 }
+@injectable()
+export class CustomButtonHandler implements IButtonHandler {
+  buttonPressed(button: SButtonImpl): Action[] {
+    alert("button on" + button.parent.id + " pressed");
+    return [];
+  }
+}
 
 const container = createContainer("sprotty-container");
+
+import {} from "sprotty";
 const modelSource = container.get<LocalModelSource>(TYPES.ModelSource);
+const zoom = () => {
+  const graphFactory = container.get<IModelFactory>(TYPES.IModelFactory);
+
+  // const viewportData: Viewport = { scroll: { x: 0, y: 0 }, zoom: 1 };
+  // const viewport: ViewportRootElementImpl = graphFactory.createRoot({
+  //   id: "graph",
+  //   type: "graph",
+  //   children: [],
+  // }) as ViewportRootElementImpl;
+  // console.log(viewport);
+  // viewport.zoom = viewportData.zoom;
+  // viewport.scroll = viewportData.scroll;
+  const viewport = findParentByFeature(graphDisplay, isViewport);
+  console.log(modelSource.model.canvasBounds);
+
+  const newViewportData: Viewport = { scroll: { x: 100, y: 0 }, zoom: 10 };
+
+  const viewportAction = SetViewportAction.create("graph", newViewportData, {
+    animate: false,
+  });
+  const cmd = new SetViewportCommand(viewportAction);
+  (cmd as any).viewerOptions = container.get(TYPES.ViewerOptions);
+  const context: CommandExecutionContext = {
+    root: viewport,
+    modelFactory: graphFactory,
+    duration: 0,
+    modelChanged: undefined!,
+    logger: new ConsoleLogger(),
+    syncer: new AnimationFrameSyncer(),
+  };
+  console.log(context);
+
+  cmd.execute(context);
+};
 
 // cancel draw edge
 function cancelDrawEdge() {
@@ -339,10 +406,12 @@ const deleteLogic = () => {
     ]);
   });
 };
+import { findParentByFeature } from "sprotty";
 
 export default function run() {
   modelSource.setModel(graphDisplay);
   localStorage.clear();
+
   drawLogic();
   // elements dom
   addParentNode = document.getElementById("add-parent-node");
@@ -360,6 +429,31 @@ export default function run() {
   node3ShapeEl = document.getElementById("node-3-shape");
   node4ShapeEl = document.getElementById("node-4-shape");
   nodeShapeEls = document.querySelectorAll(".node-shape");
+  zoomInBtn = document.getElementById("zoom-in");
+  zoomOutBtn = document.getElementById("zoom-out");
+  defaultScaleBtn = document.getElementById("default");
+
+  // scale
+  let scalePoint = 1;
+
+  zoomInBtn.addEventListener("click", () => {
+    scalePoint += 0.1;
+    document
+      .querySelector("#sprotty-container_graph>g")
+      .setAttribute("transform", `scale(${scalePoint}) translate(150,150)`);
+  });
+  zoomOutBtn.addEventListener("click", () => {
+    scalePoint -= 0.1;
+    document
+      .querySelector("#sprotty-container_graph>g")
+      .setAttribute("transform", `scale(${scalePoint}) translate(150,150)`);
+  });
+  defaultScaleBtn.addEventListener("click", () => {
+    scalePoint = 1;
+    document
+      .querySelector("#sprotty-container_graph>g")
+      .setAttribute("transform", `scale(${scalePoint}) translate(150,150)`);
+  });
 
   // UI
   selecteNodeEl.addEventListener("change", (event: any) => {
@@ -409,11 +503,11 @@ export default function run() {
   });
 
   // show json
-  showJsonBtn.addEventListener("click", () => {
-    JSON.stringify(modelSource.model, null, 2);
-    // ("showJsonBtn: ", modelSource.model);
-  });
-
+  // showJsonBtn.addEventListener("click", () => {
+  //   JSON.stringify(modelSource.model, null, 2);
+  //   // ("showJsonBtn: ", modelSource.model);
+  // });
+  console.log(modelSource.model);
   exportJsonBtn.addEventListener("click", () => {
     const name = randomText("graph");
     const jsonFiltered = getGrahpJson(modelSource.model);
@@ -584,6 +678,9 @@ export default function run() {
     });
     nodeParentNumber++;
     drawLogic();
+    modelSource.getViewport().then((data) => {
+      console.log(data);
+    });
   });
 
   nodeShapeEls.forEach((e: any) => {

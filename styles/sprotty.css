@@ -36,8 +36,6 @@
   height: calc(100vh - 100px);
 }
 
-
-
 .sprotty-edge.selected {
   stroke: red;
 }
@@ -181,4 +179,9 @@ svg {
 .node-package.mouseover {
   /* fill: #d0c8c0; */
   /* stroke: #541; */
+}
+
+.sprotty-button {
+  fill: aquamarine;
+  stroke: #000;
 }

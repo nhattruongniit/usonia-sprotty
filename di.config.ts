@@ -22,11 +22,28 @@ import {
   RectangularNode,
   moveFeature,
   selectFeature,
+  SButtonImpl,
+  ExpandButtonView,
+  configureButtonHandler,
+  IModelFactory,
+  ViewportRootElementImpl,
+  SetViewportCommand,
+  CommandExecutionContext,
+  ConsoleLogger,
+  AnimationFrameSyncer,
+  registerModelElement,
 } from "sprotty";
 
+import { Viewport, SetViewportAction } from "sprotty-protocol";
+
 import { PortViewWithExternalLabel } from "./views/PortViewWithExternalLabel";
-import { CustomMouseListener } from "./index";
-import { EdgeWithArrow, NodeView, PropertyLabel } from "./views/views";
+import { CustomMouseListener, CustomButtonHandler } from "./index";
+import {
+  EdgeWithArrow,
+  NodeView,
+  PropertyLabel,
+  customButtonView,
+} from "./views/views";
 
 export const createContainer = (containerId: string) => {
   const myModule = new ContainerModule((bind, unbind, isBound, rebind) => {
@@ -38,6 +55,22 @@ export const createContainer = (containerId: string) => {
 
     const context = { bind, unbind, isBound, rebind };
     configureModelElement(context, "graph", SGraphImpl, SGraphView);
+
+    configureModelElement(
+      context,
+      "button:custom",
+      SButtonImpl,
+      customButtonView,
+      {
+        disable: [moveFeature],
+      }
+    );
+
+    configureButtonHandler(
+      { bind, isBound },
+      "button:custom",
+      CustomButtonHandler
+    );
     configureModelElement(context, "node:package", RectangularNode, NodeView);
     configureModelElement(
       context,
@@ -100,5 +133,6 @@ export const createContainer = (containerId: string) => {
   const container = new Container();
   loadDefaultModules(container);
   container.load(myModule);
+
   return container;
 };
