@@ -5597,20 +5597,20 @@
         }
         FitToScreenAction2.create = create;
       })(FitToScreenAction || (exports.FitToScreenAction = FitToScreenAction = {}));
-      var SetViewportAction2;
-      (function(SetViewportAction3) {
-        SetViewportAction3.KIND = "viewport";
+      var SetViewportAction;
+      (function(SetViewportAction2) {
+        SetViewportAction2.KIND = "viewport";
         function create(elementId, newViewport, options = {}) {
           var _a;
           return {
-            kind: SetViewportAction3.KIND,
+            kind: SetViewportAction2.KIND,
             elementId,
             newViewport,
             animate: (_a = options.animate) !== null && _a !== void 0 ? _a : true
           };
         }
-        SetViewportAction3.create = create;
-      })(SetViewportAction2 || (exports.SetViewportAction = SetViewportAction2 = {}));
+        SetViewportAction2.create = create;
+      })(SetViewportAction || (exports.SetViewportAction = SetViewportAction = {}));
       var GetViewportAction;
       (function(GetViewportAction2) {
         GetViewportAction2.KIND = "getViewport";
@@ -6666,7 +6666,7 @@
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.AnimationFrameSyncer = void 0;
       var inversify_1 = require_inversify();
-      var AnimationFrameSyncer3 = class AnimationFrameSyncer {
+      var AnimationFrameSyncer2 = class AnimationFrameSyncer {
         constructor() {
           this.tasks = [];
           this.endTasks = [];
@@ -6702,10 +6702,10 @@
           endTasks.forEach((task) => task.call(void 0, time));
         }
       };
-      exports.AnimationFrameSyncer = AnimationFrameSyncer3;
-      exports.AnimationFrameSyncer = AnimationFrameSyncer3 = __decorate([
+      exports.AnimationFrameSyncer = AnimationFrameSyncer2;
+      exports.AnimationFrameSyncer = AnimationFrameSyncer2 = __decorate([
         (0, inversify_1.injectable)()
-      ], AnimationFrameSyncer3);
+      ], AnimationFrameSyncer2);
     }
   });
 
@@ -6891,10 +6891,10 @@
       "use strict";
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.isInjectable = void 0;
-      function isInjectable2(constr) {
+      function isInjectable(constr) {
         return Reflect.getMetadata("inversify:paramtypes", constr) !== void 0;
       }
-      exports.isInjectable = isInjectable2;
+      exports.isInjectable = isInjectable;
     }
   });
 
@@ -8298,7 +8298,7 @@
         return current;
       }
       exports.findParent = findParent;
-      function findParentByFeature2(element, predicate) {
+      function findParentByFeature(element, predicate) {
         let current = element;
         while (current !== void 0) {
           if (predicate(current))
@@ -8310,7 +8310,7 @@
         }
         return current;
       }
-      exports.findParentByFeature = findParentByFeature2;
+      exports.findParentByFeature = findParentByFeature;
       function translatePoint(point, source, target) {
         if (source !== target) {
           while (source instanceof smodel_1.SChildElementImpl) {
@@ -10744,7 +10744,7 @@
       exports.NullLogger = NullLogger = __decorate([
         (0, inversify_1.injectable)()
       ], NullLogger);
-      var ConsoleLogger3 = class ConsoleLogger {
+      var ConsoleLogger2 = class ConsoleLogger {
         constructor() {
           this.logLevel = LogLevel.log;
           this.viewOptions = { baseDiv: "" };
@@ -10787,18 +10787,18 @@
           return [date.toLocaleTimeString() + " " + this.viewOptions.baseDiv + " " + caller + ": " + message, ...params];
         }
       };
-      exports.ConsoleLogger = ConsoleLogger3;
+      exports.ConsoleLogger = ConsoleLogger2;
       __decorate([
         (0, inversify_1.inject)(types_1.TYPES.LogLevel),
         __metadata("design:type", Number)
-      ], ConsoleLogger3.prototype, "logLevel", void 0);
+      ], ConsoleLogger2.prototype, "logLevel", void 0);
       __decorate([
         (0, inversify_1.inject)(types_1.TYPES.ViewerOptions),
         __metadata("design:type", Object)
-      ], ConsoleLogger3.prototype, "viewOptions", void 0);
-      exports.ConsoleLogger = ConsoleLogger3 = __decorate([
+      ], ConsoleLogger2.prototype, "viewOptions", void 0);
+      exports.ConsoleLogger = ConsoleLogger2 = __decorate([
         (0, inversify_1.injectable)()
-      ], ConsoleLogger3);
+      ], ConsoleLogger2);
     }
   });
 
@@ -13761,10 +13761,10 @@
       var smodel_1 = require_smodel();
       var geometry_1 = require_geometry2();
       exports.viewportFeature = Symbol("viewportFeature");
-      function isViewport2(element) {
+      function isViewport(element) {
         return element instanceof smodel_1.SModelRootImpl && element.hasFeature(exports.viewportFeature) && "zoom" in element && "scroll" in element;
       }
-      exports.isViewport = isViewport2;
+      exports.isViewport = isViewport;
       function limitViewport(viewport, canvasBounds, horizontalScrollLimits, verticalScrollLimits, zoomLimits) {
         if (canvasBounds && !sprotty_protocol_1.Dimension.isValid(canvasBounds)) {
           canvasBounds = void 0;
@@ -13828,7 +13828,7 @@
       var smodel_1 = require_smodel();
       var model_1 = require_model12();
       var model_2 = require_model13();
-      var ViewportRootElementImpl3 = class extends smodel_1.SModelRootImpl {
+      var ViewportRootElementImpl2 = class extends smodel_1.SModelRootImpl {
         constructor(index) {
           super(index);
           this.scroll = { x: 0, y: 0 };
@@ -13881,8 +13881,8 @@
           return result;
         }
       };
-      exports.ViewportRootElementImpl = ViewportRootElementImpl3;
-      ViewportRootElementImpl3.DEFAULT_FEATURES = [model_1.viewportFeature, model_2.exportFeature];
+      exports.ViewportRootElementImpl = ViewportRootElementImpl2;
+      ViewportRootElementImpl2.DEFAULT_FEATURES = [model_1.viewportFeature, model_2.exportFeature];
     }
   });
 
@@ -13905,12 +13905,12 @@
       var model_8 = require_model6();
       var viewport_root_1 = require_viewport_root();
       var iterable_1 = require_iterable();
-      var SGraphImpl3 = class extends viewport_root_1.ViewportRootElementImpl {
+      var SGraphImpl2 = class extends viewport_root_1.ViewportRootElementImpl {
         constructor(index = new SGraphIndex()) {
           super(index);
         }
       };
-      exports.SGraphImpl = SGraphImpl3;
+      exports.SGraphImpl = SGraphImpl2;
       var SNodeImpl3 = class extends model_7.SConnectableElementImpl {
         constructor() {
           super(...arguments);
@@ -15740,7 +15740,7 @@
       var mouse_tool_1 = require_mouse_tool();
       var browser_1 = require_browser();
       var model_1 = require_model12();
-      function getZoom(label) {
+      function getZoom2(label) {
         let zoom = 1;
         const viewport = (0, smodel_utils_1.findParentByFeature)(label, model_1.isViewport);
         if (viewport) {
@@ -15748,7 +15748,7 @@
         }
         return zoom;
       }
-      exports.getZoom = getZoom;
+      exports.getZoom = getZoom2;
       var ZoomMouseListener = class extends mouse_tool_1.MouseListener {
         wheel(target, event) {
           const viewport = (0, smodel_utils_1.findParentByFeature)(target, model_1.isViewport);
@@ -20502,7 +20502,7 @@
       var model_1 = require_model12();
       var types_1 = require_types();
       var request_command_1 = require_request_command();
-      var SetViewportCommand3 = SetViewportCommand_1 = class SetViewportCommand extends command_1.MergeableCommand {
+      var SetViewportCommand2 = SetViewportCommand_1 = class SetViewportCommand extends command_1.MergeableCommand {
         constructor(action) {
           super();
           this.action = action;
@@ -20548,17 +20548,17 @@
           return false;
         }
       };
-      exports.SetViewportCommand = SetViewportCommand3;
-      SetViewportCommand3.KIND = actions_1.SetViewportAction.KIND;
+      exports.SetViewportCommand = SetViewportCommand2;
+      SetViewportCommand2.KIND = actions_1.SetViewportAction.KIND;
       __decorate([
         (0, inversify_1.inject)(types_1.TYPES.ViewerOptions),
         __metadata("design:type", Object)
-      ], SetViewportCommand3.prototype, "viewerOptions", void 0);
-      exports.SetViewportCommand = SetViewportCommand3 = SetViewportCommand_1 = __decorate([
+      ], SetViewportCommand2.prototype, "viewerOptions", void 0);
+      exports.SetViewportCommand = SetViewportCommand2 = SetViewportCommand_1 = __decorate([
         (0, inversify_1.injectable)(),
         __param(0, (0, inversify_1.inject)(types_1.TYPES.Action)),
         __metadata("design:paramtypes", [Object])
-      ], SetViewportCommand3);
+      ], SetViewportCommand2);
       var GetViewportCommand = class GetViewportCommand extends request_command_1.ModelRequestCommand {
         constructor(action) {
           super();
@@ -23209,7 +23209,6 @@
   // index.ts
   var import_reflect_metadata = __toESM(require_Reflect());
   var import_sprotty4 = __toESM(require_lib2());
-  var import_sprotty_protocol2 = __toESM(require_lib());
 
   // di.config.ts
   var import_inversify3 = __toESM(require_inversify());
@@ -23422,9 +23421,6 @@
   var EDGE_DUMMY_FILL = "none";
   var EDGE_DUMMY_STROKE = "#333";
   var READY_DRAW_PORT_FILL = "#0f0";
-
-  // index.ts
-  var import_sprotty5 = __toESM(require_lib2());
 
   // util/addNode.ts
   var addPortElement = (source, parentId, portType, id, width, height, position, text) => {
@@ -23825,12 +23821,10 @@
 
   // index.ts
   var import_inversify4 = __toESM(require_inversify());
-  var import_sprotty6 = __toESM(require_lib2());
   var addParentNode = null;
   var drawEdgeBtn = null;
   var cancelDrawEdgeBtn = null;
   var deleteBtn = null;
-  var showJsonBtn = null;
   var exportJsonBtn = null;
   var importJsonBtn = null;
   var inputFile = null;
@@ -23847,17 +23841,10 @@
   var graph = {
     type: "graph",
     id: "graph",
-    children: [
-      // {
-      //   parentId: "graph",
-      //   element: <SButton>{
-      //     type: "button:custom",
-      //     id: "button-1",
-      //     size: { width: 50, height: 50 },
-      //     position: { x: 100, y: 100 },
-      //   },
-      // },
-    ]
+    children: []
+    // canvasBounds: { x: 250, y: 0, width: 1286, height: 723 },
+    // scroll: { x: 0, y: 0 },
+    // zoom: 1,
   };
   graphDisplay = JSON.parse(localStorage.getItem("graph")) ? JSON.parse(localStorage.getItem("graph")) : graph;
   if (graphDisplay !== graph && !graphDisplay.isValidGraph) {
@@ -23866,7 +23853,6 @@
   }
   var portNumber = null;
   var nodeAddId = null;
-  var addMode = false;
   var shapeEl = document.getElementsByClassName("shape");
   var nodeArr = [...shapeEl].map((e) => {
     const portNumber2 = +e.id.replace("node-", "").replace("-shape", "");
@@ -23954,6 +23940,7 @@
   var styleSheet = document.createElement("style");
   styleSheet.innerText = styles;
   document.head.appendChild(styleSheet);
+  var countScroll = 0;
   var CustomMouseListener = class extends import_sprotty4.MouseListener {
     mouseUp(target, event) {
       const objectCheck = checkPositionEl(
@@ -24016,6 +24003,15 @@
         if (portTarget) {
           portTarget.classList.remove("ready-draw");
         }
+      }
+      return [];
+    }
+    wheel(target, event) {
+      console.log(event);
+      if (event.deltaY > 0) {
+        countScroll--;
+      } else if (event.deltaY < 0) {
+        countScroll++;
       }
       return [];
     }
@@ -24099,7 +24095,6 @@
     drawEdgeBtn = document.getElementById("draw-edge");
     deleteBtn = document.getElementById("delete");
     cancelDrawEdgeBtn = document.getElementById("cancel-draw-edge");
-    showJsonBtn = document.getElementById("show-json");
     exportJsonBtn = document.getElementById("export-json");
     importJsonBtn = document.getElementById("import-json");
     inputFile = document.getElementById("input-file");
@@ -24112,18 +24107,25 @@
     zoomInBtn = document.getElementById("zoom-in");
     zoomOutBtn = document.getElementById("zoom-out");
     defaultScaleBtn = document.getElementById("default");
-    let scalePoint = 1;
+    const setEventScroll = (deltaY) => {
+      const graphEl = document.getElementById("sprotty-container_graph");
+      const evt = new WheelEvent("wheel", {
+        deltaY,
+        deltaMode: WheelEvent.DOM_DELTA_PIXEL,
+        clientX: graphEl.clientWidth / 2,
+        clientY: graphEl.clientHeight / 2
+      });
+      graphEl.dispatchEvent(evt);
+    };
     zoomInBtn.addEventListener("click", () => {
-      scalePoint += 0.1;
-      document.querySelector("#sprotty-container_graph>g").setAttribute("transform", `scale(${scalePoint}) translate(150,150)`);
+      setEventScroll(-80);
     });
     zoomOutBtn.addEventListener("click", () => {
-      scalePoint -= 0.1;
-      document.querySelector("#sprotty-container_graph>g").setAttribute("transform", `scale(${scalePoint}) translate(150,150)`);
+      setEventScroll(80);
     });
     defaultScaleBtn.addEventListener("click", () => {
-      scalePoint = 1;
-      document.querySelector("#sprotty-container_graph>g").setAttribute("transform", `scale(${scalePoint}) translate(150,150)`);
+      setEventScroll(80 * countScroll);
+      countScroll = 0;
     });
     selecteNodeEl.addEventListener("change", (event) => {
       const nodeValue = +event.target.value;
@@ -24154,7 +24156,6 @@
         !node4ShapeEl.classList.contains("hide") && node4ShapeEl.classList.add("hide");
       }
     });
-    console.log(modelSource.model);
     exportJsonBtn.addEventListener("click", () => {
       const name = randomText("graph");
       const jsonFiltered = getGrahpJson(modelSource.model);
@@ -24283,17 +24284,11 @@
       });
       nodeParentNumber++;
       drawLogic();
-      modelSource.getViewport().then((data) => {
-        console.log(data);
-      });
     });
     nodeShapeEls.forEach((e) => {
       e.ondragstart = (event) => {
-        console.log("drag");
         const targetEl = event.target;
-        addMode = true;
         if (nodeAddId === targetEl.id) {
-          addMode = false;
           nodeAddId = null;
         }
         portNumber = +targetEl.parentNode.id.replace("node-", "").replace("-shape", "");
@@ -24307,9 +24302,7 @@
       };
       e.addEventListener("click", (event) => {
         const targetEl = event.target;
-        addMode = true;
         if (nodeAddId === targetEl.id) {
-          addMode = false;
           nodeAddId = null;
         }
         portNumber = +targetEl.parentNode.id.replace("node-", "").replace("-shape", "");
