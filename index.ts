@@ -50,9 +50,6 @@ const graph: SGraph = {
   type: "graph",
   id: "graph",
   children: [],
-  // canvasBounds: { x: 250, y: 0, width: 1286, height: 723 },
-  // scroll: { x: 0, y: 0 },
-  // zoom: 1,
 };
 
 graphDisplay = JSON.parse(localStorage.getItem("graph"))

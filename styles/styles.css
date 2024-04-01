@@ -162,6 +162,7 @@
 
 .zoom-container {
   position: absolute;
+  z-index: 3;
   left: 30px;
   bottom: 30px;
   width: 30px;
@@ -191,7 +192,28 @@
   transform: scale(1.2);
 }
 
-.btn-control:active {
-  /* border: 3px solid rgb(255, 0, 128); */
-  /* box-shadow: 0px 10px 15px 10px rgba(195, 1, 130, 0.1); */
+.grid-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+
+.big-grid {
+  border: 1px solid rgb(239, 239, 239);
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+}
+
+.small-grid {
+  border: 1px solid rgb(239, 239, 239);
+}
+
+#sprotty-container_graph {
+  z-index: 2;
 }
