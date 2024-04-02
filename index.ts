@@ -2,15 +2,14 @@ import "reflect-metadata";
 import {
   LocalModelSource,
   MouseListener,
-  SEdgeImpl,
-  SModelElementImpl,
-  SNodeImpl,
   SPortImpl,
-  SRoutingHandleImpl,
-  SelectMouseListener,
   TYPES,
+  IButtonHandler,
+  SButtonImpl,
+  getZoom,
+  SModelElementImpl,
 } from "sprotty";
-import { Action, Selectable } from "sprotty-protocol";
+import { Action, SGraph } from "sprotty-protocol";
 import { createContainer } from "./di.config";
 
 // settings
@@ -23,19 +22,14 @@ import checkIdElement from "./util/checkIdElement";
 import randomText from "./util/randomText";
 import getGrahpJson from "./util/getGraphJson";
 import checkPositionEl from "./util/checkPositionEl";
-
+import { injectable } from "inversify";
 // elements dom
 let addParentNode = null;
-let addNodeEl = null;
-// let addNode1Btn = null;
-// let addNode2Btn = null;
-// let addNode3Btn = null;
-// let addNode4Btn = null;
+
 let drawEdgeBtn = null;
 let cancelDrawEdgeBtn = null;
 let deleteBtn = null;
-let dummyNodeBtn = null;
-let showJsonBtn = null;
+
 let exportJsonBtn = null;
 let importJsonBtn = null;
 let inputFile = null;
@@ -45,11 +39,14 @@ let node2ShapeEl = null;
 let node3ShapeEl = null;
 let node4ShapeEl = null;
 let nodeShapeEls = null;
-let nodesShapesEl = null;
+
+let zoomInBtn = null;
+let zoomOutBtn = null;
+let defaultScaleBtn = null;
 
 // count of
 let graphDisplay;
-const graph: any = {
+const graph: SGraph = {
   type: "graph",
   id: "graph",
   children: [],
@@ -65,7 +62,6 @@ if (graphDisplay !== graph && !graphDisplay.isValidGraph) {
 
 let portNumber = null;
 let nodeAddId = null;
-let addMode = false;
 
 const shapeEl = document.getElementsByClassName("shape");
 
@@ -187,10 +183,10 @@ const styleSheet = document.createElement("style");
 styleSheet.innerText = styles;
 document.head.appendChild(styleSheet);
 
+let countScroll = 0;
 export class CustomMouseListener extends MouseListener {
   mouseUp(target: any, event: MouseEvent): (Action | Promise<Action>)[] {
     // code connect by dummy node
-
     const objectCheck = checkPositionEl(
       target,
       NODE_DUMMY_WIDTH,
@@ -260,6 +256,25 @@ export class CustomMouseListener extends MouseListener {
       }
     }
 
+    return [];
+  }
+  wheel(
+    target: SModelElementImpl,
+    event: WheelEvent
+  ): (Action | Promise<Action>)[] {
+    console.log(event);
+    if (event.deltaY > 0) {
+      countScroll--;
+    } else if (event.deltaY < 0) {
+      countScroll++;
+    }
+    return [];
+  }
+}
+@injectable()
+export class CustomButtonHandler implements IButtonHandler {
+  buttonPressed(button: SButtonImpl): Action[] {
+    alert("button on" + button.parent.id + " pressed");
     return [];
   }
 }
@@ -343,6 +358,7 @@ const deleteLogic = () => {
 export default function run() {
   modelSource.setModel(graphDisplay);
   localStorage.clear();
+
   drawLogic();
   // elements dom
   addParentNode = document.getElementById("add-parent-node");
@@ -350,7 +366,7 @@ export default function run() {
   drawEdgeBtn = document.getElementById("draw-edge");
   deleteBtn = document.getElementById("delete");
   cancelDrawEdgeBtn = document.getElementById("cancel-draw-edge");
-  showJsonBtn = document.getElementById("show-json");
+  // showJsonBtn = document.getElementById("show-json");
   exportJsonBtn = document.getElementById("export-json");
   importJsonBtn = document.getElementById("import-json");
   inputFile = document.getElementById("input-file");
@@ -360,6 +376,32 @@ export default function run() {
   node3ShapeEl = document.getElementById("node-3-shape");
   node4ShapeEl = document.getElementById("node-4-shape");
   nodeShapeEls = document.querySelectorAll(".node-shape");
+  zoomInBtn = document.getElementById("zoom-in");
+  zoomOutBtn = document.getElementById("zoom-out");
+  defaultScaleBtn = document.getElementById("default");
+
+  // scale
+
+  const setEventScroll = (deltaY) => {
+    const graphEl = document.getElementById("sprotty-container_graph");
+    const evt = new WheelEvent("wheel", {
+      deltaY,
+      deltaMode: WheelEvent.DOM_DELTA_PIXEL,
+      clientX: graphEl.clientWidth / 2,
+      clientY: graphEl.clientHeight / 2,
+    });
+    graphEl.dispatchEvent(evt);
+  };
+  zoomInBtn.addEventListener("click", () => {
+    setEventScroll(-80);
+  });
+  zoomOutBtn.addEventListener("click", () => {
+    setEventScroll(80);
+  });
+  defaultScaleBtn.addEventListener("click", () => {
+    setEventScroll(80 * countScroll);
+    countScroll = 0;
+  });
 
   // UI
   selecteNodeEl.addEventListener("change", (event: any) => {
@@ -409,10 +451,10 @@ export default function run() {
   });
 
   // show json
-  showJsonBtn.addEventListener("click", () => {
-    JSON.stringify(modelSource.model, null, 2);
-    // ("showJsonBtn: ", modelSource.model);
-  });
+  // showJsonBtn.addEventListener("click", () => {
+  //   JSON.stringify(modelSource.model, null, 2);
+  //   // ("showJsonBtn: ", modelSource.model);
+  // });
 
   exportJsonBtn.addEventListener("click", () => {
     const name = randomText("graph");
@@ -588,11 +630,9 @@ export default function run() {
 
   nodeShapeEls.forEach((e: any) => {
     e.ondragstart = (event) => {
-      console.log("drag");
       const targetEl = event.target;
-      addMode = true;
+
       if (nodeAddId === targetEl.id) {
-        addMode = false;
         nodeAddId = null;
       }
       portNumber = +targetEl.parentNode.id
@@ -608,9 +648,8 @@ export default function run() {
     };
     e.addEventListener("click", (event: any) => {
       const targetEl = event.target;
-      addMode = true;
+
       if (nodeAddId === targetEl.id) {
-        addMode = false;
         nodeAddId = null;
       }
       portNumber = +targetEl.parentNode.id

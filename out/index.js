@@ -4676,7 +4676,7 @@
       exports.injectable = void 0;
       var ERRORS_MSGS = __importStar(require_error_msgs());
       var METADATA_KEY = __importStar(require_metadata_keys());
-      function injectable3() {
+      function injectable4() {
         return function(target) {
           if (Reflect.hasOwnMetadata(METADATA_KEY.PARAM_TYPES, target)) {
             throw new Error(ERRORS_MSGS.DUPLICATED_INJECTABLE_DECORATOR);
@@ -4686,7 +4686,7 @@
           return target;
         };
       }
-      exports.injectable = injectable3;
+      exports.injectable = injectable4;
     }
   });
 
@@ -6298,7 +6298,7 @@
       exports.ModelIndexImpl = exports.createRandomId = exports.SModelRootImpl = exports.SChildElementImpl = exports.SParentElementImpl = exports.isParent = exports.SModelElementImpl = void 0;
       var geometry_1 = require_geometry();
       var iterable_1 = require_iterable();
-      var SModelElementImpl2 = class {
+      var SModelElementImpl3 = class {
         get root() {
           let current = this;
           while (current) {
@@ -6322,13 +6322,13 @@
           return this.features !== void 0 && this.features.has(feature);
         }
       };
-      exports.SModelElementImpl = SModelElementImpl2;
+      exports.SModelElementImpl = SModelElementImpl3;
       function isParent(element) {
         const children = element.children;
         return children !== void 0 && children.constructor === Array;
       }
       exports.isParent = isParent;
-      var SParentElementImpl = class extends SModelElementImpl2 {
+      var SParentElementImpl = class extends SModelElementImpl3 {
         constructor() {
           super(...arguments);
           this.children = [];
@@ -6666,7 +6666,7 @@
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.AnimationFrameSyncer = void 0;
       var inversify_1 = require_inversify();
-      var AnimationFrameSyncer = class AnimationFrameSyncer {
+      var AnimationFrameSyncer2 = class AnimationFrameSyncer {
         constructor() {
           this.tasks = [];
           this.endTasks = [];
@@ -6702,10 +6702,10 @@
           endTasks.forEach((task) => task.call(void 0, time));
         }
       };
-      exports.AnimationFrameSyncer = AnimationFrameSyncer;
-      exports.AnimationFrameSyncer = AnimationFrameSyncer = __decorate([
+      exports.AnimationFrameSyncer = AnimationFrameSyncer2;
+      exports.AnimationFrameSyncer = AnimationFrameSyncer2 = __decorate([
         (0, inversify_1.injectable)()
-      ], AnimationFrameSyncer);
+      ], AnimationFrameSyncer2);
     }
   });
 
@@ -8277,14 +8277,14 @@
       exports.transformToRootBounds = exports.containsSome = exports.translateBounds = exports.translatePoint = exports.findParentByFeature = exports.findParent = exports.registerModelElement = void 0;
       var types_1 = require_types();
       var smodel_1 = require_smodel();
-      function registerModelElement(context, type, constr, features) {
+      function registerModelElement2(context, type, constr, features) {
         context.bind(types_1.TYPES.SModelElementRegistration).toConstantValue({
           type,
           constr,
           features
         });
       }
-      exports.registerModelElement = registerModelElement;
+      exports.registerModelElement = registerModelElement2;
       function findParent(element, predicate) {
         let current = element;
         while (current !== void 0) {
@@ -10744,7 +10744,7 @@
       exports.NullLogger = NullLogger = __decorate([
         (0, inversify_1.injectable)()
       ], NullLogger);
-      var ConsoleLogger = class ConsoleLogger {
+      var ConsoleLogger2 = class ConsoleLogger {
         constructor() {
           this.logLevel = LogLevel.log;
           this.viewOptions = { baseDiv: "" };
@@ -10787,18 +10787,18 @@
           return [date.toLocaleTimeString() + " " + this.viewOptions.baseDiv + " " + caller + ": " + message, ...params];
         }
       };
-      exports.ConsoleLogger = ConsoleLogger;
+      exports.ConsoleLogger = ConsoleLogger2;
       __decorate([
         (0, inversify_1.inject)(types_1.TYPES.LogLevel),
         __metadata("design:type", Number)
-      ], ConsoleLogger.prototype, "logLevel", void 0);
+      ], ConsoleLogger2.prototype, "logLevel", void 0);
       __decorate([
         (0, inversify_1.inject)(types_1.TYPES.ViewerOptions),
         __metadata("design:type", Object)
-      ], ConsoleLogger.prototype, "viewOptions", void 0);
-      exports.ConsoleLogger = ConsoleLogger = __decorate([
+      ], ConsoleLogger2.prototype, "viewOptions", void 0);
+      exports.ConsoleLogger = ConsoleLogger2 = __decorate([
         (0, inversify_1.injectable)()
-      ], ConsoleLogger);
+      ], ConsoleLogger2);
     }
   });
 
@@ -12029,7 +12029,7 @@
         __param(0, (0, inversify_1.optional)()),
         __metadata("design:paramtypes", [Array])
       ], ButtonHandlerRegistry);
-      function configureButtonHandler(context, type, constr) {
+      function configureButtonHandler2(context, type, constr) {
         if (typeof constr === "function") {
           if (!(0, inversify_2.isInjectable)(constr)) {
             throw new Error(`Button handlers should be @injectable: ${constr.name}`);
@@ -12043,7 +12043,7 @@
           factory: () => ctx.container.get(constr)
         }));
       }
-      exports.configureButtonHandler = configureButtonHandler;
+      exports.configureButtonHandler = configureButtonHandler2;
     }
   });
 
@@ -12069,14 +12069,14 @@
       exports.SButtonImpl = void 0;
       var model_1 = require_model2();
       var model_2 = require_model3();
-      var SButtonImpl = class extends model_1.SShapeElementImpl {
+      var SButtonImpl4 = class extends model_1.SShapeElementImpl {
         constructor() {
           super(...arguments);
           this.enabled = true;
         }
       };
-      exports.SButtonImpl = SButtonImpl;
-      SButtonImpl.DEFAULT_FEATURES = [model_1.boundsFeature, model_1.layoutableChildFeature, model_2.fadeFeature];
+      exports.SButtonImpl = SButtonImpl4;
+      SButtonImpl4.DEFAULT_FEATURES = [model_1.boundsFeature, model_1.layoutableChildFeature, model_2.fadeFeature];
     }
   });
 
@@ -13467,7 +13467,7 @@
         }
       };
       exports.SConnectableElementImpl = SConnectableElementImpl;
-      var SRoutingHandleImpl3 = class extends smodel_1.SChildElementImpl {
+      var SRoutingHandleImpl2 = class extends smodel_1.SChildElementImpl {
         constructor() {
           super(...arguments);
           this.editMode = false;
@@ -13479,11 +13479,11 @@
          * default features
          */
         hasFeature(feature) {
-          return SRoutingHandleImpl3.DEFAULT_FEATURES.indexOf(feature) !== -1;
+          return SRoutingHandleImpl2.DEFAULT_FEATURES.indexOf(feature) !== -1;
         }
       };
-      exports.SRoutingHandleImpl = SRoutingHandleImpl3;
-      SRoutingHandleImpl3.DEFAULT_FEATURES = [model_2.selectFeature, model_4.moveFeature, model_3.hoverFeedbackFeature];
+      exports.SRoutingHandleImpl = SRoutingHandleImpl2;
+      SRoutingHandleImpl2.DEFAULT_FEATURES = [model_2.selectFeature, model_4.moveFeature, model_3.hoverFeedbackFeature];
       var SDanglingAnchorImpl = class extends SConnectableElementImpl {
         constructor() {
           super();
@@ -13828,7 +13828,7 @@
       var smodel_1 = require_smodel();
       var model_1 = require_model12();
       var model_2 = require_model13();
-      var ViewportRootElementImpl = class extends smodel_1.SModelRootImpl {
+      var ViewportRootElementImpl2 = class extends smodel_1.SModelRootImpl {
         constructor(index) {
           super(index);
           this.scroll = { x: 0, y: 0 };
@@ -13881,8 +13881,8 @@
           return result;
         }
       };
-      exports.ViewportRootElementImpl = ViewportRootElementImpl;
-      ViewportRootElementImpl.DEFAULT_FEATURES = [model_1.viewportFeature, model_2.exportFeature];
+      exports.ViewportRootElementImpl = ViewportRootElementImpl2;
+      ViewportRootElementImpl2.DEFAULT_FEATURES = [model_1.viewportFeature, model_2.exportFeature];
     }
   });
 
@@ -13911,7 +13911,7 @@
         }
       };
       exports.SGraphImpl = SGraphImpl2;
-      var SNodeImpl4 = class extends model_7.SConnectableElementImpl {
+      var SNodeImpl3 = class extends model_7.SConnectableElementImpl {
         constructor() {
           super(...arguments);
           this.selected = false;
@@ -13926,7 +13926,7 @@
           if (index instanceof SGraphIndex) {
             return index.getIncomingEdges(this);
           }
-          const allEdges = this.index.all().filter((e) => e instanceof SEdgeImpl4);
+          const allEdges = this.index.all().filter((e) => e instanceof SEdgeImpl3);
           return allEdges.filter((e) => e.targetId === this.id);
         }
         get outgoingEdges() {
@@ -13934,12 +13934,12 @@
           if (index instanceof SGraphIndex) {
             return index.getOutgoingEdges(this);
           }
-          const allEdges = this.index.all().filter((e) => e instanceof SEdgeImpl4);
+          const allEdges = this.index.all().filter((e) => e instanceof SEdgeImpl3);
           return allEdges.filter((e) => e.sourceId === this.id);
         }
       };
-      exports.SNodeImpl = SNodeImpl4;
-      SNodeImpl4.DEFAULT_FEATURES = [
+      exports.SNodeImpl = SNodeImpl3;
+      SNodeImpl3.DEFAULT_FEATURES = [
         model_7.connectableFeature,
         delete_1.deletableFeature,
         model_8.selectFeature,
@@ -13962,14 +13962,14 @@
           if (index instanceof SGraphIndex) {
             return index.getIncomingEdges(this);
           }
-          return super.incomingEdges.filter((e) => e instanceof SEdgeImpl4);
+          return super.incomingEdges.filter((e) => e instanceof SEdgeImpl3);
         }
         get outgoingEdges() {
           const index = this.index;
           if (index instanceof SGraphIndex) {
             return index.getOutgoingEdges(this);
           }
-          return super.outgoingEdges.filter((e) => e instanceof SEdgeImpl4);
+          return super.outgoingEdges.filter((e) => e instanceof SEdgeImpl3);
         }
       };
       exports.SPortImpl = SPortImpl4;
@@ -13980,7 +13980,7 @@
         model_4.fadeFeature,
         model_5.hoverFeedbackFeature
       ];
-      var SEdgeImpl4 = class extends model_7.SRoutableElementImpl {
+      var SEdgeImpl3 = class extends model_7.SRoutableElementImpl {
         constructor() {
           super(...arguments);
           this.selected = false;
@@ -13988,8 +13988,8 @@
           this.opacity = 1;
         }
       };
-      exports.SEdgeImpl = SEdgeImpl4;
-      SEdgeImpl4.DEFAULT_FEATURES = [
+      exports.SEdgeImpl = SEdgeImpl3;
+      SEdgeImpl3.DEFAULT_FEATURES = [
         model_3.editFeature,
         delete_1.deletableFeature,
         model_8.selectFeature,
@@ -14033,7 +14033,7 @@
         }
         add(element) {
           super.add(element);
-          if (element instanceof SEdgeImpl4) {
+          if (element instanceof SEdgeImpl3) {
             if (element.sourceId) {
               const sourceArr = this.outgoing.get(element.sourceId);
               if (sourceArr === void 0)
@@ -14052,7 +14052,7 @@
         }
         remove(element) {
           super.remove(element);
-          if (element instanceof SEdgeImpl4) {
+          if (element instanceof SEdgeImpl3) {
             const sourceArr = this.outgoing.get(element.sourceId);
             if (sourceArr !== void 0) {
               const index = sourceArr.indexOf(element);
@@ -15740,7 +15740,7 @@
       var mouse_tool_1 = require_mouse_tool();
       var browser_1 = require_browser();
       var model_1 = require_model12();
-      function getZoom(label) {
+      function getZoom2(label) {
         let zoom = 1;
         const viewport = (0, smodel_utils_1.findParentByFeature)(label, model_1.isViewport);
         if (viewport) {
@@ -15748,7 +15748,7 @@
         }
         return zoom;
       }
-      exports.getZoom = getZoom;
+      exports.getZoom = getZoom2;
       var ZoomMouseListener = class extends mouse_tool_1.MouseListener {
         wheel(target, event) {
           const viewport = (0, smodel_utils_1.findParentByFeature)(target, model_1.isViewport);
@@ -16434,7 +16434,7 @@
       var model_1 = require_model14();
       var smodel_utils_1 = require_smodel_utils();
       var inversify_1 = require_inversify();
-      var ExpandButtonView = class ExpandButtonView {
+      var ExpandButtonView2 = class ExpandButtonView {
         render(button, context) {
           const expandable = (0, smodel_utils_1.findParentByFeature)(button, model_1.isExpandable);
           const path = expandable !== void 0 && expandable.expanded ? "M 1,5 L 8,12 L 15,5 Z" : "M 1,8 L 8,15 L 8,1 Z";
@@ -16446,10 +16446,10 @@
           );
         }
       };
-      exports.ExpandButtonView = ExpandButtonView;
-      exports.ExpandButtonView = ExpandButtonView = __decorate([
+      exports.ExpandButtonView = ExpandButtonView2;
+      exports.ExpandButtonView = ExpandButtonView2 = __decorate([
         (0, inversify_1.injectable)()
-      ], ExpandButtonView);
+      ], ExpandButtonView2);
     }
   });
 
@@ -19889,7 +19889,7 @@
         __param(0, (0, inversify_1.inject)(types_1.TYPES.Action)),
         __metadata("design:paramtypes", [Object])
       ], SelectAllCommand);
-      var SelectMouseListener2 = class extends mouse_tool_1.MouseListener {
+      var SelectMouseListener = class extends mouse_tool_1.MouseListener {
         constructor() {
           super(...arguments);
           this.wasSelected = false;
@@ -19996,12 +19996,12 @@
           return vnode;
         }
       };
-      exports.SelectMouseListener = SelectMouseListener2;
+      exports.SelectMouseListener = SelectMouseListener;
       __decorate([
         (0, inversify_1.inject)(button_handler_1.ButtonHandlerRegistry),
         (0, inversify_1.optional)(),
         __metadata("design:type", button_handler_1.ButtonHandlerRegistry)
-      ], SelectMouseListener2.prototype, "buttonHandlerRegistry", void 0);
+      ], SelectMouseListener.prototype, "buttonHandlerRegistry", void 0);
       var GetSelectionCommand = class GetSelectionCommand extends request_command_1.ModelRequestCommand {
         constructor(action) {
           super();
@@ -20502,7 +20502,7 @@
       var model_1 = require_model12();
       var types_1 = require_types();
       var request_command_1 = require_request_command();
-      var SetViewportCommand = SetViewportCommand_1 = class SetViewportCommand extends command_1.MergeableCommand {
+      var SetViewportCommand2 = SetViewportCommand_1 = class SetViewportCommand extends command_1.MergeableCommand {
         constructor(action) {
           super();
           this.action = action;
@@ -20548,17 +20548,17 @@
           return false;
         }
       };
-      exports.SetViewportCommand = SetViewportCommand;
-      SetViewportCommand.KIND = actions_1.SetViewportAction.KIND;
+      exports.SetViewportCommand = SetViewportCommand2;
+      SetViewportCommand2.KIND = actions_1.SetViewportAction.KIND;
       __decorate([
         (0, inversify_1.inject)(types_1.TYPES.ViewerOptions),
         __metadata("design:type", Object)
-      ], SetViewportCommand.prototype, "viewerOptions", void 0);
-      exports.SetViewportCommand = SetViewportCommand = SetViewportCommand_1 = __decorate([
+      ], SetViewportCommand2.prototype, "viewerOptions", void 0);
+      exports.SetViewportCommand = SetViewportCommand2 = SetViewportCommand_1 = __decorate([
         (0, inversify_1.injectable)(),
         __param(0, (0, inversify_1.inject)(types_1.TYPES.Action)),
         __metadata("design:paramtypes", [Object])
-      ], SetViewportCommand);
+      ], SetViewportCommand2);
       var GetViewportCommand = class GetViewportCommand extends request_command_1.ModelRequestCommand {
         constructor(action) {
           super();
@@ -23272,6 +23272,23 @@
   ], EdgeWithArrow);
   var PropertyLabel = class extends import_sprotty2.SLabelImpl {
   };
+  var customButtonView = class {
+    render(button, context) {
+      return /* @__PURE__ */ (0, import_jsx2.svg)("g", { "class-sprotty-button": "{true}", "class-enabled": "{button.enabled}" }, /* @__PURE__ */ (0, import_jsx2.svg)(
+        "rect",
+        {
+          x: button.position.x,
+          y: button.position.y,
+          width: Math.max(button.size.width, 0),
+          height: Math.max(button.size.height, 0),
+          "class-sprotty-button": true
+        }
+      ), context.renderChildren(button));
+    }
+  };
+  customButtonView = __decorateClass([
+    (0, import_inversify2.injectable)()
+  ], customButtonView);
   var NodeView = class extends import_sprotty2.RectangularNodeView {
     render(node, context, args) {
       if (!this.isVisible(node, context)) {
@@ -23305,6 +23322,20 @@
       bind(import_sprotty3.TYPES.ModelSource).to(import_sprotty3.LocalModelSource).inSingletonScope();
       const context = { bind, unbind, isBound, rebind };
       (0, import_sprotty3.configureModelElement)(context, "graph", import_sprotty3.SGraphImpl, import_sprotty3.SGraphView);
+      (0, import_sprotty3.configureModelElement)(
+        context,
+        "button:custom",
+        import_sprotty3.SButtonImpl,
+        customButtonView,
+        {
+          disable: [import_sprotty3.moveFeature]
+        }
+      );
+      (0, import_sprotty3.configureButtonHandler)(
+        { bind, isBound },
+        "button:custom",
+        CustomButtonHandler
+      );
       (0, import_sprotty3.configureModelElement)(context, "node:package", import_sprotty3.RectangularNode, NodeView);
       (0, import_sprotty3.configureModelElement)(
         context,
@@ -23662,23 +23693,8 @@
   }
 
   // util/getGraphJson.ts
-  function removeIsFeatures(data) {
-    if (data) {
-      data.forEach((e) => {
-        e == null ? true : delete e.features;
-        removeIsFeatures(e.children);
-      });
-    }
-  }
   function getGrahpJson(graph2) {
-    graph2 == null ? true : delete graph2.canvasBounds;
-    graph2 == null ? true : delete graph2.scroll;
-    graph2 == null ? true : delete graph2.zoom;
-    graph2 == null ? true : delete graph2.position;
-    graph2 == null ? true : delete graph2.size;
-    graph2 == null ? true : delete graph2.features;
-    removeIsFeatures(graph2.children);
-    graph2.isValidGraph = true;
+    console.log(graph2);
     return JSON.stringify(graph2, null, 2);
   }
 
@@ -23804,11 +23820,11 @@
   }
 
   // index.ts
+  var import_inversify4 = __toESM(require_inversify());
   var addParentNode = null;
   var drawEdgeBtn = null;
   var cancelDrawEdgeBtn = null;
   var deleteBtn = null;
-  var showJsonBtn = null;
   var exportJsonBtn = null;
   var importJsonBtn = null;
   var inputFile = null;
@@ -23818,6 +23834,9 @@
   var node3ShapeEl = null;
   var node4ShapeEl = null;
   var nodeShapeEls = null;
+  var zoomInBtn = null;
+  var zoomOutBtn = null;
+  var defaultScaleBtn = null;
   var graphDisplay;
   var graph = {
     type: "graph",
@@ -23831,7 +23850,6 @@
   }
   var portNumber = null;
   var nodeAddId = null;
-  var addMode = false;
   var shapeEl = document.getElementsByClassName("shape");
   var nodeArr = [...shapeEl].map((e) => {
     const portNumber2 = +e.id.replace("node-", "").replace("-shape", "");
@@ -23919,6 +23937,7 @@
   var styleSheet = document.createElement("style");
   styleSheet.innerText = styles;
   document.head.appendChild(styleSheet);
+  var countScroll = 0;
   var CustomMouseListener = class extends import_sprotty4.MouseListener {
     mouseUp(target, event) {
       const objectCheck = checkPositionEl(
@@ -23984,7 +24003,25 @@
       }
       return [];
     }
+    wheel(target, event) {
+      console.log(event);
+      if (event.deltaY > 0) {
+        countScroll--;
+      } else if (event.deltaY < 0) {
+        countScroll++;
+      }
+      return [];
+    }
   };
+  var CustomButtonHandler = class {
+    buttonPressed(button) {
+      alert("button on" + button.parent.id + " pressed");
+      return [];
+    }
+  };
+  CustomButtonHandler = __decorateClass([
+    (0, import_inversify4.injectable)()
+  ], CustomButtonHandler);
   var container = createContainer("sprotty-container");
   var modelSource = container.get(import_sprotty4.TYPES.ModelSource);
   function cancelDrawEdge() {
@@ -24055,7 +24092,6 @@
     drawEdgeBtn = document.getElementById("draw-edge");
     deleteBtn = document.getElementById("delete");
     cancelDrawEdgeBtn = document.getElementById("cancel-draw-edge");
-    showJsonBtn = document.getElementById("show-json");
     exportJsonBtn = document.getElementById("export-json");
     importJsonBtn = document.getElementById("import-json");
     inputFile = document.getElementById("input-file");
@@ -24065,6 +24101,29 @@
     node3ShapeEl = document.getElementById("node-3-shape");
     node4ShapeEl = document.getElementById("node-4-shape");
     nodeShapeEls = document.querySelectorAll(".node-shape");
+    zoomInBtn = document.getElementById("zoom-in");
+    zoomOutBtn = document.getElementById("zoom-out");
+    defaultScaleBtn = document.getElementById("default");
+    const setEventScroll = (deltaY) => {
+      const graphEl = document.getElementById("sprotty-container_graph");
+      const evt = new WheelEvent("wheel", {
+        deltaY,
+        deltaMode: WheelEvent.DOM_DELTA_PIXEL,
+        clientX: graphEl.clientWidth / 2,
+        clientY: graphEl.clientHeight / 2
+      });
+      graphEl.dispatchEvent(evt);
+    };
+    zoomInBtn.addEventListener("click", () => {
+      setEventScroll(-80);
+    });
+    zoomOutBtn.addEventListener("click", () => {
+      setEventScroll(80);
+    });
+    defaultScaleBtn.addEventListener("click", () => {
+      setEventScroll(80 * countScroll);
+      countScroll = 0;
+    });
     selecteNodeEl.addEventListener("change", (event) => {
       const nodeValue = +event.target.value;
       if (nodeValue === 1) {
@@ -24093,9 +24152,6 @@
         !node3ShapeEl.classList.contains("hide") && node3ShapeEl.classList.add("hide");
         !node4ShapeEl.classList.contains("hide") && node4ShapeEl.classList.add("hide");
       }
-    });
-    showJsonBtn.addEventListener("click", () => {
-      JSON.stringify(modelSource.model, null, 2);
     });
     exportJsonBtn.addEventListener("click", () => {
       const name = randomText("graph");
@@ -24228,11 +24284,8 @@
     });
     nodeShapeEls.forEach((e) => {
       e.ondragstart = (event) => {
-        console.log("drag");
         const targetEl = event.target;
-        addMode = true;
         if (nodeAddId === targetEl.id) {
-          addMode = false;
           nodeAddId = null;
         }
         portNumber = +targetEl.parentNode.id.replace("node-", "").replace("-shape", "");
@@ -24246,9 +24299,7 @@
       };
       e.addEventListener("click", (event) => {
         const targetEl = event.target;
-        addMode = true;
         if (nodeAddId === targetEl.id) {
-          addMode = false;
           nodeAddId = null;
         }
         portNumber = +targetEl.parentNode.id.replace("node-", "").replace("-shape", "");

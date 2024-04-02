@@ -2,7 +2,18 @@
 import { svg } from "sprotty/lib/lib/jsx";
 import { injectable } from "inversify";
 import { VNode } from "snabbdom";
-import { IView, RenderingContext, SEdgeImpl, PolylineEdgeView,RectangularNodeView,SNodeImpl,IViewArgs ,SLabelImpl} from "sprotty";
+import {
+  IView,
+  RenderingContext,
+  SEdgeImpl,
+  PolylineEdgeView,
+  RectangularNodeView,
+  SNodeImpl,
+  IViewArgs,
+  SLabelImpl,
+  SModelElementImpl,
+  SButtonImpl,
+} from "sprotty";
 
 import { Point, toDegrees } from "sprotty-protocol";
 
@@ -31,7 +42,7 @@ export class EdgeWithArrow extends PolylineEdgeView {
     return toDegrees(Math.atan2(x1.y - x0.y, x1.x - x0.x));
   }
 }
-export class PropertyLabel extends SLabelImpl { }
+export class PropertyLabel extends SLabelImpl {}
 
 // @injectable()
 // export class TaskNodeView implements IView {
@@ -54,22 +65,50 @@ export class PropertyLabel extends SLabelImpl { }
 //     );
 //   }
 // }
-
+@injectable()
+export class customButtonView implements IView {
+  render(button: SButtonImpl, context: RenderingContext): VNode {
+    return (
+      <g class-sprotty-button="{true}" class-enabled="{button.enabled}">
+        <rect
+          x={button.position.x}
+          y={button.position.y}
+          width={Math.max(button.size.width, 0)}
+          height={Math.max(button.size.height, 0)}
+          class-sprotty-button={true}
+          // opacity={0}
+        ></rect>
+        {/* <path d="M 1,5 L 8,12 L 15,5 Z"></path> */}
+        {context.renderChildren(button)}
+      </g>
+    );
+  }
+}
 @injectable()
 export class NodeView extends RectangularNodeView {
-    override render(node: Readonly<SNodeImpl>, context: RenderingContext, args?: IViewArgs): VNode | undefined {
-        if (!this.isVisible(node, context)) {
-            return undefined;
-        }
-        return <g>
-            <rect class-sprotty-node={true}
-                  class-node-package={node.type === 'node:package'}
-                  class-node-class={node.type === 'node:class'}
-                  class-mouseover={node.hoverFeedback} class-selected={node.selected}
-                  x='0' y='0' width={Math.max(node.size.width, 0)} height={Math.max(node.size.height, 0)}></rect>
-            {context.renderChildren(node)}
-        </g>;
+  override render(
+    node: Readonly<SNodeImpl>,
+    context: RenderingContext,
+    args?: IViewArgs
+  ): VNode | undefined {
+    if (!this.isVisible(node, context)) {
+      return undefined;
     }
+    return (
+      <g>
+        <rect
+          class-sprotty-node={true}
+          class-node-package={node.type === "node:package"}
+          class-node-class={node.type === "node:class"}
+          class-mouseover={node.hoverFeedback}
+          class-selected={node.selected}
+          x="0"
+          y="0"
+          width={Math.max(node.size.width, 0)}
+          height={Math.max(node.size.height, 0)}
+        ></rect>
+        {context.renderChildren(node)}
+      </g>
+    );
+  }
 }
-
-
