@@ -199,3 +199,18 @@
 #sprotty {
   background: url(../assets/images/grid-line2.svg);
 }
+
+.align-container {
+  position: absolute;
+  z-index: 3;
+  right: 30px;
+  top: 30px;
+  width: 150px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background-color: rgb(255, 249, 249);
+  border: 0.5px solid #5e5d5d;
+  box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
+}

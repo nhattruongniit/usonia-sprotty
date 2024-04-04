@@ -5567,21 +5567,21 @@
         }
         LayoutAction2.create = create;
       })(LayoutAction || (exports.LayoutAction = LayoutAction = {}));
-      var CenterAction;
-      (function(CenterAction2) {
-        CenterAction2.KIND = "center";
+      var CenterAction2;
+      (function(CenterAction3) {
+        CenterAction3.KIND = "center";
         function create(elementIds, options = {}) {
           var _a, _b;
           return {
-            kind: CenterAction2.KIND,
+            kind: CenterAction3.KIND,
             elementIds,
             animate: (_a = options.animate) !== null && _a !== void 0 ? _a : true,
             retainZoom: (_b = options.retainZoom) !== null && _b !== void 0 ? _b : false,
             zoomScale: options.zoomScale
           };
         }
-        CenterAction2.create = create;
-      })(CenterAction || (exports.CenterAction = CenterAction = {}));
+        CenterAction3.create = create;
+      })(CenterAction2 || (exports.CenterAction = CenterAction2 = {}));
       var FitToScreenAction;
       (function(FitToScreenAction2) {
         FitToScreenAction2.KIND = "fit";
@@ -5666,20 +5666,20 @@
         }
         RedoAction2.create = create;
       })(RedoAction || (exports.RedoAction = RedoAction = {}));
-      var MoveAction;
-      (function(MoveAction2) {
-        MoveAction2.KIND = "move";
+      var MoveAction2;
+      (function(MoveAction3) {
+        MoveAction3.KIND = "move";
         function create(moves, options = {}) {
           var _a, _b;
           return {
-            kind: MoveAction2.KIND,
+            kind: MoveAction3.KIND,
             moves,
             animate: (_a = options.animate) !== null && _a !== void 0 ? _a : true,
             finished: (_b = options.finished) !== null && _b !== void 0 ? _b : false
           };
         }
-        MoveAction2.create = create;
-      })(MoveAction || (exports.MoveAction = MoveAction = {}));
+        MoveAction3.create = create;
+      })(MoveAction2 || (exports.MoveAction = MoveAction2 = {}));
       var HoverFeedbackAction;
       (function(HoverFeedbackAction2) {
         HoverFeedbackAction2.KIND = "hoverFeedback";
@@ -6011,9 +6011,9 @@
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.almostEquals = exports.toRadians = exports.toDegrees = exports.Bounds = exports.isBounds = exports.Dimension = exports.centerOfLine = exports.angleBetweenPoints = exports.angleOfPoint = exports.Point = void 0;
       var object_1 = require_object();
-      var Point2;
-      (function(Point3) {
-        Point3.ORIGIN = Object.freeze({
+      var Point3;
+      (function(Point4) {
+        Point4.ORIGIN = Object.freeze({
           x: 0,
           y: 0
         });
@@ -6023,66 +6023,66 @@
             y: p1.y + p2.y
           };
         }
-        Point3.add = add;
+        Point4.add = add;
         function subtract(p1, p2) {
           return {
             x: p1.x - p2.x,
             y: p1.y - p2.y
           };
         }
-        Point3.subtract = subtract;
+        Point4.subtract = subtract;
         function equals(point1, point2) {
           return point1.x === point2.x && point1.y === point2.y;
         }
-        Point3.equals = equals;
+        Point4.equals = equals;
         function shiftTowards(point, refPoint, distance) {
           const diff = subtract(refPoint, point);
           const normalized = normalize(diff);
           const shift = { x: normalized.x * distance, y: normalized.y * distance };
           return add(point, shift);
         }
-        Point3.shiftTowards = shiftTowards;
+        Point4.shiftTowards = shiftTowards;
         function normalize(point) {
           const mag = magnitude(point);
           if (mag === 0 || mag === 1) {
-            return Point3.ORIGIN;
+            return Point4.ORIGIN;
           }
           return {
             x: point.x / mag,
             y: point.y / mag
           };
         }
-        Point3.normalize = normalize;
+        Point4.normalize = normalize;
         function magnitude(point) {
           return Math.sqrt(Math.pow(point.x, 2) + Math.pow(point.y, 2));
         }
-        Point3.magnitude = magnitude;
+        Point4.magnitude = magnitude;
         function linear(p0, p1, lambda) {
           return {
             x: (1 - lambda) * p0.x + lambda * p1.x,
             y: (1 - lambda) * p0.y + lambda * p1.y
           };
         }
-        Point3.linear = linear;
+        Point4.linear = linear;
         function euclideanDistance(a, b) {
           const dx = b.x - a.x;
           const dy = b.y - a.y;
           return Math.sqrt(dx * dx + dy * dy);
         }
-        Point3.euclideanDistance = euclideanDistance;
+        Point4.euclideanDistance = euclideanDistance;
         function manhattanDistance(a, b) {
           return Math.abs(b.x - a.x) + Math.abs(b.y - a.y);
         }
-        Point3.manhattanDistance = manhattanDistance;
+        Point4.manhattanDistance = manhattanDistance;
         function maxDistance(a, b) {
           return Math.max(Math.abs(b.x - a.x), Math.abs(b.y - a.y));
         }
-        Point3.maxDistance = maxDistance;
+        Point4.maxDistance = maxDistance;
         function dotProduct(a, b) {
           return a.x * b.x + a.y * b.y;
         }
-        Point3.dotProduct = dotProduct;
-      })(Point2 || (exports.Point = Point2 = {}));
+        Point4.dotProduct = dotProduct;
+      })(Point3 || (exports.Point = Point3 = {}));
       function angleOfPoint(p) {
         return Math.atan2(p.y, p.x);
       }
@@ -6102,7 +6102,7 @@
           width: Math.abs(e.x - s.x),
           height: Math.abs(e.y - s.y)
         };
-        return Bounds.center(b);
+        return Bounds2.center(b);
       }
       exports.centerOfLine = centerOfLine;
       var Dimension;
@@ -6120,9 +6120,9 @@
         return (0, object_1.hasOwnProperty)(element, ["x", "y", "width", "height"]);
       }
       exports.isBounds = isBounds;
-      var Bounds;
-      (function(Bounds2) {
-        Bounds2.EMPTY = Object.freeze({
+      var Bounds2;
+      (function(Bounds3) {
+        Bounds3.EMPTY = Object.freeze({
           x: 0,
           y: 0,
           width: -1,
@@ -6130,7 +6130,7 @@
         });
         function combine(b0, b1) {
           if (!Dimension.isValid(b0))
-            return Dimension.isValid(b1) ? b1 : Bounds2.EMPTY;
+            return Dimension.isValid(b1) ? b1 : Bounds3.EMPTY;
           if (!Dimension.isValid(b1))
             return b0;
           const minX = Math.min(b0.x, b1.x);
@@ -6144,7 +6144,7 @@
             height: maxY - minY
           };
         }
-        Bounds2.combine = combine;
+        Bounds3.combine = combine;
         function translate(b, p) {
           return {
             x: b.x + p.x,
@@ -6153,19 +6153,19 @@
             height: b.height
           };
         }
-        Bounds2.translate = translate;
+        Bounds3.translate = translate;
         function center(b) {
           return {
             x: b.x + (b.width >= 0 ? 0.5 * b.width : 0),
             y: b.y + (b.height >= 0 ? 0.5 * b.height : 0)
           };
         }
-        Bounds2.center = center;
+        Bounds3.center = center;
         function includes(b, p) {
           return p.x >= b.x && p.x <= b.x + b.width && p.y >= b.y && p.y <= b.y + b.height;
         }
-        Bounds2.includes = includes;
-      })(Bounds || (exports.Bounds = Bounds = {}));
+        Bounds3.includes = includes;
+      })(Bounds2 || (exports.Bounds = Bounds2 = {}));
       function toDegrees2(a) {
         return a * 180 / Math.PI;
       }
@@ -7670,14 +7670,14 @@
         }
       }
       exports.applyBounds = applyBounds;
-      function getBasicType(element) {
+      function getBasicType2(element) {
         if (!element.type) {
           return "";
         }
         const colonIndex = element.type.indexOf(":");
         return colonIndex >= 0 ? element.type.substring(0, colonIndex) : element.type;
       }
-      exports.getBasicType = getBasicType;
+      exports.getBasicType = getBasicType2;
       function getSubType(schema) {
         if (!schema.type) {
           return "";
@@ -23209,6 +23209,7 @@
   // index.ts
   var import_reflect_metadata = __toESM(require_Reflect());
   var import_sprotty4 = __toESM(require_lib2());
+  var import_sprotty_protocol2 = __toESM(require_lib());
 
   // di.config.ts
   var import_inversify3 = __toESM(require_inversify());
@@ -23397,6 +23398,9 @@
     container2.load(myModule);
     return container2;
   };
+
+  // index.ts
+  var import_sprotty_protocol3 = __toESM(require_lib());
 
   // settings/config.json
   var NODE_WIDTH = 200;
@@ -23837,6 +23841,22 @@
   var zoomInBtn = null;
   var zoomOutBtn = null;
   var defaultScaleBtn = null;
+  function focusGraph() {
+    const graphElement = document.getElementById("graph");
+    if (graphElement !== null && typeof graphElement.focus === "function")
+      graphElement.focus();
+  }
+  function getVisibleBounds({
+    canvasBounds,
+    scroll,
+    zoom
+  }) {
+    return {
+      ...scroll,
+      width: canvasBounds.width / zoom,
+      height: canvasBounds.height / zoom
+    };
+  }
   var graphDisplay;
   var graph = {
     type: "graph",
@@ -24023,6 +24043,7 @@
     (0, import_inversify4.injectable)()
   ], CustomButtonHandler);
   var container = createContainer("sprotty-container");
+  var dispatcher = container.get(import_sprotty4.TYPES.IActionDispatcher);
   var modelSource = container.get(import_sprotty4.TYPES.ModelSource);
   function cancelDrawEdge() {
     deleteBtn.removeAttribute("disabled");
@@ -24084,7 +24105,7 @@
       ]);
     });
   };
-  function run() {
+  async function run() {
     modelSource.setModel(graphDisplay);
     localStorage.clear();
     drawLogic();
@@ -24121,8 +24142,7 @@
       setEventScroll(80);
     });
     defaultScaleBtn.addEventListener("click", () => {
-      setEventScroll(80 * countScroll);
-      countScroll = 0;
+      return [import_sprotty_protocol3.CenterAction.create([])];
     });
     selecteNodeEl.addEventListener("change", (event) => {
       const nodeValue = +event.target.value;
@@ -24337,6 +24357,34 @@
       if (event.key === "Delete") {
         deleteLogic();
       }
+    });
+    const initialViewport = await modelSource.getViewport();
+    let viewport = initialViewport;
+    window.addEventListener("resize", async () => {
+      viewport = await modelSource.getViewport();
+    });
+    document.getElementById("align-left").addEventListener("click", async () => {
+      const bounds = getVisibleBounds(viewport);
+      const nodeMoves = [];
+      graph.children.forEach((shape) => {
+        if ((0, import_sprotty_protocol2.getBasicType)(shape) === "node") {
+          nodeMoves.push({
+            elementId: shape.id,
+            toPosition: {
+              x: bounds.x + Math.random() * (bounds.width - NODE_WIDTH2),
+              y: bounds.y + Math.random() * (bounds.height - NODE_HEIGHT)
+            }
+          });
+        }
+      });
+      dispatcher.dispatch(
+        import_sprotty_protocol2.MoveAction.create(nodeMoves, {
+          animate: true
+          // stoppable: true,
+          // finished: true,
+        })
+      );
+      focusGraph();
     });
   }
   document.addEventListener("DOMContentLoaded", () => run());

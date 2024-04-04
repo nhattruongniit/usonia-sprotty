@@ -8,9 +8,19 @@ import {
   SButtonImpl,
   getZoom,
   SModelElementImpl,
+  ElementMove,
+  IActionDispatcher,
 } from "sprotty";
-import { Action, SGraph } from "sprotty-protocol";
+import {
+  Action,
+  SGraph,
+  Bounds,
+  Point,
+  getBasicType,
+  MoveAction,
+} from "sprotty-protocol";
 import { createContainer } from "./di.config";
+import { CenterAction } from "sprotty-protocol";
 
 // settings
 import * as config from "./settings/config.json";
@@ -43,6 +53,28 @@ let nodeShapeEls = null;
 let zoomInBtn = null;
 let zoomOutBtn = null;
 let defaultScaleBtn = null;
+
+function focusGraph(): void {
+  const graphElement = document.getElementById("graph");
+  if (graphElement !== null && typeof graphElement.focus === "function")
+    graphElement.focus();
+}
+
+function getVisibleBounds({
+  canvasBounds,
+  scroll,
+  zoom,
+}: {
+  canvasBounds: Bounds;
+  scroll: Point;
+  zoom: number;
+}): Bounds {
+  return {
+    ...scroll,
+    width: canvasBounds.width / zoom,
+    height: canvasBounds.height / zoom,
+  };
+}
 
 // count of
 let graphDisplay;
@@ -280,6 +312,7 @@ export class CustomButtonHandler implements IButtonHandler {
 }
 
 const container = createContainer("sprotty-container");
+const dispatcher = container.get<IActionDispatcher>(TYPES.IActionDispatcher);
 const modelSource = container.get<LocalModelSource>(TYPES.ModelSource);
 
 // cancel draw edge
@@ -355,7 +388,7 @@ const deleteLogic = () => {
   });
 };
 
-export default function run() {
+export default async function run() {
   modelSource.setModel(graphDisplay);
   localStorage.clear();
 
@@ -399,8 +432,9 @@ export default function run() {
     setEventScroll(80);
   });
   defaultScaleBtn.addEventListener("click", () => {
-    setEventScroll(80 * countScroll);
-    countScroll = 0;
+    // setEventScroll(80 * countScroll);
+    // countScroll = 0;
+    return [CenterAction.create([])];
   });
 
   // UI
@@ -449,12 +483,6 @@ export default function run() {
         node4ShapeEl.classList.add("hide");
     }
   });
-
-  // show json
-  // showJsonBtn.addEventListener("click", () => {
-  //   JSON.stringify(modelSource.model, null, 2);
-  //   // ("showJsonBtn: ", modelSource.model);
-  // });
 
   exportJsonBtn.addEventListener("click", () => {
     const name = randomText("graph");
@@ -695,6 +723,37 @@ export default function run() {
     if (event.key === "Delete") {
       deleteLogic();
     }
+  });
+
+  const initialViewport = await modelSource.getViewport();
+
+  let viewport = initialViewport;
+  window.addEventListener("resize", async () => {
+    viewport = await modelSource.getViewport();
+  });
+
+  document.getElementById("align-left")!.addEventListener("click", async () => {
+    const bounds = getVisibleBounds(viewport);
+    const nodeMoves: ElementMove[] = [];
+    graph.children.forEach((shape) => {
+      if (getBasicType(shape) === "node") {
+        nodeMoves.push({
+          elementId: shape.id,
+          toPosition: {
+            x: bounds.x + Math.random() * (bounds.width - NODE_WIDTH),
+            y: bounds.y + Math.random() * (bounds.height - NODE_HEIGHT),
+          },
+        });
+      }
+    });
+    dispatcher.dispatch(
+      MoveAction.create(nodeMoves, {
+        animate: true,
+        // stoppable: true,
+        // finished: true,
+      })
+    );
+    focusGraph();
   });
 }
 
