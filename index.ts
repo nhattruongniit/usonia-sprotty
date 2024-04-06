@@ -700,7 +700,6 @@ export default async function run() {
     event.preventDefault();
   };
   sprottyEl.ondrop = (event) => {
-    console.log(event);
     addNodeLogic();
   };
 
@@ -732,20 +731,101 @@ export default async function run() {
     viewport = await modelSource.getViewport();
   });
 
-  document.getElementById("align-left")!.addEventListener("click", async () => {
+  const alignNode = (how: string) => {
     const bounds = getVisibleBounds(viewport);
     const nodeMoves: ElementMove[] = [];
+    let postionArr = [];
+    let fixNode;
     graph.children.forEach((shape) => {
-      if (getBasicType(shape) === "node") {
-        nodeMoves.push({
-          elementId: shape.id,
-          toPosition: {
-            x: bounds.x + Math.random() * (bounds.width - NODE_WIDTH),
-            y: bounds.y + Math.random() * (bounds.height - NODE_HEIGHT),
-          },
-        });
+      const shapeElId = `sprotty-container_${shape.id}`;
+      const shapeEl = document.getElementById(shapeElId);
+      const shapeElPosition = shapeEl
+        .getAttribute("transform")
+        .replace("translate(", "")
+        .replace(")", "")
+        .trim()
+        .split(",");
+
+      const position = {
+        id: shape.id,
+        x: +shapeElPosition[0],
+        y: +shapeElPosition[1],
+      };
+      if (
+        getBasicType(shape) === "node" &&
+        shapeEl.classList.contains("selected")
+      ) {
+        postionArr.push(position);
       }
     });
+
+    if (how === "left") {
+      const minValueX = Math.min(...postionArr.map((position) => position.x));
+      fixNode = postionArr.find((postion) => {
+        return postion.x === minValueX;
+      });
+      postionArr.forEach((position) => {
+        if (position.x !== fixNode.x) {
+          nodeMoves.push({
+            elementId: position.id,
+            toPosition: {
+              x: fixNode.x,
+              y: position.y,
+            },
+          });
+        }
+      });
+    } else if (how === "right") {
+      console.log("click");
+      const maxValueX = Math.max(...postionArr.map((position) => position.x));
+      fixNode = postionArr.find((postion) => {
+        return postion.x === maxValueX;
+      });
+      postionArr.forEach((position) => {
+        if (position.x !== fixNode.x) {
+          nodeMoves.push({
+            elementId: position.id,
+            toPosition: {
+              x: fixNode.x,
+              y: position.y,
+            },
+          });
+        }
+      });
+    } else if (how === "top") {
+      const minValueY = Math.min(...postionArr.map((position) => position.y));
+      fixNode = postionArr.find((postion) => {
+        return postion.y === minValueY;
+      });
+      postionArr.forEach((position) => {
+        if (position.y !== fixNode.y) {
+          nodeMoves.push({
+            elementId: position.id,
+            toPosition: {
+              x: position.x,
+              y: fixNode.y,
+            },
+          });
+        }
+      });
+    } else if (how === "bottom") {
+      const maxValueY = Math.max(...postionArr.map((position) => position.y));
+      fixNode = postionArr.find((postion) => {
+        return postion.y === maxValueY;
+      });
+      postionArr.forEach((position) => {
+        if (position.y !== fixNode.y) {
+          nodeMoves.push({
+            elementId: position.id,
+            toPosition: {
+              x: position.x,
+              y: fixNode.y,
+            },
+          });
+        }
+      });
+    }
+
     dispatcher.dispatch(
       MoveAction.create(nodeMoves, {
         animate: true,
@@ -754,6 +834,21 @@ export default async function run() {
       })
     );
     focusGraph();
+  };
+
+  document.getElementById("align-left").addEventListener("click", async () => {
+    alignNode("left");
+  });
+  console.log(document.getElementById("align-right"));
+  document.getElementById("align-right").addEventListener("click", async () => {
+    console.log("click");
+    alignNode("right");
+  });
+  document.getElementById("align-top").addEventListener("click", () => {
+    alignNode("top");
+  });
+  document.getElementById("align-bottom").addEventListener("click", () => {
+    alignNode("bottom");
   });
 }
 
