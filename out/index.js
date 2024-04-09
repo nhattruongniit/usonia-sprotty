@@ -24367,16 +24367,17 @@
       const nodeMoves = [];
       let postionArr = [];
       let fixNode;
-      graph.children.forEach((shape) => {
+      graphDisplay.children.forEach((shape) => {
         const shapeElId = `sprotty-container_${shape.id}`;
         const shapeEl2 = document.getElementById(shapeElId);
-        const shapeElPosition = shapeEl2.getAttribute("transform").replace("translate(", "").replace(")", "").trim().split(",");
-        const position = {
-          id: shape.id,
-          x: +shapeElPosition[0],
-          y: +shapeElPosition[1]
-        };
+        console.log(shapeElId, shapeEl2);
         if ((0, import_sprotty_protocol2.getBasicType)(shape) === "node" && shapeEl2.classList.contains("selected")) {
+          const shapeElPosition = shapeEl2.getAttribute("transform").replace("translate(", "").replace(")", "").trim().split(",");
+          const position = {
+            id: shape.id,
+            x: +shapeElPosition[0],
+            y: +shapeElPosition[1]
+          };
           postionArr.push(position);
         }
       });

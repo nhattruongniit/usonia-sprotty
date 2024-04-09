@@ -733,28 +733,30 @@ export default async function run() {
 
   const alignNode = (how: string) => {
     const bounds = getVisibleBounds(viewport);
+
     const nodeMoves: ElementMove[] = [];
     let postionArr = [];
     let fixNode;
-    graph.children.forEach((shape) => {
+    graphDisplay.children.forEach((shape) => {
       const shapeElId = `sprotty-container_${shape.id}`;
       const shapeEl = document.getElementById(shapeElId);
-      const shapeElPosition = shapeEl
-        .getAttribute("transform")
-        .replace("translate(", "")
-        .replace(")", "")
-        .trim()
-        .split(",");
 
-      const position = {
-        id: shape.id,
-        x: +shapeElPosition[0],
-        y: +shapeElPosition[1],
-      };
       if (
         getBasicType(shape) === "node" &&
         shapeEl.classList.contains("selected")
       ) {
+        const shapeElPosition = shapeEl
+          .getAttribute("transform")
+          .replace("translate(", "")
+          .replace(")", "")
+          .trim()
+          .split(",");
+
+        const position = {
+          id: shape.id,
+          x: +shapeElPosition[0],
+          y: +shapeElPosition[1],
+        };
         postionArr.push(position);
       }
     });
