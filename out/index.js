@@ -24337,7 +24337,6 @@
       event.preventDefault();
     };
     sprottyEl.ondrop = (event) => {
-      console.log(event);
       addNodeLogic();
     };
     drawEdgeBtn.addEventListener("click", () => {
@@ -24363,20 +24362,91 @@
     window.addEventListener("resize", async () => {
       viewport = await modelSource.getViewport();
     });
-    document.getElementById("align-left").addEventListener("click", async () => {
+    const alignNode = (how) => {
       const bounds = getVisibleBounds(viewport);
       const nodeMoves = [];
-      graph.children.forEach((shape) => {
-        if ((0, import_sprotty_protocol2.getBasicType)(shape) === "node") {
-          nodeMoves.push({
-            elementId: shape.id,
-            toPosition: {
-              x: bounds.x + Math.random() * (bounds.width - NODE_WIDTH2),
-              y: bounds.y + Math.random() * (bounds.height - NODE_HEIGHT)
-            }
-          });
+      let postionArr = [];
+      let fixNode;
+      graphDisplay.children.forEach((shape) => {
+        const shapeElId = `sprotty-container_${shape.id}`;
+        const shapeEl2 = document.getElementById(shapeElId);
+        console.log(shapeElId, shapeEl2);
+        if ((0, import_sprotty_protocol2.getBasicType)(shape) === "node" && shapeEl2.classList.contains("selected")) {
+          const shapeElPosition = shapeEl2.getAttribute("transform").replace("translate(", "").replace(")", "").trim().split(",");
+          const position = {
+            id: shape.id,
+            x: +shapeElPosition[0],
+            y: +shapeElPosition[1]
+          };
+          postionArr.push(position);
         }
       });
+      if (how === "left") {
+        const minValueX = Math.min(...postionArr.map((position) => position.x));
+        fixNode = postionArr.find((postion) => {
+          return postion.x === minValueX;
+        });
+        postionArr.forEach((position) => {
+          if (position.x !== fixNode.x) {
+            nodeMoves.push({
+              elementId: position.id,
+              toPosition: {
+                x: fixNode.x,
+                y: position.y
+              }
+            });
+          }
+        });
+      } else if (how === "right") {
+        console.log("click");
+        const maxValueX = Math.max(...postionArr.map((position) => position.x));
+        fixNode = postionArr.find((postion) => {
+          return postion.x === maxValueX;
+        });
+        postionArr.forEach((position) => {
+          if (position.x !== fixNode.x) {
+            nodeMoves.push({
+              elementId: position.id,
+              toPosition: {
+                x: fixNode.x,
+                y: position.y
+              }
+            });
+          }
+        });
+      } else if (how === "top") {
+        const minValueY = Math.min(...postionArr.map((position) => position.y));
+        fixNode = postionArr.find((postion) => {
+          return postion.y === minValueY;
+        });
+        postionArr.forEach((position) => {
+          if (position.y !== fixNode.y) {
+            nodeMoves.push({
+              elementId: position.id,
+              toPosition: {
+                x: position.x,
+                y: fixNode.y
+              }
+            });
+          }
+        });
+      } else if (how === "bottom") {
+        const maxValueY = Math.max(...postionArr.map((position) => position.y));
+        fixNode = postionArr.find((postion) => {
+          return postion.y === maxValueY;
+        });
+        postionArr.forEach((position) => {
+          if (position.y !== fixNode.y) {
+            nodeMoves.push({
+              elementId: position.id,
+              toPosition: {
+                x: position.x,
+                y: fixNode.y
+              }
+            });
+          }
+        });
+      }
       dispatcher.dispatch(
         import_sprotty_protocol2.MoveAction.create(nodeMoves, {
           animate: true
@@ -24385,6 +24455,20 @@
         })
       );
       focusGraph();
+    };
+    document.getElementById("align-left").addEventListener("click", async () => {
+      alignNode("left");
+    });
+    console.log(document.getElementById("align-right"));
+    document.getElementById("align-right").addEventListener("click", async () => {
+      console.log("click");
+      alignNode("right");
+    });
+    document.getElementById("align-top").addEventListener("click", () => {
+      alignNode("top");
+    });
+    document.getElementById("align-bottom").addEventListener("click", () => {
+      alignNode("bottom");
     });
   }
   document.addEventListener("DOMContentLoaded", () => run());
