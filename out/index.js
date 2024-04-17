@@ -24370,7 +24370,6 @@
       graphDisplay.children.forEach((shape) => {
         const shapeElId = `sprotty-container_${shape.id}`;
         const shapeEl2 = document.getElementById(shapeElId);
-        console.log(shapeElId, shapeEl2);
         if ((0, import_sprotty_protocol2.getBasicType)(shape) === "node" && shapeEl2.classList.contains("selected")) {
           const shapeElPosition = shapeEl2.getAttribute("transform").replace("translate(", "").replace(")", "").trim().split(",");
           const position = {
