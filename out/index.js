@@ -22167,7 +22167,7 @@
       };
       exports.PreRenderedElementImpl = PreRenderedElementImpl;
       exports.PreRenderedElement = PreRenderedElementImpl;
-      var ShapedPreRenderedElementImpl = class extends PreRenderedElementImpl {
+      var ShapedPreRenderedElementImpl2 = class extends PreRenderedElementImpl {
         constructor() {
           super(...arguments);
           this.position = geometry_1.Point.ORIGIN;
@@ -22194,10 +22194,10 @@
           };
         }
       };
-      exports.ShapedPreRenderedElementImpl = ShapedPreRenderedElementImpl;
-      ShapedPreRenderedElementImpl.DEFAULT_FEATURES = [model_2.moveFeature, model_1.boundsFeature, model_3.selectFeature, model_1.alignFeature];
-      exports.ShapedPreRenderedElement = ShapedPreRenderedElementImpl;
-      var ForeignObjectElementImpl = class extends ShapedPreRenderedElementImpl {
+      exports.ShapedPreRenderedElementImpl = ShapedPreRenderedElementImpl2;
+      ShapedPreRenderedElementImpl2.DEFAULT_FEATURES = [model_2.moveFeature, model_1.boundsFeature, model_3.selectFeature, model_1.alignFeature];
+      exports.ShapedPreRenderedElement = ShapedPreRenderedElementImpl2;
+      var ForeignObjectElementImpl = class extends ShapedPreRenderedElementImpl2 {
         get bounds() {
           if (geometry_1.Dimension.isValid(this.size)) {
             return {
@@ -22247,7 +22247,7 @@
       var vnode_utils_1 = require_vnode_utils();
       var views_1 = require_views();
       var model_1 = require_model18();
-      var PreRenderedView = class PreRenderedView extends views_1.ShapeView {
+      var PreRenderedView2 = class PreRenderedView extends views_1.ShapeView {
         render(model, context) {
           if (model instanceof model_1.ShapedPreRenderedElementImpl && !this.isVisible(model, context)) {
             return void 0;
@@ -22263,10 +22263,10 @@
             (0, vnode_utils_1.setNamespace)(node, "http://www.w3.org/2000/svg");
         }
       };
-      exports.PreRenderedView = PreRenderedView;
-      exports.PreRenderedView = PreRenderedView = __decorate([
+      exports.PreRenderedView = PreRenderedView2;
+      exports.PreRenderedView = PreRenderedView2 = __decorate([
         (0, inversify_1.injectable)()
-      ], PreRenderedView);
+      ], PreRenderedView2);
       var ForeignObjectView = class ForeignObjectView {
         render(model, context) {
           const foreignObjectContents = (0, virtualize_1.default)(model.code);
@@ -23323,6 +23323,7 @@
       bind(import_sprotty3.TYPES.ModelSource).to(import_sprotty3.LocalModelSource).inSingletonScope();
       const context = { bind, unbind, isBound, rebind };
       (0, import_sprotty3.configureModelElement)(context, "graph", import_sprotty3.SGraphImpl, import_sprotty3.SGraphView);
+      (0, import_sprotty3.configureModelElement)(context, "pre-rendered", import_sprotty3.ShapedPreRenderedElementImpl, import_sprotty3.PreRenderedView);
       (0, import_sprotty3.configureModelElement)(
         context,
         "button:custom",
@@ -23644,6 +23645,29 @@
     ]);
   }
 
+  // util/addCustomSVG.ts
+  function addCustomSVG({
+    source,
+    svgId,
+    code,
+    type = "pre-rendered",
+    x = Math.floor(Math.random() * 500),
+    y = Math.floor(Math.random() * 500)
+  }) {
+    source.addElements([
+      {
+        parentId: "graph",
+        element: {
+          type,
+          id: svgId,
+          position: { x, y },
+          code,
+          projectionCssClasses: ["logo-projection"]
+        }
+      }
+    ]);
+  }
+
   // util/checkIdElement.ts
   var getLength = (arr, type, idInclude) => {
     if (!arr) {
@@ -23829,6 +23853,9 @@
   var drawEdgeBtn = null;
   var cancelDrawEdgeBtn = null;
   var deleteBtn = null;
+  var addCustomSVGEl = null;
+  var svgTextEl = null;
+  var closeModalBtnEl = null;
   var exportJsonBtn = null;
   var importJsonBtn = null;
   var inputFile = null;
@@ -23907,6 +23934,7 @@
   var dummyMode = false;
   var sourceId = null;
   var targetId = null;
+  var customSVGCount = 1;
   var portTarget;
   var styles = `
 .dummy .sprotty-node {
@@ -24125,6 +24153,9 @@
     zoomInBtn = document.getElementById("zoom-in");
     zoomOutBtn = document.getElementById("zoom-out");
     defaultScaleBtn = document.getElementById("default");
+    addCustomSVGEl = document.getElementById("add-custom-svg");
+    svgTextEl = document.getElementById("area_field_svg");
+    closeModalBtnEl = document.getElementById("close-modal-btn");
     const setEventScroll = (deltaY) => {
       const graphEl = document.getElementById("sprotty-container_graph");
       const evt = new WheelEvent("wheel", {
@@ -24468,6 +24499,19 @@
     });
     document.getElementById("align-bottom").addEventListener("click", () => {
       alignNode("bottom");
+    });
+    addCustomSVGEl.addEventListener("click", () => {
+      const id = `customSVGId-${customSVGCount}`;
+      addCustomSVG({
+        source: modelSource,
+        svgId: id,
+        code: svgTextEl.value,
+        type: "pre-rendered"
+      });
+      customSVGCount++;
+      drawLogic();
+      svgTextEl.value = "";
+      closeModalBtnEl.click();
     });
   }
   document.addEventListener("DOMContentLoaded", () => run());

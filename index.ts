@@ -20,7 +20,11 @@ import {
   MoveAction,
 } from "sprotty-protocol";
 import { createContainer } from "./di.config";
-import { CenterAction } from "sprotty-protocol";
+import {
+  CenterAction,
+  ShapedPreRenderedElement,
+  Projectable,
+} from "sprotty-protocol";
 
 // settings
 import * as config from "./settings/config.json";
@@ -28,6 +32,7 @@ import * as config from "./settings/config.json";
 // utils
 import addNode from "./util/addNode";
 import drawEdge from "./util/drawEdge";
+import addCustomSVG from "./util/addCustomSVG";
 import checkIdElement from "./util/checkIdElement";
 import randomText from "./util/randomText";
 import getGrahpJson from "./util/getGraphJson";
@@ -39,6 +44,9 @@ let addParentNode = null;
 let drawEdgeBtn = null;
 let cancelDrawEdgeBtn = null;
 let deleteBtn = null;
+let addCustomSVGEl = null;
+let svgTextEl = null;
+let closeModalBtnEl = null;
 
 let exportJsonBtn = null;
 let importJsonBtn = null;
@@ -76,7 +84,6 @@ function getVisibleBounds({
   };
 }
 
-// count of
 let graphDisplay;
 const graph: SGraph = {
   type: "graph",
@@ -159,6 +166,7 @@ let dummyMode = false;
 let sourceId = null;
 let targetId = null;
 let portType = null;
+let customSVGCount = 1;
 
 // JSON resolve
 
@@ -412,6 +420,9 @@ export default async function run() {
   zoomInBtn = document.getElementById("zoom-in");
   zoomOutBtn = document.getElementById("zoom-out");
   defaultScaleBtn = document.getElementById("default");
+  addCustomSVGEl = document.getElementById("add-custom-svg");
+  svgTextEl = document.getElementById("area_field_svg");
+  closeModalBtnEl = document.getElementById("close-modal-btn");
 
   // scale
 
@@ -851,6 +862,22 @@ export default async function run() {
   });
   document.getElementById("align-bottom").addEventListener("click", () => {
     alignNode("bottom");
+  });
+
+  // add custom SVG
+
+  addCustomSVGEl.addEventListener("click", () => {
+    const id = `customSVGId-${customSVGCount}`;
+    addCustomSVG({
+      source: modelSource,
+      svgId: id,
+      code: svgTextEl.value,
+      type: "pre-rendered",
+    });
+    customSVGCount++;
+    drawLogic();
+    svgTextEl.value = "";
+    closeModalBtnEl.click();
   });
 }
 

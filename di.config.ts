@@ -32,6 +32,8 @@ import {
   ConsoleLogger,
   AnimationFrameSyncer,
   registerModelElement,
+  PreRenderedView,
+  ShapedPreRenderedElementImpl,
 } from "sprotty";
 
 import { Viewport, SetViewportAction } from "sprotty-protocol";
@@ -55,6 +57,7 @@ export const createContainer = (containerId: string) => {
 
     const context = { bind, unbind, isBound, rebind };
     configureModelElement(context, "graph", SGraphImpl, SGraphView);
+    configureModelElement(context, 'pre-rendered', ShapedPreRenderedElementImpl, PreRenderedView);
 
     configureModelElement(
       context,
