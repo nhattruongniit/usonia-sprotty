@@ -44,46 +44,6 @@ export class EdgeWithArrow extends PolylineEdgeView {
 }
 export class PropertyLabel extends SLabelImpl {}
 
-// @injectable()
-// export class TaskNodeView implements IView {
-//   render(node: any, context: RenderingContext): VNode {
-//     const position = 50;
-//     return (
-//       <g>
-//         <rect
-//           class-sprotty-node={true}
-//           class-task={true}
-//           class-running={node.isRunning}
-//           class-finished={node.isFinished}
-//           width={node.size.width}
-//           height={node.size.height}
-//         ></rect>
-//         <text x={position} y={position + 5}>
-//           {node.name}
-//         </text>
-//       </g>
-//     );
-//   }
-// }
-@injectable()
-export class customButtonView implements IView {
-  render(button: SButtonImpl, context: RenderingContext): VNode {
-    return (
-      <g class-sprotty-button="{true}" class-enabled="{button.enabled}">
-        <rect
-          x={button.position.x}
-          y={button.position.y}
-          width={Math.max(button.size.width, 0)}
-          height={Math.max(button.size.height, 0)}
-          class-sprotty-button={true}
-          // opacity={0}
-        ></rect>
-        {/* <path d="M 1,5 L 8,12 L 15,5 Z"></path> */}
-        {context.renderChildren(button)}
-      </g>
-    );
-  }
-}
 @injectable()
 export class NodeView extends RectangularNodeView {
   override render(

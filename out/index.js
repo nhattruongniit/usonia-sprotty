@@ -23273,23 +23273,6 @@
   ], EdgeWithArrow);
   var PropertyLabel = class extends import_sprotty2.SLabelImpl {
   };
-  var customButtonView = class {
-    render(button, context) {
-      return /* @__PURE__ */ (0, import_jsx2.svg)("g", { "class-sprotty-button": "{true}", "class-enabled": "{button.enabled}" }, /* @__PURE__ */ (0, import_jsx2.svg)(
-        "rect",
-        {
-          x: button.position.x,
-          y: button.position.y,
-          width: Math.max(button.size.width, 0),
-          height: Math.max(button.size.height, 0),
-          "class-sprotty-button": true
-        }
-      ), context.renderChildren(button));
-    }
-  };
-  customButtonView = __decorateClass([
-    (0, import_inversify2.injectable)()
-  ], customButtonView);
   var NodeView = class extends import_sprotty2.RectangularNodeView {
     render(node, context, args) {
       if (!this.isVisible(node, context)) {
@@ -23323,15 +23306,11 @@
       bind(import_sprotty3.TYPES.ModelSource).to(import_sprotty3.LocalModelSource).inSingletonScope();
       const context = { bind, unbind, isBound, rebind };
       (0, import_sprotty3.configureModelElement)(context, "graph", import_sprotty3.SGraphImpl, import_sprotty3.SGraphView);
-      (0, import_sprotty3.configureModelElement)(context, "pre-rendered", import_sprotty3.ShapedPreRenderedElementImpl, import_sprotty3.PreRenderedView);
       (0, import_sprotty3.configureModelElement)(
         context,
-        "button:custom",
-        import_sprotty3.SButtonImpl,
-        customButtonView,
-        {
-          disable: [import_sprotty3.moveFeature]
-        }
+        "pre-rendered",
+        import_sprotty3.ShapedPreRenderedElementImpl,
+        import_sprotty3.PreRenderedView
       );
       (0, import_sprotty3.configureButtonHandler)(
         { bind, isBound },
@@ -23505,7 +23484,6 @@
         { x: nodeWidth / 5, y: nodeHeight / 5 },
         { x: nodeWidth / 4 + nodeWidth / 3, y: nodeHeight / 4 + nodeHeight / 3 }
       ];
-      console.log(nodeId);
       for (let i = 0; i < positionNodeChildren.length; i++) {
         source.addElements([
           {
@@ -23640,29 +23618,6 @@
               }
             }
           ]
-        }
-      }
-    ]);
-  }
-
-  // util/addCustomSVG.ts
-  function addCustomSVG({
-    source,
-    svgId,
-    code,
-    type = "pre-rendered",
-    x = Math.floor(Math.random() * 500),
-    y = Math.floor(Math.random() * 500)
-  }) {
-    source.addElements([
-      {
-        parentId: "graph",
-        element: {
-          type,
-          id: svgId,
-          position: { x, y },
-          code,
-          projectionCssClasses: ["logo-projection"]
         }
       }
     ]);
@@ -23849,6 +23804,76 @@
 
   // index.ts
   var import_inversify4 = __toESM(require_inversify());
+
+  // util/addCustomNode.ts
+  function addCustomNode({
+    source,
+    nodeId,
+    nodeWidth,
+    nodeHeight,
+    portArray,
+    cssClasses = ["node"],
+    name = `${nodeId}`,
+    x,
+    y,
+    type
+  }) {
+    source.addElements([
+      {
+        parentId: "graph",
+        element: {
+          type,
+          id: `${nodeId}`,
+          cssClasses,
+          position: { x, y },
+          size: {
+            width: nodeWidth,
+            height: nodeHeight
+          },
+          children: [
+            {
+              type: "label:node",
+              id: `label-node-${nodeId}`,
+              text: name,
+              position: { x: x / 2, y: y / 2 - y / 8 }
+            }
+          ]
+        }
+      }
+    ]);
+    for (let i = 0; i < portArray.length; i++) {
+      const width = +portArray[i].getAttribute("width");
+      const height = +portArray[i].getAttribute("height");
+      source.addElements([
+        {
+          parentId: nodeId,
+          element: {
+            type: "port",
+            id: `port-custom-${nodeId}-${i}`,
+            size: {
+              width,
+              height
+            },
+            position: {
+              x: +portArray[i].getAttribute("x"),
+              y: +portArray[i].getAttribute("y")
+            },
+            cssClasses: ["port"],
+            children: [
+              {
+                type: "label:port",
+                id: `label-port-custom-${nodeId}-${i + 1}`,
+                text: `p-${i}`,
+                position: { x: width / 2, y: 0 - height / 8 }
+              }
+            ]
+          }
+        }
+      ]);
+    }
+  }
+
+  // index.ts
   var addParentNode = null;
   var drawEdgeBtn = null;
   var cancelDrawEdgeBtn = null;
@@ -24052,7 +24077,6 @@
       return [];
     }
     wheel(target, event) {
-      console.log(event);
       if (event.deltaY > 0) {
         countScroll--;
       } else if (event.deltaY < 0) {
@@ -24501,12 +24525,34 @@
       alignNode("bottom");
     });
     addCustomSVGEl.addEventListener("click", () => {
-      const id = `customSVGId-${customSVGCount}`;
-      addCustomSVG({
+      const id = `custom-node-${customSVGCount}`;
+      let svgText = svgTextEl.value;
+      let parser = new DOMParser();
+      let doc = parser.parseFromString(svgText, "image/svg+xml");
+      let rects = doc.getElementsByTagName("rect");
+      let svgArray = Array.from(rects);
+      const nodeCustomElement = svgArray.find((svg3) => {
+        return svg3.id === "node";
+      });
+      const nodeCustomWidth = +nodeCustomElement.getAttribute("width");
+      const nodeCustomHeight = +nodeCustomElement.getAttribute("height");
+      const positionCustomNode = {
+        x: +nodeCustomElement.getAttribute("x"),
+        y: +nodeCustomElement.getAttribute("y")
+      };
+      const portCustomArray = svgArray.filter((svg3) => {
+        return svg3.id !== "node";
+      });
+      console.log(portCustomArray);
+      addCustomNode({
         source: modelSource,
-        svgId: id,
-        code: svgTextEl.value,
-        type: "pre-rendered"
+        nodeId: id,
+        nodeWidth: nodeCustomWidth,
+        nodeHeight: nodeCustomHeight,
+        portArray: portCustomArray,
+        x: positionCustomNode.x,
+        y: positionCustomNode.y,
+        type: "node"
       });
       customSVGCount++;
       drawLogic();

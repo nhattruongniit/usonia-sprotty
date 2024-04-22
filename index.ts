@@ -38,6 +38,7 @@ import randomText from "./util/randomText";
 import getGrahpJson from "./util/getGraphJson";
 import checkPositionEl from "./util/checkPositionEl";
 import { injectable } from "inversify";
+import addCustomNode from "./util/addCustomNode";
 // elements dom
 let addParentNode = null;
 
@@ -302,7 +303,6 @@ export class CustomMouseListener extends MouseListener {
     target: SModelElementImpl,
     event: WheelEvent
   ): (Action | Promise<Action>)[] {
-    console.log(event);
     if (event.deltaY > 0) {
       countScroll--;
     } else if (event.deltaY < 0) {
@@ -867,18 +867,85 @@ export default async function run() {
   // add custom SVG
 
   addCustomSVGEl.addEventListener("click", () => {
-    const id = `customSVGId-${customSVGCount}`;
-    addCustomSVG({
+    const id = `custom-node-${customSVGCount}`;
+    // addCustomSVG({
+    //   source: modelSource,
+    //   svgId: id,
+    //   code: svgTextEl.value,
+    //   type: "pre-rendered",
+    // });
+    let svgText = svgTextEl.value;
+
+    let parser = new DOMParser();
+
+    // Use the DOMParser to parse the SVG string into a document
+    let doc = parser.parseFromString(svgText, "image/svg+xml");
+
+    // Get all the 'rect' elements from the document
+    let rects = doc.getElementsByTagName("rect");
+
+    // Convert the HTMLCollection to an array
+    let svgArray = Array.from(rects);
+
+    const nodeCustomElement = svgArray.find((svg) => {
+      return svg.id === "node";
+    });
+    // define custom Node
+    const nodeCustomWidth = +nodeCustomElement.getAttribute("width");
+    const nodeCustomHeight = +nodeCustomElement.getAttribute("height");
+    const positionCustomNode = {
+      x: +nodeCustomElement.getAttribute("x"),
+      y: +nodeCustomElement.getAttribute("y"),
+    };
+    //  define custom Port
+    const portCustomArray = svgArray.filter((svg) => {
+      return svg.id !== "node";
+    });
+    console.log(portCustomArray);
+    addCustomNode({
       source: modelSource,
-      svgId: id,
-      code: svgTextEl.value,
-      type: "pre-rendered",
+      nodeId: id,
+      nodeWidth: nodeCustomWidth,
+      nodeHeight: nodeCustomHeight,
+      portArray: portCustomArray,
+      x: positionCustomNode.x,
+      y: positionCustomNode.y,
+      type: "node",
     });
     customSVGCount++;
+
     drawLogic();
     svgTextEl.value = "";
     closeModalBtnEl.click();
   });
 }
+
+// <g viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+
+//   <rect
+//   id="node"
+//     x="136.063"
+//     y="99.552"
+//     width="138.419"
+//     height="71.661"
+//     style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0);"
+//   ></rect>
+//   <rect
+//   id="port-1"
+//     x="275.358"
+//     y="119.154"
+//     width="21.598"
+//     height="17.884"
+//     style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0);"
+//   ></rect>
+//   <rect
+//   id="port-2"
+//     x="188.728"
+//     y="172.008"
+//     width="26.439"
+//     height="13.704"
+//     style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0);"
+//   ></rect>
+// </g>;
 
 document.addEventListener("DOMContentLoaded", () => run());
