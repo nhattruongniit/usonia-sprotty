@@ -56,7 +56,8 @@ export const createContainer = (containerId: string) => {
       context,
       "pre-rendered",
       ShapedPreRenderedElementImpl,
-      PreRenderedView
+      PreRenderedView,
+      { enable: [moveFeature] }
     );
 
     configureButtonHandler(

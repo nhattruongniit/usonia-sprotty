@@ -6,7 +6,6 @@ import {
   TYPES,
   IButtonHandler,
   SButtonImpl,
-  getZoom,
   SModelElementImpl,
   ElementMove,
   IActionDispatcher,
@@ -20,11 +19,7 @@ import {
   MoveAction,
 } from "sprotty-protocol";
 import { createContainer } from "./di.config";
-import {
-  CenterAction,
-  ShapedPreRenderedElement,
-  Projectable,
-} from "sprotty-protocol";
+import { CenterAction } from "sprotty-protocol";
 
 // settings
 import * as config from "./settings/config.json";
@@ -868,50 +863,54 @@ export default async function run() {
 
   addCustomSVGEl.addEventListener("click", () => {
     const id = `custom-node-${customSVGCount}`;
-    // addCustomSVG({
-    //   source: modelSource,
-    //   svgId: id,
-    //   code: svgTextEl.value,
-    //   type: "pre-rendered",
-    // });
-    let svgText = svgTextEl.value;
-
-    let parser = new DOMParser();
-
-    // Use the DOMParser to parse the SVG string into a document
-    let doc = parser.parseFromString(svgText, "image/svg+xml");
-
-    // Get all the 'rect' elements from the document
-    let rects = doc.getElementsByTagName("rect");
-
-    // Convert the HTMLCollection to an array
-    let svgArray = Array.from(rects);
-
-    const nodeCustomElement = svgArray.find((svg) => {
-      return svg.id === "node";
-    });
-    // define custom Node
-    const nodeCustomWidth = +nodeCustomElement.getAttribute("width");
-    const nodeCustomHeight = +nodeCustomElement.getAttribute("height");
-    const positionCustomNode = {
-      x: +nodeCustomElement.getAttribute("x"),
-      y: +nodeCustomElement.getAttribute("y"),
-    };
-    //  define custom Port
-    const portCustomArray = svgArray.filter((svg) => {
-      return svg.id !== "node";
-    });
-    console.log(portCustomArray);
-    addCustomNode({
+    addCustomSVG({
       source: modelSource,
-      nodeId: id,
-      nodeWidth: nodeCustomWidth,
-      nodeHeight: nodeCustomHeight,
-      portArray: portCustomArray,
-      x: positionCustomNode.x,
-      y: positionCustomNode.y,
-      type: "node",
+      svgId: id,
+      code: svgTextEl.value,
+      type: "pre-rendered",
+      nodeId: "1",
+      nodeWidth: 200,
+      cssClasses: ["node"],
+      nodeHeight: 100,
     });
+    // let svgText = svgTextEl.value;
+
+    // let parser = new DOMParser();
+
+    // // Use the DOMParser to parse the SVG string into a document
+    // let doc = parser.parseFromString(svgText, "image/svg+xml");
+
+    // // Get all the 'rect' elements from the document
+    // let rects = doc.getElementsByTagName("rect");
+
+    // // Convert the HTMLCollection to an array
+    // let svgArray = Array.from(rects);
+
+    // const nodeCustomElement = svgArray.find((svg) => {
+    //   return svg.id === "node";
+    // });
+    // // define custom Node
+    // const nodeCustomWidth = +nodeCustomElement.getAttribute("width");
+    // const nodeCustomHeight = +nodeCustomElement.getAttribute("height");
+    // const positionCustomNode = {
+    //   x: +nodeCustomElement.getAttribute("x"),
+    //   y: +nodeCustomElement.getAttribute("y"),
+    // };
+    // //  define custom Port
+    // const portCustomArray = svgArray.filter((svg) => {
+    //   return svg.id !== "node";
+    // });
+    // console.log(portCustomArray);
+    // addCustomNode({
+    //   source: modelSource,
+    //   nodeId: id,
+    //   nodeWidth: nodeCustomWidth,
+    //   nodeHeight: nodeCustomHeight,
+    //   portArray: portCustomArray,
+    //   x: positionCustomNode.x,
+    //   y: positionCustomNode.y,
+    //   type: "node",
+    // });
     customSVGCount++;
 
     drawLogic();

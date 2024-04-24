@@ -1,4 +1,4 @@
-import { ShapedPreRenderedElement, Projectable } from "sprotty-protocol";
+import { ShapedPreRenderedElement, Projectable, SNode } from "sprotty-protocol";
 
 type IProps = {
   source: any;
@@ -7,6 +7,10 @@ type IProps = {
   y?: number;
   type: string;
   code: string;
+  nodeId: string;
+  cssClasses: string[];
+  nodeWidth: number;
+  nodeHeight: number;
 };
 
 export default function addCustomSVG({
@@ -16,14 +20,35 @@ export default function addCustomSVG({
   type = "pre-rendered",
   x = Math.floor(Math.random() * 500),
   y = Math.floor(Math.random() * 500),
+  nodeId,
+  cssClasses = ["node"],
+  nodeWidth,
+  nodeHeight,
 }: IProps) {
   source.addElements([
     {
       parentId: "graph",
+      element: <SNode>{
+        type: "node",
+        id: `${nodeId}`,
+        cssClasses,
+        position: { x, y },
+        size: {
+          width: nodeWidth,
+          height: nodeHeight,
+        },
+
+        children: [],
+      },
+    },
+  ]);
+  source.addElements([
+    {
+      parentId: nodeId,
       element: {
         type,
         id: svgId,
-        position: { x, y },
+        position: { x: 0, y: 0 },
         code,
         projectionCssClasses: ["logo-projection"],
       } as ShapedPreRenderedElement & Projectable,
