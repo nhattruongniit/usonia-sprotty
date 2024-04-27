@@ -23624,49 +23624,6 @@
     ]);
   }
 
-  // util/addCustomSVG.ts
-  function addCustomSVG({
-    source,
-    svgId,
-    code,
-    type = "pre-rendered",
-    x = Math.floor(Math.random() * 500),
-    y = Math.floor(Math.random() * 500),
-    nodeId,
-    cssClasses = ["node"],
-    nodeWidth,
-    nodeHeight
-  }) {
-    source.addElements([
-      {
-        parentId: "graph",
-        element: {
-          type: "node",
-          id: `${nodeId}`,
-          cssClasses,
-          position: { x, y },
-          size: {
-            width: nodeWidth,
-            height: nodeHeight
-          },
-          children: []
-        }
-      }
-    ]);
-    source.addElements([
-      {
-        parentId: nodeId,
-        element: {
-          type,
-          id: svgId,
-          position: { x: 0, y: 0 },
-          code,
-          projectionCssClasses: ["logo-projection"]
-        }
-      }
-    ]);
-  }
-
   // util/checkIdElement.ts
   var getLength = (arr, type, idInclude) => {
     if (!arr) {
@@ -23848,6 +23805,111 @@
 
   // index.ts
   var import_inversify4 = __toESM(require_inversify());
+
+  // util/Math/findMax.ts
+  function findMax(arr) {
+    if (arr.length === 0) {
+      return null;
+    }
+    let maxVal = arr[0];
+    for (let i = 1; i < arr.length; i++) {
+      if (arr[i] > maxVal) {
+        maxVal = arr[i];
+      }
+    }
+    return maxVal;
+  }
+
+  // util/addCustomNode.ts
+  function addCustomNode({
+    source,
+    nodeId,
+    svgAttArr,
+    cssClasses = ["node"]
+  }) {
+    const nodeEL = findMax(svgAttArr);
+    console.log(nodeEL);
+    const portArray = svgAttArr.filter((svg3) => {
+      return svg3.width !== nodeEL.width;
+    });
+    source.addElements([
+      {
+        parentId: "graph",
+        element: {
+          type: "node",
+          id: `${nodeId}`,
+          cssClasses,
+          position: { x: nodeEL.x, y: nodeEL.y },
+          size: {
+            width: nodeEL.width,
+            height: nodeEL.height
+          },
+          children: []
+        }
+      }
+    ]);
+    console.log(svgAttArr);
+    for (let i = 0; i < portArray.length; i++) {
+      let deviation = 3;
+      let coordinateX = portArray[i].x;
+      let coordinateY = portArray[i].y;
+      const portWidth = portArray[i].width;
+      const portHeight = portArray[i].height;
+      const compareX = nodeEL.x + nodeEL.width;
+      const compareY = nodeEL.y + nodeEL.height;
+      if (coordinateX > compareX - deviation && coordinateX < compareX + deviation) {
+        coordinateX = coordinateX - nodeEL.width + portWidth / 2 + Math.abs(coordinateX - compareX);
+        coordinateY = coordinateY - nodeEL.height - portHeight;
+      } else if (coordinateY > compareY - deviation && coordinateY < compareY + deviation) {
+        coordinateX = coordinateX - nodeEL.width + portWidth / 2;
+        coordinateY = coordinateY - nodeEL.height - portHeight - Math.abs(coordinateY - compareY);
+      } else if (coordinateX > nodeEL.x - portWidth - deviation && coordinateX < nodeEL.x - portWidth + deviation) {
+        coordinateX = coordinateX - nodeEL.width + portWidth - Math.abs(coordinateX - (nodeEL.x - portWidth));
+        coordinateY = coordinateY - nodeEL.height - portHeight * 2;
+      } else if (coordinateY > nodeEL.y - portHeight - deviation && coordinateY < nodeEL.y - portHeight + deviation) {
+        coordinateX = coordinateX - nodeEL.width + portWidth / 2;
+        coordinateY = coordinateY - nodeEL.height - portHeight * 2 - Math.abs(coordinateY - (nodeEL.y - portHeight));
+      } else {
+        source.addElements([
+          {
+            parentId: nodeId,
+            element: {
+              type: "pre-rendered",
+              id: "custom" + nodeId + i,
+              position: {
+                x: 0 - nodeEL.width + portWidth / 2,
+                y: 0 - nodeEL.height - portHeight
+              },
+              code: portArray[i].code,
+              projectionCssClasses: ["logo-projection"]
+            }
+          }
+        ]);
+        console.log(portArray[i].code);
+        continue;
+      }
+      source.addElements([
+        {
+          parentId: nodeId,
+          element: {
+            type: "port",
+            id: `port-custom-${nodeId}-${i}`,
+            size: {
+              width: portArray[i].width,
+              height: portArray[i].height
+            },
+            position: {
+              x: coordinateX,
+              y: coordinateY
+            },
+            cssClasses: ["port"]
+          }
+        }
+      ]);
+    }
+  }
+
+  // index.ts
   var addParentNode = null;
   var drawEdgeBtn = null;
   var cancelDrawEdgeBtn = null;
@@ -24500,15 +24562,24 @@
     });
     addCustomSVGEl.addEventListener("click", () => {
       const id = `custom-node-${customSVGCount}`;
-      addCustomSVG({
+      let svgText = svgTextEl.value;
+      let parser = new DOMParser();
+      let doc = parser.parseFromString(svgText, "image/svg+xml");
+      let rects = doc.getElementsByTagName("rect");
+      let svgArray = Array.from(rects);
+      const svgAttArray = svgArray.map((svg3) => {
+        return {
+          x: +svg3.getAttribute("x"),
+          y: +svg3.getAttribute("y"),
+          width: +svg3.getAttribute("width"),
+          height: +svg3.getAttribute("height"),
+          code: svg3.outerHTML
+        };
+      });
+      addCustomNode({
         source: modelSource,
-        svgId: id,
-        code: svgTextEl.value,
-        type: "pre-rendered",
-        nodeId: "1",
-        nodeWidth: 200,
-        cssClasses: ["node"],
-        nodeHeight: 100
+        nodeId: id,
+        svgAttArr: svgAttArray
       });
       customSVGCount++;
       drawLogic();

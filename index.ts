@@ -34,6 +34,7 @@ import getGrahpJson from "./util/getGraphJson";
 import checkPositionEl from "./util/checkPositionEl";
 import { injectable } from "inversify";
 import addCustomNode from "./util/addCustomNode";
+import { findMax } from "./util/Math/findMax";
 // elements dom
 let addParentNode = null;
 
@@ -863,54 +864,47 @@ export default async function run() {
 
   addCustomSVGEl.addEventListener("click", () => {
     const id = `custom-node-${customSVGCount}`;
-    addCustomSVG({
-      source: modelSource,
-      svgId: id,
-      code: svgTextEl.value,
-      type: "pre-rendered",
-      nodeId: "1",
-      nodeWidth: 200,
-      cssClasses: ["node"],
-      nodeHeight: 100,
-    });
-    // let svgText = svgTextEl.value;
 
-    // let parser = new DOMParser();
-
-    // // Use the DOMParser to parse the SVG string into a document
-    // let doc = parser.parseFromString(svgText, "image/svg+xml");
-
-    // // Get all the 'rect' elements from the document
-    // let rects = doc.getElementsByTagName("rect");
-
-    // // Convert the HTMLCollection to an array
-    // let svgArray = Array.from(rects);
-
-    // const nodeCustomElement = svgArray.find((svg) => {
-    //   return svg.id === "node";
-    // });
-    // // define custom Node
-    // const nodeCustomWidth = +nodeCustomElement.getAttribute("width");
-    // const nodeCustomHeight = +nodeCustomElement.getAttribute("height");
-    // const positionCustomNode = {
-    //   x: +nodeCustomElement.getAttribute("x"),
-    //   y: +nodeCustomElement.getAttribute("y"),
-    // };
-    // //  define custom Port
-    // const portCustomArray = svgArray.filter((svg) => {
-    //   return svg.id !== "node";
-    // });
-    // console.log(portCustomArray);
-    // addCustomNode({
+    // addCustomSVG({
     //   source: modelSource,
-    //   nodeId: id,
-    //   nodeWidth: nodeCustomWidth,
-    //   nodeHeight: nodeCustomHeight,
-    //   portArray: portCustomArray,
-    //   x: positionCustomNode.x,
-    //   y: positionCustomNode.y,
-    //   type: "node",
+    //   svgId: id,
+    //   code: svgTextEl.value,
+    //   type: "pre-rendered",
+    //   nodeId: "1",
+    //   nodeWidth: 200,
+    //   cssClasses: ["node"],
+    //   nodeHeight: 100,
     // });
+    let svgText = svgTextEl.value;
+
+    let parser = new DOMParser();
+
+    // Use the DOMParser to parse the SVG string into a document
+    let doc = parser.parseFromString(svgText, "image/svg+xml");
+
+    // Get all the 'rect' elements from the document
+    let rects = doc.getElementsByTagName("rect");
+
+    // Convert the HTMLCollection to an array
+    let svgArray = Array.from(rects);
+
+    // console.log(svgArray[0].getAttribute("width"));
+    // console.log(Array.from(svgArray[0].attributes)[2]);
+    const svgAttArray = svgArray.map((svg) => {
+      return {
+        x: +svg.getAttribute("x"),
+        y: +svg.getAttribute("y"),
+        width: +svg.getAttribute("width"),
+        height: +svg.getAttribute("height"),
+        code: svg.outerHTML,
+      };
+    });
+
+    addCustomNode({
+      source: modelSource,
+      nodeId: id,
+      svgAttArr: svgAttArray,
+    });
     customSVGCount++;
 
     drawLogic();
@@ -919,32 +913,13 @@ export default async function run() {
   });
 }
 
-// <g viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
-
-//   <rect
-//   id="node"
-//     x="136.063"
-//     y="99.552"
-//     width="138.419"
-//     height="71.661"
-//     style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0);"
-//   ></rect>
-//   <rect
-//   id="port-1"
-//     x="275.358"
-//     y="119.154"
-//     width="21.598"
-//     height="17.884"
-//     style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0);"
-//   ></rect>
-//   <rect
-//   id="port-2"
-//     x="188.728"
-//     y="172.008"
-//     width="26.439"
-//     height="13.704"
-//     style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0);"
-//   ></rect>
-// </g>;
+// <svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+//   <defs></defs>
+//   <rect x="177.555" y="135.026" width="188.875" height="104.787" style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0);"></rect>
+//   <rect x="260.349" y="120.796" width="29.107" height="13.583" style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0);"></rect>
+//   <rect x="367.076" y="168.661" width="21.992" height="35.576" style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0);"></rect>
+//   <rect x="250.647" y="239.812" width="35.576" height="27.167" style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0);"></rect>
+//   <rect x="163.325" y="171.248" width="13.583" height="18.111" style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0);"></rect>
+// </svg>
 
 document.addEventListener("DOMContentLoaded", () => run());
