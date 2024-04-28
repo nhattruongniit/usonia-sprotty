@@ -20,12 +20,6 @@ export default function addCustomNode({
   svgAttArr,
   cssClasses = ["node"],
 }: IProps) {
-  //   const positionPort = [
-  //     { x: nodeWidth, y: nodeHeight / 2 - portHeight / 2 },
-  //     { x: nodeWidth / 2 - portWidth / 2, y: nodeHeight },
-  //     { x: 0 - portWidth, y: nodeHeight / 2 - portHeight / 2 },
-  //     { x: nodeWidth / 2 - portWidth / 2, y: 0 - portHeight },
-  //   ];
   const nodeEL = findMax(svgAttArr);
   console.log(nodeEL);
   const portArray = svgAttArr.filter((svg) => {
@@ -48,7 +42,7 @@ export default function addCustomNode({
       },
     },
   ]);
-  console.log(svgAttArr);
+  // console.log(svgAttArr);
   // console.log(portArray);
   for (let i = 0; i < portArray.length; i++) {
     let deviation = 3;
@@ -59,46 +53,37 @@ export default function addCustomNode({
     const compareX = nodeEL.x + nodeEL.width;
     const compareY = nodeEL.y + nodeEL.height;
     if (
-      coordinateX > compareX - deviation &&
-      coordinateX < compareX + deviation
+      (coordinateX > compareX - deviation &&
+        coordinateX < compareX + deviation) ||
+      (coordinateY > compareY - deviation &&
+        coordinateY < compareY + deviation) ||
+      (coordinateX > nodeEL.x - portWidth - deviation &&
+        coordinateX < nodeEL.x - portWidth + deviation) ||
+      (coordinateY > nodeEL.y - portHeight - deviation &&
+        coordinateY < nodeEL.y - portHeight + deviation)
     ) {
-      coordinateX =
-        coordinateX -
-        nodeEL.width +
-        portWidth / 2 +
-        Math.abs(coordinateX - compareX);
-      coordinateY = coordinateY - nodeEL.height - portHeight;
-    } else if (
-      coordinateY > compareY - deviation &&
-      coordinateY < compareY + deviation
-    ) {
-      coordinateX = coordinateX - nodeEL.width + portWidth / 2;
-      coordinateY =
-        coordinateY -
-        nodeEL.height -
-        portHeight -
-        Math.abs(coordinateY - compareY);
-    } else if (
-      coordinateX > nodeEL.x - portWidth - deviation &&
-      coordinateX < nodeEL.x - portWidth + deviation
-    ) {
-      coordinateX =
-        coordinateX -
-        nodeEL.width +
-        portWidth -
-        Math.abs(coordinateX - (nodeEL.x - portWidth));
-      coordinateY = coordinateY - nodeEL.height - portHeight * 2;
-    } else if (
-      coordinateY > nodeEL.y - portHeight - deviation &&
-      coordinateY < nodeEL.y - portHeight + deviation
-    ) {
-      coordinateX = coordinateX - nodeEL.width + portWidth / 2;
-      coordinateY =
-        coordinateY -
-        nodeEL.height -
-        portHeight * 2 -
-        Math.abs(coordinateY - (nodeEL.y - portHeight));
+      source.addElements([
+        {
+          parentId: nodeId,
+          element: <SPort>(<unknown>{
+            type: "port",
+            id: `port-custom-${nodeId}-${i}`,
+            size: {
+              width: portArray[i].width,
+              height: portArray[i].height,
+            },
+            position: {
+              x: coordinateX - nodeEL.x,
+              y: coordinateY - nodeEL.y,
+            },
+            cssClasses: ["port"],
+          }),
+        },
+      ]);
     } else {
+      console.log("x cua el", coordinateX);
+      console.log("x cua node", nodeEL.x);
+      console.log("hieu", coordinateX - nodeEL.x);
       source.addElements([
         {
           parentId: nodeId,
@@ -106,8 +91,8 @@ export default function addCustomNode({
             type: "pre-rendered",
             id: "custom" + nodeId + i,
             position: {
-              x: 0 - nodeEL.width + portWidth / 2,
-              y: 0 - nodeEL.height - portHeight,
+              x: 0 - nodeEL.width / 2 + portWidth / 2,
+              y: 0 - nodeEL.height / 2 - portHeight / 2,
             },
             code: portArray[i].code,
             projectionCssClasses: ["logo-projection"],
@@ -117,24 +102,5 @@ export default function addCustomNode({
       console.log(portArray[i].code);
       continue;
     }
-
-    source.addElements([
-      {
-        parentId: nodeId,
-        element: <SPort>(<unknown>{
-          type: "port",
-          id: `port-custom-${nodeId}-${i}`,
-          size: {
-            width: portArray[i].width,
-            height: portArray[i].height,
-          },
-          position: {
-            x: coordinateX,
-            y: coordinateY,
-          },
-          cssClasses: ["port"],
-        }),
-      },
-    ]);
   }
 }
