@@ -42,8 +42,6 @@ export default function addCustomNode({
       },
     },
   ]);
-  // console.log(svgAttArr);
-  // console.log(portArray);
   for (let i = 0; i < portArray.length; i++) {
     let deviation = 3;
     let coordinateX = portArray[i].x;
@@ -52,55 +50,53 @@ export default function addCustomNode({
     const portHeight = portArray[i].height;
     const compareX = nodeEL.x + nodeEL.width;
     const compareY = nodeEL.y + nodeEL.height;
-    if (
-      (coordinateX > compareX - deviation &&
-        coordinateX < compareX + deviation) ||
-      (coordinateY > compareY - deviation &&
-        coordinateY < compareY + deviation) ||
-      (coordinateX > nodeEL.x - portWidth - deviation &&
-        coordinateX < nodeEL.x - portWidth + deviation) ||
-      (coordinateY > nodeEL.y - portHeight - deviation &&
-        coordinateY < nodeEL.y - portHeight + deviation)
-    ) {
-      source.addElements([
-        {
-          parentId: nodeId,
-          element: <SPort>(<unknown>{
-            type: "port",
-            id: `port-custom-${nodeId}-${i}`,
-            size: {
-              width: portArray[i].width,
-              height: portArray[i].height,
-            },
-            position: {
-              x: coordinateX - nodeEL.x,
-              y: coordinateY - nodeEL.y,
-            },
-            cssClasses: ["port"],
-          }),
-        },
-      ]);
-    } else {
-      console.log("x cua el", coordinateX);
-      console.log("x cua node", nodeEL.x);
-      console.log("hieu", coordinateX - nodeEL.x);
-      source.addElements([
-        {
-          parentId: nodeId,
-          element: {
-            type: "pre-rendered",
-            id: "custom" + nodeId + i,
-            position: {
-              x: 0 - nodeEL.width / 2 + portWidth / 2,
-              y: 0 - nodeEL.height / 2 - portHeight / 2,
-            },
-            code: portArray[i].code,
-            projectionCssClasses: ["logo-projection"],
-          } as ShapedPreRenderedElement & Projectable,
-        },
-      ]);
-      console.log(portArray[i].code);
-      continue;
-    }
+    source.addElements([
+      {
+        parentId: nodeId,
+        element: <SPort>(<unknown>{
+          type: "port",
+          id: `port-custom-${nodeId}-${i}`,
+          size: {
+            width: portArray[i].width,
+            height: portArray[i].height,
+          },
+          position: {
+            x: coordinateX - nodeEL.x,
+            y: coordinateY - nodeEL.y,
+          },
+          cssClasses: ["port"],
+        }),
+      },
+    ]);
+    // if (
+    //   (coordinateX > compareX - deviation &&
+    //     coordinateX < compareX + deviation) ||
+    //   (coordinateY > compareY - deviation &&
+    //     coordinateY < compareY + deviation) ||
+    //   (coordinateX > nodeEL.x - portWidth - deviation &&
+    //     coordinateX < nodeEL.x - portWidth + deviation) ||
+    //   (coordinateY > nodeEL.y - portHeight - deviation &&
+    //     coordinateY < nodeEL.y - portHeight + deviation)
+    // ) {
+
+    // } else {
+    //   source.addElements([
+    //     {
+    //       parentId: nodeId,
+    //       element: {
+    //         type: "pre-rendered",
+    //         id: "custom" + nodeId + i,
+    //         position: {
+    //           x: 0 - nodeEL.width / 2 + portWidth / 2,
+    //           y: 0 - nodeEL.height / 2 - portHeight / 2,
+    //         },
+    //         code: portArray[i].code,
+    //         projectionCssClasses: ["logo-projection"],
+    //       } as ShapedPreRenderedElement & Projectable,
+    //     },
+    //   ]);
+    //   console.log(portArray[i].code);
+    //   continue;
+    // }
   }
 }
