@@ -23828,7 +23828,7 @@
     cssClasses = ["node"]
   }) {
     const nodeEL = findMax(svgAttArr);
-    console.log(nodeEL);
+    console.log(svgAttArr);
     const portArray = svgAttArr.filter((svg3) => {
       return svg3.width !== nodeEL.width;
     });
@@ -23856,24 +23856,46 @@
       const portHeight = portArray[i].height;
       const compareX = nodeEL.x + nodeEL.width;
       const compareY = nodeEL.y + nodeEL.height;
-      source.addElements([
-        {
-          parentId: nodeId,
-          element: {
-            type: "port",
-            id: `port-custom-${nodeId}-${i}`,
-            size: {
-              width: portArray[i].width,
-              height: portArray[i].height
-            },
-            position: {
-              x: coordinateX - nodeEL.x,
-              y: coordinateY - nodeEL.y
-            },
-            cssClasses: ["port"]
+      console.log(
+        portArray[i].x == 0 && portArray[i].y == 0 && portArray[i].width == 0 && portArray[i].height == 0
+      );
+      if (portArray[i].x == 0 && portArray[i].y == 0 && portArray[i].width == 0 && portArray[i].height == 0) {
+        console.log(portArray[i].code);
+        source.addElements([
+          {
+            parentId: nodeId,
+            element: {
+              type: "pre-rendered",
+              id: "custom" + nodeId + i,
+              position: {
+                x: 0 - nodeEL.width / 2 + portWidth / 2,
+                y: 0 - nodeEL.height / 2 - portHeight / 2
+              },
+              code: portArray[i].code,
+              projectionCssClasses: ["logo-projection"]
+            }
           }
-        }
-      ]);
+        ]);
+      } else {
+        source.addElements([
+          {
+            parentId: nodeId,
+            element: {
+              type: "port",
+              id: `port-custom-${nodeId}-${i}`,
+              size: {
+                width: portArray[i].width,
+                height: portArray[i].height
+              },
+              position: {
+                x: coordinateX - nodeEL.x,
+                y: coordinateY - nodeEL.y
+              },
+              cssClasses: ["port"]
+            }
+          }
+        ]);
+      }
     }
   }
 
@@ -24534,13 +24556,18 @@
       let parser = new DOMParser();
       let doc = parser.parseFromString(svgText, "image/svg+xml");
       let rects = doc.getElementsByTagName("rect");
-      let svgArray = Array.from(rects);
+      let ellipse = doc.getElementsByTagName("ellipse");
+      let svgArray = [...Array.from(rects), ...Array.from(ellipse)];
       const svgAttArray = svgArray.map((svg3) => {
         return {
           x: +svg3.getAttribute("x"),
+          cx: +svg3.getAttribute("cx"),
           y: +svg3.getAttribute("y"),
+          cy: +svg3.getAttribute("cy"),
           width: +svg3.getAttribute("width"),
+          rx: svg3.getAttribute("rx"),
           height: +svg3.getAttribute("height"),
+          ry: svg3.getAttribute("ry"),
           code: svg3.outerHTML
         };
       });

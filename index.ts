@@ -884,18 +884,21 @@ export default async function run() {
 
     // Get all the 'rect' elements from the document
     let rects = doc.getElementsByTagName("rect");
+    let ellipse = doc.getElementsByTagName("ellipse");
 
     // Convert the HTMLCollection to an array
-    let svgArray = Array.from(rects);
+    let svgArray = [...Array.from(rects), ...Array.from(ellipse)];
 
-    // console.log(svgArray[0].getAttribute("width"));
-    // console.log(Array.from(svgArray[0].attributes)[2]);
     const svgAttArray = svgArray.map((svg) => {
       return {
         x: +svg.getAttribute("x"),
+        cx: +svg.getAttribute("cx"),
         y: +svg.getAttribute("y"),
+        cy: +svg.getAttribute("cy"),
         width: +svg.getAttribute("width"),
+        rx: svg.getAttribute("rx"),
         height: +svg.getAttribute("height"),
+        ry: svg.getAttribute("ry"),
         code: svg.outerHTML,
       };
     });
@@ -915,11 +918,13 @@ export default async function run() {
 
 // <svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
 //   <defs></defs>
-//   <rect x="177.555" y="135.026" width="188.875" height="104.787" style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0);"></rect>
-//   <rect x="260.349" y="120.796" width="29.107" height="13.583" style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0);"></rect>
-//   <rect x="367.076" y="168.661" width="21.992" height="35.576" style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0);"></rect>
-//   <rect x="250.647" y="239.812" width="35.576" height="27.167" style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0);"></rect>
-//   <rect x="163.325" y="171.248" width="13.583" height="18.111" style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0);"></rect>
+//   <rect x="109.638" y="65.168" width="271.669" height="181.113" style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0);"></rect>
+//   <rect x="217.658" y="28.946" width="76.973" height="34.929" style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0);"></rect>
+//   <rect x="382.6" y="125.97" width="52.393" height="52.393" style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0);"></rect>
+//   <rect x="196.313" y="246.281" width="75.032" height="45.925" style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0);"></rect>
+//   <rect x="51.423" y="129.204" width="58.862" height="46.572" style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0);"></rect>
+//   <rect x="165.912" y="100.097" width="73.092" height="49.806" style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0);"></rect>
+//   <ellipse style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0);" cx="331.824" cy="202.296" rx="34.605" ry="32.342"></ellipse>
 // </svg>
 
 document.addEventListener("DOMContentLoaded", () => run());

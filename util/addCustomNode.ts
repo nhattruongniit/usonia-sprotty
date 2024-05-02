@@ -21,7 +21,7 @@ export default function addCustomNode({
   cssClasses = ["node"],
 }: IProps) {
   const nodeEL = findMax(svgAttArr);
-  console.log(nodeEL);
+  console.log(svgAttArr);
   const portArray = svgAttArr.filter((svg) => {
     return svg.width !== nodeEL.width;
   });
@@ -50,24 +50,55 @@ export default function addCustomNode({
     const portHeight = portArray[i].height;
     const compareX = nodeEL.x + nodeEL.width;
     const compareY = nodeEL.y + nodeEL.height;
-    source.addElements([
-      {
-        parentId: nodeId,
-        element: <SPort>(<unknown>{
-          type: "port",
-          id: `port-custom-${nodeId}-${i}`,
-          size: {
-            width: portArray[i].width,
-            height: portArray[i].height,
-          },
-          position: {
-            x: coordinateX - nodeEL.x,
-            y: coordinateY - nodeEL.y,
-          },
-          cssClasses: ["port"],
-        }),
-      },
-    ]);
+    console.log(
+      portArray[i].x == 0 &&
+        portArray[i].y == 0 &&
+        portArray[i].width == 0 &&
+        portArray[i].height == 0
+    );
+    if (
+      portArray[i].x == 0 &&
+      portArray[i].y == 0 &&
+      portArray[i].width == 0 &&
+      portArray[i].height == 0
+    ) {
+      console.log(portArray[i].code);
+      source.addElements([
+        {
+          parentId: nodeId,
+          element: {
+            type: "pre-rendered",
+            id: "custom" + nodeId + i,
+            position: {
+              x: 0 - nodeEL.width / 2 + portWidth / 2,
+              y: 0 - nodeEL.height / 2 - portHeight / 2,
+            },
+            code: portArray[i].code,
+            projectionCssClasses: ["logo-projection"],
+          } as ShapedPreRenderedElement & Projectable,
+        },
+      ]);
+    } else {
+      source.addElements([
+        {
+          parentId: nodeId,
+          element: <SPort>(<unknown>{
+            type: "port",
+            id: `port-custom-${nodeId}-${i}`,
+            size: {
+              width: portArray[i].width,
+              height: portArray[i].height,
+            },
+            position: {
+              x: coordinateX - nodeEL.x,
+              y: coordinateY - nodeEL.y,
+            },
+            cssClasses: ["port"],
+          }),
+        },
+      ]);
+    }
+
     // if (
     //   (coordinateX > compareX - deviation &&
     //     coordinateX < compareX + deviation) ||
