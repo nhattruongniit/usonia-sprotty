@@ -23856,11 +23856,8 @@
       const portHeight = portArray[i].height;
       const compareX = nodeEL.x + nodeEL.width;
       const compareY = nodeEL.y + nodeEL.height;
-      console.log(
-        portArray[i].x == 0 && portArray[i].y == 0 && portArray[i].width == 0 && portArray[i].height == 0
-      );
       if (portArray[i].x == 0 && portArray[i].y == 0 && portArray[i].width == 0 && portArray[i].height == 0) {
-        console.log(portArray[i].code);
+        console.log(portArray[i]);
         source.addElements([
           {
             parentId: nodeId,
@@ -23868,8 +23865,8 @@
               type: "pre-rendered",
               id: "custom" + nodeId + i,
               position: {
-                x: 0 - nodeEL.width / 2 + portWidth / 2,
-                y: 0 - nodeEL.height / 2 - portHeight / 2
+                x: portArray[i].rx - nodeEL.x - portArray[i].rx,
+                y: portArray[i].ry - nodeEL.y - portArray[i].ry
               },
               code: portArray[i].code,
               projectionCssClasses: ["logo-projection"]
