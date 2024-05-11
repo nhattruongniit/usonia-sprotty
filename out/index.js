@@ -23688,6 +23688,11 @@
     const NODE_PARENT_HEIGHT2 = nodeWidth * 4;
     const PORT_PARENT_WIDTH2 = NODE_PARENT_WIDTH2 / 8;
     const PORT_PARENT_HEIGHT2 = NODE_PARENT_HEIGHT2 / 8;
+    let NODE_CUSTOM_WIDTH;
+    let NODE_CUSTOM_HEIGHT;
+    let PORT_CUSTOM_WIDTH;
+    let PORT_CUSTOM_HEIGHT;
+    let deviation = 5;
     let isDrawable = false;
     let targetId2 = "";
     let gragphChildrenArr = [];
@@ -23704,14 +23709,34 @@
               let portType = null;
               const portX = nodeChild.position.x;
               const portY = nodeChild.position.y;
-              if (portX === nodeWidth && portY === (nodeHeight - portHeight) / 2) {
-                portType = 1;
-              } else if (portX === (nodeWidth - portWidth) / 2 && portY === nodeHeight) {
-                portType = 2;
-              } else if (portX === 0 - portWidth && portY === (nodeHeight - portHeight) / 2) {
-                portType = 3;
-              } else if (portX === (nodeWidth - portWidth) / 2 && portY === 0 - portHeight) {
-                portType = 4;
+              let isCustom = false;
+              if (nodeChild.id.includes("port-custom")) {
+                isCustom = true;
+                NODE_CUSTOM_WIDTH = nodeChild.parent.size.width;
+                NODE_CUSTOM_HEIGHT = nodeChild.parent.size.height;
+                PORT_CUSTOM_WIDTH = nodeChild.size.width;
+                PORT_CUSTOM_HEIGHT = nodeChild.size.height;
+                console.log("x", portX, NODE_CUSTOM_WIDTH);
+                console.log("y", portY, NODE_CUSTOM_HEIGHT);
+                if (Math.abs(portX - NODE_CUSTOM_WIDTH) <= deviation) {
+                  portType = 1;
+                } else if (Math.abs(portY - NODE_CUSTOM_HEIGHT) <= deviation) {
+                  portType = 2;
+                } else if (Math.abs(portX - (0 - PORT_CUSTOM_WIDTH)) <= deviation) {
+                  portType = 3;
+                } else if (Math.abs(portY - (0 - PORT_CUSTOM_HEIGHT)) <= deviation) {
+                  portType = 4;
+                }
+              } else {
+                if (portX === nodeWidth && portY === (nodeHeight - portHeight) / 2) {
+                  portType = 1;
+                } else if (portX === (nodeWidth - portWidth) / 2 && portY === nodeHeight) {
+                  portType = 2;
+                } else if (portX === 0 - portWidth && portY === (nodeHeight - portHeight) / 2) {
+                  portType = 3;
+                } else if (portX === (nodeWidth - portWidth) / 2 && portY === 0 - portHeight) {
+                  portType = 4;
+                }
               }
               portCompareCoordinateArr.push({
                 x: portX,
@@ -23719,7 +23744,8 @@
                 id: nodeChild.id,
                 nodeX: nodeChild.parent.position.x,
                 nodeY: nodeChild.parent.position.y,
-                type: portType
+                type: portType,
+                isCustom
               });
             }
           });
@@ -23765,20 +23791,25 @@
           });
         }
       });
+      console.log(portCompareCoordinateArr);
       portCompareCoordinateArr.forEach((portCoordinate) => {
         let portCompareX;
         let portCompareY;
+        let currentPortWidth = portCoordinate.isCustom ? PORT_CUSTOM_WIDTH : portWidth;
+        let currentPortHeight = portCoordinate.isCustom ? PORT_CUSTOM_HEIGHT : portHeight;
+        let currentNodeWidth = portCoordinate.isCustom ? NODE_CUSTOM_WIDTH : nodeWidth;
+        let currentNodeHeight = portCoordinate.isCustom ? NODE_CUSTOM_HEIGHT : nodeHeight;
         if (portCoordinate.type === 1) {
           portCompareX = portCoordinate.nodeX + portCoordinate.x;
-          portCompareY = portCoordinate.nodeY + (nodeHeight - portHeight) / 2;
+          portCompareY = portCoordinate.nodeY + (currentNodeHeight - currentPortHeight) / 2;
         } else if (portCoordinate.type === 2) {
-          portCompareX = portCoordinate.nodeX + (nodeWidth - portWidth) / 2;
+          portCompareX = portCoordinate.nodeX + (currentNodeWidth - currentPortWidth) / 2;
           portCompareY = portCoordinate.nodeY + portCoordinate.y;
         } else if (portCoordinate.type === 3) {
           portCompareX = portCoordinate.nodeX + portCoordinate.x;
-          portCompareY = portCoordinate.nodeY + (nodeHeight - portHeight) / 2;
+          portCompareY = portCoordinate.nodeY + (currentNodeHeight - currentPortHeight) / 2;
         } else if (portCoordinate.type === 4) {
-          portCompareX = portCoordinate.nodeX + (nodeWidth - portWidth) / 2;
+          portCompareX = portCoordinate.nodeX + (currentNodeWidth - currentPortWidth) / 2;
           portCompareY = portCoordinate.nodeY + portCoordinate.y;
         } else if (portCoordinate.type === 5) {
           portCompareX = portCoordinate.nodeX + portCoordinate.x;
@@ -23786,7 +23817,7 @@
         } else {
           return;
         }
-        if (coordinateDummyNodeX <= portCompareX + portWidth && portCompareX <= coordinateDummyNodeX && coordinateDummyNodeY <= portCompareY + portHeight && portCompareY <= coordinateDummyNodeY) {
+        if (coordinateDummyNodeX <= portCompareX + currentPortWidth && portCompareX <= coordinateDummyNodeX && coordinateDummyNodeY <= portCompareY + currentPortHeight && portCompareY <= coordinateDummyNodeY) {
           targetId2 = portCoordinate.id;
           isDrawable = true;
         }
@@ -23818,6 +23849,16 @@
       }
     }
     return maxVal;
+  }
+
+  // util/getAttributes/getTransformMatrix.ts
+  function extractTransformAttribute(svgElement) {
+    const transformRegex = /transform="([^"]+)"/;
+    const match = svgElement.match(transformRegex);
+    if (match && match[1]) {
+      return match[1];
+    }
+    return "";
   }
 
   // util/addCustomNode.ts
@@ -23857,23 +23898,9 @@
       const compareX = nodeEL.x + nodeEL.width;
       const compareY = nodeEL.y + nodeEL.height;
       if (portArray[i].x == 0 && portArray[i].y == 0 && portArray[i].width == 0 && portArray[i].height == 0) {
-        console.log(portArray[i]);
-        source.addElements([
-          {
-            parentId: nodeId,
-            element: {
-              type: "pre-rendered",
-              id: "custom" + nodeId + i,
-              position: {
-                x: portArray[i].rx - nodeEL.x - portArray[i].rx,
-                y: portArray[i].ry - nodeEL.y - portArray[i].ry
-              },
-              code: portArray[i].code,
-              projectionCssClasses: ["logo-projection"]
-            }
-          }
-        ]);
       } else {
+      }
+      if (coordinateX > compareX - deviation && coordinateX < compareX + deviation || coordinateY > compareY - deviation && coordinateY < compareY + deviation || coordinateX > nodeEL.x - portWidth - deviation && coordinateX < nodeEL.x - portWidth + deviation || coordinateY > nodeEL.y - portHeight - deviation && coordinateY < nodeEL.y - portHeight + deviation) {
         source.addElements([
           {
             parentId: nodeId,
@@ -23889,6 +23916,27 @@
                 y: coordinateY - nodeEL.y
               },
               cssClasses: ["port"]
+            }
+          }
+        ]);
+      } else {
+        const transformMatrix = extractTransformAttribute(
+          portArray[i].code || ""
+        );
+        console.log(transformMatrix);
+        source.addElements([
+          {
+            parentId: nodeId,
+            element: {
+              type: "pre-rendered",
+              id: "custom" + nodeId + i,
+              position: {
+                x: portArray[i].rx - nodeEL.x - portArray[i].rx,
+                y: portArray[i].ry - nodeEL.y - portArray[i].ry
+              },
+              transform: transformMatrix,
+              code: portArray[i].code,
+              projectionCssClasses: ["logo-projection"]
             }
           }
         ]);

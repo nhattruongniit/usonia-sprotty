@@ -6,6 +6,7 @@ import {
   Projectable,
 } from "sprotty-protocol";
 import { findMax } from "./Math/findMax";
+import { extractTransformAttribute } from "./getAttributes/getTransformMatrix";
 
 type IProps = {
   source: any;
@@ -57,23 +58,19 @@ export default function addCustomNode({
       portArray[i].width == 0 &&
       portArray[i].height == 0
     ) {
-      console.log(portArray[i]);
-      source.addElements([
-        {
-          parentId: nodeId,
-          element: {
-            type: "pre-rendered",
-            id: "custom" + nodeId + i,
-            position: {
-              x: portArray[i].rx - nodeEL.x - portArray[i].rx,
-              y: portArray[i].ry - nodeEL.y - portArray[i].ry,
-            },
-            code: portArray[i].code,
-            projectionCssClasses: ["logo-projection"],
-          } as ShapedPreRenderedElement & Projectable,
-        },
-      ]);
     } else {
+    }
+
+    if (
+      (coordinateX > compareX - deviation &&
+        coordinateX < compareX + deviation) ||
+      (coordinateY > compareY - deviation &&
+        coordinateY < compareY + deviation) ||
+      (coordinateX > nodeEL.x - portWidth - deviation &&
+        coordinateX < nodeEL.x - portWidth + deviation) ||
+      (coordinateY > nodeEL.y - portHeight - deviation &&
+        coordinateY < nodeEL.y - portHeight + deviation)
+    ) {
       source.addElements([
         {
           parentId: nodeId,
@@ -92,37 +89,44 @@ export default function addCustomNode({
           }),
         },
       ]);
+    } else {
+      const transformMatrix = extractTransformAttribute(
+        portArray[i].code || ""
+      );
+      console.log(transformMatrix);
+      source.addElements([
+        {
+          parentId: nodeId,
+          element: {
+            type: "pre-rendered",
+            id: "custom" + nodeId + i,
+            position: {
+              x: portArray[i].rx - nodeEL.x - portArray[i].rx,
+              y: portArray[i].ry - nodeEL.y - portArray[i].ry,
+            },
+            transform: transformMatrix,
+            code: portArray[i].code,
+            projectionCssClasses: ["logo-projection"],
+          } as ShapedPreRenderedElement & Projectable,
+        },
+      ]);
     }
-
-    // if (
-    //   (coordinateX > compareX - deviation &&
-    //     coordinateX < compareX + deviation) ||
-    //   (coordinateY > compareY - deviation &&
-    //     coordinateY < compareY + deviation) ||
-    //   (coordinateX > nodeEL.x - portWidth - deviation &&
-    //     coordinateX < nodeEL.x - portWidth + deviation) ||
-    //   (coordinateY > nodeEL.y - portHeight - deviation &&
-    //     coordinateY < nodeEL.y - portHeight + deviation)
-    // ) {
-
-    // } else {
-    //   source.addElements([
-    //     {
-    //       parentId: nodeId,
-    //       element: {
-    //         type: "pre-rendered",
-    //         id: "custom" + nodeId + i,
-    //         position: {
-    //           x: 0 - nodeEL.width / 2 + portWidth / 2,
-    //           y: 0 - nodeEL.height / 2 - portHeight / 2,
-    //         },
-    //         code: portArray[i].code,
-    //         projectionCssClasses: ["logo-projection"],
-    //       } as ShapedPreRenderedElement & Projectable,
-    //     },
-    //   ]);
-    //   console.log(portArray[i].code);
-    //   continue;
-    // }
+    // source.addElements([
+    //   {
+    //     parentId: nodeId,
+    //     element: {
+    //       type: "pre-rendered",
+    //       id: "custom" + nodeId + i,
+    //       position: {
+    //         x: 0 - nodeEL.width / 2 + portWidth / 2,
+    //         y: 0 - nodeEL.height / 2 - portHeight / 2,
+    //       },
+    //       code: portArray[i].code,
+    //       projectionCssClasses: ["logo-projection"],
+    //     } as ShapedPreRenderedElement & Projectable,
+    //   },
+    // ]);
+    // console.log(portArray[i].code);
+    // continue;
   }
 }
