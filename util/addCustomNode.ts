@@ -21,8 +21,9 @@ export default function addCustomNode({
   svgAttArr,
   cssClasses = ["node"],
 }: IProps) {
+  let portGeneratedArr = [];
   const nodeEL = findMax(svgAttArr);
-  console.log(svgAttArr);
+
   const portArray = svgAttArr.filter((svg) => {
     return svg.width !== nodeEL.width;
   });
@@ -71,6 +72,11 @@ export default function addCustomNode({
       (coordinateY > nodeEL.y - portHeight - deviation &&
         coordinateY < nodeEL.y - portHeight + deviation)
     ) {
+      portGeneratedArr.push({
+        id: `port-custom-${nodeId}-${i}`,
+        width: portWidth,
+        height: portHeight,
+      });
       source.addElements([
         {
           parentId: nodeId,
@@ -93,7 +99,7 @@ export default function addCustomNode({
       const transformMatrix = extractTransformAttribute(
         portArray[i].code || ""
       );
-      console.log(transformMatrix);
+
       source.addElements([
         {
           parentId: nodeId,
@@ -111,22 +117,6 @@ export default function addCustomNode({
         },
       ]);
     }
-    // source.addElements([
-    //   {
-    //     parentId: nodeId,
-    //     element: {
-    //       type: "pre-rendered",
-    //       id: "custom" + nodeId + i,
-    //       position: {
-    //         x: 0 - nodeEL.width / 2 + portWidth / 2,
-    //         y: 0 - nodeEL.height / 2 - portHeight / 2,
-    //       },
-    //       code: portArray[i].code,
-    //       projectionCssClasses: ["logo-projection"],
-    //     } as ShapedPreRenderedElement & Projectable,
-    //   },
-    // ]);
-    // console.log(portArray[i].code);
-    // continue;
   }
+  return portGeneratedArr;
 }

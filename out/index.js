@@ -23868,8 +23868,8 @@
     svgAttArr,
     cssClasses = ["node"]
   }) {
+    let portGeneratedArr = [];
     const nodeEL = findMax(svgAttArr);
-    console.log(svgAttArr);
     const portArray = svgAttArr.filter((svg3) => {
       return svg3.width !== nodeEL.width;
     });
@@ -23901,6 +23901,11 @@
       } else {
       }
       if (coordinateX > compareX - deviation && coordinateX < compareX + deviation || coordinateY > compareY - deviation && coordinateY < compareY + deviation || coordinateX > nodeEL.x - portWidth - deviation && coordinateX < nodeEL.x - portWidth + deviation || coordinateY > nodeEL.y - portHeight - deviation && coordinateY < nodeEL.y - portHeight + deviation) {
+        portGeneratedArr.push({
+          id: `port-custom-${nodeId}-${i}`,
+          width: portWidth,
+          height: portHeight
+        });
         source.addElements([
           {
             parentId: nodeId,
@@ -23923,7 +23928,6 @@
         const transformMatrix = extractTransformAttribute(
           portArray[i].code || ""
         );
-        console.log(transformMatrix);
         source.addElements([
           {
             parentId: nodeId,
@@ -23942,6 +23946,71 @@
         ]);
       }
     }
+    return portGeneratedArr;
+  }
+
+  // util/generateInputEl.ts
+  function generateInputElements(portGeneratedArr, containerId, source) {
+    const closeModalBtnEl2 = document.getElementById("close-modal-btn");
+    const svgTextEl2 = document.getElementById("svg-text");
+    const addCustomSVGEl2 = document.getElementById("add-custom-svg");
+    const container2 = document.getElementById(containerId);
+    if (!container2) {
+      console.error("Container not found");
+      return;
+    }
+    addCustomSVGEl2.classList.add("d-none");
+    container2.innerHTML = "";
+    portGeneratedArr.forEach((port) => {
+      const inputElement = document.createElement("input");
+      inputElement.type = "text";
+      inputElement.placeholder = `Enter value for ${port.id}`;
+      inputElement.id = `input-${port.id}`;
+      inputElement.className = "form-control mb-2";
+      container2.appendChild(inputElement);
+    });
+    const submitButton = document.createElement("button");
+    submitButton.textContent = "Submit";
+    submitButton.id = "submit-button";
+    submitButton.className = "btn btn-primary";
+    submitButton.addEventListener("click", () => {
+      const inputTextArr = [];
+      portGeneratedArr.forEach((port) => {
+        const inputElement = document.getElementById(
+          `input-${port.id}`
+        );
+        if (inputElement) {
+          inputTextArr.push({
+            textValue: inputElement.value,
+            portId: port.id,
+            width: port.width,
+            height: port.height
+          });
+          inputElement.remove();
+          if (svgTextEl2 instanceof HTMLInputElement) {
+            svgTextEl2.value = "";
+          }
+          closeModalBtnEl2 == null ? void 0 : closeModalBtnEl2.click();
+        } else {
+          console.error(`Input element for ${port.id} not found`);
+        }
+      });
+      inputTextArr.forEach((port) => {
+        source.addElements([
+          {
+            parentId: port.portId,
+            element: {
+              type: "label:port",
+              id: `label-${port.portId}`,
+              text: port.textValue,
+              position: { x: port.width / 2, y: 0 - port.height / 8 }
+            }
+          }
+        ]);
+      });
+      container2.innerHTML = "";
+    });
+    container2.appendChild(submitButton);
   }
 
   // index.ts
@@ -24616,15 +24685,14 @@
           code: svg3.outerHTML
         };
       });
-      addCustomNode({
+      const portGeneratedArr = addCustomNode({
         source: modelSource,
         nodeId: id,
         svgAttArr: svgAttArray
       });
       customSVGCount++;
+      generateInputElements(portGeneratedArr, "port-text", modelSource);
       drawLogic();
-      svgTextEl.value = "";
-      closeModalBtnEl.click();
     });
   }
   document.addEventListener("DOMContentLoaded", () => run());

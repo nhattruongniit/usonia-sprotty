@@ -35,6 +35,7 @@ import checkPositionEl from "./util/checkPositionEl";
 import { injectable } from "inversify";
 import addCustomNode from "./util/addCustomNode";
 import { findMax } from "./util/Math/findMax";
+import { generateInputElements } from "./util/generateInputEl";
 // elements dom
 let addParentNode = null;
 
@@ -44,6 +45,7 @@ let deleteBtn = null;
 let addCustomSVGEl = null;
 let svgTextEl = null;
 let closeModalBtnEl = null;
+let addCustomBtn = null;
 
 let exportJsonBtn = null;
 let importJsonBtn = null;
@@ -865,16 +867,6 @@ export default async function run() {
   addCustomSVGEl.addEventListener("click", () => {
     const id = `custom-node-${customSVGCount}`;
 
-    // addCustomSVG({
-    //   source: modelSource,
-    //   svgId: id,
-    //   code: svgTextEl.value,
-    //   type: "pre-rendered",
-    //   nodeId: "1",
-    //   nodeWidth: 200,
-    //   cssClasses: ["node"],
-    //   nodeHeight: 100,
-    // });
     let svgText = svgTextEl.value;
 
     let parser = new DOMParser();
@@ -903,28 +895,16 @@ export default async function run() {
       };
     });
 
-    addCustomNode({
+    const portGeneratedArr = addCustomNode({
       source: modelSource,
       nodeId: id,
       svgAttArr: svgAttArray,
     });
     customSVGCount++;
-
+    // console.log(portGeneratedArr);
+    generateInputElements(portGeneratedArr, "port-text", modelSource);
     drawLogic();
-    svgTextEl.value = "";
-    closeModalBtnEl.click();
   });
 }
-
-// <svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
-//   <defs></defs>
-//   <rect x="109.638" y="65.168" width="271.669" height="181.113" style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0);"></rect>
-//   <rect x="217.658" y="28.946" width="76.973" height="34.929" style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0);"></rect>
-//   <rect x="382.6" y="125.97" width="52.393" height="52.393" style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0);"></rect>
-//   <rect x="196.313" y="246.281" width="75.032" height="45.925" style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0);"></rect>
-//   <rect x="51.423" y="129.204" width="58.862" height="46.572" style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0);"></rect>
-//   <rect x="165.912" y="100.097" width="73.092" height="49.806" style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0);"></rect>
-//   <ellipse style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0);" cx="331.824" cy="202.296" rx="34.605" ry="32.342"></ellipse>
-// </svg>
 
 document.addEventListener("DOMContentLoaded", () => run());
