@@ -23961,14 +23961,23 @@
     }
     addCustomSVGEl2.classList.add("d-none");
     container2.innerHTML = "";
-    portGeneratedArr.forEach((port) => {
+    portGeneratedArr.forEach((port, index) => {
+      const fieldPortElement = document.createElement("div");
       const inputElement = document.createElement("input");
+      const labelElement = document.createElement("span");
       inputElement.type = "text";
       inputElement.placeholder = `Enter value for ${port.id}`;
       inputElement.id = `input-${port.id}`;
-      inputElement.className = "form-control mb-2";
-      container2.appendChild(inputElement);
+      inputElement.className = "form-control mb-2 mt-2";
+      labelElement.innerHTML = `Port ${index + 1}:`;
+      labelElement.className = "flex-shrink-0 me-2";
+      fieldPortElement.className = "d-flex align-items-center mt-2";
+      fieldPortElement.appendChild(labelElement);
+      fieldPortElement.appendChild(inputElement);
+      container2.appendChild(fieldPortElement);
     });
+    const divSubmitButton = document.createElement("div");
+    divSubmitButton.className = "d-flex justify-content-end mt-2";
     const submitButton = document.createElement("button");
     submitButton.textContent = "Submit";
     submitButton.id = "submit-button";
@@ -24010,7 +24019,8 @@
       });
       container2.innerHTML = "";
     });
-    container2.appendChild(submitButton);
+    divSubmitButton.appendChild(submitButton);
+    container2.appendChild(divSubmitButton);
   }
 
   // index.ts

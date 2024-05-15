@@ -18,18 +18,30 @@ export function generateInputElements(
   container.innerHTML = "";
 
   // Create and append input elements for each port ID
-  portGeneratedArr.forEach((port) => {
+  
+  portGeneratedArr.forEach((port, index) => {
+    const fieldPortElement = document.createElement('div');
     const inputElement = document.createElement("input");
+    const labelElement = document.createElement("span");
 
     inputElement.type = "text";
     inputElement.placeholder = `Enter value for ${port.id}`;
     inputElement.id = `input-${port.id}`;
-    inputElement.className = "form-control mb-2"; // Optional: for styling purposes
+    inputElement.className = "form-control mb-2 mt-2"; // Optional: for styling purposes
 
-    container.appendChild(inputElement);
+    labelElement.innerHTML = `Port ${index + 1}:`;
+    labelElement.className = 'flex-shrink-0 me-2'
+
+    fieldPortElement.className = "d-flex align-items-center mt-2"; 
+    fieldPortElement.appendChild(labelElement);
+    fieldPortElement.appendChild(inputElement);
+
+    container.appendChild(fieldPortElement);
   });
 
   // Create a submit button
+  const divSubmitButton = document.createElement("div");
+  divSubmitButton.className = "d-flex justify-content-end mt-2";
   const submitButton = document.createElement("button");
   submitButton.textContent = "Submit";
   submitButton.id = "submit-button";
@@ -76,5 +88,6 @@ export function generateInputElements(
     // Clear the container after processing all inputs
     container.innerHTML = "";
   });
-  container.appendChild(submitButton);
+  divSubmitButton.appendChild(submitButton);
+  container.appendChild(divSubmitButton);
 }
