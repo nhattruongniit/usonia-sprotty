@@ -66,6 +66,7 @@ export function generateInputElements(
         }
         closeModalBtnEl?.click();
         addCustomSVGEl.classList.remove("d-none");
+        (svgTextEl as HTMLInputElement).value = "";
       } else {
         console.error(`Input element for ${port.id} not found`);
       }
