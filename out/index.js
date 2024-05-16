@@ -24000,6 +24000,7 @@
             svgTextEl2.value = "";
           }
           closeModalBtnEl2 == null ? void 0 : closeModalBtnEl2.click();
+          addCustomSVGEl2.classList.remove("d-none");
         } else {
           console.error(`Input element for ${port.id} not found`);
         }

@@ -18,9 +18,9 @@ export function generateInputElements(
   container.innerHTML = "";
 
   // Create and append input elements for each port ID
-  
+
   portGeneratedArr.forEach((port, index) => {
-    const fieldPortElement = document.createElement('div');
+    const fieldPortElement = document.createElement("div");
     const inputElement = document.createElement("input");
     const labelElement = document.createElement("span");
 
@@ -30,9 +30,9 @@ export function generateInputElements(
     inputElement.className = "form-control mb-2 mt-2"; // Optional: for styling purposes
 
     labelElement.innerHTML = `Port ${index + 1}:`;
-    labelElement.className = 'flex-shrink-0 me-2'
+    labelElement.className = "flex-shrink-0 me-2";
 
-    fieldPortElement.className = "d-flex align-items-center mt-2"; 
+    fieldPortElement.className = "d-flex align-items-center mt-2";
     fieldPortElement.appendChild(labelElement);
     fieldPortElement.appendChild(inputElement);
 
@@ -65,6 +65,7 @@ export function generateInputElements(
           svgTextEl.value = "";
         }
         closeModalBtnEl?.click();
+        addCustomSVGEl.classList.remove("d-none");
       } else {
         console.error(`Input element for ${port.id} not found`);
       }
