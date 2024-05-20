@@ -901,7 +901,7 @@ export default async function run() {
       svgAttArr: svgAttArray,
     });
     customSVGCount++;
-    // console.log(portGeneratedArr);
+
     generateInputElements(portGeneratedArr, "port-text", modelSource, nodeId);
     drawLogic();
   });

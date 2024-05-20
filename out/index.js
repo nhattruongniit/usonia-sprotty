@@ -23969,6 +23969,12 @@
     const container2 = document.getElementById(containerId);
     if (portGeneratedArr.length === 0) {
       window.alert("No ports found. Please insert another SVG!!!");
+      source.removeElements([
+        {
+          elementId: nodeId,
+          parentId: "graph"
+        }
+      ]);
       return;
     }
     if (!container2) {
