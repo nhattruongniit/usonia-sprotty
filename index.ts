@@ -895,14 +895,14 @@ export default async function run() {
       };
     });
 
-    const portGeneratedArr = addCustomNode({
+    const { portGeneratedArr, nodeId } = addCustomNode({
       source: modelSource,
       nodeId: id,
       svgAttArr: svgAttArray,
     });
     customSVGCount++;
     // console.log(portGeneratedArr);
-    generateInputElements(portGeneratedArr, "port-text", modelSource);
+    generateInputElements(portGeneratedArr, "port-text", modelSource, nodeId);
     drawLogic();
   });
 }

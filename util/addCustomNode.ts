@@ -44,6 +44,7 @@ export default function addCustomNode({
       },
     },
   ]);
+
   for (let i = 0; i < portArray.length; i++) {
     let deviation = 3;
     let coordinateX = portArray[i].x;
@@ -53,14 +54,14 @@ export default function addCustomNode({
     const compareX = nodeEL.x + nodeEL.width;
     const compareY = nodeEL.y + nodeEL.height;
 
-    if (
-      portArray[i].x == 0 &&
-      portArray[i].y == 0 &&
-      portArray[i].width == 0 &&
-      portArray[i].height == 0
-    ) {
-    } else {
-    }
+    // if (
+    //   portArray[i].x == 0 &&
+    //   portArray[i].y == 0 &&
+    //   portArray[i].width == 0 &&
+    //   portArray[i].height == 0
+    // ) {
+    // } else {
+    // }
 
     if (
       (coordinateX > compareX - deviation &&
@@ -118,5 +119,5 @@ export default function addCustomNode({
       ]);
     }
   }
-  return portGeneratedArr;
+  return { portGeneratedArr, nodeId };
 }

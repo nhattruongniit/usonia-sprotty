@@ -3,12 +3,17 @@ import { SLabel } from "sprotty-protocol";
 export function generateInputElements(
   portGeneratedArr: any[],
   containerId: string,
-  source: any
+  source: any,
+  nodeId: string
 ) {
   const closeModalBtnEl = document.getElementById("close-modal-btn");
-  const svgTextEl = document.getElementById("svg-text");
+  const svgTextEl = document.getElementById("area_field_svg");
   const addCustomSVGEl = document.getElementById("add-custom-svg");
   const container = document.getElementById(containerId);
+  if (portGeneratedArr.length === 0) {
+    window.alert("No ports found. Please insert another SVG!!!");
+    return;
+  }
   if (!container) {
     console.error("Container not found");
     return;
@@ -61,9 +66,7 @@ export function generateInputElements(
         });
         // Optionally remove each input element immediately after processing
         inputElement.remove();
-        if (svgTextEl instanceof HTMLInputElement) {
-          svgTextEl.value = "";
-        }
+
         closeModalBtnEl?.click();
         addCustomSVGEl.classList.remove("d-none");
         (svgTextEl as HTMLInputElement).value = "";

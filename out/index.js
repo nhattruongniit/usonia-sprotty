@@ -23677,8 +23677,23 @@
   }
 
   // util/getGraphJson.ts
+  function removeIsFeatures(data) {
+    if (data) {
+      data.forEach((e) => {
+        e == null ? true : delete e.features;
+        removeIsFeatures(e.children);
+      });
+    }
+  }
   function getGrahpJson(graph2) {
-    console.log(graph2);
+    graph2 == null ? true : delete graph2.canvasBounds;
+    graph2 == null ? true : delete graph2.scroll;
+    graph2 == null ? true : delete graph2.zoom;
+    graph2 == null ? true : delete graph2.position;
+    graph2 == null ? true : delete graph2.size;
+    graph2 == null ? true : delete graph2.features;
+    removeIsFeatures(graph2.children);
+    graph2.isValidGraph = true;
     return JSON.stringify(graph2, null, 2);
   }
 
@@ -23897,9 +23912,6 @@
       const portHeight = portArray[i].height;
       const compareX = nodeEL.x + nodeEL.width;
       const compareY = nodeEL.y + nodeEL.height;
-      if (portArray[i].x == 0 && portArray[i].y == 0 && portArray[i].width == 0 && portArray[i].height == 0) {
-      } else {
-      }
       if (coordinateX > compareX - deviation && coordinateX < compareX + deviation || coordinateY > compareY - deviation && coordinateY < compareY + deviation || coordinateX > nodeEL.x - portWidth - deviation && coordinateX < nodeEL.x - portWidth + deviation || coordinateY > nodeEL.y - portHeight - deviation && coordinateY < nodeEL.y - portHeight + deviation) {
         portGeneratedArr.push({
           id: `port-custom-${nodeId}-${i}`,
@@ -23946,15 +23958,19 @@
         ]);
       }
     }
-    return portGeneratedArr;
+    return { portGeneratedArr, nodeId };
   }
 
   // util/generateInputEl.ts
-  function generateInputElements(portGeneratedArr, containerId, source) {
+  function generateInputElements(portGeneratedArr, containerId, source, nodeId) {
     const closeModalBtnEl2 = document.getElementById("close-modal-btn");
-    const svgTextEl2 = document.getElementById("svg-text");
+    const svgTextEl2 = document.getElementById("area_field_svg");
     const addCustomSVGEl2 = document.getElementById("add-custom-svg");
     const container2 = document.getElementById(containerId);
+    if (portGeneratedArr.length === 0) {
+      window.alert("No ports found. Please insert another SVG!!!");
+      return;
+    }
     if (!container2) {
       console.error("Container not found");
       return;
@@ -23996,11 +24012,9 @@
             height: port.height
           });
           inputElement.remove();
-          if (svgTextEl2 instanceof HTMLInputElement) {
-            svgTextEl2.value = "";
-          }
           closeModalBtnEl2 == null ? void 0 : closeModalBtnEl2.click();
           addCustomSVGEl2.classList.remove("d-none");
+          svgTextEl2.value = "";
         } else {
           console.error(`Input element for ${port.id} not found`);
         }
@@ -24696,13 +24710,13 @@
           code: svg3.outerHTML
         };
       });
-      const portGeneratedArr = addCustomNode({
+      const { portGeneratedArr, nodeId } = addCustomNode({
         source: modelSource,
         nodeId: id,
         svgAttArr: svgAttArray
       });
       customSVGCount++;
-      generateInputElements(portGeneratedArr, "port-text", modelSource);
+      generateInputElements(portGeneratedArr, "port-text", modelSource, nodeId);
       drawLogic();
     });
   }
