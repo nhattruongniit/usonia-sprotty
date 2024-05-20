@@ -22,7 +22,7 @@ export class EdgeWithArrow extends PolylineEdgeView {
   protected override renderAdditionals(
     edge: SEdgeImpl,
     segments: Point[],
-    context: RenderingContext
+    context: RenderingContext,
   ): VNode[] {
     const p1 = segments[segments.length - 1];
     const p2 = segments[segments.length - 2];
@@ -49,7 +49,7 @@ export class NodeView extends RectangularNodeView {
   override render(
     node: Readonly<SNodeImpl>,
     context: RenderingContext,
-    args?: IViewArgs
+    args?: IViewArgs,
   ): VNode | undefined {
     if (!this.isVisible(node, context)) {
       return undefined;
