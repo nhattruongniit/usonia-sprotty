@@ -1,10 +1,12 @@
 {
   "scripts": {
     "build": "esbuild ./index.ts --bundle --sourcemap --outfile=./out/index.js",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "prepare": "husky"
   },
   "devDependencies": {
     "esbuild": "^0.17.8",
+    "husky": "^9.0.11",
     "prettier": "3.2.5",
     "typescript": "^4.9.5"
   },
