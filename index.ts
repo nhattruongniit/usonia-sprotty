@@ -6,7 +6,6 @@ import {
   TYPES,
   IButtonHandler,
   SButtonImpl,
-  getZoom,
   SModelElementImpl,
   ElementMove,
   IActionDispatcher,
@@ -28,17 +27,25 @@ import * as config from "./settings/config.json";
 // utils
 import addNode from "./util/addNode";
 import drawEdge from "./util/drawEdge";
+import addCustomSVG from "./util/addCustomSVG";
 import checkIdElement from "./util/checkIdElement";
 import randomText from "./util/randomText";
 import getGrahpJson from "./util/getGraphJson";
 import checkPositionEl from "./util/checkPositionEl";
 import { injectable } from "inversify";
+import addCustomNode from "./util/addCustomNode";
+import { findMax } from "./util/Math/findMax";
+import { generateInputElements } from "./util/generateInputEl";
 // elements dom
 let addParentNode = null;
 
 let drawEdgeBtn = null;
 let cancelDrawEdgeBtn = null;
 let deleteBtn = null;
+let addCustomSVGEl = null;
+let svgTextEl = null;
+let closeModalBtnEl = null;
+let addCustomBtn = null;
 
 let exportJsonBtn = null;
 let importJsonBtn = null;
@@ -76,7 +83,6 @@ function getVisibleBounds({
   };
 }
 
-// count of
 let graphDisplay;
 const graph: SGraph = {
   type: "graph",
@@ -159,6 +165,7 @@ let dummyMode = false;
 let sourceId = null;
 let targetId = null;
 let portType = null;
+let customSVGCount = 1;
 
 // JSON resolve
 
@@ -294,7 +301,6 @@ export class CustomMouseListener extends MouseListener {
     target: SModelElementImpl,
     event: WheelEvent
   ): (Action | Promise<Action>)[] {
-    console.log(event);
     if (event.deltaY > 0) {
       countScroll--;
     } else if (event.deltaY < 0) {
@@ -412,6 +418,9 @@ export default async function run() {
   zoomInBtn = document.getElementById("zoom-in");
   zoomOutBtn = document.getElementById("zoom-out");
   defaultScaleBtn = document.getElementById("default");
+  addCustomSVGEl = document.getElementById("add-custom-svg");
+  svgTextEl = document.getElementById("area_field_svg");
+  closeModalBtnEl = document.getElementById("close-modal-btn");
 
   // scale
 
@@ -851,6 +860,50 @@ export default async function run() {
   });
   document.getElementById("align-bottom").addEventListener("click", () => {
     alignNode("bottom");
+  });
+
+  // add custom SVG
+
+  addCustomSVGEl.addEventListener("click", () => {
+    const id = `custom-node-${customSVGCount}`;
+
+    let svgText = svgTextEl.value;
+
+    let parser = new DOMParser();
+
+    // Use the DOMParser to parse the SVG string into a document
+    let doc = parser.parseFromString(svgText, "image/svg+xml");
+
+    // Get all the 'rect' elements from the document
+    let rects = doc.getElementsByTagName("rect");
+    let ellipse = doc.getElementsByTagName("ellipse");
+
+    // Convert the HTMLCollection to an array
+    let svgArray = [...Array.from(rects), ...Array.from(ellipse)];
+
+    const svgAttArray = svgArray.map((svg) => {
+      return {
+        x: +svg.getAttribute("x"),
+        cx: +svg.getAttribute("cx"),
+        y: +svg.getAttribute("y"),
+        cy: +svg.getAttribute("cy"),
+        width: +svg.getAttribute("width"),
+        rx: svg.getAttribute("rx"),
+        height: +svg.getAttribute("height"),
+        ry: svg.getAttribute("ry"),
+        code: svg.outerHTML,
+      };
+    });
+
+    const { portGeneratedArr, nodeId } = addCustomNode({
+      source: modelSource,
+      nodeId: id,
+      svgAttArr: svgAttArray,
+    });
+    customSVGCount++;
+
+    generateInputElements(portGeneratedArr, "port-text", modelSource, nodeId);
+    drawLogic();
   });
 }
 

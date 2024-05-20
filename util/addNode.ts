@@ -110,7 +110,7 @@ export default function addNode({
       { x: nodeWidth / 5, y: nodeHeight / 5 },
       { x: nodeWidth / 4 + nodeWidth / 3, y: nodeHeight / 4 + nodeHeight / 3 },
     ];
-    console.log(nodeId);
+
     for (let i = 0; i < positionNodeChildren.length; i++) {
       source.addElements([
         {

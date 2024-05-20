@@ -32,18 +32,15 @@ import {
   ConsoleLogger,
   AnimationFrameSyncer,
   registerModelElement,
+  PreRenderedView,
+  ShapedPreRenderedElementImpl,
 } from "sprotty";
 
 import { Viewport, SetViewportAction } from "sprotty-protocol";
 
 import { PortViewWithExternalLabel } from "./views/PortViewWithExternalLabel";
 import { CustomMouseListener, CustomButtonHandler } from "./index";
-import {
-  EdgeWithArrow,
-  NodeView,
-  PropertyLabel,
-  customButtonView,
-} from "./views/views";
+import { EdgeWithArrow, NodeView, PropertyLabel } from "./views/views";
 
 export const createContainer = (containerId: string) => {
   const myModule = new ContainerModule((bind, unbind, isBound, rebind) => {
@@ -55,15 +52,12 @@ export const createContainer = (containerId: string) => {
 
     const context = { bind, unbind, isBound, rebind };
     configureModelElement(context, "graph", SGraphImpl, SGraphView);
-
     configureModelElement(
       context,
-      "button:custom",
-      SButtonImpl,
-      customButtonView,
-      {
-        disable: [moveFeature],
-      }
+      "pre-rendered",
+      ShapedPreRenderedElementImpl,
+      PreRenderedView,
+      { enable: [moveFeature] }
     );
 
     configureButtonHandler(

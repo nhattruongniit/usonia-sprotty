@@ -9,15 +9,14 @@ function removeIsFeatures(data) {
 }
 
 export default function getGrahpJson(graph: any) {
-  console.log(graph);
-  // delete graph?.canvasBounds;
-  // delete graph?.scroll;
-  // delete graph?.zoom;
-  // delete graph?.position;
-  // delete graph?.size;
-  // delete graph?.features;
-  // removeIsFeatures(graph.children);
-  // graph.isValidGraph = true;
+  delete graph?.canvasBounds;
+  delete graph?.scroll;
+  delete graph?.zoom;
+  delete graph?.position;
+  delete graph?.size;
+  delete graph?.features;
+  removeIsFeatures(graph.children);
+  graph.isValidGraph = true;
 
   return JSON.stringify(graph, null, 2);
 }

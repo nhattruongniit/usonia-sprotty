@@ -15740,7 +15740,7 @@
       var mouse_tool_1 = require_mouse_tool();
       var browser_1 = require_browser();
       var model_1 = require_model12();
-      function getZoom2(label) {
+      function getZoom(label) {
         let zoom = 1;
         const viewport = (0, smodel_utils_1.findParentByFeature)(label, model_1.isViewport);
         if (viewport) {
@@ -15748,7 +15748,7 @@
         }
         return zoom;
       }
-      exports.getZoom = getZoom2;
+      exports.getZoom = getZoom;
       var ZoomMouseListener = class extends mouse_tool_1.MouseListener {
         wheel(target, event) {
           const viewport = (0, smodel_utils_1.findParentByFeature)(target, model_1.isViewport);
@@ -22167,7 +22167,7 @@
       };
       exports.PreRenderedElementImpl = PreRenderedElementImpl;
       exports.PreRenderedElement = PreRenderedElementImpl;
-      var ShapedPreRenderedElementImpl = class extends PreRenderedElementImpl {
+      var ShapedPreRenderedElementImpl2 = class extends PreRenderedElementImpl {
         constructor() {
           super(...arguments);
           this.position = geometry_1.Point.ORIGIN;
@@ -22194,10 +22194,10 @@
           };
         }
       };
-      exports.ShapedPreRenderedElementImpl = ShapedPreRenderedElementImpl;
-      ShapedPreRenderedElementImpl.DEFAULT_FEATURES = [model_2.moveFeature, model_1.boundsFeature, model_3.selectFeature, model_1.alignFeature];
-      exports.ShapedPreRenderedElement = ShapedPreRenderedElementImpl;
-      var ForeignObjectElementImpl = class extends ShapedPreRenderedElementImpl {
+      exports.ShapedPreRenderedElementImpl = ShapedPreRenderedElementImpl2;
+      ShapedPreRenderedElementImpl2.DEFAULT_FEATURES = [model_2.moveFeature, model_1.boundsFeature, model_3.selectFeature, model_1.alignFeature];
+      exports.ShapedPreRenderedElement = ShapedPreRenderedElementImpl2;
+      var ForeignObjectElementImpl = class extends ShapedPreRenderedElementImpl2 {
         get bounds() {
           if (geometry_1.Dimension.isValid(this.size)) {
             return {
@@ -22247,7 +22247,7 @@
       var vnode_utils_1 = require_vnode_utils();
       var views_1 = require_views();
       var model_1 = require_model18();
-      var PreRenderedView = class PreRenderedView extends views_1.ShapeView {
+      var PreRenderedView2 = class PreRenderedView extends views_1.ShapeView {
         render(model, context) {
           if (model instanceof model_1.ShapedPreRenderedElementImpl && !this.isVisible(model, context)) {
             return void 0;
@@ -22263,10 +22263,10 @@
             (0, vnode_utils_1.setNamespace)(node, "http://www.w3.org/2000/svg");
         }
       };
-      exports.PreRenderedView = PreRenderedView;
-      exports.PreRenderedView = PreRenderedView = __decorate([
+      exports.PreRenderedView = PreRenderedView2;
+      exports.PreRenderedView = PreRenderedView2 = __decorate([
         (0, inversify_1.injectable)()
-      ], PreRenderedView);
+      ], PreRenderedView2);
       var ForeignObjectView = class ForeignObjectView {
         render(model, context) {
           const foreignObjectContents = (0, virtualize_1.default)(model.code);
@@ -23273,23 +23273,6 @@
   ], EdgeWithArrow);
   var PropertyLabel = class extends import_sprotty2.SLabelImpl {
   };
-  var customButtonView = class {
-    render(button, context) {
-      return /* @__PURE__ */ (0, import_jsx2.svg)("g", { "class-sprotty-button": "{true}", "class-enabled": "{button.enabled}" }, /* @__PURE__ */ (0, import_jsx2.svg)(
-        "rect",
-        {
-          x: button.position.x,
-          y: button.position.y,
-          width: Math.max(button.size.width, 0),
-          height: Math.max(button.size.height, 0),
-          "class-sprotty-button": true
-        }
-      ), context.renderChildren(button));
-    }
-  };
-  customButtonView = __decorateClass([
-    (0, import_inversify2.injectable)()
-  ], customButtonView);
   var NodeView = class extends import_sprotty2.RectangularNodeView {
     render(node, context, args) {
       if (!this.isVisible(node, context)) {
@@ -23325,12 +23308,10 @@
       (0, import_sprotty3.configureModelElement)(context, "graph", import_sprotty3.SGraphImpl, import_sprotty3.SGraphView);
       (0, import_sprotty3.configureModelElement)(
         context,
-        "button:custom",
-        import_sprotty3.SButtonImpl,
-        customButtonView,
-        {
-          disable: [import_sprotty3.moveFeature]
-        }
+        "pre-rendered",
+        import_sprotty3.ShapedPreRenderedElementImpl,
+        import_sprotty3.PreRenderedView,
+        { enable: [import_sprotty3.moveFeature] }
       );
       (0, import_sprotty3.configureButtonHandler)(
         { bind, isBound },
@@ -23504,7 +23485,6 @@
         { x: nodeWidth / 5, y: nodeHeight / 5 },
         { x: nodeWidth / 4 + nodeWidth / 3, y: nodeHeight / 4 + nodeHeight / 3 }
       ];
-      console.log(nodeId);
       for (let i = 0; i < positionNodeChildren.length; i++) {
         source.addElements([
           {
@@ -23697,8 +23677,23 @@
   }
 
   // util/getGraphJson.ts
+  function removeIsFeatures(data) {
+    if (data) {
+      data.forEach((e) => {
+        e == null ? true : delete e.features;
+        removeIsFeatures(e.children);
+      });
+    }
+  }
   function getGrahpJson(graph2) {
-    console.log(graph2);
+    graph2 == null ? true : delete graph2.canvasBounds;
+    graph2 == null ? true : delete graph2.scroll;
+    graph2 == null ? true : delete graph2.zoom;
+    graph2 == null ? true : delete graph2.position;
+    graph2 == null ? true : delete graph2.size;
+    graph2 == null ? true : delete graph2.features;
+    removeIsFeatures(graph2.children);
+    graph2.isValidGraph = true;
     return JSON.stringify(graph2, null, 2);
   }
 
@@ -23708,6 +23703,11 @@
     const NODE_PARENT_HEIGHT2 = nodeWidth * 4;
     const PORT_PARENT_WIDTH2 = NODE_PARENT_WIDTH2 / 8;
     const PORT_PARENT_HEIGHT2 = NODE_PARENT_HEIGHT2 / 8;
+    let NODE_CUSTOM_WIDTH;
+    let NODE_CUSTOM_HEIGHT;
+    let PORT_CUSTOM_WIDTH;
+    let PORT_CUSTOM_HEIGHT;
+    let deviation = 5;
     let isDrawable = false;
     let targetId2 = "";
     let gragphChildrenArr = [];
@@ -23724,14 +23724,34 @@
               let portType = null;
               const portX = nodeChild.position.x;
               const portY = nodeChild.position.y;
-              if (portX === nodeWidth && portY === (nodeHeight - portHeight) / 2) {
-                portType = 1;
-              } else if (portX === (nodeWidth - portWidth) / 2 && portY === nodeHeight) {
-                portType = 2;
-              } else if (portX === 0 - portWidth && portY === (nodeHeight - portHeight) / 2) {
-                portType = 3;
-              } else if (portX === (nodeWidth - portWidth) / 2 && portY === 0 - portHeight) {
-                portType = 4;
+              let isCustom = false;
+              if (nodeChild.id.includes("port-custom")) {
+                isCustom = true;
+                NODE_CUSTOM_WIDTH = nodeChild.parent.size.width;
+                NODE_CUSTOM_HEIGHT = nodeChild.parent.size.height;
+                PORT_CUSTOM_WIDTH = nodeChild.size.width;
+                PORT_CUSTOM_HEIGHT = nodeChild.size.height;
+                console.log("x", portX, NODE_CUSTOM_WIDTH);
+                console.log("y", portY, NODE_CUSTOM_HEIGHT);
+                if (Math.abs(portX - NODE_CUSTOM_WIDTH) <= deviation) {
+                  portType = 1;
+                } else if (Math.abs(portY - NODE_CUSTOM_HEIGHT) <= deviation) {
+                  portType = 2;
+                } else if (Math.abs(portX - (0 - PORT_CUSTOM_WIDTH)) <= deviation) {
+                  portType = 3;
+                } else if (Math.abs(portY - (0 - PORT_CUSTOM_HEIGHT)) <= deviation) {
+                  portType = 4;
+                }
+              } else {
+                if (portX === nodeWidth && portY === (nodeHeight - portHeight) / 2) {
+                  portType = 1;
+                } else if (portX === (nodeWidth - portWidth) / 2 && portY === nodeHeight) {
+                  portType = 2;
+                } else if (portX === 0 - portWidth && portY === (nodeHeight - portHeight) / 2) {
+                  portType = 3;
+                } else if (portX === (nodeWidth - portWidth) / 2 && portY === 0 - portHeight) {
+                  portType = 4;
+                }
               }
               portCompareCoordinateArr.push({
                 x: portX,
@@ -23739,7 +23759,8 @@
                 id: nodeChild.id,
                 nodeX: nodeChild.parent.position.x,
                 nodeY: nodeChild.parent.position.y,
-                type: portType
+                type: portType,
+                isCustom
               });
             }
           });
@@ -23785,20 +23806,25 @@
           });
         }
       });
+      console.log(portCompareCoordinateArr);
       portCompareCoordinateArr.forEach((portCoordinate) => {
         let portCompareX;
         let portCompareY;
+        let currentPortWidth = portCoordinate.isCustom ? PORT_CUSTOM_WIDTH : portWidth;
+        let currentPortHeight = portCoordinate.isCustom ? PORT_CUSTOM_HEIGHT : portHeight;
+        let currentNodeWidth = portCoordinate.isCustom ? NODE_CUSTOM_WIDTH : nodeWidth;
+        let currentNodeHeight = portCoordinate.isCustom ? NODE_CUSTOM_HEIGHT : nodeHeight;
         if (portCoordinate.type === 1) {
           portCompareX = portCoordinate.nodeX + portCoordinate.x;
-          portCompareY = portCoordinate.nodeY + (nodeHeight - portHeight) / 2;
+          portCompareY = portCoordinate.nodeY + (currentNodeHeight - currentPortHeight) / 2;
         } else if (portCoordinate.type === 2) {
-          portCompareX = portCoordinate.nodeX + (nodeWidth - portWidth) / 2;
+          portCompareX = portCoordinate.nodeX + (currentNodeWidth - currentPortWidth) / 2;
           portCompareY = portCoordinate.nodeY + portCoordinate.y;
         } else if (portCoordinate.type === 3) {
           portCompareX = portCoordinate.nodeX + portCoordinate.x;
-          portCompareY = portCoordinate.nodeY + (nodeHeight - portHeight) / 2;
+          portCompareY = portCoordinate.nodeY + (currentNodeHeight - currentPortHeight) / 2;
         } else if (portCoordinate.type === 4) {
-          portCompareX = portCoordinate.nodeX + (nodeWidth - portWidth) / 2;
+          portCompareX = portCoordinate.nodeX + (currentNodeWidth - currentPortWidth) / 2;
           portCompareY = portCoordinate.nodeY + portCoordinate.y;
         } else if (portCoordinate.type === 5) {
           portCompareX = portCoordinate.nodeX + portCoordinate.x;
@@ -23806,7 +23832,7 @@
         } else {
           return;
         }
-        if (coordinateDummyNodeX <= portCompareX + portWidth && portCompareX <= coordinateDummyNodeX && coordinateDummyNodeY <= portCompareY + portHeight && portCompareY <= coordinateDummyNodeY) {
+        if (coordinateDummyNodeX <= portCompareX + currentPortWidth && portCompareX <= coordinateDummyNodeX && coordinateDummyNodeY <= portCompareY + currentPortHeight && portCompareY <= coordinateDummyNodeY) {
           targetId2 = portCoordinate.id;
           isDrawable = true;
         }
@@ -23825,10 +23851,207 @@
 
   // index.ts
   var import_inversify4 = __toESM(require_inversify());
+
+  // util/Math/findMax.ts
+  function findMax(arr) {
+    if (arr.length === 0) {
+      return null;
+    }
+    let maxVal = arr[0];
+    for (let i = 1; i < arr.length; i++) {
+      if (arr[i] > maxVal) {
+        maxVal = arr[i];
+      }
+    }
+    return maxVal;
+  }
+
+  // util/getAttributes/getTransformMatrix.ts
+  function extractTransformAttribute(svgElement) {
+    const transformRegex = /transform="([^"]+)"/;
+    const match = svgElement.match(transformRegex);
+    if (match && match[1]) {
+      return match[1];
+    }
+    return "";
+  }
+
+  // util/addCustomNode.ts
+  function addCustomNode({
+    source,
+    nodeId,
+    svgAttArr,
+    cssClasses = ["node"]
+  }) {
+    let portGeneratedArr = [];
+    const nodeEL = findMax(svgAttArr);
+    const portArray = svgAttArr.filter((svg3) => {
+      return svg3.width !== nodeEL.width;
+    });
+    source.addElements([
+      {
+        parentId: "graph",
+        element: {
+          type: "node",
+          id: `${nodeId}`,
+          cssClasses,
+          position: { x: nodeEL.x, y: nodeEL.y },
+          size: {
+            width: nodeEL.width,
+            height: nodeEL.height
+          },
+          children: []
+        }
+      }
+    ]);
+    for (let i = 0; i < portArray.length; i++) {
+      let deviation = 3;
+      let coordinateX = portArray[i].x;
+      let coordinateY = portArray[i].y;
+      const portWidth = portArray[i].width;
+      const portHeight = portArray[i].height;
+      const compareX = nodeEL.x + nodeEL.width;
+      const compareY = nodeEL.y + nodeEL.height;
+      if (coordinateX > compareX - deviation && coordinateX < compareX + deviation || coordinateY > compareY - deviation && coordinateY < compareY + deviation || coordinateX > nodeEL.x - portWidth - deviation && coordinateX < nodeEL.x - portWidth + deviation || coordinateY > nodeEL.y - portHeight - deviation && coordinateY < nodeEL.y - portHeight + deviation) {
+        portGeneratedArr.push({
+          id: `port-custom-${nodeId}-${i}`,
+          width: portWidth,
+          height: portHeight
+        });
+        source.addElements([
+          {
+            parentId: nodeId,
+            element: {
+              type: "port",
+              id: `port-custom-${nodeId}-${i}`,
+              size: {
+                width: portArray[i].width,
+                height: portArray[i].height
+              },
+              position: {
+                x: coordinateX - nodeEL.x,
+                y: coordinateY - nodeEL.y
+              },
+              cssClasses: ["port"]
+            }
+          }
+        ]);
+      } else {
+        const transformMatrix = extractTransformAttribute(
+          portArray[i].code || ""
+        );
+        source.addElements([
+          {
+            parentId: nodeId,
+            element: {
+              type: "pre-rendered",
+              id: "custom" + nodeId + i,
+              position: {
+                x: portArray[i].rx - nodeEL.x - portArray[i].rx,
+                y: portArray[i].ry - nodeEL.y - portArray[i].ry
+              },
+              transform: transformMatrix,
+              code: portArray[i].code,
+              projectionCssClasses: ["logo-projection"]
+            }
+          }
+        ]);
+      }
+    }
+    return { portGeneratedArr, nodeId };
+  }
+
+  // util/generateInputEl.ts
+  function generateInputElements(portGeneratedArr, containerId, source, nodeId) {
+    const closeModalBtnEl2 = document.getElementById("close-modal-btn");
+    const svgTextEl2 = document.getElementById("area_field_svg");
+    const addCustomSVGEl2 = document.getElementById("add-custom-svg");
+    const container2 = document.getElementById(containerId);
+    if (portGeneratedArr.length === 0) {
+      window.alert("No ports found. Please insert another SVG!!!");
+      source.removeElements([
+        {
+          elementId: nodeId,
+          parentId: "graph"
+        }
+      ]);
+      return;
+    }
+    if (!container2) {
+      console.error("Container not found");
+      return;
+    }
+    addCustomSVGEl2.classList.add("d-none");
+    container2.innerHTML = "";
+    portGeneratedArr.forEach((port, index) => {
+      const fieldPortElement = document.createElement("div");
+      const inputElement = document.createElement("input");
+      const labelElement = document.createElement("span");
+      inputElement.type = "text";
+      inputElement.placeholder = `Enter value for ${port.id}`;
+      inputElement.id = `input-${port.id}`;
+      inputElement.className = "form-control mb-2 mt-2";
+      labelElement.innerHTML = `Port ${index + 1}:`;
+      labelElement.className = "flex-shrink-0 me-2";
+      fieldPortElement.className = "d-flex align-items-center mt-2";
+      fieldPortElement.appendChild(labelElement);
+      fieldPortElement.appendChild(inputElement);
+      container2.appendChild(fieldPortElement);
+    });
+    const divSubmitButton = document.createElement("div");
+    divSubmitButton.className = "d-flex justify-content-end mt-2";
+    const submitButton = document.createElement("button");
+    submitButton.textContent = "Submit";
+    submitButton.id = "submit-button";
+    submitButton.className = "btn btn-primary";
+    submitButton.addEventListener("click", () => {
+      const inputTextArr = [];
+      portGeneratedArr.forEach((port) => {
+        const inputElement = document.getElementById(
+          `input-${port.id}`
+        );
+        if (inputElement) {
+          inputTextArr.push({
+            textValue: inputElement.value,
+            portId: port.id,
+            width: port.width,
+            height: port.height
+          });
+          inputElement.remove();
+          closeModalBtnEl2 == null ? void 0 : closeModalBtnEl2.click();
+          addCustomSVGEl2.classList.remove("d-none");
+          svgTextEl2.value = "";
+        } else {
+          console.error(`Input element for ${port.id} not found`);
+        }
+      });
+      inputTextArr.forEach((port) => {
+        source.addElements([
+          {
+            parentId: port.portId,
+            element: {
+              type: "label:port",
+              id: `label-${port.portId}`,
+              text: port.textValue,
+              position: { x: port.width / 2, y: 0 - port.height / 8 }
+            }
+          }
+        ]);
+      });
+      container2.innerHTML = "";
+    });
+    divSubmitButton.appendChild(submitButton);
+    container2.appendChild(divSubmitButton);
+  }
+
+  // index.ts
   var addParentNode = null;
   var drawEdgeBtn = null;
   var cancelDrawEdgeBtn = null;
   var deleteBtn = null;
+  var addCustomSVGEl = null;
+  var svgTextEl = null;
+  var closeModalBtnEl = null;
   var exportJsonBtn = null;
   var importJsonBtn = null;
   var inputFile = null;
@@ -23907,6 +24130,7 @@
   var dummyMode = false;
   var sourceId = null;
   var targetId = null;
+  var customSVGCount = 1;
   var portTarget;
   var styles = `
 .dummy .sprotty-node {
@@ -24024,7 +24248,6 @@
       return [];
     }
     wheel(target, event) {
-      console.log(event);
       if (event.deltaY > 0) {
         countScroll--;
       } else if (event.deltaY < 0) {
@@ -24125,6 +24348,9 @@
     zoomInBtn = document.getElementById("zoom-in");
     zoomOutBtn = document.getElementById("zoom-out");
     defaultScaleBtn = document.getElementById("default");
+    addCustomSVGEl = document.getElementById("add-custom-svg");
+    svgTextEl = document.getElementById("area_field_svg");
+    closeModalBtnEl = document.getElementById("close-modal-btn");
     const setEventScroll = (deltaY) => {
       const graphEl = document.getElementById("sprotty-container_graph");
       const evt = new WheelEvent("wheel", {
@@ -24370,7 +24596,6 @@
       graphDisplay.children.forEach((shape) => {
         const shapeElId = `sprotty-container_${shape.id}`;
         const shapeEl2 = document.getElementById(shapeElId);
-        console.log(shapeElId, shapeEl2);
         if ((0, import_sprotty_protocol2.getBasicType)(shape) === "node" && shapeEl2.classList.contains("selected")) {
           const shapeElPosition = shapeEl2.getAttribute("transform").replace("translate(", "").replace(")", "").trim().split(",");
           const position = {
@@ -24469,6 +24694,36 @@
     });
     document.getElementById("align-bottom").addEventListener("click", () => {
       alignNode("bottom");
+    });
+    addCustomSVGEl.addEventListener("click", () => {
+      const id = `custom-node-${customSVGCount}`;
+      let svgText = svgTextEl.value;
+      let parser = new DOMParser();
+      let doc = parser.parseFromString(svgText, "image/svg+xml");
+      let rects = doc.getElementsByTagName("rect");
+      let ellipse = doc.getElementsByTagName("ellipse");
+      let svgArray = [...Array.from(rects), ...Array.from(ellipse)];
+      const svgAttArray = svgArray.map((svg3) => {
+        return {
+          x: +svg3.getAttribute("x"),
+          cx: +svg3.getAttribute("cx"),
+          y: +svg3.getAttribute("y"),
+          cy: +svg3.getAttribute("cy"),
+          width: +svg3.getAttribute("width"),
+          rx: svg3.getAttribute("rx"),
+          height: +svg3.getAttribute("height"),
+          ry: svg3.getAttribute("ry"),
+          code: svg3.outerHTML
+        };
+      });
+      const { portGeneratedArr, nodeId } = addCustomNode({
+        source: modelSource,
+        nodeId: id,
+        svgAttArr: svgAttArray
+      });
+      customSVGCount++;
+      generateInputElements(portGeneratedArr, "port-text", modelSource, nodeId);
+      drawLogic();
     });
   }
   document.addEventListener("DOMContentLoaded", () => run());
