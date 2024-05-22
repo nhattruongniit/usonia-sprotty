@@ -98,7 +98,7 @@ export default function addCustomNode({
       ]);
     } else {
       const transformMatrix = extractTransformAttribute(
-        portArray[i].code || ""
+        portArray[i].code || "",
       );
 
       source.addElements([
