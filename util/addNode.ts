@@ -25,7 +25,7 @@ const addPortElement = (
   width: number,
   height: number,
   position: object,
-  text: string,
+  text: string
 ) => {
   source.addElements([
     {
@@ -108,10 +108,7 @@ export default function addNode({
     const portChildHeight = portHeight;
     const positionNodeChildren = [
       { x: nodeWidth / 5, y: nodeHeight / 5 },
-      {
-        x: nodeWidth / 4 + nodeWidth / 3,
-        y: nodeHeight / 4 + nodeHeight / 3,
-      },
+      { x: nodeWidth / 4 + nodeWidth / 3, y: nodeHeight / 4 + nodeHeight / 3 },
     ];
 
     for (let i = 0; i < positionNodeChildren.length; i++) {
@@ -122,19 +119,13 @@ export default function addNode({
             type: "node",
             id: `node-child-${nodeId}-${i + 1}`,
             position: positionNodeChildren[i],
-            size: {
-              width: nodeChildWidth,
-              height: nodeChildHeight,
-            },
+            size: { width: nodeChildWidth, height: nodeChildHeight },
             children: [
               <SLabel>{
                 type: "label:node",
                 id: `label-child-${nodeId}-${i + 1}`,
                 text: `child-${i + 1}`,
-                position: {
-                  x: nodeWidth / 8,
-                  y: nodeHeight / 8,
-                },
+                position: { x: nodeWidth / 8, y: nodeHeight / 8 },
                 cssClasses: ["text-node-child"],
               },
               <SPort>{
@@ -205,7 +196,7 @@ export default function addNode({
       portWidth,
       portHeight,
       position,
-      text,
+      text
     );
   };
 
@@ -213,14 +204,14 @@ export default function addNode({
     addPort(
       positionPort[+portType - 1],
       `port-${nodeId}-${portType}`,
-      `p-${portType}`,
+      `p-${portType}`
     );
   } else {
     for (let i = 0; i < portQuantity; i++) {
       addPort(
         positionPort[+portType[i] - 1],
         `port-${nodeId}-${+portType[i]}`,
-        `p-${portType[i]}`,
+        `p-${portType[i]}`
       );
     }
   }

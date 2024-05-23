@@ -233,7 +233,7 @@ export class CustomMouseListener extends MouseListener {
       NODE_WIDTH,
       NODE_HEIGHT,
       PORT_WIDTH,
-      PORT_HEIGHT,
+      PORT_HEIGHT
     );
     if (objectCheck.isDrawable) {
       targetId = objectCheck.targetId;
@@ -268,7 +268,7 @@ export class CustomMouseListener extends MouseListener {
       NODE_WIDTH,
       NODE_HEIGHT,
       PORT_WIDTH,
-      PORT_HEIGHT,
+      PORT_HEIGHT
     );
     let portElementMatch: SPortImpl;
 
@@ -279,14 +279,14 @@ export class CustomMouseListener extends MouseListener {
         return e.id.includes(
           objectCheck.targetId
             .replace("port-", "")
-            .slice(0, objectCheck.targetId.replace("port-", "").length - 2),
+            .slice(0, objectCheck.targetId.replace("port-", "").length - 2)
         );
       });
     }
 
     if (objectCheck.isDrawable) {
       portTarget = document.getElementById(
-        `sprotty-container_${objectCheck.targetId}`,
+        `sprotty-container_${objectCheck.targetId}`
       );
       portTarget.classList.add("ready-draw");
     } else if (!objectCheck.isDrawable) {
@@ -299,7 +299,7 @@ export class CustomMouseListener extends MouseListener {
   }
   wheel(
     target: SModelElementImpl,
-    event: WheelEvent,
+    event: WheelEvent
   ): (Action | Promise<Action>)[] {
     if (event.deltaY > 0) {
       countScroll--;
@@ -345,7 +345,7 @@ function cancelDrawEdge() {
   Array.from(document.getElementsByClassName("ready-draw-source")).forEach(
     (e) => {
       e.classList.remove("ready-draw-source");
-    },
+    }
   );
 
   dummyNodeArray = [];
@@ -842,7 +842,7 @@ export default async function run() {
         animate: true,
         // stoppable: true,
         // finished: true,
-      }),
+      })
     );
     focusGraph();
   };

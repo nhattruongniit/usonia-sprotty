@@ -1,3 +1,4 @@
+
 /** @jsx svg */
 import { svg } from "sprotty/lib/lib/jsx";
 
@@ -15,7 +16,7 @@ import {
 export class PortViewWithExternalLabel extends ShapeView {
   render(
     node: Readonly<SPortImpl>,
-    context: RenderingContext,
+    context: RenderingContext
   ): VNode | undefined {
     if (!this.isVisible(node, context)) {
       return undefined;
