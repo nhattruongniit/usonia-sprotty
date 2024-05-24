@@ -4,7 +4,7 @@ export function generateInputElements(
   portGeneratedArr: any[],
   containerId: string,
   source: any,
-  nodeId: string,
+  nodeId: string
 ) {
   const closeModalBtnEl = document.getElementById("close-modal-btn");
   const svgTextEl = document.getElementById("area_field_svg");
@@ -61,7 +61,7 @@ export function generateInputElements(
     const inputTextArr = [];
     portGeneratedArr.forEach((port) => {
       const inputElement = document.getElementById(
-        `input-${port.id}`,
+        `input-${port.id}`
       ) as HTMLInputElement;
       if (inputElement) {
         inputTextArr.push({

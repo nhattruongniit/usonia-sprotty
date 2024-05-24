@@ -38,7 +38,9 @@
       "features": {},
       "type": "node",
       "id": "node-type-3-2",
-      "cssClasses": ["node"],
+      "cssClasses": [
+        "node"
+      ],
       "children": [
         {
           "position": {
@@ -77,7 +79,9 @@
           "features": {},
           "type": "port",
           "id": "port-type-3-2-1",
-          "cssClasses": ["port"],
+          "cssClasses": [
+            "port"
+          ],
           "children": []
         },
         {
@@ -96,7 +100,9 @@
           "features": {},
           "type": "port",
           "id": "port-type-3-2-2",
-          "cssClasses": ["port"],
+          "cssClasses": [
+            "port"
+          ],
           "children": []
         },
         {
@@ -115,7 +121,9 @@
           "features": {},
           "type": "port",
           "id": "port-type-3-2-3",
-          "cssClasses": ["port"],
+          "cssClasses": [
+            "port"
+          ],
           "children": []
         }
       ]
@@ -136,7 +144,9 @@
       "features": {},
       "type": "node",
       "id": "node-type-3-1",
-      "cssClasses": ["node"],
+      "cssClasses": [
+        "node"
+      ],
       "children": [
         {
           "position": {
@@ -175,7 +185,9 @@
           "features": {},
           "type": "port",
           "id": "port-type-3-1-1",
-          "cssClasses": ["port"],
+          "cssClasses": [
+            "port"
+          ],
           "children": []
         },
         {
@@ -194,7 +206,9 @@
           "features": {},
           "type": "port",
           "id": "port-type-3-1-2",
-          "cssClasses": ["port"],
+          "cssClasses": [
+            "port"
+          ],
           "children": []
         },
         {
@@ -213,7 +227,9 @@
           "features": {},
           "type": "port",
           "id": "port-type-3-1-3",
-          "cssClasses": ["port"],
+          "cssClasses": [
+            "port"
+          ],
           "children": []
         }
       ]
@@ -234,7 +250,9 @@
       "features": {},
       "type": "node",
       "id": "node-type-1-1",
-      "cssClasses": ["node"],
+      "cssClasses": [
+        "node"
+      ],
       "children": [
         {
           "position": {
@@ -273,7 +291,9 @@
           "features": {},
           "type": "port",
           "id": "port-type-1-1-1",
-          "cssClasses": ["port"],
+          "cssClasses": [
+            "port"
+          ],
           "children": []
         }
       ]
@@ -288,7 +308,9 @@
       "id": "edge-1",
       "sourceId": "port-type-1-1-1",
       "targetId": "port-type-3-1-2",
-      "cssClasses": ["dummy-edge"],
+      "cssClasses": [
+        "dummy-edge"
+      ],
       "routerKind": "manhattan",
       "children": []
     }

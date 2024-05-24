@@ -47,20 +47,20 @@ export const createContainer = (containerId: string) => {
       "pre-rendered",
       ShapedPreRenderedElementImpl,
       PreRenderedView,
-      { enable: [moveFeature] },
+      { enable: [moveFeature] }
     );
 
     configureButtonHandler(
       { bind, isBound },
       "button:custom",
-      CustomButtonHandler,
+      CustomButtonHandler
     );
     configureModelElement(context, "node:package", RectangularNode, NodeView);
     configureModelElement(
       context,
       "port",
       SPortImpl,
-      PortViewWithExternalLabel,
+      PortViewWithExternalLabel
     );
     configureModelElement(container, "label:port", SLabelImpl, SLabelView, {enable : [editLabelFeature]});
     configureModelElement(container, "label:node", SLabelImpl, SLabelView);
@@ -74,38 +74,38 @@ export const createContainer = (containerId: string) => {
       context,
       "edge:straight",
       SEdgeImpl,
-      PolylineEdgeView,
+      PolylineEdgeView
     );
 
     configureModelElement(
       context,
       "routing-point",
       SRoutingHandleImpl,
-      SRoutingHandleView,
+      SRoutingHandleView
     );
     configureModelElement(
       context,
       "volatile-routing-point",
       SRoutingHandleImpl,
-      SRoutingHandleView,
+      SRoutingHandleView
     );
     configureModelElement(
       context,
       "bezier-create-routing-point",
       SRoutingHandleImpl,
-      SBezierCreateHandleView,
+      SBezierCreateHandleView
     );
     configureModelElement(
       context,
       "bezier-remove-routing-point",
       SRoutingHandleImpl,
-      SBezierCreateHandleView,
+      SBezierCreateHandleView
     );
     configureModelElement(
       context,
       "bezier-routing-point",
       SRoutingHandleImpl,
-      SBezierControlHandleView,
+      SBezierControlHandleView
     );
 
     configureViewerOptions(context, {
