@@ -1,6 +1,5 @@
 import { Container, ContainerModule } from "inversify";
 import {
-  BezierCurveEdgeView,
   configureModelElement,
   configureViewerOptions,
   loadDefaultModules,
@@ -22,21 +21,12 @@ import {
   RectangularNode,
   moveFeature,
   selectFeature,
-  SButtonImpl,
-  ExpandButtonView,
   configureButtonHandler,
-  IModelFactory,
-  ViewportRootElementImpl,
-  SetViewportCommand,
-  CommandExecutionContext,
-  ConsoleLogger,
-  AnimationFrameSyncer,
-  registerModelElement,
   PreRenderedView,
   ShapedPreRenderedElementImpl,
+  editLabelFeature,
 } from "sprotty";
 
-import { Viewport, SetViewportAction } from "sprotty-protocol";
 
 import { PortViewWithExternalLabel } from "./views/PortViewWithExternalLabel";
 import { CustomMouseListener, CustomButtonHandler } from "./index";
@@ -72,7 +62,7 @@ export const createContainer = (containerId: string) => {
       SPortImpl,
       PortViewWithExternalLabel,
     );
-    configureModelElement(container, "label:port", SLabelImpl, SLabelView);
+    configureModelElement(container, "label:port", SLabelImpl, SLabelView, {enable : [editLabelFeature]});
     configureModelElement(container, "label:node", SLabelImpl, SLabelView);
     configureModelElement(container, "label:edge", SLabelImpl, SLabelView);
     configureModelElement(context, "label:text", PropertyLabel, SLabelView, {

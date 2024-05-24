@@ -90,7 +90,7 @@ export function generateInputElements(
             type: "label:port",
             id: `label-${port.portId}`,
             text: port.textValue,
-            position: { x: port.width / 2, y: 0 - port.height / 8 },
+            position: { x: port.width / 2, y: 0 - port.height / 2 },
           },
         },
       ]);

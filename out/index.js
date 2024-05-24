@@ -6666,7 +6666,7 @@
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.AnimationFrameSyncer = void 0;
       var inversify_1 = require_inversify();
-      var AnimationFrameSyncer2 = class AnimationFrameSyncer {
+      var AnimationFrameSyncer = class AnimationFrameSyncer {
         constructor() {
           this.tasks = [];
           this.endTasks = [];
@@ -6702,10 +6702,10 @@
           endTasks.forEach((task) => task.call(void 0, time));
         }
       };
-      exports.AnimationFrameSyncer = AnimationFrameSyncer2;
-      exports.AnimationFrameSyncer = AnimationFrameSyncer2 = __decorate([
+      exports.AnimationFrameSyncer = AnimationFrameSyncer;
+      exports.AnimationFrameSyncer = AnimationFrameSyncer = __decorate([
         (0, inversify_1.injectable)()
-      ], AnimationFrameSyncer2);
+      ], AnimationFrameSyncer);
     }
   });
 
@@ -8277,14 +8277,14 @@
       exports.transformToRootBounds = exports.containsSome = exports.translateBounds = exports.translatePoint = exports.findParentByFeature = exports.findParent = exports.registerModelElement = void 0;
       var types_1 = require_types();
       var smodel_1 = require_smodel();
-      function registerModelElement2(context, type, constr, features) {
+      function registerModelElement(context, type, constr, features) {
         context.bind(types_1.TYPES.SModelElementRegistration).toConstantValue({
           type,
           constr,
           features
         });
       }
-      exports.registerModelElement = registerModelElement2;
+      exports.registerModelElement = registerModelElement;
       function findParent(element, predicate) {
         let current = element;
         while (current !== void 0) {
@@ -10744,7 +10744,7 @@
       exports.NullLogger = NullLogger = __decorate([
         (0, inversify_1.injectable)()
       ], NullLogger);
-      var ConsoleLogger2 = class ConsoleLogger {
+      var ConsoleLogger = class ConsoleLogger {
         constructor() {
           this.logLevel = LogLevel.log;
           this.viewOptions = { baseDiv: "" };
@@ -10787,18 +10787,18 @@
           return [date.toLocaleTimeString() + " " + this.viewOptions.baseDiv + " " + caller + ": " + message, ...params];
         }
       };
-      exports.ConsoleLogger = ConsoleLogger2;
+      exports.ConsoleLogger = ConsoleLogger;
       __decorate([
         (0, inversify_1.inject)(types_1.TYPES.LogLevel),
         __metadata("design:type", Number)
-      ], ConsoleLogger2.prototype, "logLevel", void 0);
+      ], ConsoleLogger.prototype, "logLevel", void 0);
       __decorate([
         (0, inversify_1.inject)(types_1.TYPES.ViewerOptions),
         __metadata("design:type", Object)
-      ], ConsoleLogger2.prototype, "viewOptions", void 0);
-      exports.ConsoleLogger = ConsoleLogger2 = __decorate([
+      ], ConsoleLogger.prototype, "viewOptions", void 0);
+      exports.ConsoleLogger = ConsoleLogger = __decorate([
         (0, inversify_1.injectable)()
-      ], ConsoleLogger2);
+      ], ConsoleLogger);
     }
   });
 
@@ -12069,14 +12069,14 @@
       exports.SButtonImpl = void 0;
       var model_1 = require_model2();
       var model_2 = require_model3();
-      var SButtonImpl4 = class extends model_1.SShapeElementImpl {
+      var SButtonImpl3 = class extends model_1.SShapeElementImpl {
         constructor() {
           super(...arguments);
           this.enabled = true;
         }
       };
-      exports.SButtonImpl = SButtonImpl4;
-      SButtonImpl4.DEFAULT_FEATURES = [model_1.boundsFeature, model_1.layoutableChildFeature, model_2.fadeFeature];
+      exports.SButtonImpl = SButtonImpl3;
+      SButtonImpl3.DEFAULT_FEATURES = [model_1.boundsFeature, model_1.layoutableChildFeature, model_2.fadeFeature];
     }
   });
 
@@ -13828,7 +13828,7 @@
       var smodel_1 = require_smodel();
       var model_1 = require_model12();
       var model_2 = require_model13();
-      var ViewportRootElementImpl2 = class extends smodel_1.SModelRootImpl {
+      var ViewportRootElementImpl = class extends smodel_1.SModelRootImpl {
         constructor(index) {
           super(index);
           this.scroll = { x: 0, y: 0 };
@@ -13881,8 +13881,8 @@
           return result;
         }
       };
-      exports.ViewportRootElementImpl = ViewportRootElementImpl2;
-      ViewportRootElementImpl2.DEFAULT_FEATURES = [model_1.viewportFeature, model_2.exportFeature];
+      exports.ViewportRootElementImpl = ViewportRootElementImpl;
+      ViewportRootElementImpl.DEFAULT_FEATURES = [model_1.viewportFeature, model_2.exportFeature];
     }
   });
 
@@ -13996,7 +13996,7 @@
         model_4.fadeFeature,
         model_5.hoverFeedbackFeature
       ];
-      var SLabelImpl3 = class extends model_1.SShapeElementImpl {
+      var SLabelImpl4 = class extends model_1.SShapeElementImpl {
         constructor() {
           super(...arguments);
           this.selected = false;
@@ -14004,8 +14004,8 @@
           this.opacity = 1;
         }
       };
-      exports.SLabelImpl = SLabelImpl3;
-      SLabelImpl3.DEFAULT_FEATURES = [
+      exports.SLabelImpl = SLabelImpl4;
+      SLabelImpl4.DEFAULT_FEATURES = [
         model_1.boundsFeature,
         model_1.alignFeature,
         model_1.layoutableChildFeature,
@@ -16434,7 +16434,7 @@
       var model_1 = require_model14();
       var smodel_utils_1 = require_smodel_utils();
       var inversify_1 = require_inversify();
-      var ExpandButtonView2 = class ExpandButtonView {
+      var ExpandButtonView = class ExpandButtonView {
         render(button, context) {
           const expandable = (0, smodel_utils_1.findParentByFeature)(button, model_1.isExpandable);
           const path = expandable !== void 0 && expandable.expanded ? "M 1,5 L 8,12 L 15,5 Z" : "M 1,8 L 8,15 L 8,1 Z";
@@ -16446,10 +16446,10 @@
           );
         }
       };
-      exports.ExpandButtonView = ExpandButtonView2;
-      exports.ExpandButtonView = ExpandButtonView2 = __decorate([
+      exports.ExpandButtonView = ExpandButtonView;
+      exports.ExpandButtonView = ExpandButtonView = __decorate([
         (0, inversify_1.injectable)()
-      ], ExpandButtonView2);
+      ], ExpandButtonView);
     }
   });
 
@@ -20502,7 +20502,7 @@
       var model_1 = require_model12();
       var types_1 = require_types();
       var request_command_1 = require_request_command();
-      var SetViewportCommand2 = SetViewportCommand_1 = class SetViewportCommand extends command_1.MergeableCommand {
+      var SetViewportCommand = SetViewportCommand_1 = class SetViewportCommand extends command_1.MergeableCommand {
         constructor(action) {
           super();
           this.action = action;
@@ -20548,17 +20548,17 @@
           return false;
         }
       };
-      exports.SetViewportCommand = SetViewportCommand2;
-      SetViewportCommand2.KIND = actions_1.SetViewportAction.KIND;
+      exports.SetViewportCommand = SetViewportCommand;
+      SetViewportCommand.KIND = actions_1.SetViewportAction.KIND;
       __decorate([
         (0, inversify_1.inject)(types_1.TYPES.ViewerOptions),
         __metadata("design:type", Object)
-      ], SetViewportCommand2.prototype, "viewerOptions", void 0);
-      exports.SetViewportCommand = SetViewportCommand2 = SetViewportCommand_1 = __decorate([
+      ], SetViewportCommand.prototype, "viewerOptions", void 0);
+      exports.SetViewportCommand = SetViewportCommand = SetViewportCommand_1 = __decorate([
         (0, inversify_1.injectable)(),
         __param(0, (0, inversify_1.inject)(types_1.TYPES.Action)),
         __metadata("design:paramtypes", [Object])
-      ], SetViewportCommand2);
+      ], SetViewportCommand);
       var GetViewportCommand = class GetViewportCommand extends request_command_1.ModelRequestCommand {
         constructor(action) {
           super();
@@ -21622,7 +21622,7 @@
       exports.PolylineEdgeViewWithGapsOnIntersections = PolylineEdgeViewWithGapsOnIntersections = __decorate([
         (0, inversify_1.injectable)()
       ], PolylineEdgeViewWithGapsOnIntersections);
-      var BezierCurveEdgeView2 = class BezierCurveEdgeView extends views_2.RoutableView {
+      var BezierCurveEdgeView = class BezierCurveEdgeView extends views_2.RoutableView {
         render(edge, context, args) {
           const route = this.edgeRouterRegistry.route(edge, args);
           if (route.length === 0) {
@@ -21674,14 +21674,14 @@
           return (0, jsx_1.svg)("text", { "class-sprotty-edge-dangling": true, title: message }, "?");
         }
       };
-      exports.BezierCurveEdgeView = BezierCurveEdgeView2;
+      exports.BezierCurveEdgeView = BezierCurveEdgeView;
       __decorate([
         (0, inversify_1.inject)(routing_1.EdgeRouterRegistry),
         __metadata("design:type", routing_1.EdgeRouterRegistry)
-      ], BezierCurveEdgeView2.prototype, "edgeRouterRegistry", void 0);
-      exports.BezierCurveEdgeView = BezierCurveEdgeView2 = __decorate([
+      ], BezierCurveEdgeView.prototype, "edgeRouterRegistry", void 0);
+      exports.BezierCurveEdgeView = BezierCurveEdgeView = __decorate([
         (0, inversify_1.injectable)()
-      ], BezierCurveEdgeView2);
+      ], BezierCurveEdgeView);
       var SRoutingHandleView2 = class SRoutingHandleView {
         constructor() {
           this.minimalPointDistance = 10;
@@ -23325,7 +23325,7 @@
         import_sprotty3.SPortImpl,
         PortViewWithExternalLabel
       );
-      (0, import_sprotty3.configureModelElement)(container2, "label:port", import_sprotty3.SLabelImpl, import_sprotty3.SLabelView);
+      (0, import_sprotty3.configureModelElement)(container2, "label:port", import_sprotty3.SLabelImpl, import_sprotty3.SLabelView, { enable: [import_sprotty3.editLabelFeature] });
       (0, import_sprotty3.configureModelElement)(container2, "label:node", import_sprotty3.SLabelImpl, import_sprotty3.SLabelView);
       (0, import_sprotty3.configureModelElement)(container2, "label:edge", import_sprotty3.SLabelImpl, import_sprotty3.SLabelView);
       (0, import_sprotty3.configureModelElement)(context, "label:text", PropertyLabel, import_sprotty3.SLabelView, {
@@ -23483,7 +23483,10 @@
       const portChildHeight = portHeight;
       const positionNodeChildren = [
         { x: nodeWidth / 5, y: nodeHeight / 5 },
-        { x: nodeWidth / 4 + nodeWidth / 3, y: nodeHeight / 4 + nodeHeight / 3 }
+        {
+          x: nodeWidth / 4 + nodeWidth / 3,
+          y: nodeHeight / 4 + nodeHeight / 3
+        }
       ];
       for (let i = 0; i < positionNodeChildren.length; i++) {
         source.addElements([
@@ -23493,13 +23496,19 @@
               type: "node",
               id: `node-child-${nodeId}-${i + 1}`,
               position: positionNodeChildren[i],
-              size: { width: nodeChildWidth, height: nodeChildHeight },
+              size: {
+                width: nodeChildWidth,
+                height: nodeChildHeight
+              },
               children: [
                 {
                   type: "label:node",
                   id: `label-child-${nodeId}-${i + 1}`,
                   text: `child-${i + 1}`,
-                  position: { x: nodeWidth / 8, y: nodeHeight / 8 },
+                  position: {
+                    x: nodeWidth / 8,
+                    y: nodeHeight / 8
+                  },
                   cssClasses: ["text-node-child"]
                 },
                 {
@@ -24033,7 +24042,7 @@
               type: "label:port",
               id: `label-${port.portId}`,
               text: port.textValue,
-              position: { x: port.width / 2, y: 0 - port.height / 8 }
+              position: { x: port.width / 2, y: 0 - port.height / 2 }
             }
           }
         ]);
@@ -24128,6 +24137,7 @@
   var NODE_DUMMY_HEIGHT = NODE_DUMMY_HEIGTH;
   var drawMode = false;
   var dummyMode = false;
+  var isLabel = false;
   var sourceId = null;
   var targetId = null;
   var customSVGCount = 1;
@@ -24184,6 +24194,12 @@
   var countScroll = 0;
   var CustomMouseListener = class extends import_sprotty4.MouseListener {
     mouseUp(target, event) {
+      console.log(target instanceof import_sprotty4.SPortImpl);
+      if (target instanceof import_sprotty4.SLabelImpl) {
+        isLabel = true;
+      } else {
+        isLabel = false;
+      }
       const objectCheck = checkPositionEl(
         target,
         NODE_DUMMY_WIDTH2,
@@ -24460,7 +24476,7 @@
       setTimeout(() => {
         document.querySelectorAll(".port").forEach((port) => {
           port.addEventListener("click", (e) => {
-            if (!dummyMode) {
+            if (!isLabel) {
               cancelDrawEdgeBtn.classList.remove("hide");
               port.classList.add("ready-draw-source");
               sourceId = port.id.replace("sprotty-container_port-", "");
@@ -24477,34 +24493,34 @@
               const defaultX = Number(coordinate[0]) + Number(portCoordinate[0]) + 5;
               const defaultY = Number(coordinate[1]) + Number(portCoordinate[1]) + 5;
               if (dummyNodeArray.length == 0) {
-                addNode({
-                  isParentNode: false,
-                  source: modelSource,
-                  nodeId: "dummy",
-                  nodeWidth: NODE_DUMMY_WIDTH2,
-                  nodeHeight: NODE_DUMMY_HEIGHT,
-                  portWidth: 2,
-                  portHeight: 2,
-                  portQuantity: 1,
-                  cssClasses: ["nodes", "dummy"],
-                  name: "",
-                  // x: Number(coordinate[0]) + 2 * NODE_WIDTH,
-                  // y: Number(coordinate[1]),
-                  x: isParent ? Number(coordinateParent[0]) + defaultX : defaultX,
-                  y: isParent ? Number(coordinateParent[1]) + defaultY : defaultY,
-                  type: "node",
-                  portType: "1"
-                });
-                dummyNodeArray.push("dummy");
-                drawEdge({
-                  source: modelSource,
-                  edgeId: "dummy",
-                  sourceNumb: sourceId,
-                  targetNumb: "dummy-1",
-                  type: "edge:straight",
-                  cssClasses: ["dummy-edge"]
-                });
-                dummyEdgeId = "edge-dummy";
+                if (!isLabel) {
+                  addNode({
+                    isParentNode: false,
+                    source: modelSource,
+                    nodeId: "dummy",
+                    nodeWidth: NODE_DUMMY_WIDTH2,
+                    nodeHeight: NODE_DUMMY_HEIGHT,
+                    portWidth: 2,
+                    portHeight: 2,
+                    portQuantity: 1,
+                    cssClasses: ["nodes", "dummy"],
+                    name: "",
+                    x: isParent ? Number(coordinateParent[0]) + defaultX : defaultX,
+                    y: isParent ? Number(coordinateParent[1]) + defaultY : defaultY,
+                    type: "node",
+                    portType: "1"
+                  });
+                  dummyNodeArray.push("dummy");
+                  drawEdge({
+                    source: modelSource,
+                    edgeId: "dummy",
+                    sourceNumb: sourceId,
+                    targetNumb: "dummy-1",
+                    type: "edge:straight",
+                    cssClasses: ["dummy-edge"]
+                  });
+                  dummyEdgeId = "edge-dummy";
+                }
               }
               dummyMode = true;
             }
