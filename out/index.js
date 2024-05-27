@@ -23483,10 +23483,7 @@
       const portChildHeight = portHeight;
       const positionNodeChildren = [
         { x: nodeWidth / 5, y: nodeHeight / 5 },
-        {
-          x: nodeWidth / 4 + nodeWidth / 3,
-          y: nodeHeight / 4 + nodeHeight / 3
-        }
+        { x: nodeWidth / 4 + nodeWidth / 3, y: nodeHeight / 4 + nodeHeight / 3 }
       ];
       for (let i = 0; i < positionNodeChildren.length; i++) {
         source.addElements([
@@ -23496,19 +23493,13 @@
               type: "node",
               id: `node-child-${nodeId}-${i + 1}`,
               position: positionNodeChildren[i],
-              size: {
-                width: nodeChildWidth,
-                height: nodeChildHeight
-              },
+              size: { width: nodeChildWidth, height: nodeChildHeight },
               children: [
                 {
                   type: "label:node",
                   id: `label-child-${nodeId}-${i + 1}`,
                   text: `child-${i + 1}`,
-                  position: {
-                    x: nodeWidth / 8,
-                    y: nodeHeight / 8
-                  },
+                  position: { x: nodeWidth / 8, y: nodeHeight / 8 },
                   cssClasses: ["text-node-child"]
                 },
                 {
@@ -24035,6 +24026,11 @@
         }
       });
       inputTextArr.forEach((port) => {
+        let position = { x: port.width / 2, y: 0 - port.height / 4 };
+        const portType = port.portId.slice(-1);
+        if (portType === "3") {
+          position = { x: port.width / 2, y: port.height + port.height / 2 };
+        }
         source.addElements([
           {
             parentId: port.portId,
@@ -24042,7 +24038,7 @@
               type: "label:port",
               id: `label-${port.portId}`,
               text: port.textValue,
-              position: { x: port.width / 2, y: 0 - port.height / 2 }
+              position
             }
           }
         ]);
