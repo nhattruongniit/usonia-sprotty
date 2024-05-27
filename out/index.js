@@ -24027,10 +24027,6 @@
       });
       inputTextArr.forEach((port) => {
         let position = { x: port.width / 2, y: 0 - port.height / 4 };
-        const portType = port.portId.slice(-1);
-        if (portType === "3") {
-          position = { x: port.width / 2, y: port.height + port.height / 2 };
-        }
         source.addElements([
           {
             parentId: port.portId,
