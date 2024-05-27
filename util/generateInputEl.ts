@@ -83,6 +83,14 @@ export function generateInputElements(
 
     // Process the collected data as needed
     inputTextArr.forEach((port) => {
+      let position = { x: port.width / 2, y: 0 - port.height / 4 };
+      const portType = port.portId.slice(-1);
+      if (portType === "3") {
+        position = { x: port.width / 2, y: port.height + port.height / 2 };
+      }
+      // else if (portType === "1") {
+      //   position = { x: 0, y: 0 - port.height / 4 };
+      // }
       source.addElements([
         {
           parentId: port.portId,
@@ -90,7 +98,7 @@ export function generateInputElements(
             type: "label:port",
             id: `label-${port.portId}`,
             text: port.textValue,
-            position: { x: port.width / 2, y: 0 - port.height / 2 },
+            position,
           },
         },
       ]);

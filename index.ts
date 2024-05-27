@@ -224,18 +224,19 @@ const styleSheet = document.createElement("style");
 styleSheet.innerText = styles;
 document.head.appendChild(styleSheet);
 
-
-
 let countScroll = 0;
 export class CustomMouseListener extends MouseListener {
   mouseUp(target: any, event: MouseEvent): (Action | Promise<Action>)[] {
-    console.log(target instanceof SPortImpl)
-    if(target instanceof SLabelImpl){
-      isLabel = true
-    }else{
-      isLabel = false
+    console.log(target instanceof SPortImpl);
+    if (target instanceof SLabelImpl) {
+      isLabel = true;
+      // document.querySelectorAll(".sprotty-label").forEach((text) => {
+      //   (text as HTMLElement).classList.add("visible");
+      // });
+    } else {
+      isLabel = false;
     }
-  
+
     // code connect by dummy node
     const objectCheck = checkPositionEl(
       target,
@@ -620,7 +621,7 @@ export default async function run() {
               Number(coordinate[1]) + Number(portCoordinate[1]) + 5;
             // add dummy node
             if (dummyNodeArray.length == 0) {
-              if(!isLabel){
+              if (!isLabel) {
                 addNode({
                   isParentNode: false,
                   source: modelSource,
@@ -632,8 +633,12 @@ export default async function run() {
                   portQuantity: 1,
                   cssClasses: ["nodes", "dummy"],
                   name: "",
-                  x: isParent ? Number(coordinateParent[0]) + defaultX : defaultX,
-                  y: isParent ? Number(coordinateParent[1]) + defaultY : defaultY,
+                  x: isParent
+                    ? Number(coordinateParent[0]) + defaultX
+                    : defaultX,
+                  y: isParent
+                    ? Number(coordinateParent[1]) + defaultY
+                    : defaultY,
                   type: "node",
                   portType: "1",
                 });
@@ -646,10 +651,9 @@ export default async function run() {
                   type: "edge:straight",
                   cssClasses: ["dummy-edge"],
                 });
-  
+
                 dummyEdgeId = "edge-dummy";
               }
-         
             }
             dummyMode = true;
           }
