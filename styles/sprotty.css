@@ -185,3 +185,7 @@ svg {
   fill: aquamarine;
   stroke: #000;
 }
+
+#sprotty-container_editLabelUi {
+ z-index: 9;
+}
