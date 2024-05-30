@@ -9,6 +9,7 @@ import {
   SModelElementImpl,
   ElementMove,
   IActionDispatcher,
+  SLabelImpl,
 } from "sprotty";
 import {
   Action,
@@ -160,6 +161,7 @@ const NODE_DUMMY_HEIGHT = config.NODE_DUMMY_HEIGTH;
 // state of draw edge
 let drawMode = false;
 let dummyMode = false;
+let isLabel = false;
 
 // source
 let sourceId = null;
@@ -225,6 +227,16 @@ document.head.appendChild(styleSheet);
 let countScroll = 0;
 export class CustomMouseListener extends MouseListener {
   mouseUp(target: any, event: MouseEvent): (Action | Promise<Action>)[] {
+    console.log(target instanceof SPortImpl);
+    if (target instanceof SLabelImpl) {
+      isLabel = true;
+      // document.querySelectorAll(".sprotty-label").forEach((text) => {
+      //   (text as HTMLElement).classList.add("visible");
+      // });
+    } else {
+      isLabel = false;
+    }
+
     // code connect by dummy node
     const objectCheck = checkPositionEl(
       target,
@@ -233,7 +245,7 @@ export class CustomMouseListener extends MouseListener {
       NODE_WIDTH,
       NODE_HEIGHT,
       PORT_WIDTH,
-      PORT_HEIGHT,
+      PORT_HEIGHT
     );
     if (objectCheck.isDrawable) {
       targetId = objectCheck.targetId;
@@ -268,7 +280,7 @@ export class CustomMouseListener extends MouseListener {
       NODE_WIDTH,
       NODE_HEIGHT,
       PORT_WIDTH,
-      PORT_HEIGHT,
+      PORT_HEIGHT
     );
     let portElementMatch: SPortImpl;
 
@@ -279,14 +291,14 @@ export class CustomMouseListener extends MouseListener {
         return e.id.includes(
           objectCheck.targetId
             .replace("port-", "")
-            .slice(0, objectCheck.targetId.replace("port-", "").length - 2),
+            .slice(0, objectCheck.targetId.replace("port-", "").length - 2)
         );
       });
     }
 
     if (objectCheck.isDrawable) {
       portTarget = document.getElementById(
-        `sprotty-container_${objectCheck.targetId}`,
+        `sprotty-container_${objectCheck.targetId}`
       );
       portTarget.classList.add("ready-draw");
     } else if (!objectCheck.isDrawable) {
@@ -299,7 +311,7 @@ export class CustomMouseListener extends MouseListener {
   }
   wheel(
     target: SModelElementImpl,
-    event: WheelEvent,
+    event: WheelEvent
   ): (Action | Promise<Action>)[] {
     if (event.deltaY > 0) {
       countScroll--;
@@ -345,7 +357,7 @@ function cancelDrawEdge() {
   Array.from(document.getElementsByClassName("ready-draw-source")).forEach(
     (e) => {
       e.classList.remove("ready-draw-source");
-    },
+    }
   );
 
   dummyNodeArray = [];
@@ -567,7 +579,7 @@ export default async function run() {
     setTimeout(() => {
       document.querySelectorAll(".port").forEach((port) => {
         port.addEventListener("click", (e) => {
-          if (!dummyMode) {
+          if (!isLabel) {
             cancelDrawEdgeBtn.classList.remove("hide");
             port.classList.add("ready-draw-source");
             sourceId = port.id.replace("sprotty-container_port-", "");
@@ -609,36 +621,39 @@ export default async function run() {
               Number(coordinate[1]) + Number(portCoordinate[1]) + 5;
             // add dummy node
             if (dummyNodeArray.length == 0) {
-              addNode({
-                isParentNode: false,
-                source: modelSource,
-                nodeId: "dummy",
-                nodeWidth: NODE_DUMMY_WIDTH,
-                nodeHeight: NODE_DUMMY_HEIGHT,
-                portWidth: 2,
-                portHeight: 2,
-                portQuantity: 1,
+              if (!isLabel) {
+                addNode({
+                  isParentNode: false,
+                  source: modelSource,
+                  nodeId: "dummy",
+                  nodeWidth: NODE_DUMMY_WIDTH,
+                  nodeHeight: NODE_DUMMY_HEIGHT,
+                  portWidth: 2,
+                  portHeight: 2,
+                  portQuantity: 1,
+                  cssClasses: ["nodes", "dummy"],
+                  name: "",
+                  x: isParent
+                    ? Number(coordinateParent[0]) + defaultX
+                    : defaultX,
+                  y: isParent
+                    ? Number(coordinateParent[1]) + defaultY
+                    : defaultY,
+                  type: "node",
+                  portType: "1",
+                });
+                dummyNodeArray.push("dummy");
+                drawEdge({
+                  source: modelSource,
+                  edgeId: "dummy",
+                  sourceNumb: sourceId,
+                  targetNumb: "dummy-1",
+                  type: "edge:straight",
+                  cssClasses: ["dummy-edge"],
+                });
 
-                cssClasses: ["nodes", "dummy"],
-                name: "",
-                // x: Number(coordinate[0]) + 2 * NODE_WIDTH,
-                // y: Number(coordinate[1]),
-                x: isParent ? Number(coordinateParent[0]) + defaultX : defaultX,
-                y: isParent ? Number(coordinateParent[1]) + defaultY : defaultY,
-                type: "node",
-                portType: "1",
-              });
-              dummyNodeArray.push("dummy");
-              drawEdge({
-                source: modelSource,
-                edgeId: "dummy",
-                sourceNumb: sourceId,
-                targetNumb: "dummy-1",
-                type: "edge:straight",
-                cssClasses: ["dummy-edge"],
-              });
-
-              dummyEdgeId = "edge-dummy";
+                dummyEdgeId = "edge-dummy";
+              }
             }
             dummyMode = true;
           }
@@ -842,7 +857,7 @@ export default async function run() {
         animate: true,
         // stoppable: true,
         // finished: true,
-      }),
+      })
     );
     focusGraph();
   };

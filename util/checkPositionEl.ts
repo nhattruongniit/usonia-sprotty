@@ -5,7 +5,7 @@ export default function checkPositionEl(
   nodeWidth,
   nodeHeight,
   portWidth,
-  portHeight,
+  portHeight
 ) {
   const NODE_PARENT_WIDTH = nodeWidth * 4;
   const NODE_PARENT_HEIGHT = nodeWidth * 4;

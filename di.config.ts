@@ -1,6 +1,5 @@
 import { Container, ContainerModule } from "inversify";
 import {
-  BezierCurveEdgeView,
   configureModelElement,
   configureViewerOptions,
   loadDefaultModules,
@@ -22,21 +21,12 @@ import {
   RectangularNode,
   moveFeature,
   selectFeature,
-  SButtonImpl,
-  ExpandButtonView,
   configureButtonHandler,
-  IModelFactory,
-  ViewportRootElementImpl,
-  SetViewportCommand,
-  CommandExecutionContext,
-  ConsoleLogger,
-  AnimationFrameSyncer,
-  registerModelElement,
   PreRenderedView,
   ShapedPreRenderedElementImpl,
+  editLabelFeature,
 } from "sprotty";
 
-import { Viewport, SetViewportAction } from "sprotty-protocol";
 
 import { PortViewWithExternalLabel } from "./views/PortViewWithExternalLabel";
 import { CustomMouseListener, CustomButtonHandler } from "./index";
@@ -57,22 +47,22 @@ export const createContainer = (containerId: string) => {
       "pre-rendered",
       ShapedPreRenderedElementImpl,
       PreRenderedView,
-      { enable: [moveFeature] },
+      { enable: [moveFeature] }
     );
 
     configureButtonHandler(
       { bind, isBound },
       "button:custom",
-      CustomButtonHandler,
+      CustomButtonHandler
     );
     configureModelElement(context, "node:package", RectangularNode, NodeView);
     configureModelElement(
       context,
       "port",
       SPortImpl,
-      PortViewWithExternalLabel,
+      PortViewWithExternalLabel
     );
-    configureModelElement(container, "label:port", SLabelImpl, SLabelView);
+    configureModelElement(container, "label:port", SLabelImpl, SLabelView, {enable : [editLabelFeature]});
     configureModelElement(container, "label:node", SLabelImpl, SLabelView);
     configureModelElement(container, "label:edge", SLabelImpl, SLabelView);
     configureModelElement(context, "label:text", PropertyLabel, SLabelView, {
@@ -84,38 +74,38 @@ export const createContainer = (containerId: string) => {
       context,
       "edge:straight",
       SEdgeImpl,
-      PolylineEdgeView,
+      PolylineEdgeView
     );
 
     configureModelElement(
       context,
       "routing-point",
       SRoutingHandleImpl,
-      SRoutingHandleView,
+      SRoutingHandleView
     );
     configureModelElement(
       context,
       "volatile-routing-point",
       SRoutingHandleImpl,
-      SRoutingHandleView,
+      SRoutingHandleView
     );
     configureModelElement(
       context,
       "bezier-create-routing-point",
       SRoutingHandleImpl,
-      SBezierCreateHandleView,
+      SBezierCreateHandleView
     );
     configureModelElement(
       context,
       "bezier-remove-routing-point",
       SRoutingHandleImpl,
-      SBezierCreateHandleView,
+      SBezierCreateHandleView
     );
     configureModelElement(
       context,
       "bezier-routing-point",
       SRoutingHandleImpl,
-      SBezierControlHandleView,
+      SBezierControlHandleView
     );
 
     configureViewerOptions(context, {
