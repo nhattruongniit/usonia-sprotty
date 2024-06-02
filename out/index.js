@@ -23700,9 +23700,7 @@
   // util/checkPositionEl.ts
   function checkPositionEl(target, dummyWidth, dummyHeight, nodeWidth, nodeHeight, portWidth, portHeight) {
     const NODE_PARENT_WIDTH2 = nodeWidth * 4;
-    const NODE_PARENT_HEIGHT2 = nodeWidth * 4;
-    const PORT_PARENT_WIDTH2 = NODE_PARENT_WIDTH2 / 8;
-    const PORT_PARENT_HEIGHT2 = NODE_PARENT_HEIGHT2 / 8;
+    const NODE_PARENT_HEIGHT2 = nodeHeight * 4;
     let NODE_CUSTOM_WIDTH;
     let NODE_CUSTOM_HEIGHT;
     let PORT_CUSTOM_WIDTH;
@@ -23806,7 +23804,6 @@
           });
         }
       });
-      console.log(portCompareCoordinateArr);
       portCompareCoordinateArr.forEach((portCoordinate) => {
         let portCompareX;
         let portCompareY;
@@ -23828,7 +23825,8 @@
           portCompareY = portCoordinate.nodeY + portCoordinate.y;
         } else if (portCoordinate.type === 5) {
           portCompareX = portCoordinate.nodeX + portCoordinate.x;
-          portCompareY = portCoordinate.nodeY + (NODE_PARENT_HEIGHT2 - PORT_PARENT_HEIGHT2) / 2;
+          portCompareY = portCoordinate.nodeY + NODE_PARENT_HEIGHT2 / 2;
+          console.log(coordinateDummyNodeY, portCompareY);
         } else {
           return;
         }
@@ -23836,7 +23834,7 @@
           targetId2 = portCoordinate.id;
           isDrawable = true;
         }
-        if (coordinateDummyNodeX <= portCompareX + PORT_PARENT_WIDTH2 && portCompareX <= coordinateDummyNodeX && coordinateDummyNodeY <= portCompareY + PORT_PARENT_HEIGHT2 && portCompareY <= coordinateDummyNodeY) {
+        if (coordinateDummyNodeX <= portCompareX + portWidth && portCompareX <= coordinateDummyNodeX && coordinateDummyNodeY <= portCompareY + portHeight && portCompareY <= coordinateDummyNodeY) {
           targetId2 = portCoordinate.id;
           isDrawable = true;
         }
