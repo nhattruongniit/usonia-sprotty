@@ -922,4 +922,7 @@ export default async function run() {
   });
 }
 
-document.addEventListener("DOMContentLoaded", () => run());
+document.addEventListener("DOMContentLoaded", () => {
+  run();
+});
+

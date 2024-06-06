@@ -1,12 +1,16 @@
 {
   "scripts": {
-    "build": "esbuild ./index.ts --bundle --sourcemap --outfile=./out/index.js"
+    "build": "esbuild ./index.ts --bundle --sourcemap --outfile=./out/index.js",
+    "build:monaco": "node esbuild.config.js"
   },
   "devDependencies": {
     "esbuild": "^0.17.8",
+    "esbuild-css-modules-plugin": "^3.1.2",
     "typescript": "^4.9.5"
   },
   "dependencies": {
+    "monaco-editor": "^0.49.0",
+    "monaco-editor-webpack-plugin": "^7.1.0",
     "reflect-metadata": "^0.1.13",
     "sprotty": "^1.0.0"
   }
