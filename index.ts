@@ -21,6 +21,7 @@ import {
 } from "sprotty-protocol";
 import { createContainer } from "./di.config";
 import { CenterAction } from "sprotty-protocol";
+import { Environment, editor } from "monaco-editor";
 
 // settings
 import * as config from "./settings/config.json";
@@ -37,6 +38,12 @@ import { injectable } from "inversify";
 import addCustomNode from "./util/addCustomNode";
 import { findMax } from "./util/Math/findMax";
 import { generateInputElements } from "./util/generateInputEl";
+
+declare global {
+  interface Window {
+    MonacoEnvironment?: Environment;
+  }
+}
 // elements dom
 let addParentNode = null;
 
@@ -48,8 +55,10 @@ let svgTextEl = null;
 let closeModalBtnEl = null;
 let addCustomBtn = null;
 
+let codeEditorEl = null;
 let exportJsonBtn = null;
 let importJsonBtn = null;
+let showJsonBtn = null;
 let inputFile = null;
 let selecteNodeEl = null;
 let node1ShapeEl = null;
@@ -407,6 +416,16 @@ const deleteLogic = () => {
 };
 
 export default async function run() {
+  window.MonacoEnvironment = {
+    getWorkerUrl: function (workerId: string, label: string) {
+      return `data:text/javascript;charset=utf-8,${encodeURIComponent(`
+        self.MonacoEnvironment = {
+          baseUrl: '${location.origin}/node_modules/monaco-editor/min/'
+        };
+        importScripts('${location.origin}/node_modules/monaco-editor/min/vs/base/worker/workerMain.js');
+      `)}`;
+    },
+  };
   modelSource.setModel(graphDisplay);
   localStorage.clear();
 
@@ -420,6 +439,7 @@ export default async function run() {
   // showJsonBtn = document.getElementById("show-json");
   exportJsonBtn = document.getElementById("export-json");
   importJsonBtn = document.getElementById("import-json");
+  showJsonBtn = document.getElementById("show-json");
   inputFile = document.getElementById("input-file");
   selecteNodeEl = document.getElementById("select-node");
   node1ShapeEl = document.getElementById("node-1-shape");
@@ -433,6 +453,7 @@ export default async function run() {
   addCustomSVGEl = document.getElementById("add-custom-svg");
   svgTextEl = document.getElementById("area_field_svg");
   closeModalBtnEl = document.getElementById("close-modal-btn");
+  codeEditorEl = document.getElementById("code-editor");
 
   // scale
 
@@ -517,6 +538,25 @@ export default async function run() {
     a.click();
     a.remove();
     URL.revokeObjectURL(url);
+  });
+
+  showJsonBtn.addEventListener("click", () => {
+    const jsonFiltered = getGrahpJson(modelSource.model);
+    console.log(jsonFiltered);
+    editor.create(document.getElementById("editor-json"), {
+      value: jsonFiltered,
+      language: "javascript",
+
+      lineNumbers: "on",
+      roundedSelection: false,
+      scrollBeyondLastLine: false,
+      readOnly: false,
+      // theme: "vs-dark",
+      glyphMargin: true,
+      automaticLayout: true,
+      foldingMaximumRegions: 100,
+      // lineDecorationsWidth: 100,
+    });
   });
 
   importJsonBtn.addEventListener("click", () => {

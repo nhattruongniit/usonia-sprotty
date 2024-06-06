@@ -218,3 +218,9 @@
 .visible {
   visibility: visible !important;
 }
+
+.editor-json,
+#editor-json {
+  width: 500px !important;
+  height: 500px !important;
+}
