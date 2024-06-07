@@ -554,7 +554,7 @@ export default async function run() {
       // theme: "vs-dark",
       glyphMargin: true,
       automaticLayout: true,
-      // foldingMaximumRegions: 100,
+      foldingMaximumRegions: 100,
       // lineDecorationsWidth: 100,
     });
   });
