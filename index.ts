@@ -56,9 +56,11 @@ let closeModalBtnEl = null;
 let addCustomBtn = null;
 
 let codeEditorEl = null;
+let closeEditorBtnEl = null;
 let exportJsonBtn = null;
 let importJsonBtn = null;
 let showJsonBtn = null;
+let submitJsonBtn = null;
 let inputFile = null;
 let selecteNodeEl = null;
 let node1ShapeEl = null;
@@ -454,6 +456,8 @@ export default async function run() {
   svgTextEl = document.getElementById("area_field_svg");
   closeModalBtnEl = document.getElementById("close-modal-btn");
   codeEditorEl = document.getElementById("code-editor");
+  closeEditorBtnEl = document.getElementById("close-editor-btn");
+  submitJsonBtn = document.getElementById("submit-json-btn");
 
   // scale
 
@@ -539,11 +543,11 @@ export default async function run() {
     a.remove();
     URL.revokeObjectURL(url);
   });
-
+  let monacoEditor: any;
   showJsonBtn.addEventListener("click", () => {
     const jsonFiltered = getGrahpJson(modelSource.model);
     console.log(jsonFiltered);
-    editor.create(document.getElementById("editor-json"), {
+    monacoEditor = editor.create(document.getElementById("editor-json"), {
       value: jsonFiltered,
       language: "javascript",
 
@@ -562,6 +566,16 @@ export default async function run() {
   importJsonBtn.addEventListener("click", () => {
     // logic import file
     inputFile.click();
+  });
+
+  closeEditorBtnEl.addEventListener("click", () => {
+    monacoEditor.setValue("");
+  });
+  submitJsonBtn.addEventListener("click", () => {
+    const parseGraph = JSON.parse(monacoEditor.getValue() as string);
+    localStorage.setItem("graph", JSON.stringify(parseGraph));
+    closeEditorBtnEl.click();
+    window.location.reload();
   });
 
   inputFile.addEventListener("change", (event) => {

@@ -10,10 +10,16 @@
   <link rel="stylesheet" href="./styles/styles.css" />
 
   <!-- monaco editor -->
-  <link  rel="stylesheet" href="node_modules/monaco-editor/min/vs/editor/editor.main.css" />
+  <link
+    rel="stylesheet"
+    href="node_modules/monaco-editor/min/vs/editor/editor.main.css"
+  />
 
   <!-- font awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+  />
 </head>
 
 <body>
@@ -128,13 +134,18 @@
               <div class="modal-body"></div>
               <div class="modal-footer">
                 <button
+                  id="close-editor-btn"
                   type="button"
                   class="btn btn-secondary"
                   data-bs-dismiss="modal"
                 >
                   Close
                 </button>
-                <button type="button" class="btn btn-primary">
+                <button
+                  id="submit-json-btn"
+                  type="button"
+                  class="btn btn-primary"
+                >
                   Ok
                 </button>
               </div>
