@@ -221,6 +221,7 @@
 
 .editor-json,
 #editor-json {
-  width: 100% !important;
-  height: 500px !important;
+  width: 30% !important;
+  height: 100% !important;
+  border: 0.5px solid #5e5d5d;
 }

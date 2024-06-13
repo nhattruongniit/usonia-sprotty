@@ -544,24 +544,23 @@ export default async function run() {
     URL.revokeObjectURL(url);
   });
   let monacoEditor: any;
-  showJsonBtn.addEventListener("click", () => {
-    const jsonFiltered = getGrahpJson(modelSource.model);
-    console.log(jsonFiltered);
-    monacoEditor = editor.create(document.getElementById("editor-json"), {
-      value: jsonFiltered,
-      language: "javascript",
+  const jsonFiltered = getGrahpJson(modelSource.model);
+  monacoEditor = editor.create(document.getElementById("editor-json"), {
+    value: jsonFiltered,
+    language: "javascript",
 
-      lineNumbers: "on",
-      roundedSelection: false,
-      scrollBeyondLastLine: false,
-      readOnly: false,
-      // theme: "vs-dark",
-      glyphMargin: true,
-      automaticLayout: true,
-      foldingMaximumRegions: 100,
-      // lineDecorationsWidth: 100,
-    });
+    lineNumbers: "on",
+    roundedSelection: false,
+    scrollBeyondLastLine: false,
+    readOnly: false,
+    // theme: "vs-dark",
+    glyphMargin: true,
+    automaticLayout: true,
+    foldingMaximumRegions: 100,
+    // lineDecorationsWidth: 100,
   });
+  // showJsonBtn.addEventListener("click", () => {
+  // });
 
   importJsonBtn.addEventListener("click", () => {
     // logic import file
