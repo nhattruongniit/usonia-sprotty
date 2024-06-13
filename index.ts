@@ -544,13 +544,13 @@ export default async function run() {
     URL.revokeObjectURL(url);
   });
   let monacoEditor: any;
-  showJsonBtn.addEventListener("click", () => {
+
+  function renderMonacoEditor() {
     const jsonFiltered = getGrahpJson(modelSource.model);
     console.log(jsonFiltered);
     monacoEditor = editor.create(document.getElementById("editor-json"), {
       value: jsonFiltered,
       language: "javascript",
-
       lineNumbers: "on",
       roundedSelection: false,
       scrollBeyondLastLine: false,
@@ -561,7 +561,8 @@ export default async function run() {
       foldingMaximumRegions: 100,
       // lineDecorationsWidth: 100,
     });
-  });
+  }
+  renderMonacoEditor();
 
   importJsonBtn.addEventListener("click", () => {
     // logic import file

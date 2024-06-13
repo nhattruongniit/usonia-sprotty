@@ -107,51 +107,7 @@
           Show Json
         </button>
 
-        <!-- Modal -->
-        <div
-          class="modal fade"
-          id="staticBackdrop"
-          data-bs-backdrop="static"
-          data-bs-keyboard="false"
-          tabindex="-1"
-          aria-labelledby="staticBackdropLabel"
-          aria-hidden="true"
-        >
-          <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">
-                  Code Editor
-                </h5>
-                <button
-                  type="button"
-                  class="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div id="editor-json"></div>
-              <div class="modal-body"></div>
-              <div class="modal-footer">
-                <button
-                  id="close-editor-btn"
-                  type="button"
-                  class="btn btn-secondary"
-                  data-bs-dismiss="modal"
-                >
-                  Close
-                </button>
-                <button
-                  id="submit-json-btn"
-                  type="button"
-                  class="btn btn-primary"
-                >
-                  Ok
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+      
         <input
           type="file"
           accept="application/json"
@@ -351,6 +307,59 @@
         <button id="align-bottom" class="btn-control">
           <i class="fa-solid fa-align-center fa-lg icon"></i>
         </button>
+      </div>
+    </div>
+
+    <div class="monaco-container">
+      <h5 class="monaco-title">
+        Code Editor
+      </h5>
+      <div id="editor-json"></div>
+    </div>
+
+      <!-- Modal -->
+      <div
+      class="modal fade"
+      id="staticBackdrop"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="staticBackdropLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">
+              Code Editor
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div id="editor-json"></div>
+          <div class="modal-body"></div>
+          <div class="modal-footer">
+            <button
+              id="close-editor-btn"
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              id="submit-json-btn"
+              type="button"
+              class="btn btn-primary"
+            >
+              Ok
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
