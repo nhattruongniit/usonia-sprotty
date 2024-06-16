@@ -278,6 +278,7 @@ export class CustomMouseListener extends MouseListener {
       cancelDrawEdge();
     }
     cancelDrawEdge();
+    updateEditor();
 
     return [];
   }
@@ -317,6 +318,7 @@ export class CustomMouseListener extends MouseListener {
         portTarget.classList.remove("ready-draw");
       }
     }
+    updateEditor();
 
     return [];
   }
@@ -415,6 +417,29 @@ const deleteLogic = () => {
       },
     ]);
   });
+};
+
+let monacoEditor: any;
+const jsonFiltered = getGrahpJson(modelSource.model);
+monacoEditor = editor.create(document.getElementById("editor-json"), {
+  value: jsonFiltered,
+  language: "javascript",
+
+  lineNumbers: "on",
+  roundedSelection: false,
+  scrollBeyondLastLine: false,
+  readOnly: false,
+  // theme: "vs-dark",
+  glyphMargin: true,
+  automaticLayout: true,
+  foldingMaximumRegions: 100,
+  // lineDecorationsWidth: 100,
+});
+// showJsonBtn.addEventListener("click", () => {
+// });
+const updateEditor = () => {
+  const jsonFiltered = getGrahpJson(modelSource.model);
+  monacoEditor.setValue(jsonFiltered);
 };
 
 export default async function run() {
@@ -543,24 +568,6 @@ export default async function run() {
     a.remove();
     URL.revokeObjectURL(url);
   });
-  let monacoEditor: any;
-  const jsonFiltered = getGrahpJson(modelSource.model);
-  monacoEditor = editor.create(document.getElementById("editor-json"), {
-    value: jsonFiltered,
-    language: "javascript",
-
-    lineNumbers: "on",
-    roundedSelection: false,
-    scrollBeyondLastLine: false,
-    readOnly: false,
-    // theme: "vs-dark",
-    glyphMargin: true,
-    automaticLayout: true,
-    foldingMaximumRegions: 100,
-    // lineDecorationsWidth: 100,
-  });
-  // showJsonBtn.addEventListener("click", () => {
-  // });
 
   importJsonBtn.addEventListener("click", () => {
     // logic import file
@@ -625,6 +632,7 @@ export default async function run() {
     nodeAdd.count++;
 
     drawLogic();
+    updateEditor();
   };
 
   // draw edge
@@ -706,12 +714,14 @@ export default async function run() {
                 });
 
                 dummyEdgeId = "edge-dummy";
+                updateEditor();
               }
             }
             dummyMode = true;
           }
         });
       });
+      updateEditor();
     }, 100);
   }
 
@@ -731,6 +741,7 @@ export default async function run() {
     });
     nodeParentNumber++;
     drawLogic();
+    updateEditor();
   });
 
   nodeShapeEls.forEach((e: any) => {
@@ -768,6 +779,7 @@ export default async function run() {
         }
       });
     });
+    updateEditor();
   });
 
   // Add Node by drag
@@ -794,10 +806,12 @@ export default async function run() {
 
   deleteBtn.addEventListener("click", () => {
     deleteLogic();
+    updateEditor();
   });
   document.addEventListener("keydown", (event) => {
     if (event.key === "Delete") {
       deleteLogic();
+      updateEditor();
     }
   });
 
@@ -917,17 +931,20 @@ export default async function run() {
 
   document.getElementById("align-left").addEventListener("click", async () => {
     alignNode("left");
+    updateEditor();
   });
   console.log(document.getElementById("align-right"));
   document.getElementById("align-right").addEventListener("click", async () => {
-    console.log("click");
     alignNode("right");
+    updateEditor();
   });
   document.getElementById("align-top").addEventListener("click", () => {
     alignNode("top");
+    updateEditor();
   });
   document.getElementById("align-bottom").addEventListener("click", () => {
     alignNode("bottom");
+    updateEditor();
   });
 
   // add custom SVG
@@ -972,6 +989,7 @@ export default async function run() {
 
     generateInputElements(portGeneratedArr, "port-text", modelSource, nodeId);
     drawLogic();
+    updateEditor();
   });
 }
 

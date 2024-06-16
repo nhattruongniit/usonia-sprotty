@@ -225,3 +225,18 @@
   height: 100% !important;
   border: 0.5px solid #5e5d5d;
 }
+
+#editor-json-resize-handle {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 10px;
+  cursor: ew-resize;
+  z-index: 1;
+}
+
+#sprotty {
+  flex: 1; /* Allow Sprotty to take up the remaining space */
+  position: relative;
+}

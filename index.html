@@ -357,7 +357,9 @@
     <div
       id="editor-json"
       class="container-fluid px-0 py-0 droptarget position-relative"
-    ></div>
+    >
+      <div id="editor-json-resize-handle"></div>
+    </div>
   </div>
 
   <script src="./out/index.js" type="text/javascript"></script>
@@ -366,4 +368,33 @@
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
     crossorigin="anonymous"
   ></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const editorJson = document.getElementById("editor-json");
+      const resizeHandle = document.getElementById("editor-json-resize-handle");
+
+      let isResizing = false;
+
+      resizeHandle.addEventListener("mousedown", function (e) {
+        isResizing = true;
+        document.body.style.cursor = "ew-resize";
+      });
+
+      document.addEventListener("mousemove", function (e) {
+        if (isResizing) {
+          const containerRect =
+            editorJson.parentElement.getBoundingClientRect();
+          const newWidth = e.clientX - containerRect.left;
+          editorJson.style.width = `${newWidth}px`;
+        }
+      });
+
+      document.addEventListener("mouseup", function () {
+        if (isResizing) {
+          isResizing = false;
+          document.body.style.cursor = "default";
+        }
+      });
+    });
+  </script>
 </body>
