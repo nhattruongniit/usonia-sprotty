@@ -372,23 +372,26 @@
     document.addEventListener("DOMContentLoaded", function () {
       const editorJson = document.getElementById("editor-json");
       const resizeHandle = document.getElementById("editor-json-resize-handle");
-
+  
       let isResizing = false;
-
+      let initialX = 0;
+      let originalWidth = 0;
+  
       resizeHandle.addEventListener("mousedown", function (e) {
         isResizing = true;
+        initialX = e.clientX;
+        originalWidth = parseFloat(getComputedStyle(editorJson, null).width);
         document.body.style.cursor = "ew-resize";
       });
-
+  
       document.addEventListener("mousemove", function (e) {
         if (isResizing) {
-          const containerRect =
-            editorJson.parentElement.getBoundingClientRect();
-          const newWidth = e.clientX - containerRect.left;
+          const dx = e.clientX - initialX;
+          const newWidth = originalWidth - dx; // Adjusted to subtract dx
           editorJson.style.width = `${newWidth}px`;
         }
       });
-
+  
       document.addEventListener("mouseup", function () {
         if (isResizing) {
           isResizing = false;
@@ -397,4 +400,6 @@
       });
     });
   </script>
+  
+  
 </body>
