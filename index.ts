@@ -21,6 +21,7 @@ import {
 } from "sprotty-protocol";
 import { createContainer } from "./di.config";
 import { CenterAction } from "sprotty-protocol";
+import { Environment, editor } from "monaco-editor";
 
 // settings
 import * as config from "./settings/config.json";
@@ -37,6 +38,12 @@ import { injectable } from "inversify";
 import addCustomNode from "./util/addCustomNode";
 import { findMax } from "./util/Math/findMax";
 import { generateInputElements } from "./util/generateInputEl";
+
+declare global {
+  interface Window {
+    MonacoEnvironment?: Environment;
+  }
+}
 // elements dom
 let addParentNode = null;
 
@@ -48,8 +55,12 @@ let svgTextEl = null;
 let closeModalBtnEl = null;
 let addCustomBtn = null;
 
+let codeEditorEl = null;
+let closeEditorBtnEl = null;
 let exportJsonBtn = null;
 let importJsonBtn = null;
+let showJsonBtn = null;
+let submitJsonBtn = null;
 let inputFile = null;
 let selecteNodeEl = null;
 let node1ShapeEl = null;
@@ -267,6 +278,7 @@ export class CustomMouseListener extends MouseListener {
       cancelDrawEdge();
     }
     cancelDrawEdge();
+    updateEditor();
 
     return [];
   }
@@ -306,6 +318,7 @@ export class CustomMouseListener extends MouseListener {
         portTarget.classList.remove("ready-draw");
       }
     }
+    updateEditor();
 
     return [];
   }
@@ -406,7 +419,40 @@ const deleteLogic = () => {
   });
 };
 
+let monacoEditor: any;
+const jsonFiltered = getGrahpJson(modelSource.model);
+monacoEditor = editor.create(document.getElementById("editor-json"), {
+  value: jsonFiltered,
+  language: "javascript",
+
+  lineNumbers: "on",
+  roundedSelection: false,
+  scrollBeyondLastLine: false,
+  readOnly: false,
+  // theme: "vs-dark",
+  glyphMargin: true,
+  automaticLayout: true,
+  foldingMaximumRegions: 100,
+  // lineDecorationsWidth: 100,
+});
+// showJsonBtn.addEventListener("click", () => {
+// });
+const updateEditor = () => {
+  const jsonFiltered = getGrahpJson(modelSource.model);
+  monacoEditor.setValue(jsonFiltered);
+};
+
 export default async function run() {
+  window.MonacoEnvironment = {
+    getWorkerUrl: function (workerId: string, label: string) {
+      return `data:text/javascript;charset=utf-8,${encodeURIComponent(`
+        self.MonacoEnvironment = {
+          baseUrl: '${location.origin}/node_modules/monaco-editor/min/'
+        };
+        importScripts('${location.origin}/node_modules/monaco-editor/min/vs/base/worker/workerMain.js');
+      `)}`;
+    },
+  };
   modelSource.setModel(graphDisplay);
   localStorage.clear();
 
@@ -420,6 +466,7 @@ export default async function run() {
   // showJsonBtn = document.getElementById("show-json");
   exportJsonBtn = document.getElementById("export-json");
   importJsonBtn = document.getElementById("import-json");
+  showJsonBtn = document.getElementById("show-json");
   inputFile = document.getElementById("input-file");
   selecteNodeEl = document.getElementById("select-node");
   node1ShapeEl = document.getElementById("node-1-shape");
@@ -433,6 +480,9 @@ export default async function run() {
   addCustomSVGEl = document.getElementById("add-custom-svg");
   svgTextEl = document.getElementById("area_field_svg");
   closeModalBtnEl = document.getElementById("close-modal-btn");
+  codeEditorEl = document.getElementById("code-editor");
+  closeEditorBtnEl = document.getElementById("close-editor-btn");
+  submitJsonBtn = document.getElementById("submit-json-btn");
 
   // scale
 
@@ -524,6 +574,16 @@ export default async function run() {
     inputFile.click();
   });
 
+  closeEditorBtnEl.addEventListener("click", () => {
+    monacoEditor.setValue("");
+  });
+  submitJsonBtn.addEventListener("click", () => {
+    const parseGraph = JSON.parse(monacoEditor.getValue() as string);
+    localStorage.setItem("graph", JSON.stringify(parseGraph));
+    closeEditorBtnEl.click();
+    window.location.reload();
+  });
+
   inputFile.addEventListener("change", (event) => {
     // (event.target.files[0]);
     if (!event.target.files[0]) {
@@ -572,6 +632,7 @@ export default async function run() {
     nodeAdd.count++;
 
     drawLogic();
+    updateEditor();
   };
 
   // draw edge
@@ -653,12 +714,14 @@ export default async function run() {
                 });
 
                 dummyEdgeId = "edge-dummy";
+                updateEditor();
               }
             }
             dummyMode = true;
           }
         });
       });
+      updateEditor();
     }, 100);
   }
 
@@ -678,6 +741,7 @@ export default async function run() {
     });
     nodeParentNumber++;
     drawLogic();
+    updateEditor();
   });
 
   nodeShapeEls.forEach((e: any) => {
@@ -715,6 +779,7 @@ export default async function run() {
         }
       });
     });
+    updateEditor();
   });
 
   // Add Node by drag
@@ -741,10 +806,12 @@ export default async function run() {
 
   deleteBtn.addEventListener("click", () => {
     deleteLogic();
+    updateEditor();
   });
   document.addEventListener("keydown", (event) => {
     if (event.key === "Delete") {
       deleteLogic();
+      updateEditor();
     }
   });
 
@@ -864,17 +931,20 @@ export default async function run() {
 
   document.getElementById("align-left").addEventListener("click", async () => {
     alignNode("left");
+    updateEditor();
   });
   console.log(document.getElementById("align-right"));
   document.getElementById("align-right").addEventListener("click", async () => {
-    console.log("click");
     alignNode("right");
+    updateEditor();
   });
   document.getElementById("align-top").addEventListener("click", () => {
     alignNode("top");
+    updateEditor();
   });
   document.getElementById("align-bottom").addEventListener("click", () => {
     alignNode("bottom");
+    updateEditor();
   });
 
   // add custom SVG
@@ -919,6 +989,7 @@ export default async function run() {
 
     generateInputElements(portGeneratedArr, "port-text", modelSource, nodeId);
     drawLogic();
+    updateEditor();
   });
 }
 

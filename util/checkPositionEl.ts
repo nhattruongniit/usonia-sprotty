@@ -8,9 +8,7 @@ export default function checkPositionEl(
   portHeight
 ) {
   const NODE_PARENT_WIDTH = nodeWidth * 4;
-  const NODE_PARENT_HEIGHT = nodeWidth * 4;
-  const PORT_PARENT_WIDTH = NODE_PARENT_WIDTH / 8;
-  const PORT_PARENT_HEIGHT = NODE_PARENT_HEIGHT / 8;
+  const NODE_PARENT_HEIGHT = nodeHeight * 4;
 
   let NODE_CUSTOM_WIDTH: number;
   let NODE_CUSTOM_HEIGHT: number;
@@ -157,8 +155,6 @@ export default function checkPositionEl(
       }
     });
 
-    console.log(portCompareCoordinateArr);
-
     portCompareCoordinateArr.forEach((portCoordinate) => {
       let portCompareX: number;
       let portCompareY: number;
@@ -193,8 +189,8 @@ export default function checkPositionEl(
         portCompareY = portCoordinate.nodeY + portCoordinate.y;
       } else if (portCoordinate.type === 5) {
         portCompareX = portCoordinate.nodeX + portCoordinate.x;
-        portCompareY =
-          portCoordinate.nodeY + (NODE_PARENT_HEIGHT - PORT_PARENT_HEIGHT) / 2;
+        portCompareY = portCoordinate.nodeY + NODE_PARENT_HEIGHT / 2;
+        console.log(coordinateDummyNodeY, portCompareY);
       } else {
         return;
       }
@@ -209,9 +205,9 @@ export default function checkPositionEl(
         isDrawable = true;
       }
       if (
-        coordinateDummyNodeX <= portCompareX + PORT_PARENT_WIDTH &&
+        coordinateDummyNodeX <= portCompareX + portWidth &&
         portCompareX <= coordinateDummyNodeX &&
-        coordinateDummyNodeY <= portCompareY + PORT_PARENT_HEIGHT &&
+        coordinateDummyNodeY <= portCompareY + portHeight &&
         portCompareY <= coordinateDummyNodeY
       ) {
         targetId = portCoordinate.id;
