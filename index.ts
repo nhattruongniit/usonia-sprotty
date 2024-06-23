@@ -10,6 +10,9 @@ import {
   ElementMove,
   IActionDispatcher,
   SLabelImpl,
+  SNodeImpl,
+  SEdgeImpl,
+  SGraphImpl,
 } from "sprotty";
 import {
   Action,
@@ -238,7 +241,6 @@ document.head.appendChild(styleSheet);
 let countScroll = 0;
 export class CustomMouseListener extends MouseListener {
   mouseUp(target: any, event: MouseEvent): (Action | Promise<Action>)[] {
-    console.log(target instanceof SPortImpl);
     if (target instanceof SLabelImpl) {
       isLabel = true;
       // document.querySelectorAll(".sprotty-label").forEach((text) => {
@@ -278,6 +280,52 @@ export class CustomMouseListener extends MouseListener {
       cancelDrawEdge();
     }
     cancelDrawEdge();
+
+    if (target instanceof SNodeImpl) {
+      let portIdFromNodeSelected = [];
+
+      target.children.forEach((child) => {
+        if (child instanceof SPortImpl) {
+          portIdFromNodeSelected.push(child.id);
+        }
+      });
+      const graphChild = target.parent.children;
+      graphChild.forEach((child) => {
+        if (child instanceof SEdgeImpl) {
+          const sourceId = portIdFromNodeSelected.find(
+            (id) => id === child.sourceId
+          );
+          const targetId = portIdFromNodeSelected.find(
+            (id) => id === child.targetId
+          );
+          if (sourceId) {
+            child.cssClasses.push("source-edge-selected");
+          }
+          if (targetId) {
+            child.cssClasses.push("target-edge-selected");
+          }
+        }
+      });
+    } else {
+      if (target instanceof SGraphImpl) {
+        target.children.forEach((child) => {
+          if (child instanceof SEdgeImpl) {
+            const indexCssSource = child.cssClasses.findIndex((css) => {
+              css === "source-edge-selected";
+            });
+            const indexCssTarget = child.cssClasses.findIndex((css) => {
+              css === "target-edge-selected";
+            });
+            if (indexCssSource) {
+              child.cssClasses.splice(indexCssSource, 1);
+            }
+            if (indexCssTarget) {
+              child.cssClasses.splice(indexCssTarget, 1);
+            }
+          }
+        });
+      }
+    }
     updateEditor();
 
     return [];

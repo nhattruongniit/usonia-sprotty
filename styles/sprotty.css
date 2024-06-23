@@ -187,5 +187,12 @@ svg {
 }
 
 #sprotty-container_editLabelUi {
- z-index: 9;
+  z-index: 9;
+}
+
+.source-edge-selected {
+  stroke: green !important;
+}
+.target-edge-selected {
+  stroke: red !important;
 }
