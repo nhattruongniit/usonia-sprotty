@@ -37,7 +37,8 @@
 }
 
 .sprotty-edge.selected {
-  stroke: red;
+  /* stroke: red; */
+  stroke-dasharray: 5, 5;
 }
 
 .dummy .sprotty-node {
@@ -165,7 +166,11 @@ svg {
 .sprotty-edge {
   /* fill: none; */
   /* stroke: #224; */
-  stroke-width: 1;
+  stroke-width: 2;
+}
+
+.sprotty-edge.mouseover {
+  stroke-width: 3;
 }
 
 .node-package {
