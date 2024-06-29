@@ -38,7 +38,17 @@
 
 .sprotty-edge.selected {
   /* stroke: red; */
-  stroke-dasharray: 5, 5;
+  /* stroke-dasharray: 5, 5; */
+
+  stroke-width: 2px;
+  stroke-dasharray: 5;
+  animation: edge-dash 10s linear infinite;
+}
+
+@keyframes edge-dash {
+  to {
+    stroke-dashoffset: -200;
+  }
 }
 
 .dummy .sprotty-node {
