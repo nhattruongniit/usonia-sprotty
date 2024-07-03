@@ -221,7 +221,7 @@
 
 .editor-json,
 #editor-json {
-  width: 30% ;
+  width: 30%;
   height: 100% !important;
   border: 0.5px solid #5e5d5d;
 }
@@ -239,4 +239,51 @@
 #sprotty {
   flex: 1; /* Allow Sprotty to take up the remaining space */
   position: relative;
+}
+
+.context-menu {
+  width: 250px;
+  display: none;
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.context-menu ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.context-menu li {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.context-menu li:hover {
+  background-color: #f0f0f0;
+}
+
+.context-menu .submenu {
+  display: none;
+  position: absolute;
+  left: 100%;
+  bottom: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.context-menu li:hover .submenu {
+  display: block;
+}
+
+.submenu {
+  width: 200px;
 }

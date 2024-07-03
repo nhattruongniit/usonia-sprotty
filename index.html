@@ -361,6 +361,39 @@
       <div id="editor-json-resize-handle"></div>
     </div>
   </div>
+  <div id="context-menu-graph" class="context-menu">
+    <ul>
+      <li id="context-add-node">Add Node</li>
+    </ul>
+  </div>
+  <div id="context-menu-node" class="context-menu">
+    <ul>
+      <li id="context-flip-horizontally">Flip Node Horizontally</li>
+      <li id="context-flip-vertically">Flip Node Vertically</li>
+      <li id="context-rotate-left">Rotate left</li>
+      <li id="context-rotate-right">Rotate Right</li>
+      <li id="context-show-json-node">Show JSON</li>
+    </ul>
+  </div>
+  <div id="context-menu-port" class="context-menu">
+    <ul>
+      <li id="context-add-edge">Add Edge</li>
+    </ul>
+  </div>
+  <div id="context-menu-edge" class="context-menu">
+    <ul>
+      <li id="context-delete-edge">Delete</li>
+      <li id="context-show-json-edge">Show JSON</li>
+      <li id="context-change-line">
+        Change line
+        <ul class="submenu">
+          <li id="context-dash">Dash</li>
+          <li id="context-line">Line</li>
+          <li id="context-dot-line">Dot line</li>
+        </ul>
+      </li>
+    </ul>
+  </div>
 
   <script src="./out/index.js" type="text/javascript"></script>
   <script
@@ -372,18 +405,18 @@
     document.addEventListener("DOMContentLoaded", function () {
       const editorJson = document.getElementById("editor-json");
       const resizeHandle = document.getElementById("editor-json-resize-handle");
-  
+
       let isResizing = false;
       let initialX = 0;
       let originalWidth = 0;
-  
+
       resizeHandle.addEventListener("mousedown", function (e) {
         isResizing = true;
         initialX = e.clientX;
         originalWidth = parseFloat(getComputedStyle(editorJson, null).width);
         document.body.style.cursor = "ew-resize";
       });
-  
+
       document.addEventListener("mousemove", function (e) {
         if (isResizing) {
           const dx = e.clientX - initialX;
@@ -391,15 +424,22 @@
           editorJson.style.width = `${newWidth}px`;
         }
       });
-  
+
       document.addEventListener("mouseup", function () {
         if (isResizing) {
           isResizing = false;
           document.body.style.cursor = "default";
         }
       });
+      document.addEventListener("click", function () {
+        const contextMenu = document.getElementsByClassName("context-menu");
+
+        if (contextMenu && contextMenu.length > 0) {
+          Array.from(contextMenu).forEach((e) => {
+            e.style.display = "none";
+          });
+        }
+      });
     });
   </script>
-  
-  
 </body>

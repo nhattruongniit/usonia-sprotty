@@ -41,6 +41,7 @@ import { injectable } from "inversify";
 import addCustomNode from "./util/addCustomNode";
 import { findMax } from "./util/Math/findMax";
 import { generateInputElements } from "./util/generateInputEl";
+import { displayContextMenu } from "./util/displayContextMenu";
 
 declare global {
   interface Window {
@@ -378,6 +379,24 @@ export class CustomMouseListener extends MouseListener {
       countScroll--;
     } else if (event.deltaY < 0) {
       countScroll++;
+    }
+    return [];
+  }
+  contextMenu(
+    target: SModelElementImpl,
+    event: MouseEvent
+  ): (Action | Promise<Action>)[] {
+    if (target instanceof SGraphImpl) {
+      displayContextMenu(event, "graph");
+    }
+    if (target instanceof SNodeImpl) {
+      displayContextMenu(event, "node");
+    }
+    if (target instanceof SPortImpl) {
+      displayContextMenu(event, "port");
+    }
+    if (target instanceof SEdgeImpl) {
+      displayContextMenu(event, "edge");
     }
     return [];
   }
