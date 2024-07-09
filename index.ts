@@ -411,8 +411,9 @@ export class CustomMouseListener extends MouseListener {
         const dataNode = JSON.parse(
           getGrahpJson(modelSource.model)
         ).children.filter((e) => e.id === nodeId)[0];
-        const edgeJson = JSON.stringify(dataNode, null, 2);
-        window.alert(edgeJson);
+        const nodeJson = JSON.stringify(dataNode, null, 2);
+        document.getElementById('modal-json-button').click();
+        document.getElementById('modal-json-body-pre').innerHTML = nodeJson;
       };
     }
     if (target instanceof SPortImpl) {
@@ -532,7 +533,8 @@ export class CustomMouseListener extends MouseListener {
           getGrahpJson(modelSource.model)
         ).children.filter((e) => e.id === edgeId)[0];
         const edgeJson = JSON.stringify(dataEdge, null, 2);
-        window.alert(edgeJson);
+        document.getElementById('modal-json-button').click();
+        document.getElementById('modal-json-body-pre').innerHTML = edgeJson;
       };
       contextDash.onclick = () => {
         edgeSelected.classList.remove("edge-dot");

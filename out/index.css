@@ -2886,9 +2886,7 @@
     .collapse-button {
       margin: 0 5px;
       cursor: pointer;
-      :is(a) {
-        display: block;
-      }
+      a { display: block; };
     }
     .header {
       z-index: 1000;
