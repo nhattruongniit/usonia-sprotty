@@ -27,7 +27,6 @@ import {
   editLabelFeature,
 } from "sprotty";
 
-
 import { PortViewWithExternalLabel } from "./views/PortViewWithExternalLabel";
 import { CustomMouseListener, CustomButtonHandler } from "./index";
 import { EdgeWithArrow, NodeView, PropertyLabel } from "./views/views";
@@ -62,7 +61,9 @@ export const createContainer = (containerId: string) => {
       SPortImpl,
       PortViewWithExternalLabel
     );
-    configureModelElement(container, "label:port", SLabelImpl, SLabelView, {enable : [editLabelFeature]});
+    configureModelElement(container, "label:port", SLabelImpl, SLabelView, {
+      enable: [editLabelFeature],
+    });
     configureModelElement(container, "label:node", SLabelImpl, SLabelView);
     configureModelElement(container, "label:edge", SLabelImpl, SLabelView);
     configureModelElement(context, "label:text", PropertyLabel, SLabelView, {

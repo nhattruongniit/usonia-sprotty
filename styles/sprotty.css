@@ -45,6 +45,23 @@
   animation: edge-dash 10s linear infinite;
 }
 
+.edge-dash {
+  stroke-dasharray: 5;
+  animation: edge-dash 10s linear infinite;
+}
+
+.edge-dot {
+  stroke-width: 0.5px;
+  stroke-dasharray: 1;
+  animation: edge-dot-animation 10s linear infinite;
+}
+
+@keyframes edge-dot-animation {
+  to {
+    stroke-dashoffset: -4; /* Adjust this value for the desired animation effect */
+  }
+}
+
 @keyframes edge-dash {
   to {
     stroke-dashoffset: -200;
@@ -174,8 +191,6 @@ svg {
 }
 
 .sprotty-edge {
-  /* fill: none; */
-  /* stroke: #224; */
   stroke-width: 2;
 }
 

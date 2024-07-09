@@ -42,6 +42,7 @@ import addCustomNode from "./util/addCustomNode";
 import { findMax } from "./util/Math/findMax";
 import { generateInputElements } from "./util/generateInputEl";
 import { displayContextMenu } from "./util/displayContextMenu";
+import { findNodeById } from "./util/findNodeById";
 
 declare global {
   interface Window {
@@ -186,6 +187,7 @@ let customSVGCount = 1;
 
 // JSON resolve
 
+const addNodeContextEl = document.getElementById("context-add-node");
 let portTarget: HTMLElement;
 
 // styles
@@ -382,21 +384,172 @@ export class CustomMouseListener extends MouseListener {
     }
     return [];
   }
-  contextMenu(
-    target: SModelElementImpl,
-    event: MouseEvent
-  ): (Action | Promise<Action>)[] {
+  contextMenu(target: any, event: MouseEvent): (Action | Promise<Action>)[] {
     if (target instanceof SGraphImpl) {
+      const handleAddNodeClick = () => {
+        nodeAddId = "node-1-port-1";
+        portNumber = 1;
+        addNodeLogic();
+      };
       displayContextMenu(event, "graph");
+
+      // addNodeContextEl.addEventListener("click", handleAddNodeClick);
+      addNodeContextEl.onclick = handleAddNodeClick;
+      console.log("Event listener added to addNodeContextEl");
+      // addNodeContextEl.removeEventListener("click", handleAddNodeClick);
     }
     if (target instanceof SNodeImpl) {
+      const nodeId = target.id;
       displayContextMenu(event, "node");
+      const contextRotateLeft = document.getElementById("context-rotate-left");
+      const contextShowJsonNode = document.getElementById(
+        "context-show-json-node"
+      );
+      contextRotateLeft.onclick = async () => {};
+
+      contextShowJsonNode.onclick = () => {
+        const dataNode = JSON.parse(
+          getGrahpJson(modelSource.model)
+        ).children.filter((e) => e.id === nodeId)[0];
+        const edgeJson = JSON.stringify(dataNode, null, 2);
+        window.alert(edgeJson);
+      };
     }
     if (target instanceof SPortImpl) {
       displayContextMenu(event, "port");
+      const drawEdgeContext = document.getElementById("context-add-edge");
+
+      drawEdgeContext.onclick = () => {
+        const portId = target.id;
+        const port = document.getElementById("sprotty-container_" + portId);
+        if (!isLabel) {
+          cancelDrawEdgeBtn.classList.remove("hide");
+          port.classList.add("ready-draw-source");
+          sourceId = port.id.replace("sprotty-container_port-", "");
+          const portTranslateAttribute = port.getAttribute("transform");
+          const portCoordinate = portTranslateAttribute
+            ? portTranslateAttribute
+                .replace("translate(", "")
+                .replace(")", "")
+                .trim()
+                .split(",")
+            : [0, 0];
+          let isParent = false;
+
+          if (port.parentElement.id.includes("node-child-type-parent")) {
+            isParent = true;
+          }
+          const transformAttribute =
+            port.parentElement.getAttribute("transform");
+          const coordinate = transformAttribute
+            ? transformAttribute
+                .replace("translate(", "")
+                .replace(")", "")
+                .trim()
+                .split(",")
+            : [0, 0];
+          const transformAttributeParent =
+            port.parentElement.parentElement.getAttribute("transform");
+          const coordinateParent = transformAttributeParent
+            ? transformAttributeParent
+                .replace("translate(", "")
+                .replace(")", "")
+                .trim()
+                .split(",")
+            : [0, 0];
+
+          const defaultX =
+            Number(coordinate[0]) + Number(portCoordinate[0]) + 5;
+          const defaultY =
+            Number(coordinate[1]) + Number(portCoordinate[1]) + 5;
+          // add dummy node
+          if (dummyNodeArray.length == 0) {
+            if (!isLabel) {
+              addNode({
+                isParentNode: false,
+                source: modelSource,
+                nodeId: "dummy",
+                nodeWidth: NODE_DUMMY_WIDTH,
+                nodeHeight: NODE_DUMMY_HEIGHT,
+                portWidth: 2,
+                portHeight: 2,
+                portQuantity: 1,
+                cssClasses: ["nodes", "dummy"],
+                name: "",
+                x: isParent ? Number(coordinateParent[0]) + defaultX : defaultX,
+                y: isParent ? Number(coordinateParent[1]) + defaultY : defaultY,
+                type: "node",
+                portType: "1",
+              });
+              dummyNodeArray.push("dummy");
+              drawEdge({
+                source: modelSource,
+                edgeId: "dummy",
+                sourceNumb: sourceId,
+                targetNumb: "dummy-1",
+                type: "edge:straight",
+                cssClasses: ["dummy-edge"],
+              });
+
+              dummyEdgeId = "edge-dummy";
+              updateEditor();
+            }
+          }
+          dummyMode = true;
+        }
+      };
     }
     if (target instanceof SEdgeImpl) {
       displayContextMenu(event, "edge");
+      const deleteEdgeContext = document.getElementById("context-delete-edge");
+      const showJsonContextEdge = document.getElementById(
+        "context-show-json-edge"
+      );
+      const contextDash = document.getElementById("context-dash");
+      const contextLine = document.getElementById("context-line");
+      const contextDotLine = document.getElementById("context-dot-line");
+      const edgeId = target.id;
+      const edgeSelected = document.getElementById(
+        "sprotty-container_" + edgeId
+      );
+
+      deleteEdgeContext.onclick = () => {
+        modelSource.removeElements([
+          {
+            elementId: edgeId,
+            parentId: "graph",
+          },
+        ]);
+        const edgeIndex = edgeArr.findIndex((e) => {
+          return e.id === edgeId;
+        });
+        edgeArr.splice(edgeIndex, 1);
+
+        updateEditor();
+      };
+      showJsonContextEdge.onclick = () => {
+        const dataEdge = JSON.parse(
+          getGrahpJson(modelSource.model)
+        ).children.filter((e) => e.id === edgeId)[0];
+        const edgeJson = JSON.stringify(dataEdge, null, 2);
+        window.alert(edgeJson);
+      };
+      contextDash.onclick = () => {
+        edgeSelected.classList.remove("edge-dot");
+        edgeSelected.classList.add("edge-dash");
+        updateEditor();
+      };
+      contextLine.onclick = () => {
+        edgeSelected.classList.remove("edge-dash");
+        edgeSelected.classList.remove("edge-dot");
+        updateEditor();
+      };
+      contextDotLine.onclick = () => {
+        edgeSelected.classList.remove("edge-dash");
+
+        edgeSelected.classList.add("edge-dot");
+        updateEditor();
+      };
     }
     return [];
   }
@@ -507,6 +660,123 @@ monacoEditor = editor.create(document.getElementById("editor-json"), {
 const updateEditor = () => {
   const jsonFiltered = getGrahpJson(modelSource.model);
   monacoEditor.setValue(jsonFiltered);
+};
+
+// draw edge
+function drawLogic() {
+  setTimeout(() => {
+    document.querySelectorAll(".port").forEach((port) => {
+      port.addEventListener("click", (e) => {
+        if (!isLabel) {
+          cancelDrawEdgeBtn.classList.remove("hide");
+          port.classList.add("ready-draw-source");
+          sourceId = port.id.replace("sprotty-container_port-", "");
+          const portTranslateAttribute = port.getAttribute("transform");
+          const portCoordinate = portTranslateAttribute
+            ? portTranslateAttribute
+                .replace("translate(", "")
+                .replace(")", "")
+                .trim()
+                .split(",")
+            : [0, 0];
+          let isParent = false;
+
+          if (port.parentElement.id.includes("node-child-type-parent")) {
+            isParent = true;
+          }
+          const transformAttribute =
+            port.parentElement.getAttribute("transform");
+          const coordinate = transformAttribute
+            ? transformAttribute
+                .replace("translate(", "")
+                .replace(")", "")
+                .trim()
+                .split(",")
+            : [0, 0];
+          const transformAttributeParent =
+            port.parentElement.parentElement.getAttribute("transform");
+          const coordinateParent = transformAttributeParent
+            ? transformAttributeParent
+                .replace("translate(", "")
+                .replace(")", "")
+                .trim()
+                .split(",")
+            : [0, 0];
+
+          const defaultX =
+            Number(coordinate[0]) + Number(portCoordinate[0]) + 5;
+          const defaultY =
+            Number(coordinate[1]) + Number(portCoordinate[1]) + 5;
+          // add dummy node
+          if (dummyNodeArray.length == 0) {
+            if (!isLabel) {
+              addNode({
+                isParentNode: false,
+                source: modelSource,
+                nodeId: "dummy",
+                nodeWidth: NODE_DUMMY_WIDTH,
+                nodeHeight: NODE_DUMMY_HEIGHT,
+                portWidth: 2,
+                portHeight: 2,
+                portQuantity: 1,
+                cssClasses: ["nodes", "dummy"],
+                name: "",
+                x: isParent ? Number(coordinateParent[0]) + defaultX : defaultX,
+                y: isParent ? Number(coordinateParent[1]) + defaultY : defaultY,
+                type: "node",
+                portType: "1",
+              });
+              dummyNodeArray.push("dummy");
+              drawEdge({
+                source: modelSource,
+                edgeId: "dummy",
+                sourceNumb: sourceId,
+                targetNumb: "dummy-1",
+                type: "edge:straight",
+                cssClasses: ["dummy-edge"],
+              });
+
+              dummyEdgeId = "edge-dummy";
+              updateEditor();
+            }
+          }
+          dummyMode = true;
+        }
+      });
+    });
+    updateEditor();
+  }, 100);
+}
+
+// add node logic
+
+const addNodeLogic = () => {
+  const portType = nodeAddId.replace(`node-${portNumber}-port-`, "");
+
+  const nodeTypeAddIndex = nodeArr.findIndex((e) => {
+    return e.portNumber === portNumber;
+  });
+  const nodeTypeAdd = nodeArr[nodeTypeAddIndex];
+  const nodeAddIndex = nodeTypeAdd.children.findIndex((e) => {
+    return e.id === nodeAddId;
+  });
+  const nodeAdd = nodeTypeAdd.children[nodeAddIndex];
+  addNode({
+    isParentNode: false,
+    source: modelSource,
+    nodeId: `${nodeAdd.id}-${nodeAdd.count}`,
+    nodeWidth: NODE_WIDTH,
+    nodeHeight: NODE_HEIGHT,
+    portWidth: PORT_WIDTH,
+    portHeight: PORT_HEIGHT,
+    portQuantity: portNumber,
+    portType,
+    type: "node",
+  });
+  nodeAdd.count++;
+
+  drawLogic();
+  updateEditor();
 };
 
 export default async function run() {
@@ -671,126 +941,6 @@ export default async function run() {
   cancelDrawEdgeBtn.addEventListener("click", () => {
     cancelDrawEdge();
   });
-
-  // add node logic
-
-  const addNodeLogic = () => {
-    const portType = nodeAddId.replace(`node-${portNumber}-port-`, "");
-    const nodeTypeAddIndex = nodeArr.findIndex((e) => {
-      return e.portNumber === portNumber;
-    });
-    const nodeTypeAdd = nodeArr[nodeTypeAddIndex];
-    const nodeAddIndex = nodeTypeAdd.children.findIndex((e) => {
-      return e.id === nodeAddId;
-    });
-    const nodeAdd = nodeTypeAdd.children[nodeAddIndex];
-    addNode({
-      isParentNode: false,
-      source: modelSource,
-      nodeId: `${nodeAdd.id}-${nodeAdd.count}`,
-      nodeWidth: NODE_WIDTH,
-      nodeHeight: NODE_HEIGHT,
-      portWidth: PORT_WIDTH,
-      portHeight: PORT_HEIGHT,
-      portQuantity: portNumber,
-      portType,
-      type: "node",
-    });
-    nodeAdd.count++;
-
-    drawLogic();
-    updateEditor();
-  };
-
-  // draw edge
-  function drawLogic() {
-    setTimeout(() => {
-      document.querySelectorAll(".port").forEach((port) => {
-        port.addEventListener("click", (e) => {
-          if (!isLabel) {
-            cancelDrawEdgeBtn.classList.remove("hide");
-            port.classList.add("ready-draw-source");
-            sourceId = port.id.replace("sprotty-container_port-", "");
-            const portTranslateAttribute = port.getAttribute("transform");
-            const portCoordinate = portTranslateAttribute
-              ? portTranslateAttribute
-                  .replace("translate(", "")
-                  .replace(")", "")
-                  .trim()
-                  .split(",")
-              : [0, 0];
-            let isParent = false;
-
-            if (port.parentElement.id.includes("node-child-type-parent")) {
-              isParent = true;
-            }
-            const transformAttribute =
-              port.parentElement.getAttribute("transform");
-            const coordinate = transformAttribute
-              ? transformAttribute
-                  .replace("translate(", "")
-                  .replace(")", "")
-                  .trim()
-                  .split(",")
-              : [0, 0];
-            const transformAttributeParent =
-              port.parentElement.parentElement.getAttribute("transform");
-            const coordinateParent = transformAttributeParent
-              ? transformAttributeParent
-                  .replace("translate(", "")
-                  .replace(")", "")
-                  .trim()
-                  .split(",")
-              : [0, 0];
-
-            const defaultX =
-              Number(coordinate[0]) + Number(portCoordinate[0]) + 5;
-            const defaultY =
-              Number(coordinate[1]) + Number(portCoordinate[1]) + 5;
-            // add dummy node
-            if (dummyNodeArray.length == 0) {
-              if (!isLabel) {
-                addNode({
-                  isParentNode: false,
-                  source: modelSource,
-                  nodeId: "dummy",
-                  nodeWidth: NODE_DUMMY_WIDTH,
-                  nodeHeight: NODE_DUMMY_HEIGHT,
-                  portWidth: 2,
-                  portHeight: 2,
-                  portQuantity: 1,
-                  cssClasses: ["nodes", "dummy"],
-                  name: "",
-                  x: isParent
-                    ? Number(coordinateParent[0]) + defaultX
-                    : defaultX,
-                  y: isParent
-                    ? Number(coordinateParent[1]) + defaultY
-                    : defaultY,
-                  type: "node",
-                  portType: "1",
-                });
-                dummyNodeArray.push("dummy");
-                drawEdge({
-                  source: modelSource,
-                  edgeId: "dummy",
-                  sourceNumb: sourceId,
-                  targetNumb: "dummy-1",
-                  type: "edge:straight",
-                  cssClasses: ["dummy-edge"],
-                });
-
-                dummyEdgeId = "edge-dummy";
-                updateEditor();
-              }
-            }
-            dummyMode = true;
-          }
-        });
-      });
-      updateEditor();
-    }, 100);
-  }
 
   // add Parent Node
   addParentNode.addEventListener("click", () => {
